@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>线程池踩坑复盘 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="问题描述需求信息最近在工作中有个需求，先在A服务页面增加一条数据，然后去B服务查询此数据的详细信息 解决方案为了使A服务的新增数据接口快速响应，在查询B服务数据详情的地方使用了线程池异步查询与更新。 问题现象在验证时发现数据库中的数据字段不全，经分析缺少的都是需要从B服务查询并更新的字段 初步定位猜测应该是查询B服务时出了一些异常，而由于不规范使用线程池导致异常没有抛出，直接打到了控制台，故A服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程池踩坑复盘">
+<meta property="og:url" content="http://yoursite.com/2020/08/07/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="问题描述需求信息最近在工作中有个需求，先在A服务页面增加一条数据，然后去B服务查询此数据的详细信息 解决方案为了使A服务的新增数据接口快速响应，在查询B服务数据详情的地方使用了线程池异步查询与更新。 问题现象在验证时发现数据库中的数据字段不全，经分析缺少的都是需要从B服务查询并更新的字段 初步定位猜测应该是查询B服务时出了一些异常，而由于不规范使用线程池导致异常没有抛出，直接打到了控制台，故A服务">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807110851677.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807111728213.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807112535447.png">
+<meta property="article:published_time" content="2020-08-07T02:41:50.699Z">
+<meta property="article:modified_time" content="2020-08-11T09:09:20.555Z">
+<meta property="article:author" content="nijixucai">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807110851677.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-线程池踩坑复盘" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/07/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/" class="article-date">
+  <time datetime="2020-08-07T02:41:50.699Z" itemprop="datePublished">2020-08-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      线程池踩坑复盘
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><h3 id="需求信息"><a href="#需求信息" class="headerlink" title="需求信息"></a>需求信息</h3><p>最近在工作中有个需求，先在A服务页面增加一条数据，然后去B服务查询此数据的详细信息</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>为了使A服务的新增数据接口快速响应，在查询B服务数据详情的地方使用了线程池异步查询与更新。</p>
+<h3 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h3><p>在验证时发现数据库中的数据字段不全，经分析缺少的都是需要从B服务查询并更新的字段</p>
+<h3 id="初步定位"><a href="#初步定位" class="headerlink" title="初步定位"></a>初步定位</h3><p>猜测应该是查询B服务时出了一些异常，而由于不规范使用线程池导致异常没有抛出，直接打到了控制台，故A服务的日志系统并看不到错误日志。</p>
+<h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><ol>
+<li>查询B服务数据详情时暂时去掉使用线程池，改为同步调用</li>
+<li>增加容错定时任务，定时查询需要从B服务获取缺失字段的数据进行更新</li>
+</ol>
+<p>上线后观察，新增的数据不再有部分字段缺失的情况；问题解决。</p>
+<h2 id="问题复盘"><a href="#问题复盘" class="headerlink" title="问题复盘"></a>问题复盘</h2><h3 id="A服务线程池的使用"><a href="#A服务线程池的使用" class="headerlink" title="A服务线程池的使用"></a>A服务线程池的使用</h3><p>线程池定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 查询B服务数据详情的线程池</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService executorService = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">2</span>, <span class="number">2</span>, <span class="number">0L</span>, TimeUnit.MICROSECONDS,</span><br><span class="line">        <span class="keyword">new</span> LinkedBlockingDeque&lt;&gt;(), <span class="keyword">new</span> ThreadFactoryBuilder().setNameFormat(<span class="string">"queryDataDetail-%d"</span>).build());</span><br></pre></td></tr></table></figure>
+
+<p>线程池使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@Transactional</span>(rollbackFor = Exception<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">void</span> <span class="title">add</span>(<span class="title">String</span> <span class="title">contract</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 0、检查合同必须不存在</span></span><br><span class="line">    checkIfExist(contract);</span><br><span class="line">    <span class="comment">// 1、保存合同数据</span></span><br><span class="line">    Entity entity = saveData(contract);</span><br><span class="line">    <span class="comment">// 2、从B服务查询缺失信息</span></span><br><span class="line">    executorService.execute(() -&gt; queryDataDetail(entity));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="如此使用有何问题"><a href="#如此使用有何问题" class="headerlink" title="如此使用有何问题"></a>如此使用有何问题</h3><p>我重新写了一个测试方法如下：</p>
+<p>1、定义一个会一直抛异常的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 引入SystemOutRule，监听程序日志输出</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Rule</span></span><br><span class="line"><span class="keyword">public</span> SystemOutRule systemOutRule = <span class="keyword">new</span> SystemOutRule().enableLog();</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 引入SystemOutRule，监听程序日志输出</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">runWithException</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread thread = Thread.currentThread();</span><br><span class="line">    log.info(<span class="string">"thread is &#123;&#125;"</span>, thread);</span><br><span class="line">    log.info(<span class="string">"eh=&#123;&#125;"</span>, thread.getUncaughtExceptionHandler());</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> NicaiException(<span class="string">"出错啦！"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、使用线程池调用上面的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">    executorService.execute(<span class="keyword">this</span>::runWithException);</span><br><span class="line">    TimeUnit.MILLISECONDS.sleep(<span class="number">100L</span>);</span><br><span class="line">    <span class="comment">// 断言程序打印的日志不包含“出错啦！”</span></span><br><span class="line">    Assert.assertFalse(systemOutRule.getLog().contains(<span class="string">"出错啦！"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、上面的单测断言是成功的，那么异常跑哪里去了？上面的单测在控制台的输出如下：</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807110851677.png" alt="image-20200807110851677"></p>
+<p>4、可以看出上面的异常信息是直接输出到了控制台，而不是由程序输出到控制台，主要原因是主程序没有捕获到此异常导致的。（具体原因还没有深入）</p>
+<h3 id="如何解决线程池的异常捕获问题"><a href="#如何解决线程池的异常捕获问题" class="headerlink" title="如何解决线程池的异常捕获问题"></a>如何解决线程池的异常捕获问题</h3><p>上面的测试可以说明到为什么日志里面查不到错误日志，那么如何捕获线程里的异常呢？</p>
+<h4 id="方法1-使用UncaughtExceptionHandler"><a href="#方法1-使用UncaughtExceptionHandler" class="headerlink" title="方法1:使用UncaughtExceptionHandler"></a>方法1:使用UncaughtExceptionHandler</h4><p>1、在创建线程池的时候，设置传入的ThreadFactory的UncaughtExceptionHandler属性，此UncaughtExceptionHandler会处理线程中的异常；下面的例子我直接打印了出来异常原因和异常栈。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">runWithUncaughtExceptionHandler</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    ExecutorService executorService = Executors.newCachedThreadPool(</span><br><span class="line">            <span class="keyword">new</span> ThreadFactoryBuilder()</span><br><span class="line">                    .setUncaughtExceptionHandler((t, e) -&gt; log.info(<span class="string">"UncaughtExceptionHandler caught, error_message=&#123;&#125;"</span>, e.getMessage(), e))</span><br><span class="line">                    .build());</span><br><span class="line">    executorService.execute(<span class="keyword">this</span>::runWithException);</span><br><span class="line">    TimeUnit.MILLISECONDS.sleep(<span class="number">100L</span>);</span><br><span class="line">    Assert.assertTrue(systemOutRule.getLog().contains(<span class="string">"出错啦！"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、上面的单测运行结果如下：（可以和上面的运行结果进行比对）</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807111728213.png" alt="image-20200807111728213"></p>
+<p>3、从上面的运行结果可以看出异常信息是由程序捕获后再输出出来，这样就不会导致查不到异常日志了。</p>
+<h4 id="方法2-使用guava扩展的FutureCallback"><a href="#方法2-使用guava扩展的FutureCallback" class="headerlink" title="方法2:使用guava扩展的FutureCallback"></a>方法2:使用guava扩展的FutureCallback</h4><p>1、guava对jdk的线程做了一些扩展，其中一个就是FutureCallback，使用方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">runWithGuavaThreadPool</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());</span><br><span class="line">    ListenableFuture&lt;String&gt; listenableFuture = executorService.submit(<span class="keyword">this</span>::runWithException);</span><br><span class="line">    Futures.addCallback(listenableFuture, <span class="keyword">new</span> FutureCallback&lt;String&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(String result)</span> </span>&#123;</span><br><span class="line">            log.info(<span class="string">"success! result = &#123;&#125;"</span>, result);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Throwable t)</span> </span>&#123;</span><br><span class="line">            log.error(<span class="string">"guava FutureCallback caught, error_message=&#123;&#125;"</span>, t.getMessage(), t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, executorService);</span><br><span class="line">    TimeUnit.MILLISECONDS.sleep(<span class="number">100L</span>);</span><br><span class="line">    Assert.assertTrue(systemOutRule.getLog().contains(<span class="string">"出错啦！"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、上面的单测运行结果如下：</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807112535447.png" alt="image-20200807112535447"></p>
+<h2 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h2><p>1、通过上面的测试，优化A服务的线程池定义，使之在遇到异常时能够正常被捕获，能输出，方便问题定位；补偿定时任务也能对第一次查询异常进行容错，保证数据能够同步过来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 查询B服务数据详情的线程池</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService executorService = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">2</span>, <span class="number">2</span>, <span class="number">0L</span>, TimeUnit.MICROSECONDS,</span><br><span class="line">        <span class="keyword">new</span> LinkedBlockingDeque&lt;&gt;(), <span class="keyword">new</span> ThreadFactoryBuilder()</span><br><span class="line">        .setUncaughtExceptionHandler((t, e) -&gt; log.error(<span class="string">"查询数据详情的线程池异常,error_message=&#123;&#125;"</span>, e.getMessage(), e))</span><br><span class="line">        .setNameFormat(<span class="string">"queryDataDetail-%d"</span>).build());</span><br></pre></td></tr></table></figure>
+
+<p>2、当然此问题更深层的问题还没有完全解答</p>
+<ul>
+<li>为什么线程里的异常不会被捕获？</li>
+<li>UncaughtExceptionHandler的运行原理是什么？</li>
+<li>Guava的FutureCallback是如何运行的？</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/07/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/" data-id="ckdpq6dt50002y1ry6zbo8hdu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/08/04/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用redis自增特性创建唯一id生成器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/08/07/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/">线程池踩坑复盘</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/04/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/">使用redis自增特性创建唯一id生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/04/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%E8%80%8C%E4%B8%8D%E6%98%AF@Autoware/">为什么我们在使用Spring的时候应该使用构造方法注入bean</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/03/IDEA%E5%AE%89%E8%A3%85leetcode%E6%8F%92%E4%BB%B6/">IDEA安装leetcode插件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 nijixucai<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
