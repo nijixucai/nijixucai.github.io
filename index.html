@@ -66,8 +66,8 @@
   
     <article id="post-我的第一本算法书-读书笔记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/08/18/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time datetime="2020-08-18T05:16:06.232Z" itemprop="datePublished">2020-08-18</time>
+    <a href="/2020/08/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-08-20T03:25:25.248Z" itemprop="datePublished">2020-08-20</time>
 </a>
     
   </div>
@@ -78,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/18/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">我的第一本算法书-读书笔记</a>
+      <a class="article-title" href="/2020/08/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">我的第一本算法书-读书笔记</a>
     </h1>
   
 
@@ -329,11 +329,24 @@
 </ul>
 <h3 id="Java代码实现-5"><a href="#Java代码实现-5" class="headerlink" title="Java代码实现"></a>Java代码实现</h3><p><a href="https://github.com/nijixucai/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/sort/FastSort.java" target="_blank" rel="noopener">快速排序</a></p>
 <h3 id="扩展-2"><a href="#扩展-2" class="headerlink" title="扩展"></a>扩展</h3><p>基准值约接近数组的平均值，排序的速度越快；基准值一般都使用第一个数字</p>
+<h1 id="第三章：数组的查找"><a href="#第三章：数组的查找" class="headerlink" title="第三章：数组的查找"></a>第三章：数组的查找</h1><h2 id="线性查找"><a href="#线性查找" class="headerlink" title="线性查找"></a>线性查找</h2><h3 id="特性-7"><a href="#特性-7" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>遍历整个数组，逐个进行比较，直到找到为止</li>
+</ul>
+<h3 id="时间复杂度：O-n"><a href="#时间复杂度：O-n" class="headerlink" title="时间复杂度：O(n)"></a>时间复杂度：O(n)</h3><h3 id="Java代码实现-6"><a href="#Java代码实现-6" class="headerlink" title="Java代码实现"></a>Java代码实现</h3><p><a href="https://github.com/nijixucai/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/search/LinearSearch.java" target="_blank" rel="noopener">线性查找</a></p>
+<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><h3 id="特性-8"><a href="#特性-8" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>只能查找已经排好序的数组</li>
+<li>每次查找取中间位置的值与需要查找的数字比较，如果中间值大于待查找数据，则继续在中间值左边的数组进行查找；反之亦然</li>
+</ul>
+<h3 id="时间复杂度-O-logn"><a href="#时间复杂度-O-logn" class="headerlink" title="时间复杂度 O(logn)"></a>时间复杂度 O(logn)</h3><ul>
+<li>每一次查找都会把待查找的范围缩小一半，直到结束为止</li>
+<li>查找需要logn轮，每一轮比较1次；所以时间复杂度为O(logn)</li>
+</ul>
+<h3 id="Java代码实现-7"><a href="#Java代码实现-7" class="headerlink" title="Java代码实现"></a>Java代码实现</h3><p><a href="https://github.com/nijixucai/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/search/BinarySearch.java" target="_blank" rel="noopener">二分查找</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/18/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" data-id="cke0tbkzl00011xrycw6sbt73" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" data-id="cke28xv7k00005yry7wyi6alp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -416,7 +429,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/07/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/" data-id="cke0tbkzp00031xry1aza8kka" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/07/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/" data-id="cke28xv8000035yrydmpd95gj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -481,7 +494,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/04/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/" data-id="cke0tbkzr00041xryhnqq9kvd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/04/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/" data-id="cke28xv8100045yryghrwbj5x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -559,7 +572,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/04/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%E8%80%8C%E4%B8%8D%E6%98%AF@Autoware/" data-id="cke0tbkzo00021xrycneb4h8g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/04/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%E8%80%8C%E4%B8%8D%E6%98%AF@Autoware/" data-id="cke28xv7w00015yry3o8i8k7b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -620,7 +633,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/03/IDEA%E5%AE%89%E8%A3%85leetcode%E6%8F%92%E4%BB%B6/" data-id="cke0tbkze00001xry6nw86rzu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/03/IDEA%E5%AE%89%E8%A3%85leetcode%E6%8F%92%E4%BB%B6/" data-id="cke28xv7z00025yryckh439ee" class="article-share-link">Share</a>
       
       
     </footer>
@@ -661,7 +674,7 @@
       <ul>
         
           <li>
-            <a href="/2020/08/18/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">我的第一本算法书-读书笔记</a>
+            <a href="/2020/08/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">我的第一本算法书-读书笔记</a>
           </li>
         
           <li>
