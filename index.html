@@ -64,10 +64,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-我的第一本算法书-读书笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-读书笔记-《我的第一本算法书》" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/08/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time datetime="2020-08-20T03:25:25.248Z" itemprop="datePublished">2020-08-20</time>
+    <a href="/2020/09/10/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/" class="article-date">
+  <time datetime="2020-09-10T08:45:13.990Z" itemprop="datePublished">2020-09-10</time>
 </a>
     
   </div>
@@ -78,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">我的第一本算法书-读书笔记</a>
+      <a class="article-title" href="/2020/09/10/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/">读书笔记-《我的第一本算法书》</a>
     </h1>
   
 
@@ -342,11 +342,50 @@
 <li>查找需要logn轮，每一轮比较1次；所以时间复杂度为O(logn)</li>
 </ul>
 <h3 id="Java代码实现-7"><a href="#Java代码实现-7" class="headerlink" title="Java代码实现"></a>Java代码实现</h3><p><a href="https://github.com/nijixucai/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/search/BinarySearch.java" target="_blank" rel="noopener">二分查找</a></p>
-
+<h1 id="第四章：图的搜索"><a href="#第四章：图的搜索" class="headerlink" title="第四章：图的搜索"></a>第四章：图的搜索</h1><h2 id="图的定义"><a href="#图的定义" class="headerlink" title="图的定义"></a>图的定义</h2><p>计算机科学或离散数学中说的“图”是下面这样的：</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/null/image-20200822163332465.png" alt="image-20200822163332465"></p>
+<p>上图中的圆圈叫作“顶点”(也叫“结点”)，连接顶点的线叫作“边”。也就是说，<strong>由顶点和连接每对顶点的边所构成的图形就是图</strong>。<em>图可以表示各种关系</em></p>
+<h3 id="加权图"><a href="#加权图" class="headerlink" title="加权图"></a>加权图</h3><p>我们可以给边加上一个值，这个值叫作边的“权重”或者“权”，加了权的图被称为“加权图”。</p>
+<p>没有权的边只能表示两个 顶点的连接状态，而有权的边就可以表示顶点之间的“连接程度”。</p>
+<p>所谓“程度”在不同的场景意思也不一样：</p>
+<ul>
+<li>地铁线路图两站之间的权是两站之间的距离</li>
+<li>同样是地铁线路图，两站之前的权也可以是两站之间的时间</li>
+<li>如果是高铁站线路图，两站之间的权也可以表示两站之间的乘车费</li>
+</ul>
+<h3 id="有向图"><a href="#有向图" class="headerlink" title="有向图"></a>有向图</h3><p>当我们想在路线图中表示该路线只能单向行驶时，就可以给边加上箭头，而这样的图就叫 作“有向图”。</p>
+<p>和无向图一样，有向图也可以在边上添加权重，而且根据方向的不同，权重也不一样。</p>
+<p>如下图中，如果权重表示花费时间，则B点到C点是下坡路，反过来C到B就是上坡路。</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/null/image-20200822164224711.png" alt="image-20200822164224711"></p>
+<h3 id="图能给我们带来哪些便利"><a href="#图能给我们带来哪些便利" class="headerlink" title="图能给我们带来哪些便利"></a>图能给我们带来哪些便利</h3><p>假设图中有两个顶点 <em>s</em> 和 <em>t</em>，而我们设计出了一种算法， 可以找到“从 <em>s</em> 到 <em>t</em> 的权重之和最小”的那条路径，如：</p>
+<ul>
+<li>寻找计算机网络中通信时间最短的路径</li>
+<li>寻找路线图中耗时最短的路径</li>
+<li>寻找路线图中最省乘车费的路径</li>
+</ul>
+<h3 id="图在代码中如何实现"><a href="#图在代码中如何实现" class="headerlink" title="图在代码中如何实现"></a>图在代码中如何实现</h3><ul>
+<li>图是用来表示节点与节点的关系的，所以可以使用Map来实现图</li>
+<li>有向图，如上面图两个节点A和B、map中key为A的值有B，而key为B的值没有A，就可以表示方向</li>
+<li>加权图，同样适用Map实现，区别是在value中既包含下一个节点的信息，又包含权重信息<a href="https://github.com/nijixucai/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/map/AssignWeightsNode.java" target="_blank" rel="noopener">加权图Java实现</a></li>
+</ul>
+<h2 id="图的搜索"><a href="#图的搜索" class="headerlink" title="图的搜索"></a>图的搜索</h2><h3 id="广度优先搜索"><a href="#广度优先搜索" class="headerlink" title="广度优先搜索"></a>广度优先搜索</h3><p>假设我们一开始位于某个顶点(即起点)，此时并不知道图的整体结构，而我们的目的是从起点开始顺着边搜索，直到到达指定顶点(即终点)。</p>
+<p>在此过程中每走到一个顶点，就会判断一次它是否为终点。广度优先搜索会优先从离起点近的顶点开始搜索。</p>
+<h4 id="Java代码实现-8"><a href="#Java代码实现-8" class="headerlink" title="Java代码实现"></a>Java代码实现</h4><p><a href="https://github.com/nijixucai/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/map/BreadthFirstSearch.java" target="_blank" rel="noopener">广度优先搜索</a></p>
+<h3 id="深度优先搜索"><a href="#深度优先搜索" class="headerlink" title="深度优先搜索"></a>深度优先搜索</h3><p>深度优先搜索会沿着一条路径不断往下搜索直到不能再继续为止，然后再折返，开始搜索下一条候补路径。</p>
+<h4 id="Java代码实现-9"><a href="#Java代码实现-9" class="headerlink" title="Java代码实现"></a>Java代码实现</h4><p><a href="https://github.com/nijixucai/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/map/DepthFirstSearch.java" target="_blank" rel="noopener">深度优先搜索</a></p>
+<h3 id="广度优先搜索和深度优先搜索对比"><a href="#广度优先搜索和深度优先搜索对比" class="headerlink" title="广度优先搜索和深度优先搜索对比"></a>广度优先搜索和深度优先搜索对比</h3><p>广度优先搜索选择的是最早成为候补的顶点，因为顶点离起点越近就越早成为候补，所以会从离起点近的地方开始按顺序搜索;</p>
+<p>而深度优先搜索选择的则是最新成为候补的顶点，所以会一路往下，沿着新发现的路径不断深入搜索。</p>
+<h3 id="贝尔曼-福特算法"><a href="#贝尔曼-福特算法" class="headerlink" title="贝尔曼 - 福特算法"></a>贝尔曼 - 福特算法</h3><h4 id="解决的问题"><a href="#解决的问题" class="headerlink" title="解决的问题"></a>解决的问题</h4><ul>
+<li><p>贝尔曼 - 福特(Bellman-Ford)算法是一种在图中求解最短路径问题的算法。</p>
+</li>
+<li><p>最短路径问题就是在加权图指定了起点和终点的前提下，寻找从起点到终点的路径中权重总和最小的那条路径。</p>
+</li>
+</ul>
+<h4 id="求解的步骤"><a href="#求解的步骤" class="headerlink" title="求解的步骤"></a>求解的步骤</h4><h4 id="Java代码实现-10"><a href="#Java代码实现-10" class="headerlink" title="Java代码实现"></a>Java代码实现</h4>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" data-id="cke28xv7k00005yry7wyi6alp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/09/10/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/" data-id="ckewnmua40004d6ry1jne9m7p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -429,7 +468,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/07/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/" data-id="cke28xv8000035yrydmpd95gj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/07/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/" data-id="ckewnmu9y0003d6ryg6rc3pmu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -494,7 +533,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/04/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/" data-id="cke28xv8100045yryghrwbj5x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/04/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/" data-id="ckewnmu9x0002d6ry0him8z36" class="article-share-link">Share</a>
       
       
     </footer>
@@ -572,7 +611,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/04/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%E8%80%8C%E4%B8%8D%E6%98%AF@Autoware/" data-id="cke28xv7w00015yry3o8i8k7b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/04/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%E8%80%8C%E4%B8%8D%E6%98%AF@Autoware/" data-id="ckewnmu9p0000d6ryfeh83t5q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -633,7 +672,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/03/IDEA%E5%AE%89%E8%A3%85leetcode%E6%8F%92%E4%BB%B6/" data-id="cke28xv7z00025yryckh439ee" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/03/IDEA%E5%AE%89%E8%A3%85leetcode%E6%8F%92%E4%BB%B6/" data-id="ckewnmu9v0001d6ryd6zlc1wt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -661,7 +700,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li></ul>
     </div>
   </div>
 
@@ -674,7 +713,7 @@
       <ul>
         
           <li>
-            <a href="/2020/08/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">我的第一本算法书-读书笔记</a>
+            <a href="/2020/09/10/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/">读书笔记-《我的第一本算法书》</a>
           </li>
         
           <li>
