@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>blockchain/1北京大学肖臻老师《区块链技术与应用》学习总结 | Hexo</title>
+  <meta name="description" content="北京大学肖臻老师《区块链技术与应用》学习总结 3 数据结构 hash printers （hash指针） hash指针既可以找到块的位置，也可以验证hash的正确性 Block chain is a linked list using hash pointers 每一个区块都包含前一个区块的hash指针  后面一个区块的hash指针是通过前一个区块的值算出来的。 通过上面的数据结构可以实现：tam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="blockchain&#x2F;1北京大学肖臻老师《区块链技术与应用》学习总结">
+<meta property="og:url" content="https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="知识记录">
+<meta property="og:description" content="北京大学肖臻老师《区块链技术与应用》学习总结 3 数据结构 hash printers （hash指针） hash指针既可以找到块的位置，也可以验证hash的正确性 Block chain is a linked list using hash pointers 每一个区块都包含前一个区块的hash指针  后面一个区块的hash指针是通过前一个区块的值算出来的。 通过上面的数据结构可以实现：tam">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/apple/code/open-source/python/che168/291.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/295.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/471.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/474.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/476.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/487.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/489.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/image%20(1).png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/499.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/628.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/629.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/image-20201126151730381.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/630.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/633.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/634.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/637.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/676.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/680.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/681.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/682.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//%E4%B8%8B%E8%BD%BD.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/674.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/638.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/639.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/640.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/641.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/642.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/658.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/659.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/660.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/661.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/662.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/663.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/664.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/665.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/666.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/667.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/image-20201126161738940.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/683.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/image-20201126163601352.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/image-20201126163925215.png">
+<meta property="article:published_time" content="2020-12-11T06:13:05.000Z">
+<meta property="article:modified_time" content="2020-12-11T06:13:05.000Z">
+<meta property="article:author" content="guozhe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/apple/code/open-source/python/che168/291.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="知识记录" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+
+    
+      
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/" class="title">language/java/线程池无法捕获线程的异常踩坑复盘</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-15T02:24:42.056Z" itemprop="datePublished">2020-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/15/language/java/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%E8%80%8C%E4%B8%8D%E6%98%AF@Autoware/" class="title">为什么我们在使用Spring的时候应该使用构造方法注入bean</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-15T02:24:42.055Z" itemprop="datePublished">2020-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/" class="title">language/java/使用redis自增特性创建唯一id生成器</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-15T02:24:42.055Z" itemprop="datePublished">2020-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/11/blockchain/0%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" class="title">blockchain/0区块链的学习计划</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-11T11:04:50.000Z" itemprop="datePublished">2020-12-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/11/blockchain/2%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6-Corda%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" class="title">blockchain/2区块链开发框架-Corda学习总结</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-11T06:43:22.000Z" itemprop="datePublished">2020-12-11</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-blockchain/1北京大学肖臻老师《区块链技术与应用》学习总结" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      blockchain/1北京大学肖臻老师《区块链技术与应用》学习总结
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" class="article-date">
+	  <time datetime="2020-12-11T06:13:05.000Z" itemprop="datePublished">2020-12-11</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="北京大学肖臻老师《区块链技术与应用》学习总结">北京大学肖臻老师《区块链技术与应用》学习总结</h1>
+<h1 id="3-数据结构">3 数据结构</h1>
+<h2 id="hash-printers-（hash指针）">hash printers （hash指针）</h2>
+<p>hash指针既可以找到块的位置，也可以验证hash的正确性</p>
+<h3 id="Block-chain-is-a-linked-list-using-hash-pointers">Block chain is a linked list using hash pointers</h3>
+<p>每一个区块都包含前一个区块的hash指针</p>
+<ul>
+<li>后面一个区块的hash指针是通过前一个区块的值算出来的。</li>
+<li>通过上面的数据结构可以实现：tamper-evident-log</li>
+</ul>
+<p>只要记住最后一个块的hash值，就可以保证整个链的值无法篡改。</p>
+<ul>
+<li>我们也可以只保存其中的部分区块，区块的前面的部分我们不必保存，如果需要的时候找别人要；然后验证要的区块的hash值是否是当前区块的hash值即可</li>
+</ul>
+<h2 id="Merkle-tree">Merkle tree</h2>
+<p><img src="/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/apple/code/open-source/python/che168/291.png" alt="291"></p>
+<p>上图：</p>
+<ul>
+<li>最下面的一层是数据块，data blocks；每个数据块都是交易（tx）</li>
+<li>上面的那些都是hash pointers</li>
+<li>最上面的节点是根hash值（root hash）</li>
+</ul>
+<h3 id="Merkle-tree数据结构的好处：">Merkle tree数据结构的好处：</h3>
+<p>只要记住root hash就可以检测出节点的修改</p>
+<p>每个区块分成块头（block header）和块身（block body）</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/295.png" alt="295"></p>
+<h3 id="默克尔证明（Merkle-proof）：指一笔交易到跟节点的路径">默克尔证明（Merkle proof）：指一笔交易到跟节点的路径</h3>
+<p>这种证明也叫做：proof of membership或proof of inclusion（证明节点存在于Merkle tree之中）</p>
+<h3 id="proof-of-non-membership（证明节点存不在于Merkle-tree之中）">proof of non-membership（证明节点存不在于Merkle tree之中）</h3>
+<p>排序所有交易节点的hash值（Sorted Merkle tree），然后计算需要证明的交易的hash值，找到此hash值应该出现的位置，如果应该出现的位置的两边的节点的hash满足Merkle proof，则说明需要证明的节点不在此Merkle tree之中。</p>
+<p><strong>只要不是有环的数据结构，都可以使用hash指针</strong></p>
+<h1 id="4-BTC-协议">4 BTC 协议</h1>
+<h2 id="如何发行数字货币">如何发行数字货币</h2>
+<h3 id="央行发行数字货币，如果只使用私钥签名，可以吗？">央行发行数字货币，如果只使用私钥签名，可以吗？</h3>
+<p>无法防止double spending attack：花两次攻击</p>
+<h3 id="中心化方案：">中心化方案：</h3>
+<p>如果央行给发行的货币打上编号并且记录货币当前属于谁，那么可以解决double spending attack；</p>
+<p><strong>但是每次花钱都要去央行验证货币是否是真的，并且属于当前花钱的人，花钱之后再变更钱的归属。</strong></p>
+<h3 id="去中心化方案">去中心化方案</h3>
+<h4 id="每个交易（如A给B转账）中都包含输入和输出两个部分">每个交易（如A给B转账）中都包含输入和输出两个部分</h4>
+<ul>
+<li>输入部分需要说明币的来源</li>
+<li>输入部分需要包含付款人的公钥（因为付款时有付款人的签名，带上公钥为了供别人校验）</li>
+<li>输出部分要给出收款人公钥的hash</li>
+</ul>
+<p><strong>铸币交易（coinbase tx）里面有A的公钥的hash，这样就知道铸币交易的钱是给谁的。</strong></p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/471.png" alt="471"></p>
+<p>上图中的数据结构有两种hash指针</p>
+<ul>
+<li>第一种是链接块的hash指针（即前一个区块的hash指针）</li>
+<li>第二种hash指针是说明币的来源</li>
+</ul>
+<p><strong>问题：是否可以检测dobule spending？</strong></p>
+<p>如果币的来源是不合法的（验证不合法的方式是币的来源是否存在与UTXO），是不会添加到区块链中，可以检测dobule spending</p>
+<p><strong>问题：在A给B转账时，所有人都需要知道A的公钥，为了验证A的签名；那么怎么才能知道A的公钥呢？</strong></p>
+<p>在交易的输入部分，付款人需要给出自己的公钥</p>
+<p>在比特币的系统里，地址是通过公钥推算出来的，地址相当于银行账号，A需要给B转钱需要B的地址；比特币系统里面是没有功能查询某个人的地址</p>
+<p>BitCoin Script：交易脚本，把A的输入部分和上一步的输出脚本拼在一起执行，如果不报错说明交易是合法的。</p>
+<p>每一个块包含不止一个交易，每个块包含Block header和Block body</p>
+<p>哈希指针包含的hash，是通过Block header做hash的值</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/474.png" alt="474"></p>
+<h3 id="Block-header包含：">Block header包含：</h3>
+<ul>
+<li>version：用的哪个比特币协议的版本</li>
+<li>hash of previous block header：上一个区块头的hash</li>
+<li>Merkle root hash：整个Tree的root hash值</li>
+<li>target：挖矿的目标target（满足H(block header + nonce) &lt;= target）</li>
+<li>随机数nonce</li>
+</ul>
+<h3 id="Block-body包含：">Block body包含：</h3>
+<ul>
+<li>transaction list</li>
+</ul>
+<h3 id="系统中的节点分为全节点和轻节点">系统中的节点分为全节点和轻节点</h3>
+<h4 id="full-node">full node</h4>
+<p>全节点是保存区块链的所有信息的，验证每一个交易，所以全节点也叫做fully validating node</p>
+<h4 id="light-node">light node</h4>
+<p>轻节点无法独立验证交易的合法性</p>
+<p><strong>问题：每个账户都可以发布交易，谁来决定哪个交易写到区块中？顺序是什么样的？</strong></p>
+<p>挖矿决定谁有记账权，有记账权的节点可以申请写入区块，顺序由拥有记账权的节点定</p>
+<h2 id="账本的内容要取得分布式的共识">账本的内容要取得分布式的共识</h2>
+<p>distributed consensus（分布式共识）</p>
+<p>distributed hash table</p>
+<p>需要取得共识的内容是什么？</p>
+<h3 id="FLP-impossibility-result：">FLP impossibility result：</h3>
+<p>在一个异步的系统里，即使只有一个成员是有问题的，也不可能取得共识</p>
+<h3 id="CAP-Theorem（定理）">CAP Theorem（定理）</h3>
+<p>CAP：</p>
+<ul>
+<li><a href="https://baike.baidu.com/item/%E4%B8%80%E8%87%B4%E6%80%A7/9840083" target="_blank" rel="noopener">一致性</a>	（Consistency）</li>
+<li><a href="https://baike.baidu.com/item/%E5%8F%AF%E7%94%A8%E6%80%A7/109628" target="_blank" rel="noopener">可用性</a>	（Availability）</li>
+<li><a href="https://baike.baidu.com/item/%E5%88%86%E5%8C%BA%E5%AE%B9%E9%94%99%E6%80%A7/23734073" target="_blank" rel="noopener">分区容错性</a>	（Partition tolerance）</li>
+</ul>
+<p>这三个特性分布式系统中最多同时满足两个</p>
+<p>分布式的一个协议：<a href="https://zhuanlan.zhihu.com/p/31780743" target="_blank" rel="noopener">Paxos</a>，能够保证Consistency</p>
+<h2 id="比特币中的共识协议Consensus-in-BitCoin">比特币中的共识协议Consensus in BitCoin</h2>
+<p>假设系统中大部分的节点是好的，小部分有恶意。</p>
+<p>直接投票选择哪些交易是合法的，如果超过半数就接受可以吗？</p>
+<p>membership，谁有投票权</p>
+<p>hyperledger fabric（联盟链）：可以投票决定</p>
+<p>sybil attack（女巫攻击）：超级计算机一直制造账户，参与投票，直到制造的恶意账户超过半数。</p>
+<h3 id="比特币的投票，按照算力值">比特币的投票，按照算力值</h3>
+<p>谁先获得下面公式中的nonce，谁就能获得记账权，并且给予初块奖励</p>
+<p>Puzzle friendly: H(block header) &lt;= target</p>
+<p>longest valid chain 最长合法链</p>
+<p>如果不在最长合法链上，新的区块也不会被接受；</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/476.png" alt="476"></p>
+<p>上面的图片是分叉攻击（forking attack）</p>
+<h3 id="block-reward-初块奖励">block reward 初块奖励</h3>
+<h4 id="一次性能造多少币？">一次性能造多少币？</h4>
+<p>刚发布的时候50 BTC，21万个区块之后可以铸造25个比特币</p>
+<p>50 BTC -&gt; 25 BTC -&gt; 12.5 BTC</p>
+<p>coinbase transaction</p>
+<p>mining（挖矿）：争夺记账权</p>
+<p>digital gold：数字黄金</p>
+<p>miner：矿工</p>
+<h1 id="BTC-实现">BTC 实现</h1>
+<p>transaction-based ledger：基于交易的账本模式</p>
+<p>每个区块记录的是交易信息，包括转账交易和铸币交易</p>
+<p>UTXO：Unspent Transaction Output（还没有被花出去的输出）</p>
+<p>UTXO数据结构，以便快速检测double spending；如果想花掉的币不存在UTXO中，说明不存在或已经花出</p>
+<p>total inputs = total outputs</p>
+<p>比特币的第二个激励机制：transaction fee</p>
+<p>其他的模式：account-based ledger，在这种模式中，系统要显示的记录账户的余额，以太坊是基于此种模式记账。</p>
+<h2 id="每次尝试nonce可以看作是Bernoulli-trial：a-random-experiment-with-binary-outcome">每次尝试nonce可以看作是Bernoulli trial：a random experiment with binary outcome</h2>
+<p>所有的尝试的集合构成了Bernoulli Process：a sequence of independent Bernoulli trials</p>
+<p>尝试计算nonce是memoryless的：即无论以前尝试过多少次下一次的概率还是一样</p>
+<p>可以使用Poisson Process近似</p>
+<p>出块时间服从指数分布：exponential distribution</p>
+<p>BitCoin is secured by mining</p>
+<h2 id="比特币的安全性">比特币的安全性</h2>
+<p><strong>问题：能不能把别人的钱转给自己？</strong></p>
+<p>不可以，因为你没有别人的私钥，无法签名。（<em>比特币在花每一笔钱的时候都要制定币的来源，即某次交易的output，这个output中有币的所有人的公钥，在花钱的时候币的所有人需要用自己的私钥做签名，然后别人通过当前交易的input和币来源的output来验证这个交易的合法性。</em>）</p>
+<p><strong>问题：能不能double spending？</strong></p>
+<p>不可以，因为第二次花的时候在UTXO里面不存在，会验证不通过。</p>
+<h1 id="6-BTC-网络">6-BTC-网络</h1>
+<p>application layer：BitCoin Block chain</p>
+<p>network layer：P2P Overlay Network</p>
+<p>设计原则：simple, robust, but not efficient</p>
+<h1 id="7-BTC-挖矿难度">7-BTC-挖矿难度</h1>
+<p>如何调整挖矿难度：调整挖矿难度就是调整目标空间在整个输出空间中所占的比例。</p>
+<p>挖矿即是算出满足：H(block header) &lt;= target的nonce值</p>
+<p>sha-256: 可能的值是2的256次方</p>
+<p>difficulty = difficulty_1_target/target</p>
+<p><strong>问题：为什么要调整挖矿难度？</strong></p>
+<p>为了保证出块时间平均10分钟</p>
+<p><strong>问题：出块时间太短会有什么问题？</strong></p>
+<p>两个节点同时发布区块，可能会出现分叉</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/487.png" alt="487"></p>
+<p>平均出块时间过短可能导致上图的很多分叉，这会分散诚实节点的算力</p>
+<p>平均出块时间不论设置的多长，都不可以无限的减小下去</p>
+<p>如果分叉过多就无法防止51% attack</p>
+<p>以太坊的共识协议：ghost</p>
+<h3 id="什么时候调整难度？">什么时候调整难度？</h3>
+<p>每2016个区块之后调整一次</p>
+<h3 id="如何调整挖矿难度：">如何调整挖矿难度：</h3>
+<h4 id="调整的target值">调整的target值</h4>
+<p>**公式：**target = target_current * (actual time)/(expected time)</p>
+<p>当actual time大于expected time，说明难度太大， (actual time)/(expected time)得出的值就大于1，最终算出来的target会比当前的target大，也就是变得容易</p>
+<h4 id="调整难度">调整难度</h4>
+<p>next_difficulty = previous_diffculty * (2 weeks)/ (time to mine last 2016 blocks)</p>
+<p>调整难度与目标域值（target）成反比</p>
+<p>expected time = 2016 * 10min</p>
+<p>actual time = time spent mining the last 2016 blocks</p>
+<p>目标域值调整最大不会超过4倍，最小不会小于1/4</p>
+<h3 id="怎么让所有的矿工都调整域值呢？">怎么让所有的矿工都调整域值呢？</h3>
+<p>代码里自动调，如果恶意节点修改了源码不调整，他发布的区块的检查区块合法性就通不过。</p>
+<h1 id="8-BTC-挖矿">8-BTC-挖矿</h1>
+<h2 id="全节点">全节点</h2>
+<ul>
+<li>一直在线</li>
+<li>在本地硬盘上维护完整的区块链信息</li>
+<li>在内存里维护UTXO，以便快速验证交易的正确性</li>
+<li>监听比特币网络上的交易信息，验证每个交易的合法性</li>
+<li>决定哪些交易会被打包到区块里</li>
+<li>监听别的矿工挖出来的区块，验证其合法性</li>
+<li>挖矿</li>
+<li>决定沿着哪条链挖下去？</li>
+<li>当出现等长的分叉的时候，选择哪个分叉？</li>
+<li>缺省情况下是沿着最先听到的区块</li>
+</ul>
+<h2 id="轻节点">轻节点</h2>
+<ul>
+<li>不是一直在线</li>
+<li>不用保存整个区块链，只要保存每个区块的块头</li>
+<li>不用保存全部交易，只保存与自己相关的交易</li>
+<li>无法检验大多数交易的合法性，只能检测与自己相关的那些交易的合法性</li>
+<li>无法检测网上发布的区块的正确性</li>
+<li>可以验证挖矿的难度</li>
+<li>只能检测哪个是最长链，不知道哪个是最长合法链</li>
+</ul>
+<p>挖矿具有特性：</p>
+<p>memoryless或叫做progress free</p>
+<h2 id="挖矿的设备">挖矿的设备</h2>
+<ul>
+<li>第一代，CPU</li>
+<li>闲置的cpu、内存、硬盘</li>
+<li>第二代，GPU</li>
+<li>为了通用并行计算而设计的</li>
+<li>也存在浪费</li>
+<li>第三代，ASIC：Application Specific Integrated Circuit</li>
+</ul>
+<p>挖矿的设备的趋势是从通用到专业</p>
+<h2 id="puzzle">puzzle</h2>
+<p>mining puzzle:挖矿时求解的puzzle</p>
+<p>merge mining：使用别的币的mining puzzle</p>
+<p>Alternative mining puzzle: 抗ASIC芯片</p>
+<h2 id="矿池">矿池</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/489.png" alt="489"></p>
+<p>（share almost valid block）</p>
+<h3 id="假如一个矿池占了51-的比例，他能发动哪些攻击呢？">假如一个矿池占了51%的比例，他能发动哪些攻击呢？</h3>
+<ul>
+<li>forking attack</li>
+<li>Boycott（封锁）</li>
+</ul>
+<h1 id="9-BTC-比特币脚本">9-BTC-比特币脚本</h1>
+<p>比特币脚本是stack-based的脚本，包括下面三种类型</p>
+<ul>
+<li>
+<p>P2PK（Pay to Public Key）</p>
+</li>
+<li>
+<p>P2PH（Pay to Public Key Hash）</p>
+</li>
+<li>
+<p>P2SH（Pay to Script Hash）对多重签名的支持</p>
+</li>
+</ul>
+<h3 id="redeemScript：">redeemScript：</h3>
+<p>当一个需要联合签名的账号B（如需要5个中的三个签名）需要支付时，需要至少有三个签名才可以，那么在B支付给C时需要验证B的币来来源的output和当前的交易的input做验证。如果需要验证成功则需要在上一步交易的output中包含这些公钥信息。</p>
+<p>当一个账号A支付给另一个需要联合签名的账号B时，如果需要A支付时提供B的所有的账户的公钥信息，会导致A支付时特别麻烦。</p>
+<p><strong>redeemScript</strong>就是解决上面的问题而存在的，详情参考<a href="https://zhuanlan.zhihu.com/p/93823558" target="_blank" rel="noopener">深入理解比特币脚本</a></p>
+<h2 id="Proof-of-Burn">Proof of Burn</h2>
+<p>燃烧证明，在输出脚本中添加return，使这个output在验证时永远报错，也就是这个输出的币永远也花不出去。</p>
+<p><strong>自问：如果A在给B付款时，output中面包含return语句，那么B虽然真实收到了款，但是永远花不出去。B能够在接收时验证吗？还是只能等到花钱时才能发现这个问题呢？</strong></p>
+<p>**自答：**因为B需要验证这比交易有没有写入区块链中，所以A会把交易发给B，此时B需要检查output是否包含return，如果包含则认为这比交易无效；假如B是商家并在交易刚发生时不验证，把货发送给A，那么B就收到一笔花不出去的钱。</p>
+<h3 id="digital-commitment">digital commitment</h3>
+<p>发布交易不需要记账权，发布区块才需要记账权</p>
+<h1 id="10-BTC-分叉">10-BTC-分叉</h1>
+<p>fork</p>
+<ul>
+<li>state fork</li>
+<li>forking attack（deliberate fork）</li>
+<li>protocol fork（协议分叉）</li>
+<li>hard fork</li>
+<li>soft fork</li>
+</ul>
+<h2 id="hard-fork">hard fork</h2>
+<p>系统中只有有一部分节点不更新软件，就会出现永久性的分叉</p>
+<p>eg：block size limit</p>
+<p>block size不超过1M，计算出7tx/sec（每秒7笔交易）；如果new nodes把软件升级为区块大小最多可以4M，那么旧的节点如果不一起升级继续沿着旧链挖就会导致硬分叉；旧节点认为超过1M大小的区块为非法的。</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/image%20(1).png" alt="image (1)"></p>
+<p>只要old nodes不更新软件，分叉就不会变更</p>
+<h2 id="soft-fork">soft fork</h2>
+<p>只要系统中有半数中的节点更新软件，就不会出现永久性的分叉；只会出现临时性的分叉</p>
+<p>接着使用调整区块大小的例子，如果调整为限制不超过0.5M，那么新节点产生的区块旧节点也认可；但是旧节点产生的区块新节点不认可，如果新节点占多数时就会迫使旧节点升级。</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/499.png" alt="499"></p>
+<h3 id="软分叉的例子（P2SH：Pay-to-Script-Hash）">软分叉的例子（P2SH：Pay to Script Hash）</h3>
+<h1 id="11-BTC-问答">11-BTC-问答</h1>
+<h2 id="如果转账的时候地址写错了怎么办？">如果转账的时候地址写错了怎么办？</h2>
+<p>答：没有办法取消一经发布的交易</p>
+<h2 id="Proof-of-Burn，如果OP-RETURN无条件的返回错误，这笔交易是如何写入到区块链里的呢？">Proof of Burn，如果OP_RETURN无条件的返回错误，这笔交易是如何写入到区块链里的呢？</h2>
+<p>答：因为OP_RETURN是写在当前交易的输出脚本里，所以当前交易的验证不会验证这个脚本</p>
+<h2 id="你怎么知道哪个矿工最先找到的同一个nonce？">你怎么知道哪个矿工最先找到的同一个nonce？</h2>
+<p>答：不可以偷答案，因为区块里面的coinbase tx指向的收款账户是真正计算出nonce的账户，这个信息如果被修改了，交易就不会验证通过。</p>
+<h2 id="transaction-fee，如何确定交易费给哪个矿工，给多少？">transaction fee，如何确定交易费给哪个矿工，给多少？</h2>
+<p>只要total inputs &gt; total outputs，之间的差额就是交易费</p>
+<h1 id="12-BTC-比特币中的匿名性">12-BTC-比特币中的匿名性</h1>
+<p>BitCoin and anonymity</p>
+<p>pseudonymity</p>
+<h2 id="什么情况下会破坏匿名性？">什么情况下会破坏匿名性？</h2>
+<p>在多个inputs的时候，多个输入可能是同一个人</p>
+<h2 id="什么情况下别人能直到比特币账户对应现实中的某个人呢？">什么情况下别人能直到比特币账户对应现实中的某个人呢？</h2>
+<p>资金的转入转出，购买比特币或者比特币套现；比特币支付的时候也可以</p>
+<p>silk road：eBay for illegal drugs</p>
+<h2 id="采取什么方法提高匿名性？">采取什么方法提高匿名性？</h2>
+<h2 id="零知识证明">零知识证明</h2>
+<p>零知识证明是指一方（证明者）向另一方（验证着）证明一个陈述是正确的，而无需透露除该陈述是正确的外的任何信息。</p>
+<p>**我的理解：**如比特币的转账（A转给B）签名就是零知识证明，因为这个签名证明了这个交易是A转出去的，却不需要让A提供其他信息。</p>
+<h1 id="13-BTC-思考">13-BTC-思考</h1>
+<h2 id="为什么比特币系统能够绕过被证明的分布式系统的不可能的结论？">为什么比特币系统能够绕过被证明的分布式系统的不可能的结论？</h2>
+<p>比特币并没有绕过</p>
+<h1 id="14-ETH-以太坊概述">14-ETH-以太坊概述</h1>
+<ul>
+<li>
+<p>memory hard mining puzzle</p>
+</li>
+<li>
+<p>ASIC resistance：挖矿时需要访问内存</p>
+</li>
+<li>
+<p>proof of work -&gt; proof of stake：目标是从工作量证明过度到权益证明</p>
+</li>
+<li>
+<p>smart contract: 智能合约</p>
+</li>
+<li>
+<p>BitCoin: decentralized currency（去中心化的货币）</p>
+</li>
+<li>
+<p>Ethereum: decentralized contract（去中心化的合同）</p>
+</li>
+</ul>
+<h1 id="15-ETH-账户">15-ETH-账户</h1>
+<ul>
+<li>
+<p>以太坊是一个accounting-based ledger（基于账户的去中心化的账本）</p>
+</li>
+<li>
+<p>天然防御double spending attack</p>
+</li>
+<li>
+<p>记录交易次数（nonce），以防御replay attack（重放攻击）</p>
+</li>
+</ul>
+<h2 id="账户类型">账户类型</h2>
+<h3 id="externally-owned-account（外部账户）">externally owned account（外部账户）</h3>
+<p>记录：</p>
+<ul>
+<li>balance</li>
+<li>nonce</li>
+</ul>
+<h3 id="Smart-contract-account（智能合约账户）">Smart contract account（智能合约账户）</h3>
+<p>记录：</p>
+<ul>
+<li>balance</li>
+<li>nonce</li>
+<li>code</li>
+<li>storage</li>
+</ul>
+<h4 id="智能合约账户有以下几个特点：">智能合约账户有以下几个特点：</h4>
+<ul>
+<li>
+<p>合约账户无法主动发起一个交易</p>
+</li>
+<li>
+<p>创建合约账户的时候会返回一个地址，可以调用这个地址</p>
+</li>
+</ul>
+<h1 id="16-ETH-以太坊中的状态树">16-ETH-以太坊中的状态树</h1>
+<p>维护的功能是账户地址到账户状态的映射：addr -&gt; state</p>
+<p><strong>问题：如果把所有账户直接组成一个merkle tree 可以吗？</strong></p>
+<p>不可以，因为修改账户时成了串行</p>
+<p><strong>问题：为什么比特币可以把所有交易组成一个merkle tree呢？</strong></p>
+<p>因为比特币只有一个人拥有记账权，所以这个有记账权的人随意记录即可</p>
+<p>即使以太坊使用sorted merkle tree，在有新的账户出现时也会大量的更新merkle tree中的hash值。</p>
+<h2 id="数据结构：trie（retrieval-检索）">数据结构：trie（retrieval-检索）</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/628.png" alt="628"></p>
+<h2 id="数据结构：Patricia-tree（trie）">数据结构：Patricia tree（trie）</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/629.png" alt="629"></p>
+<ul>
+<li>树的高度变短</li>
+<li>如果插入新的单词，原来压缩的节点可能需要扩展开</li>
+</ul>
+<h2 id="数据结构：MPT（Merkle-Patricia-tree）">数据结构：MPT（Merkle Patricia tree）</h2>
+<p>把Patricia tree的指针改为Hash Pointer就成了MPT</p>
+<h2 id="数据结构：Modified-MPT">数据结构：Modified MPT</h2>
+<p>下面状态树的例子中的节点有三种：</p>
+<ul>
+<li>Extention Node：如果路径出现压缩，就会出现此节点</li>
+<li>Branch Node：分支节点</li>
+<li>Leaf Node：最终的节点</li>
+</ul>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/image-20201126151730381.png" alt="image-20201126151730381"></p>
+<h1 id="16-ETH-交易树和收据树">16-ETH-交易树和收据树</h1>
+<p>用处：</p>
+<ul>
+<li>提供Merkle proof</li>
+</ul>
+<h2 id="数据结构：bloom-filter">数据结构：bloom filter</h2>
+<p>**用途：**支持查找某个元素是否在一个比较大的集合中</p>
+<p>**实现：**把集合中的所有的hash值映射到一个小的数组中，然后把数组中的对应位置的值由0改为1。</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/630.png" alt="630"></p>
+<ul>
+<li>
+<p>有可能出现误报（一个值的hash映射的数组中的位置，如果是1只能说明可能存在，因为存在hash碰撞）</p>
+</li>
+<li>
+<p>不会出现漏报（因为只要某个值的hash映射的数组的位置的值是0，说明此值不存在）</p>
+</li>
+</ul>
+<h3 id="以太坊中如何使用bloom-filter">以太坊中如何使用bloom filter</h3>
+<p>包含在块头里面，可以快速过滤某些节点不包含指定交易；然后再在可能包含的节点中检索。</p>
+<p>transaction-driven state machine（交易驱动的状态机）</p>
+<h1 id="18-ETH-GHOST协议">18-ETH-GHOST协议</h1>
+<h2 id="如果只有和父节点平级的才是uncle-block">如果只有和父节点平级的才是uncle block</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/633.png" alt="633"></p>
+<h3 id="存在问题：">存在问题：</h3>
+<p>1、uncle block的个数只能是两个，如果分叉超过3个就无法全部包含进来。<br>
+2、故意不包含某个叔父区块</p>
+<h2 id="只要与当前节点有共同的主链就认为是uncle-block">只要与当前节点有共同的主链就认为是uncle block</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/634.png" alt="634"></p>
+<h3 id="存在问题：-v2">存在问题：</h3>
+<p>某个矿工在挖矿难度低的时候产生多个分叉（即以后节点的叔父）区块，期待以后被包含进去以获取初块奖励</p>
+<h2 id="GHOST协议：与当前区块在7代以内，才被认为是uncle-block">GHOST协议：与当前区块在7代以内，才被认为是uncle block</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/637.png" alt="637"></p>
+<p>距离当前区块越远的uncle block，得到的奖励越少；为了防止分叉过多，有利于鼓励出现分叉尽快合并。叔父区块得不到gas fee（汽油费）</p>
+<h1 id="19-ETH-挖矿算法（ethash）">19-ETH-挖矿算法（ethash）</h1>
+<p>Block chain is secured by mining。</p>
+<p>bug bounty：bug赏金</p>
+<p>one cpu， one vote（一个cpu，一张投票）</p>
+<p>设计puzzle的原则：difficult to solve， but easy to verify</p>
+<p>以太坊的挖矿算法的目标是做到：AISC resistance</p>
+<p>memory hard mining puzzle</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/676.png" alt="676"></p>
+<h1 id="20-ETH-难度调整">20-ETH-难度调整</h1>
+<h2 id="自适应难度调整">自适应难度调整</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/680.png" alt="680"></p>
+<h3 id="子公式解释">子公式解释</h3>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/681.png" alt="681"></p>
+<h2 id="难度炸弹（difficulty-bomb）">难度炸弹（difficulty bomb）</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/682.png" alt="682"></p>
+<h2 id="以太坊发展的四个阶段">以太坊发展的四个阶段</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//%E4%B8%8B%E8%BD%BD.png" alt=" 以太坊发展的四个阶段"></p>
+<h1 id="21-权益证明（Proof-of-stake）">21-权益证明（Proof of stake）</h1>
+<p>TWH：Terawatt hours</p>
+<p><strong>问题：为什么需要权益证明？</strong></p>
+<p>工作量证明太费电了</p>
+<p>初块奖励是为了激励矿工参与比特币系统的维护。</p>
+<p>virtual mining</p>
+<p><strong>权益证明：</strong></p>
+<ul>
+<li>
+<p>每个人按照持有币的数量来投票，省去了挖矿的过程；持有的币越多，权益越大。</p>
+</li>
+<li>
+<p>持有的币只能从加密货币的系统中获取，如果有人大量购买这个币以获取权益然后搞垮他，会导致币价大涨；涨价会让搞垮这个币所付出的代价很大。</p>
+</li>
+</ul>
+<p>AltCoin Infanticide：把新币扼杀在摇篮里</p>
+<p>Proof of Deposit</p>
+<p>如果出现分叉的时候，一个人两边都挖，并不会影响他的币的数量。</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/674.png" alt="674"></p>
+<p>Casper the Friendly Finality Gadget（FFG）</p>
+<p>验证者有任期，验证者在任期外有等待期，如果没有人检举则给验证者保证金和奖励。</p>
+<p>EOS币的权益证明：</p>
+<p>DPOS：Delegated Proof of Stake</p>
+<h1 id="22-ETH-智能合约">22-ETH-智能合约</h1>
+<h2 id="外部账户如何调用智能合约？">外部账户如何调用智能合约？</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/638.png" alt="638"></p>
+<ul>
+<li>
+<p>SENDER ADDRESS：调用者的地址</p>
+</li>
+<li>
+<p>TO CONTRACT ADDRESS：智能合约的地址</p>
+</li>
+<li>
+<p>VALUE：调用时转多少ETH</p>
+</li>
+<li>
+<p>GAS USED：汽油费</p>
+</li>
+<li>
+<p>GAS PRICE：汽油费的价格</p>
+</li>
+<li>
+<p>CAS LIMIT：此调用愿意支付的汽油费上限</p>
+</li>
+<li>
+<p>TX DATA：调用的函数及其参数的编码值</p>
+</li>
+</ul>
+<h2 id="一个合约如何调用另一个合约中的函数">一个合约如何调用另一个合约中的函数</h2>
+<h3 id="1、直接调用">1、直接调用</h3>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/639.png" alt="639"></p>
+<h3 id="2、使用adress类型的call-函数">2、使用adress类型的call()函数</h3>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/640.png" alt="640"></p>
+<h3 id="3、代理调用delegatecall">3、代理调用delegatecall()</h3>
+<h3 id="错误处理">错误处理</h3>
+<ul>
+<li>
+<p>assert：一般用来判断内部条件</p>
+</li>
+<li>
+<p>required：一般用于判断外部条件</p>
+</li>
+<li>
+<p>revert：无条件的抛出异常</p>
+</li>
+</ul>
+<h2 id="嵌套调用">嵌套调用</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/641.png" alt="641"></p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/642.png" alt="642"></p>
+<p>先执行交易再挖矿,因为挖矿之后发布的账户状态需要先执行交易。</p>
+<p>就算账户的代码执行错误，也会被发布；然后收取汽油费，为了防止有恶意节点发送大量的不能验证通过的交易。</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/658.png" alt="658"></p>
+<p><strong>问题：智能合约的代码支持多线程执行吗？</strong></p>
+<p>不支持多线程,多线程可能造成执行结果的不一致。</p>
+<h2 id="智能合约可以获得的区块信息">智能合约可以获得的区块信息</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/659.png" alt="659"></p>
+<h2 id="智能合约可以获得的调用信息">智能合约可以获得的调用信息</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/660.png" alt="660"></p>
+<h2 id="地址类型">地址类型</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/661.png" alt="661"></p>
+<p>地址类型中的不同方法转账时的特点：</p>
+<ul>
+<li>transfer：会导致连锁性回滚</li>
+<li>send：不会导致连锁性回滚</li>
+<li>call：不会导致连锁式回滚，call的方式转账会把剩余的汽油全部发送过去</li>
+</ul>
+<h2 id="一个例子：简单拍卖">一个例子：简单拍卖</h2>
+<h3 id="构造方法">构造方法</h3>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/662.png" alt="662"></p>
+<h3 id="出价和结束拍卖的方法">出价和结束拍卖的方法</h3>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/663.png" alt="663"></p>
+<h3 id="如果黑客的智能合约中没有callback方法怎么办？">如果黑客的智能合约中没有callback方法怎么办？</h3>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/664.png" alt="664"></p>
+<p>没有办法。。。</p>
+<h2 id="Code-is-low：">Code is low：</h2>
+<p>优点：没有人能够修改规则</p>
+<p>缺点：如果规则有问题，也无法修正，导致上面的问题成为所有人的钱都取不出来</p>
+<h2 id="优化后的拍卖代码">优化后的拍卖代码</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/665.png" alt="665"></p>
+<h3 id="无法防止重入攻击（Re-entrancy-Attack）">无法防止重入攻击（Re-entrancy Attack）</h3>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/666.png" alt="666"></p>
+<p>解决的方法是，先把金额修改为0，再发起转账。</p>
+<p>转账交易时需要使用这个步骤：先判断条件，再改变条件，再发生交互</p>
+<p>better safe by sorry</p>
+<h3 id="不要使用call方法转账，因为call支付的汽油费太多">不要使用call方法转账，因为call支付的汽油费太多</h3>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/667.png" alt="667"></p>
+<h1 id="23-ETH-TheDAO">23-ETH-TheDAO</h1>
+<p>DAO：Decentralized Autonomous Organization（去中心化的自治的组织）</p>
+<p>DAC：Decentralized Autonomous Corporation（去中心化的自治的公司）</p>
+<p>因为先转账再更改余额导致被发起了重入攻击：</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/image-20201126161738940.png" alt="image-20201126161738940"></p>
+<p>too big to fail</p>
+<p>升级后产生两个分叉：通过在链上增加ChainID（为了防止回放），以区分ETC(Ethereum Classic)和ETH</p>
+<h2 id="为什么不能只针对黑客的账户？">为什么不能只针对黑客的账户？</h2>
+<p>因为智能合约有bug，所以就算只针对黑客的账户其他人也可以针对这个bug进行攻击。</p>
+<h1 id="24-ETH-思考">24-ETH-思考</h1>
+<h2 id="Is-smart-contract-really-smart？（智能合约真的智能吗）">Is smart contract really smart？（智能合约真的智能吗）</h2>
+<p>smart contract is anything but smart</p>
+<h2 id="Nothing-is-irrevocable（没有什么是不可篡改的）">Nothing is irrevocable（没有什么是不可篡改的）</h2>
+<p>如TheDAO的例子；所以不能迷信“不可篡改”</p>
+<h2 id="Is-solidity-the-right-programming-language？">Is solidity the right programming language？</h2>
+<p>solidity存在一些问题，但是没有什么东西是没有问题的。所以随着时间的检验可能会出现</p>
+<ul>
+<li>
+<p>智能合约模板</p>
+</li>
+<li>
+<p>编写智能合约的公司</p>
+</li>
+</ul>
+<p>虽然智能合约的内容是开源的，但是Many eyeball fallacy；在涉及到自己的利益时还是需要自己检查代码。</p>
+<h2 id="What-does-decentralization（权利下放）-mean？">What does decentralization（权利下放） mean？</h2>
+<p>分叉是去中心化和民主的体现</p>
+<h2 id="decentralized-distributed-去中心化不等于分布式">decentralized != distributed(去中心化不等于分布式)</h2>
+<p>state machine的应用场景：</p>
+<ul>
+<li>mission critical application（关键任务应用程序）</li>
+<li>air traffic control（空中交通管制）</li>
+<li>stock exchange（证券交易）</li>
+<li>space shuttle（航天飞机）</li>
+</ul>
+<p>智能合约是用来编写控制程序的，只有在互不信任的实体之间建立共识的操作才需要写在智能合约里</p>
+<h1 id="25-ETH-Beauty-Chain（美链）">25-ETH-Beauty Chain（美链）</h1>
+<p>IPO：Initial Public Offering</p>
+<p>ICO：Initial Coin Offering</p>
+<h2 id="美链背景介绍">美链背景介绍</h2>
+<p>下图中出现的ERC为Ethereum Request for Comments（以太坊征求意见）</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/683.png" alt="683"></p>
+<h2 id="因为下面的代码在计算时出现了溢出，从而导致被攻击，凭空出现了很多的代币BEC">因为下面的代码在计算时出现了溢出，从而导致被攻击，凭空出现了很多的代币BEC</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/image-20201126163601352.png" alt="image-20201126163601352"></p>
+<h2 id="如何预防此类（计算溢出）问题？">如何预防此类（计算溢出）问题？</h2>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/image-20201126163925215.png" alt="image-20201126163925215"></p>
+<h1 id="26-总结">26-总结</h1>
+<ul>
+<li>
+<p>加密货币应该用在法币支持的不太好的地方，而不是用在法币已经支持的很好的地方。</p>
+</li>
+<li>
+<p>下一代的的互联网是价值交换网络</p>
+</li>
+<li>
+<p>Democracy is the worst from of Government except for all those other forms that have bean tried from time to time</p>
+</li>
+<li>
+<p>Is decentralized aways right thing?</p>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="blockchain/1北京大学肖臻老师《区块链技术与应用》学习总结" target="_blank" rel="external">https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/12/11/blockchain/4%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AACorda%E7%BD%91%E7%BB%9C/" title="blockchain/4如何搭建一个Corda网络"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/" title="others/读书笔记-《我的第一本算法书》"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

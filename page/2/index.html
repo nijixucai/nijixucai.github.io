@@ -17,16 +17,16 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Archive: 2020/12 | Hexo</title>
+  <title>Hexo</title>
   <meta property="og:type" content="website">
 <meta property="og:title" content="知识记录">
-<meta property="og:url" content="https://nijixucai.github.io/archives/2020/12/index.html">
+<meta property="og:url" content="https://nijixucai.github.io/page/2/index.html">
 <meta property="og:site_name" content="知识记录">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="guozhe">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://nijixucai.github.io/archives/2020/12/index.html">
+  <link rel="canonical" href="https://nijixucai.github.io/page/2/index.html">
   
     <link rel="alternate" href="/atom.xml" title="知识记录" type="application/atom+xml">
   
@@ -319,120 +319,144 @@
 </aside>
 
   
+  <main class="main" role="main">
   
-<main class="main" role="main">
-  	<article class="content article article-archives article-type-list" itemscope="">
-	    <header class="article-header">
-	      <h1 itemprop="title">Archive: 2020/12</h1>
-	      <p class="text-muted">Total 8 articles</p>
-	    </header>
-	    <div class="article-body">
-	      
   
+    <div class="content">
+  <article id="post-others/IDEA安装leetcode插件" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/03/others/IDEA%E5%AE%89%E8%A3%85leetcode%E6%8F%92%E4%BB%B6/">IDEA安装leetcode插件</a>
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/08/03/others/IDEA%E5%AE%89%E8%A3%85leetcode%E6%8F%92%E4%BB%B6/" class="article-date">
+	  <time datetime="2020-08-03T09:51:46.196Z" itemprop="datePublished">2020-08-03</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/08/03/others/IDEA%E5%AE%89%E8%A3%85leetcode%E6%8F%92%E4%BB%B6/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="为什么安装leetcode插件">为什么安装leetcode插件</h2>
+<p>当然是刷题了，程序员都懂的。官方地址：<br>
+<a href="https://leetcode-cn.com" target="_blank" rel="noopener">力扣 (leetcode) 官网 - 全球极客挚爱的技术成长平台</a></p>
+<h2 id="如何安装leetcode插件">如何安装leetcode插件</h2>
+<h3 id="安装IDEA插件">安装IDEA插件</h3>
+<p>插件地址：<a href="https://plugins.jetbrains.com/plugin/12132-leetcode-editor" target="_blank" rel="noopener">leetcode editor</a>；插件如何安装略。</p>
+<h3 id="配置插件">配置插件</h3>
+<p>打开IDEA的Preferences，找到Tools-leetcode plugin；页面如下：</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//797ea5920c87eaf25ebb58f9a4fe249b-451940.png" alt="img"></p>
+<h4 id="上图的序号配置依次如下：">上图的序号配置依次如下：</h4>
+<ol>
+<li>配置leecode网站的用户名密码</li>
+<li>配置生成代码的地址，此处我选择的是一个专门的项目的<code>${base_dir}/src/main/java/com</code>目录，此插件会自动在此路径下创建<code>leetcode/editor/cn</code>,所以最终代码会在<code>${base_dir}/src/main/java/com/leetcode/editor/cn</code>路径下</li>
+<li>配置类名和文件名，必须配置默认是中文类名(需要勾选Costom Template)</li>
+</ol>
+<p>贴出本人配置供参考：<br>
+CodeFileName:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P$&#123;question.frontendQuestionId&#125;$!velocityTool.camelCaseName($&#123;question.titleSlug&#125;)</span><br></pre></td></tr></table></figure>
+<p>CodeTemplate:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.leetcode.editor.cn;</span><br><span class="line">$&#123;question.content&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">P</span>$</span>&#123;question.frontendQuestionId&#125;$!velocityTool.camelCaseName($&#123;question.titleSlug&#125;)&#123;</span><br><span class="line">    $&#123;question.code&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="如何使用leetcode插件">如何使用leetcode插件</h2>
+<h3 id="生成模板代码">生成模板代码</h3>
+<p>1、按照下图标的顺序依次点击插件会加载各种算法</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//69f51dd49fa9f6035b1356debca9b036-217150.png" alt="img"></p>
+<p>2、随便双击列表中的一个算法，会在配置的<code>${base_dir}/src/main/java/com/leetcode/editor/cn</code>路径下生成模板代码，效果如下：<br>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//e981a38333bf3ee9d4fa3546215af97b-180334.png" alt="img"></p>
+<h3 id="结果验证">结果验证</h3>
+<p>码完代码之后选中相应的算法点Submit来进行验证正确性</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//f6dd4333dc34e58371cec60d8d0a1ab8-251387.png" alt="img"></p>
+<h3 id="注意事项">注意事项</h3>
+<p>1、下面的两个注释不能删除或修改</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// leetcode submit region begin(Prohibit modification and deletion)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// leetcode submit region end(Prohibit modification and deletion)</span></span><br></pre></td></tr></table></figure>
+<p>2、提交的所有代码必须在自动生成的Solution类之内</p>
+<p>非常感谢！！！</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://nijixucai.github.io/2020/08/03/others/IDEA%E5%AE%89%E8%A3%85leetcode%E6%8F%92%E4%BB%B6/" title="IDEA安装leetcode插件" target="_blank" rel="external">https://nijixucai.github.io/2020/08/03/others/IDEA%E5%AE%89%E8%A3%85leetcode%E6%8F%92%E4%BB%B6/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+</div>
+
+  
+
   
     
-    
-      
-      
-      <section class="panel panel-default b-no">
-        <div class="panel-heading" role="tab">
-          <h3 class="panel-title">
-            <a data-toggle="collapse" href="#collapse2020" aria-expanded="true">
-              <i class="icon icon-calendar-plus text-active"></i><i class="icon icon-calendar-minus text"></i>
-              2020
-            </a>
-            <!-- <a href="/archives/2020" class="archive-year">2020</a> -->
-          </h3>
+    <nav class="bar bar-footer clearfix" data-stick-bottom>
+        <div class="bar-inner">
+        <ul class="pager pull-left">
+            
+            <li class="prev">
+                <a href="/">
+                    <i class="icon icon-angle-left"></i>
+                    Prev
+                </a>
+            </li>
+            
+            
+            <li class="next disabled">
+                <a href="javascript:;">
+                    Next
+                    <i class="icon icon-angle-right"></i>                    
+                </a>
+            </li>
+            
+        </ul>
+        <div class="total-article bar-right">Page 2 of 2</div>
         </div>
-        <div id="collapse2020" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading2020">
-        <div class="panel-body">
-          <div class="collection">
+    </nav>
     
-    
-<a href="/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2020-12-15T02:24:42.056Z" itemprop="datePublished">2020-12-15</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> language/java/线程池无法捕获线程的异常踩坑复盘
-</a>
-
-
-  
-    
-    
-    
-<a href="/2020/12/15/language/java/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%E8%80%8C%E4%B8%8D%E6%98%AF@Autoware/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2020-12-15T02:24:42.055Z" itemprop="datePublished">2020-12-15</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 为什么我们在使用Spring的时候应该使用构造方法注入bean
-</a>
-
-
-  
-    
-    
-    
-<a href="/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2020-12-15T02:24:42.055Z" itemprop="datePublished">2020-12-15</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> language/java/使用redis自增特性创建唯一id生成器
-</a>
-
-
-  
-    
-    
-    
-<a href="/2020/12/11/blockchain/0%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2020-12-11T11:04:50.000Z" itemprop="datePublished">2020-12-11</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> blockchain/0区块链的学习计划
-</a>
-
-
-  
-    
-    
-    
-<a href="/2020/12/11/blockchain/2%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6-Corda%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2020-12-11T06:43:22.000Z" itemprop="datePublished">2020-12-11</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> blockchain/2区块链开发框架-Corda学习总结
-</a>
-
-
-  
-    
-    
-    
-<a href="/2020/12/11/blockchain/3%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AACorDapp/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2020-12-11T06:19:42.000Z" itemprop="datePublished">2020-12-11</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> blockchain/3如何开发一个CorDapp
-</a>
-
-
-  
-    
-    
-    
-<a href="/2020/12/11/blockchain/4%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AACorda%E7%BD%91%E7%BB%9C/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2020-12-11T06:13:43.000Z" itemprop="datePublished">2020-12-11</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> blockchain/4如何搭建一个Corda网络
-</a>
-
-
-  
-    
-    
-    
-<a href="/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2020-12-11T06:13:05.000Z" itemprop="datePublished">2020-12-11</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> blockchain/1北京大学肖臻老师《区块链技术与应用》学习总结
-</a>
-
-
-  
-  
-    </div></div></div></section>
-  
-
-	    </div>
-  	</article>
-  	 	
+ 
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -491,6 +515,10 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+
+
+   
 
 
 
