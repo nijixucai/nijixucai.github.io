@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="0. Corda资料整理 官网 油管频道 Corda中文文档 开发文档 Corda中文社区 Stack Overflow讨论区, corda标签 Corda Training 1. Corda是什么？ Corda是为企业构建的开源区块链&#x2F;分布式账本帐平台；Corda使企业可以使用智能合约在严格的隐私下直接进行交易，从而降低交易和记录保存成本，并简化业务运营。 Corda不会定期将需要确认的交易分批">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/blockchain/2%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6-Corda%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="0. Corda资料整理 官网 油管频道 Corda中文文档 开发文档 Corda中文社区 Stack Overflow讨论区, corda标签 Corda Training 1. Corda是什么？ Corda是为企业构建的开源区块链&#x2F;分布式账本帐平台；Corda使企业可以使用智能合约在严格的隐私下直接进行交易，从而降低交易和记录保存成本，并简化业务运营。 Corda不会定期将需要确认的交易分批">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/ledger-venn.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/vault-simple.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/tx-chain1.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/uncommitted_tx.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/tx_with_sigs.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/committed_tx.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/full-tx.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/tx-validation.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/flow-sequence.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/validation-consensus.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/uniqueness-consensus.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/vault.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/node-architecture.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/merkleTreeFull.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/SubMerkleTree_Oracle.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/SubMerkleTree_Notary.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/flow-sequence.png">
+<meta property="article:published_time" content="2020-12-15T02:56:12.402Z">
+<meta property="article:modified_time" content="2020-12-11T06:43:22.000Z">
+<meta property="article:author" content="nijixucai">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/ledger-venn.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blockchain/2%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6-Corda%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93.html" class="article-date">
+  <time datetime="2020-12-15T02:56:12.402Z" itemprop="datePublished">2020-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="0-Corda资料整理">0. Corda资料整理</h1>
+<p><a href="https://www.corda.net/" target="_blank" rel="noopener">官网</a><br>
+<a href="https://www.youtube.com/channel/UCoOuUZatvIC1U65OisCrIKg" target="_blank" rel="noopener">油管频道</a><br>
+<a href="https://cncorda.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">Corda中文文档</a><br>
+<a href="https://docs.corda.net/" target="_blank" rel="noopener">开发文档</a><br>
+<a href="https://cncorda.com/" target="_blank" rel="noopener">Corda中文社区</a><br>
+<a href="https://stackoverflow.com/questions/tagged/corda" target="_blank" rel="noopener">Stack Overflow讨论区, corda标签</a><br>
+<a href="https://training.corda.net/" target="_blank" rel="noopener">Corda Training</a></p>
+<h1 id="1-Corda是什么？">1. Corda是什么？</h1>
+<p>Corda是为企业构建的开源区块链/分布式账本帐平台；Corda使企业可以使用智能合约在严格的隐私下直接进行交易，从而降低交易和记录保存成本，并简化业务运营。<br>
+Corda不会定期将需要确认的交易分批处理再分成块之后一次性确认。相反，Corda会实时确认每笔交易。</p>
+<h2 id="1-0-Corda有哪些概念">1.0 Corda有哪些概念</h2>
+<h3 id="1-0-1-网络">1.0.1 网络</h3>
+<ul>
+<li>一个Corda网络由运行着Corda和CorDapps的节点构成的</li>
+<li>不同的节点间的沟通是点对点的，不依赖于全局广播</li>
+<li>每个节点都可以使用一个数字证书来将真实世界中的法律身份和网络身份相关联</li>
+<li>这个网络是一个需要许可的网络，需要从网络维护者那里申请一个数字证书来获得访问权限</li>
+</ul>
+<h3 id="1-0-2-账本">1.0.2 账本</h3>
+<ul>
+<li>每个账本是针对于每一个节点的</li>
+<li>对于账本上的共享事实，共享的两方（或多方）总是能够保证存在他们自己的账本中的事实是完全一致的</li>
+<li>在 Corda 中是 <strong>没有唯一的中心化存储的数据</strong> 的。每个节点维护着一个独立的数据库，其中包含了所知道的事实。所以每个 peer 只能够看到账本中的事实中的一部分，没有节点能够知道所有的内容。</li>
+</ul>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/ledger-venn.png" alt="img"></p>
+<h3 id="1-0-3-States">1.0.3 States</h3>
+<ul>
+<li><em>State 代表的是存在账本上的事实</em></li>
+<li><em>State 通过将原来的 State 变为历史记录然后添加一条新版本的 state 的方式来对 state 进行更新</em></li>
+<li><em>每个节点都有一个 vault 来存储该节点所有相关的 States</em></li>
+</ul>
+<h4 id="1-0-3-0-State-顺序">1.0.3.0 State 顺序</h4>
+<p>个共享的事实的生命周期是可以通过 <strong>state 顺序</strong> 来体现。当一个 state 需要更新的时候，我们会创建一个代表新的 state 的新版本的 state，然后将原来的那个 state 标注为历史版本。</p>
+<h4 id="1-0-3-1-Vault">1.0.3.1 Vault</h4>
+<p>Corda 网络中的每一个节点都维护着一个 <em>vault</em> - 它是一个数据库，其中跟踪了所有 states 的当前以及历史的 states 数据，以及跟它有关的数据：</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/vault-simple.png" alt="_images/vault-simple.png"></p>
+<h4 id="1-0-3-2-参考-states">1.0.3.2 参考 states</h4>
+<p>并不是所有的 states 都需要被使用他们的节点来更新的。对于参数数据的情况，有一种常见的模式，一方创建了参考数据，这些数据会被其他方使用（但是不会被更新）。对于这种情况，states 中包含的参考数据被称为 “参考 states”。</p>
+<h3 id="1-0-4-Transactions">1.0.4 Transactions</h3>
+<ul>
+<li>Transaction 是关于更新账本的提议；（<strong>个人理解</strong>：<em>更准确的说应该是更新账本上的某些states的提议</em>）</li>
+<li>一个 transaction 提议只能在满足以下条件的时候才会被提交：
+<ul>
+<li>它不包含“双花”</li>
+<li>它是合约有效的</li>
+<li>它需要被所有相关方提供签名</li>
+</ul>
+</li>
+</ul>
+<p>Corda 使用 UTXO (未消费的 transaction output) 模型来使账本上的每条 state 都不可更改。对于账本上数据的变更都是通过使用 transaction 的方式来做的，就是将 0 条或多条已经存在的账本 states 变为历史记录（inputs），然后再新增0条或多条新的账本 states （outputs）。交易代表了 state 顺序中的一个单独的链接。</p>
+<p>**个人理解：**<em>这一点和比特币很像，不同点是比特币的交易只需要支付的人的签名，而这里的transaction需要所有人相关人的签名</em></p>
+<p>一个 transaction 中可以包含任何数量任何类型的 inputs 和 outputs：</p>
+<ul>
+<li>可以包含多种类型的 state（cash, bonds）</li>
+<li>可以是 issuances 类型（有0个input）或者 exists 类型（有0个 output）</li>
+<li>可以合并或拆分可替换的资产（比如把一个 $2 的 state 和 $5 的 state 合并为 $7 的 cash state）</li>
+</ul>
+<p>Transaction 是 原子性操作，一个 transaction 里边的所有 changes 必须要全部执行，或者一个也不会执行。</p>
+<p>有两种基本类型的 transactions：</p>
+<ul>
+<li>Notary-change transactions（用来变更 state 的 notary - 查看 Notaries）</li>
+<li>General transactions（其他任何类型的 transaction）</li>
+</ul>
+<h4 id="1-0-4-1-交易链">1.0.4.1 交易链</h4>
+<p>一个新的 transaction 的 output state 在账本中应该是还不存在的，所以需要提出 transaction 的一方来创建。但是 transaction 中包含的 input 应该是在账本中已经存在的，应该是前一个 transaction 添加进去的 output。所以我们需要在新的 transaction 中引用这些已经存在的记录。</p>
+<p>这些 Input state 的引用包含两部分(<strong>个人理解</strong>：与比特币的交易链一样)：</p>
+<ul>
+<li>创建这个 input 的 transaction 的 hash</li>
+<li>这个 input 所指的前一个 transaction 带来的 output state 在 output list 中的位置或者索引值</li>
+</ul>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/tx-chain1.png" alt="_images/tx-chain1.png"></p>
+<h4 id="1-0-4-2-提交交易">1.0.4.2 提交交易</h4>
+<p>初始的时候，一个 transaction 仅仅是一个更新账本的 提议。它表示了经过这次更新后账本的新的状态：</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/uncommitted_tx.png" alt="_images/uncommitted_tx.png" style="zoom:30%;">
+<p>为了成为真正的一笔交易，transaction 必须要获得所有 要求的签名*（查看下边的 *<em>command</em>）。每一个要求的签名者会将签名附加在 transaction 上来表示他们已经同意了这次更新：</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/tx_with_sigs.png" alt="_images/tx_with_sigs.png" style="zoom:30%;">
+<p>如果得到了所有需要的签名，这个 transaction 就会被提交了：</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/committed_tx.png" alt="_images/committed_tx.png" style="zoom:30%;">
+<p>一旦提交就意味着：</p>
+<ul>
+<li>Transaction 的 input 被标注为历史记录，并且不能再被之后的 transactions 使用了</li>
+<li>Transaction 的 output 变为账本上的当前状态的一部分</li>
+</ul>
+<h4 id="1-0-4-3-交易的有效性">1.0.4.3 交易的有效性</h4>
+<p>每一个被要求的签名方应该只有在满足以下两个条件的时候才应该提供签名：</p>
+<ul>
+<li><strong>Transaction 是有效的</strong>：对于当前的 transaction 提案以及产生当前提案的 Input 相关的所有以前的所有 transactions 的链条中：
+<ul>
+<li>Transaction 应该获得所有相关方的数字签名</li>
+<li>Transaction 是 <em>合约有效</em> 的</li>
+</ul>
+</li>
+<li><strong>Transaction 唯一性</strong>：本次 transaction 提案要消费的 inputs 没有被任何已经存在的其他的已提交的 transaction 消费过</li>
+</ul>
+<h4 id="1-0-4-4-参考-states">1.0.4.4 参考 states</h4>
+<p>正如 States 所描述的，一些 states 需要被其他的 input 或者 output states 的合约代码所引用，但是不需要被修改/消费。这就需要参考 states。当一个 state 被添加到一笔交易的参考 states 列表中，而不是 inputs 或者 outputs 列表的时候，那么它就被作为 参考 state。在常规的 states 和参考 states 间有两点区别：</p>
+<ul>
+<li>交易的节点指定的 notary 会检查参考 state 是不是当前的。然而，当包含他们的交易被提交到账本的时候，参考 states 是不会被消费的。</li>
+<li>对于参考 states 的合约代码也不会被包含他们的交易所执行。</li>
+</ul>
+<h4 id="1-0-4-5-其他的交易组件">1.0.4.5 其他的交易组件</h4>
+<p>就像 input states 和 output states 一样，transactions 还可能会包含下边的组件：</p>
+<ul>
+<li>Commands</li>
+<li>Attachments</li>
+<li>Timestamps</li>
+<li>Notary</li>
+</ul>
+<p>比如一个交易中，Alice 使用 £5 的现金向 Bob 支付了一个 IOU 的 £5。该笔交易包含了两个附件，并且只能够在 notary pool 在指定的时间窗内收到该笔交易的时候被 NotaryClusterA 进行公证，看起来像下边这样：</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/full-tx.png" alt="_images/full-tx.png" style="zoom:30%;">
+<h4 id="1-0-4-5-1-Commands">1.0.4.5.1 Commands</h4>
+<p><a href="https://zhuanlan.zhihu.com/p/33792878" target="_blank" rel="noopener">翻译视频讲解Corda 核心概念 - Commands</a></p>
+<p>Commands是什么？</p>
+<ul>
+<li>Commands 是一些动词（verbs）</li>
+<li>Commands 将 transaction 进行参数化（parameterise），这样除了从 State 中能够获取的信息外，commands 又能提供了更多的一些信息</li>
+<li>Commands 也提示（hint）了 transaction 的意图（intent）</li>
+<li>Commands 也可能包含通过 Oracle Service 提供的数据（off-ledger data）</li>
+</ul>
+<p>一些 Commands 典型的例子：</p>
+<ul>
+<li>发布（issue）新的 State 到账本上</li>
+<li>交换（transfer）资产到账本中的另一方</li>
+<li>付钱（pay）给账本中的另一方</li>
+<li>偿还（redeem）一笔资产并结束/清除代表该资产的state</li>
+<li>尝试（exercise）一个选项 option</li>
+<li>履行（settle）一个义务来递交一个资产</li>
+</ul>
+<p>如何知道一个 transaction 都需要谁来提供签名呢？我们会把一个公钥列表关联至一个 command，来说明都谁需要对这个 command 提供签名。</p>
+<ul>
+<li>一个 command中会包含一个公钥列表（public key list），通过这个列表就知道了都会涉及哪些人来确认/签名该 state transaction</li>
+<li>在 transaction中，input 和 output states 经常会被按照类别分组（还可能根据其他的条件进行分组）</li>
+<li>每一组 state 都需要有一个 command</li>
+</ul>
+<h4 id="1-0-4-5-2-Attachments">1.0.4.5.2 Attachments</h4>
+<p>有些时候，我们会有一些数据可以在不同的 transactions 中被重用。比如：</p>
+<ul>
+<li>一个公共假期的 calendar</li>
+<li>支持的法律文档</li>
+<li>一个货币代码的表格</li>
+</ul>
+<p>针对这些情况，我们使用附件。一个 transaction 可以通过 hash 引用 0 个或者多个附件。这些附件是 ZIP/JAR 文件，可以包含任何内容。这些附件中信息可以用来验证 transaction 的有效性。</p>
+<h4 id="1-0-4-5-3-Time-window">1.0.4.5.3 Time-window</h4>
+<p>一些时候，我们希望一个交易仅仅在一个指定的时间点被批准执行。例如：</p>
+<ul>
+<li>在一个指定的日期之后执行一个选项</li>
+<li>一个债券只能在它的过期日期前被赎回</li>
+</ul>
+<p>在这些情况下，我们给 transaction 添加一个 time-window。time-windows 制定了交易会在哪个时间点被提交。</p>
+<h4 id="1-0-4-5-4-Notary">1.0.4.5.4 Notary</h4>
+<p>**个人理解：**为了在issuance/genesis 交易中提供公证证明的，证明此交易的合法性。</p>
+<h3 id="1-0-5-Contracts">1.0.5 Contracts</h3>
+<p>**个人理解：**与以太坊的智能合约类似</p>
+<ul>
+<li>一个有效的 transaction 必须要被它的所有 input 和 output states中的 contract 接受</li>
+<li>Contracts 需要使用 JVM 编程语言编写（java 或者 kotlin）</li>
+<li>Contract 的执行是一定要有一个确定性结果的，并且它对于一个 transaction 的接受是仅仅基于 transaction 的内容</li>
+</ul>
+<h4 id="1-0-5-1-Transaction-验证">1.0.5.1 Transaction 验证</h4>
+<p>一个 transaction 仅仅当被所有要求的签名方提供了签名之后才会被认为是有效的。但是，除了获得到所有人的签名之后，还必须要满足 合约有效 才会被最终认为有效。</p>
+<p>合约有效 的定义包含以下几点：</p>
+<ul>
+<li>每个 state 都指定了一个 合约 类别</li>
+<li>合约将交易(transaction)作为输入，并根据合约规则说明该交易是否有效</li>
+<li>仅当<strong>every input state</strong>和** every output state **的合约都认为其有效时，交易(transaction)才有效</li>
+</ul>
+<p>我们可以用下图来描述这个关系：</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/tx-validation.png" alt="_images/tx-validation.png" style="zoom:30%;">
+<p>合约代码可以用任何JVM语言编写，并可以使用该语言的全部功能，包括：</p>
+<ul>
+<li>检查 inputs，outputs，commands 的数量，时间，附件</li>
+<li>检查这些组件中的任何一个的内容</li>
+<li>循环构造，变量分配，函数调用，辅助方法等</li>
+<li>将一些类似的 states 分组来验证（比如对于所有的现金 state 的组合定义一个规则）</li>
+</ul>
+<p>一个 transaction 如果不是合约有效的话，是不会被视为一个对账本的有效更新，也就不可能被提交至账本。通过这种方式，合同对state随时间的变化施加了规则，这些规则与所需签名者签署给定交易的意愿无关。</p>
+<h4 id="1-0-5-2-The-contract-sandbox">1.0.5.2 The contract sandbox</h4>
+<p>**个人理解：**为了保证验证的结果不根据外部的条件而改变，Corda提供了一个沙箱，以防止代码引入可能会造成不确定性结果的外部库</p>
+<p><a href="https://cncorda.readthedocs.io/zh_CN/latest/deterministic-modules.html" target="_blank" rel="noopener">Deterministic Corda Modules</a></p>
+<p>Transaction 验证必须是 一个确定性的结果： 在一个确定的transaction提议中，一个 contract 必须总是接受 或者 总是拒绝。比如 transaction 是否有效不能够取决于你在什么时间做的 verify 或者是基于某一方具有的信息量的多少来决定是有效的还是无效的。这是一个很重要的条件来确保网络上的相关节点能够在这个对账本的更新的操作达成共识。</p>
+<h4 id="1-0-5-3-Contract-的局限性">1.0.5.3 Contract 的局限性</h4>
+<p>因为 contract 没有办法访问到外部的信息，它只能检查 transaction 内部的有效性，比如它不能够检查确认当前这个 transaction 是不是已经同其他相关方达成了共识取得了其他方的确认。</p>
+<p>所以在各方提供最终的签名确认之前，各方应该对transaction 的内容进行检查来确定他们是否同意这个对账本的更新，即使这个 transaction 是合约有效的。任何一方都没有义务因为transaction是是合约有效而提供签名。比如他们可能不愿意去提供一个巨额的借款，或者可能不会同意购买一个资产花费的钱的金额。</p>
+<h4 id="1-0-5-4-Oracles">1.0.5.4 Oracles</h4>
+<p>有时，交易有效性将取决于某些外部信息，例如汇率。在这些情况下，需要一个oracle。有关更多详细信息，请参见Oracle。</p>
+<h4 id="1-0-5-5-Legal-prose">1.0.5.5 Legal prose</h4>
+<p>每一个合约也会引用一个 legal prose 文档，这个文档中定义了合约中规定的内容，legal prose 也会被传统的法律系统所接受。这个文档会在发生法律纠纷的时候被用来进行判定依据。</p>
+<h3 id="1-0-6-Flows">1.0.6 Flows</h3>
+<ul>
+<li>Flows 使同意更新账本的流程变得自动化</li>
+<li>节点之间的沟通只能够在这些 Flows 的上下文中发生，并且是点对点的</li>
+<li>内置的 flows 提供了常用的一些任务</li>
+</ul>
+<p>Corda 网络使用点对点的消息传输而不是全局广播。也就是说协调一个关于账本的更新需要网络上的参与者明确的指定需要发送什么信息，发送给谁，按照什么顺序发送。</p>
+<h4 id="1-0-6-1-Flow-框架">1.0.6.1 Flow 框架</h4>
+<p>一个 flow 是一系列有顺序的步骤来告诉一个节点应该如何实现一个指定的账本更新，比如发行一个资产或者结算一笔交易。<br>
+下边是一个上边图片所描述的简单账本更新所涉及到的顺序的流程：</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/flow-sequence.png" alt="_images/flow-sequence.png" style="zoom:30%;">
+<h4 id="1-0-6-2-运行-flows">1.0.6.2 运行 flows</h4>
+<p>一旦一个业务流程被封装在了一个 flow 中并且在节点中作为 CorDapp 的一部分被安装好之后，节点的所有者可以在任何时间通过使用一个 RPC call 来告诉节点开始这个业务流程。Flow 将所有的网络，I/O 和并发问题都抽象了出来，这个节点 owner 就不需要关注这些了。</p>
+<p>节点上所有的动作都是发生在这些 flows 的上下文上的。与 contract 不同，flows 不是在 sandbox 里执行的，也就是说节点可以在执行一个 flow 的过程中来进行一些动作比如 networking，I/O 或者随机地使用一些资源。</p>
+<h4 id="1-0-6-3-节点内部通信">1.0.6.3 节点内部通信</h4>
+<p>节点间是通过在不同的 flows间传递消息来进行沟通的。每个节点有0个或者多个注册的 flow classes 来回复另外个一个单独的 flow 的消息。</p>
+<p>假设 Alice 是网络中的一个节点，并且她希望同 Bob（网络中的另一个节点） 一起同意一次账本的更新。为了跟 Bob 进行沟通， Alice 必须：</p>
+<ul>
+<li>开始一个 Bob 已经注册过的 flow</li>
+<li>Alice 在这个 flow 的上下文中给 Bob 发送一个消息</li>
+<li>Bob 会启动它注册的这个 conterparty flow</li>
+</ul>
+<p>连接已经建立起来了，Alice 和 Bob 就可以像 flow 步骤中描述的那样来回地沟通关于一个更新账本的改动并且最终达成一致。</p>
+<h4 id="1-0-6-4-Subflows">1.0.6.4 Subflows</h4>
+<p>Flows 可以通过在另外一个 flow 的上下文中开始一个新的 flow 作为一个子流程的方式被组成。作为子流程被启动的 Flow 被称为 subflow。父 flow 需要等待所有的 subflow 完成后才会继续运行。</p>
+<h4 id="1-0-6-5-Flow-类库">1.0.6.5 Flow 类库</h4>
+<p>Corda 对于一些常规的任务都提供了一套代码库（<a href="https://cncorda.readthedocs.io/zh_CN/latest/api-flows.html" target="_blank" rel="noopener">API: Flows</a>），所以开发者就不需要自己去定义这些常见流程背后的逻辑了，比如：</p>
+<ul>
+<li>公正和记录一个 transaction</li>
+<li>从相关节点搜集签名</li>
+<li>验证交易链</li>
+</ul>
+<h4 id="1-0-6-6-并发">1.0.6.6  并发</h4>
+<p>Flow 框架允许节点可以同时运行多个 flows。这些 flows 可能由于节点的重启甚至升级会持续几天。<br>
+这个可以通过在 flow 变成阻塞的状态的时候，将 flows 序列化到硬盘中的方式来实现（比如他们在等待 I/O 或者是网络的调用）。出现这种情况的时候，节点不会等待这个阻塞状态的 flow变成非阻塞的状态，而会立即运行其他的 flow，只会在稍后返回到原来这个阻塞的flow。</p>
+<h3 id="1-0-7-consensus-共识">1.0.7 consensus(共识)</h3>
+<ul>
+<li>为了交易能够被提交，transaction 必须要同时满足有效性和 唯一性的共识</li>
+<li>有效性共识需要 transaction 和 它的所有依赖都是合约有效的</li>
+<li>唯一性共识可以避免“双花”</li>
+</ul>
+<h4 id="1-0-7-1-两种类型的共识">1.0.7.1 两种类型的共识</h4>
+<p>判断一个交易的提案是否是一次有效的账本更新要达到两种类型的共识：</p>
+<ul>
+<li>有效性共识：这给是交易所要求的签名者在提供他们签名之前去校验的</li>
+<li>唯一性共识：这个只会被 notary service 去验证</li>
+</ul>
+<h5 id="1-0-7-1-1-有效性共识">1.0.7.1.1 有效性共识</h5>
+<p>有效性共识是关于验证下边所描述的条件对于提交的 transaction 和生成该该 transaction 的 inputs 的交易链中的每次 transaction 都必须要满足：</p>
+<ul>
+<li>Transaction 中的每个 input 和 output 的 contracts 所接受</li>
+<li>Transaction 得到了所有要求的签名</li>
+</ul>
+<p>仅仅检查交易提案本身信息是不够的。我们还需要检查跟产生当前这个 transaction 的 inputs 有关的所有以前的 transaction 链。<br>
+这个被称作 walking the chain。假设，例如网络中的一个节点提交了一个交换债券的一笔交易。我们只有了解下边的情况才能确保这个债券的交换是有效的：</p>
+<ul>
+<li>这个债券应该是由中心银行发行的，而且应该是在一次有效的发行交易中</li>
+<li>关于这个债券的后续交易记录也应该都是有效的</li>
+</ul>
+<p>确保两点都满足的唯一方式就是查看整个交易链。我们可以用下图表示：</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/validation-consensus.png" alt="_images/validation-consensus.png" style="zoom:30%;">
+<p>当确认一个交易提案的时候，给定的一方可能没有它需要验证的交易链上的所有交易信息。这种情况下，他可以向交易的提出方索要缺少的那部分交易。交易的提出方应该永远会有整个的交易链信息，因为他们应该在验证之前的交易中已经获取了相关的交易链信息。</p>
+<h5 id="1-0-7-1-2-唯一性共识">1.0.7.1.2 唯一性共识</h5>
+<p>设想一下 Bob 持有有效的由中央银行发行的 $1,000,000 现金 state。Bob 可以创建两个交易提案：</p>
+<ul>
+<li>一笔交易要跟 Charlie 用这 $1,000,000 交换 £800,000</li>
+<li>一笔交易要跟 Dan 用这 $1,000,000 交换 €900,000</li>
+</ul>
+<p>这会是一个问题，因为尽管这两笔交易都可以通过有效性共识，但是 Bob 确实现了一次“双花 double spend” 他的美元来获得了两倍价值的 GBP 和 EUR。我们可以用下图表示这个流程：</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/uniqueness-consensus.png" alt="_images/uniqueness-consensus.png" style="zoom:30%;">
+<p>为了避免这样的问题发生，一个有效的交易提案同时也要满足唯一性共识。唯一性共识要求一个 transaction 的 input 不能被任何其他的 transaction 消费掉过。</p>
+<p>当一个交易中的一个或多个 inputs 已经被其他的交易消费掉的情况，通常被称为 双花，那么相关的交易应该被视为无效的交易。</p>
+<p>唯一性共识是由 notaries 提供的。查看 Notaries 了解更多详细信息。</p>
+<h3 id="1-0-8-Notaries">1.0.8 Notaries</h3>
+<ul>
+<li>Notary 集群避免 “双花”</li>
+<li>Notary 集群也可以是时间戳授权。如果一笔交易包含一个 time-window，那么它只能在这个 time-window 内被公证</li>
+<li>Notary 集群也可以可选地用来验证交易，在这种情况下他们被称为 “用于验证” 的 notaries，相对于 “非验证” 的 notaries</li>
+<li>一个网络中可以有多个 notaries，每一个 notary 运行一个不同的共识算法</li>
+</ul>
+<h4 id="1-0-8-1-概览">1.0.8.1 概览</h4>
+<p>一个 notary 集群 是一个网络服务，通过证明一个给定的交易的 input 是没有被其他的交易消费过的方式提供了 唯一性共识。</p>
+<p>当被要求为一笔交易进行公证的时候，一个 notary 集群会进行下边两种操作中的一种：</p>
+<ul>
+<li>如果对于给定的交易中的 input，没有任何其他的交易已经消费该 input 的时候，会提供签名</li>
+<li>拒绝这笔交易并且标明产生了双花的情况</li>
+</ul>
+<p>通过这样做，notary 集群就在系统中提供了一个终结点。在最终获得 notary 集群的签名之前，交易各方并不能确定交易的有效性。但是当收到了 notary 集群的签名之后，我们可以确认的是，交易中的 Input 是没有被其他任何的交易所消费过的。因此公证（notarisation）在系统里是最后的一步。</p>
+<p>每个 state 都会有一个指定的 notary 集群，而且一个 notary 集群也只会去公正那些 input 指定它为 notary 集群的 transaction。</p>
+<h4 id="1-0-8-2-共识算法">1.0.8.2 共识算法</h4>
+<p>Corda 拥有一套 “可插拔” 的共识，允许 notary 集群根据不同的需求（私有化、扩展性、法律系统的兼容性和算法的便捷性）来选择一种共识算法。</p>
+<p>特别的，notary 集群可能含有下边的不同：</p>
+<ul>
+<li>结构： 一个 notary 集群可能是一个单独的网络节点，或者是互相信任的节点集群，或者是互不信任的节点集群</li>
+<li>共识算法： 一个 notary 集群可能会选择运行一个高速，高信任的算法（比如 RAFT），或者一个低速低信任的算法（比如 BFT），又或者是任何其他的选择的共识算法</li>
+</ul>
+<h4 id="1-0-8-3-验证">1.0.8.3 验证</h4>
+<p>一个 notary 集群还需要选择是否在提交之前通过验证每个 transaction 的有效性来提供这种 有效性共识 服务。为了做出这个选择，他们需要面对下边的取舍问题：</p>
+<ul>
+<li>如果一个 transaction 没有 被验证了正确与否（非验证 notary），那么这就增加了 “denial of state” 袭击的风险，指的就是某个节点知道这是一个不正确的 transaction 会消费到一些 states，然后该节点还是把这个 transaction 发送给 notary 集群，但是 notary 如果不进行正确性验证的话，会把这个 state 变为历史记录被消费掉，这显然是不正确的</li>
+<li>如果 transaction 已经 被验证了正确与否（验证 notary），notary 需要查看该 transaction 的全部内容以及它的所有依赖。这就向 notary 暴露了一些潜在的隐私数据。</li>
+</ul>
+<p>当我们考量这些取舍的时候，有一个后续观点需要始终要考虑的。对于非验证模式，Corda 的控制的数据分布模型意味着未被消费的 states 不会被大面积的共享。另外， Corda 的 permissioned network 也意味着 notary 能够存储造成 “denial of state” transaction 的一方的身份信息，这就允许能够在账本外去解决掉这个袭击。</p>
+<p>对于验证模式，对于匿名的使用，使用新生成的公钥而不是使用法律的标识来标记一笔交易的各方也限制了 notary 集群能够看到的信息。</p>
+<h4 id="1-0-8-4-数据的可视性">1.0.8.4 数据的可视性</h4>
+<p>下边是关于哪些特殊的交易组件必须要暴露给每种类型的 notary 的一个总结：</p>
+<table>
+<thead>
+<tr>
+<th><strong>Transaction components</strong></th>
+<th><strong>Validating</strong></th>
+<th><strong>Non-validating</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input states</td>
+<td>Fully visible</td>
+<td>References only [1]</td>
+</tr>
+<tr>
+<td>Output states</td>
+<td>Fully visible</td>
+<td>Hidden</td>
+</tr>
+<tr>
+<td>Commands (with signer identities)</td>
+<td>Fully visible</td>
+<td>Hidden</td>
+</tr>
+<tr>
+<td>Attachments</td>
+<td>Fully visible</td>
+<td>Hidden</td>
+</tr>
+<tr>
+<td>Time window</td>
+<td>Fully visible</td>
+<td>Fully visible</td>
+</tr>
+<tr>
+<td>Notary identity</td>
+<td>Fully visible</td>
+<td>Fully visible</td>
+</tr>
+<tr>
+<td>Signatures</td>
+<td>Fully visible</td>
+<td>Hidden</td>
+</tr>
+</tbody>
+</table>
+<p>两种类型的 notaries 都会记录调用方的身份信息：公钥以及 X.500 唯一的名字。</p>
+<h4 id="1-0-8-5-多个-Notaries">1.0.8.5 多个 Notaries</h4>
+<p>每个 Corda 网络可以存在多个 notary 集群，每个 notary 集群可能会运行一套不同的共识算法。这会带来以下的好处：</p>
+<ul>
+<li><strong>隐私性</strong> - 我们可以在同一个网络中同时拥有验证和非验证的 notary 集群，每个集群运行着不同的算法。这就允许节点针对每个 transaction 来选择更喜欢的不同的 notary。</li>
+<li><strong>负载平衡</strong> - 将 transaction 的工作分发给多个 notary 集群可以提高平台整体的交易吞吐量</li>
+<li><strong>低延迟</strong> - 通过选择物理上离交易方最近的 notary 集群来获得最小化的延迟</li>
+</ul>
+<h4 id="1-0-8-6-更换-notaries">1.0.8.6 更换 notaries</h4>
+<p>一个 notary 集群只有当它是这个 transaction 里的所有 input states 指定的 notary 的情况下才可以提供签名。然而下边的情况可能需要换一个 state 的指定的 notary 集群，包括：</p>
+<ul>
+<li>当一个 transaction 需要消费的 states 中指定了不同的 notary 集群</li>
+<li>当一个节点因为隐私和效率的考虑希望选择一个不同的 notary 集群</li>
+</ul>
+<p>当这样的 transactions 被创建之前，states 必须首先被指定到同一个 notary 集群。这可以通过一个改变 notary 的 transaction 来实现:</p>
+<ul>
+<li>一个 input state</li>
+<li>output state与input state相同，但指定的notary群集已更改</li>
+</ul>
+<p>如果该 transaction 不会造成“双花”，这个 input state 指定的 notary 会为该 transaction 提供签名，这种情况下，一个新的 state 会产生，它的所有属性和旧的 state相同，但是会指向一个不同的 notary 集群。</p>
+<h3 id="1-0-9-Vault">1.0.9  Vault</h3>
+<p>Vault 中存储的是跟节点的所有者相关的从账本上得到的数据，以关系模型存储以方便查询和使用。</p>
+<p>Vault 同时会追踪未消费掉的和已消费掉的 states：</p>
+<ul>
+<li><strong>Unconsumed</strong>：未消费掉的 （或者未使用的） states 代表了可以用来花费的 fungible states （包括 spend-to-self 交易）以及可以用来更新的 linear states （比如对于一笔交易的生命周期）或者从一方转换给另一方。</li>
+<li><strong>Consumed</strong>：已消费掉的 （或者已使用的） states 代表了为了交易报表、审计和归档的目的而在账本上存储的不可更改的 state，包括进行同 app-private 数据进行关联的能力（比如客户的 notes）。</li>
+</ul>
+<p>一个称为 soft locking 的功能提供了自动或者显式地预定 states 而避免同一个节点尝试同时在多笔交易中使用相同的 output 的能力。这种情况最终会被一个 notary 发现，soft locking 提供了一种能够在早期就发现这种无根据和不正确的情况的机制。Soft Locking 提供了更详细的的关于这个功能的描述。</p>
+<p>Vault 支持管理需授权的（“on-ledger”）的数据，也可以管理 shadow（“off-ledger”）形式的数据：</p>
+<ul>
+<li>“On-ledger” 数据指的是指公司参与的分布式账本的state （现金、交易、）。</li>
+<li>“Off-ledger” 数据指的是公司内部的参考数据、静态或者系统数据。</li>
+</ul>
+<p>下边的图表展示了将 vault 拆分为子系统组件：</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/vault.png" alt="_images/vault.png" style="zoom:80%;">
+<p>注意以下几点：</p>
+<ul>
+<li>Vault “On Ledger” 存储并追踪未消费掉的 state，并且在将一笔交易记录到账本的时候由节点内部进行更新（会按照成功执行了智能合约验证以及受到所有参与方的签名）</li>
+<li>Vault “Off Ledger” 存储了交易记录以外节点的所有者添加的额外的数据</li>
+<li>Vault 对 fungible state 进行了花费（并且在将来，fungible state 的优化管理包括合并、拆分以及再发行）。</li>
+<li>Vault 扩展代表了开发者可以编写的额外的自定义 plugin 代码，用来查询指定的自定义 contract state 属性。</li>
+<li>客户的 “Off Ledger”（私有的存储）代表了内部的组织型数据，可能被用来跟 vault 数据进行关联来进行额外的报表或者处理。</li>
+<li><a href="https://cncorda.readthedocs.io/zh_CN/latest/api-vault-query.html" target="_blank" rel="noopener">Vault Query API</a> 可以使用标准的 Corda RPC 和 CorDapp plugin 机制暴露给开发者。</li>
+<li>Vault 更新 API 可以被交易记录的 flows 内部使用。</li>
+<li>Vault 数据库 schemas 可以通过 JDBC 和自定义的 joins 和查询进行直接地访问。</li>
+</ul>
+<h3 id="1-0-10-Time-windows">1.0.10 Time-windows</h3>
+<ul>
+<li>如果一个 transaction 包含了一个 time-window，那么这个 transaction 只能在这个 time-window 里被提交</li>
+<li>Notary 具有控制发生的时间的权利，当在 time-window 之外的时候，notary 可以拒绝提交 transaction</li>
+<li>Time-window 可以有开始和结束时间，或者只有两者之中的一个</li>
+</ul>
+<h4 id="1-0-10-1-分布式系统中的时间">1.0.10.1 分布式系统中的时间</h4>
+<p>Notary 也可以作为 时间戳的验证者，在它确认一笔交易前，需要确保这笔交易是发生在指定的时间窗里。</p>
+<p>为了让一个时间窗有意义，它必须要在一方请求它的时候被绑定。一方可以获得一个 time-window 的签名，以此来证明有些事件是在特定时间点 之前、当时 或者 之后 发生的。然而，如果交易参与者不能够在指定的 time-window 内提交到相关的交易，它可以选择是否在未来的某个时间点将这个事实暴露出去。因此，我们需要确保 notary 或者能够在一些可容错的时间范围内对交易进行签名，或者同时进行打时间戳 和 对交易进行公证。后边的这种方式是这个模型中使用的方式。</p>
+<p>在创建交易的一方和 notary 之间是无法实现时间的同步的。这并不仅仅是因为物理或者网络的延迟，还会因为在插入命令和获得 notary 签名之间可能会发生很多其他的步骤（比如发送交易到涉及到的其他节点，请求人工的审批等）。所以交易被发送到 notary 的时间和交易创建的时间可能会不同。</p>
+<h4 id="1-0-10-2-Time-windows">1.0.10.2 Time-windows</h4>
+<p>因为上面的原因，交易中涉及到的时间会被制定为一个时间窗，而不是一个绝对的时间。在一个分布式系统中是永远不会有 “真实的时间” 的，只有一个大概的时间。时间窗可以是开放的（比如在某个时间点后，或者某个时间点之前）或者是一个闭合的范围。</p>
+<p>通过这种方式，我们表达了我们的想法，就是 “当前的时间” 永远都是未知的。甚至当在某个时间之前和之后都被包含的时候，交易也可能会在那个时间窗中的任何时间发生。</p>
+<p>通过在一端创建一个关闭或者开放的范围，我们允许用以下的方式生成时间窗模型：</p>
+<ul>
+<li>一笔交易在指定时间之后的某个时间发生（比如在一个终止事件之后）</li>
+<li>一笔交易在指定时间之前的任何时间发生（比如破产事件之前）</li>
+<li>一笔交易在指定时间区间的某个时间发生（比如在指定的某一天）</li>
+</ul>
+<h3 id="1-0-11-Oracles">1.0.11 Oracles</h3>
+<ul>
+<li>一个事实（fact）可以作为 command 的一部分被添加到一个 transaction 中</li>
+<li>一个 oracle 是一个服务，它只会为那些包含正确事实的 transaction 提供签名</li>
+</ul>
+<p>很多时候 transaction 的合约有效性需要依赖一些外部的数据，比如当前的汇率是多少。如果让每个参与方给予他们对于汇率的观点来验证 transaction 的有效性的话，合约的执行就会变得没有确定性了：一些参与者可能会认为 transaction 是有效的，而其他的参与者可能认为无效。因此，在真正账本中的 state 之上就会提出一些不同的意见。</p>
+<p>Corda 通过使用 Oracle 来解决这个问题。Oracle 是一个网络服务，可以根据要求提供包含某一事实的命令（比如在某个时间的汇率）并且将 Oracle 列为要求签名的一方。</p>
+<p>如果一个节点希望在一个 transaction 中使用某一个事实，那么它可以提出从 Oracle 来获取该事实的一个命令。如果 Orale 认为这个事实是正确的，它会返回这个要求的命令。然后这个节点就可以把这个命令添加到 transaction 中了，然后 oracle 会为这个事实是真的提供签名。</p>
+<p>为了隐私性的目的，Oracle 不需要能够访问交易的每个部分，他们唯一需要的信息就是看到他们内置的、跟这个 Oracle 相关的 command(s)。我们也应该提供让这些需要提供签名的 Oracle 实体能够看到这些 commands 的保证，但是不包括其他的部分。为了实现这个，我们使用过滤过的交易，是指交易的提案方使用一个内嵌的默克尔树的方式来将一些非相关的交易的部分隐藏掉。查看 Transaction tear-offs 了解关于交易如何拿掉工作的详细信息。</p>
+<p>如果他们想为他们的服务定价，Oracles 可以选择只为那些包含服务费的交易提供签名并证明它包含的事实的有效性。</p>
+<h3 id="1-0-12-node（节点）">1.0.12 node（节点）</h3>
+<ul>
+<li>Corda 中的节点指的是在网络中具有唯一标识的运行着 Corda 服务和 CorDapps 的 JVM 运行时环境。</li>
+<li>节点对于外部世界包含两个接口：
+<ul>
+<li>网络层，用来同其他的节点通信</li>
+<li>RPC，为了跟节点的所有者通信</li>
+</ul>
+</li>
+<li>节点的功能是通过在 plugin registry 里安装 CorDapps 方式来扩展的</li>
+</ul>
+<h4 id="1-0-12-1-节点架构">1.0.12.1 节点架构</h4>
+<p>下边是节点的内部架构图：</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/node-architecture.png" alt="_images/node-architecture.png" style="zoom:40%;">
+<p>架构中的核心元素包括：</p>
+<ul>
+<li>存储数据的持久化层</li>
+<li>同其他节点沟通的网络接口</li>
+<li>同节点的所有者进行沟通的 RPC 接口</li>
+<li>允许节点的 flows 来调用节点其他服务的 service hub</li>
+<li>plugin registry 用来通过安装 CorDapps 来扩展节点</li>
+</ul>
+<h4 id="1-0-12-2-持久层">1.0.12.2 持久层</h4>
+<p>持久层包含两部分：</p>
+<ul>
+<li>Vault，节点用来存储相关的当前和历史的 states 数据</li>
+<li>存储服务，用来存储 transaction, attachment 和 flow checkpoints<br>
+节点的所有者可以通过使用 RPC 接口来查询节点的 storage。</li>
+</ul>
+<h4 id="1-0-12-3-网络接口">1.0.12.3 网络接口</h4>
+<p>同网络中的其他节点进行沟通是节点自己来处理的，作为运行一个 flow 的一部分。节点的所有者不会直接地同网络中其他的节点进行交互。</p>
+<h4 id="1-0-12-4-RPC-接口">1.0.12.4 RPC 接口</h4>
+<p>节点的所有者是通过使用 Remote Procedure Calls(RPC) 来跟节点进行交互的。关键的节点暴露的 RPC 操作可以查看 <a href="https://cncorda.readthedocs.io/zh_CN/latest/api-rpc.html" target="_blank" rel="noopener">API: RPC 操作</a>。</p>
+<h4 id="1-0-12-4-The-service-hub">1.0.12.4 The service hub</h4>
+<p>在节点内部，节点可以在 flow 的执行过程中访问丰富的服务来协助更新账本。主要的服务包括：</p>
+<ul>
+<li>有关网络上其他节点及其提供的服务的信息</li>
+<li>访问 vault 和存储服务的内容</li>
+<li>访问和生成节点的公钥私钥对</li>
+<li>节点本身的信息</li>
+<li>节点跟踪的当前时间</li>
+</ul>
+<h4 id="1-0-12-5-CorDapp-提供者">1.0.12.5 CorDapp 提供者</h4>
+<p>CorDapp 提供者是新的 CorDapps 被安装的地方，来扩展节点的行为。</p>
+<p>节点默认会安装一些 CorDapps 来处理一些常见的任务，比如：</p>
+<ul>
+<li>从合作方那边获得交易和附件信息</li>
+<li>更新合约</li>
+<li>向交易其他方广播同意的账本更新信息</li>
+</ul>
+<h4 id="1-0-12-6-排空节点模式">1.0.12.6 排空节点模式</h4>
+<p>为了执行一次干净的关闭节点操作，没有正在执行的 flows 非常重要，也就是说应该没有任何的 checkpoints 被持久化。节点能够被设置为排空状态，在这个状态中：</p>
+<ul>
+<li>通过 RPC 要求的启动新的 flows 的命令会被拒绝</li>
+<li>预约的 flows 会被忽略</li>
+<li>初始化 P2P 的会话消息将不会被处理，意味着 peers 将不能够初始化新的 flows</li>
+<li>其他所有的活动还会照常进行，来确保正在执行的 flows 的数量在不断减少。</li>
+</ul>
+<p>对于他们的数量 - 可以通过 RPC 来进行监控 - 达到0，那么就是安全的了，可以进行关闭节点的操作了。这个属性是持久的，也就是说重新启动这个节点也不会重置这个值到默认和值，并且需要一个 RPC 命令。</p>
+<p>节点可以使用 shell 来被排空然后安全地关闭。</p>
+<h3 id="1-0-13-Transaction-tear-offs（交易剥离）">1.0.13 Transaction tear-offs（交易剥离）</h3>
+<ul>
+<li>隐藏交易组件出于隐私目的</li>
+<li>Oracle和非验证公证人只能看到其“相关”交易组件，而不能看到完整的交易详细信息</li>
+</ul>
+<h3 id="1-0-13-1-总览">1.0.13.1 总览</h3>
+<p>在某些情况下，交易中涉及的某些实体可能只对交易部分具有部分可见性。例如，当一个甲骨文应该签署一个交易时，它唯一需要查看的信息就是与该甲骨文命令相关的嵌入式信息。同样，非验证公证人只需要查看交易的输入状态即可。向Oracle提供任何其他交易数据将构成隐私泄漏。</p>
+<p>为了解决这个问题，我们使用过滤交易的概念，其中交易提议者使用嵌套的默克尔树方法“剥离”Oracles/Notraries不需要的交易任何部分，然后再提交给他们进行签名。默克尔树是一种众所周知的加密方案，通常用于提供包含和数据完整性的证明。 Merkle树被广泛用于对等网络，区块链系统和git。</p>
+<p>默克尔树的优点是，在向Oracle提交交易时被剥离的交易部分以后就无法更改，而又不会使Oracle的数字签名无效。</p>
+<h3 id="1-0-13-2-Transaction-Merkle-trees">1.0.13.2 Transaction Merkle trees</h3>
+<p>通过将transaction拆分为叶子，从transaction中构造Merkle树，其中每个叶子包含输入，输出，命令或附件。最终的嵌套树结构还包含事务的其他字段，例如时间窗口，公证人和必需的签名者。<br>
+如下图所示，唯一需要两棵树而不是一棵树的组件类型是command，为了可视性目的，该命令分为命令数据和必需的签名者。</p>
+<p>Corda使用每种组件类型的嵌套Merkle树。简而言之，针对每种组件类型（即输入，输出，附件）生成一个组件子树。然后，这些子树的根形成顶部的Merkle树的叶子，最后，该树的根代表交易ID。</p>
+<p>另一个重要特征是，以每个随机数独立的方式为每个组件确定性地生成一个随机数。然后，我们使用随机数及其对应的组件来计算组件哈希，即实际的Merkle树叶。需要使用随机数来防止暴力攻击，否则可能会泄露低熵散列值（即单个单词的文本附件）的内容。</p>
+<p>计算完叶子后，通过散列当前节点下面的哈希值的连接，以正常方式构建每棵Merkle树。</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/merkleTreeFull.png" alt="img" style="zoom:60%;">
+<p>上图中的交易有三个input，两个output，两个command，一个attachment，一个notary和一个 time-window。请注意，如果树不是完整的二叉树，则将叶子填充为具有零哈希值的最接近的2的幂（因为找到sha256（x）== 0的原像是困难的计算任务）-上面标记为浅绿色。最后，根的哈希是交易的标识符，它也用于签名和验证数据完整性。叶子级别上的每次交易更改都会更改其标识符。</p>
+<h3 id="1-0-13-3-Hiding-data">1.0.13.3 Hiding data</h3>
+<p>隐藏数据并提供证明它构成事务一部分的证据是通过构造部分Merkle树（或Merkle分支）来完成的。 Merkle分支是一组散列，根据叶的数据，这些散列用于计算根的散列。然后，将该哈希与整个交易的哈希进行比较，如果它们匹配，则意味着我们获得的数据属于该特定交易。</p>
+<p>假设只有第一个命令对Oracle是可见的。我们还应该保证所有需要该Oracle签名的命令对于Oracle实体都应该是可见的，而其余部分则不可见。这是此过滤后的交易将如何在Merkle树结构中表示的方式。</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/SubMerkleTree_Oracle.png" alt="_images/SubMerkleTree_Oracle.png" style="zoom:30%;">
+<p>向Oracle服务提供了蓝色节点和H(c2)，而省略了黑色节点。 HH(c2)是必需的，这样Oracle可以计算H(commandData)而不必看到第二条命令，但同时确保CommandData1是事务的一部分。突出显示所有签名者都是可见的，以证明没有恶意删除任何相关命令（Oracle应该看到）。此外，当前的Corda协议中还提供了子树的哈希（紫色节点）。在特殊情况下需要知道他们下面的数据，例如需要知道组件组是否为空时。</p>
+<p>同样，如果我们想将同一交易发送给非验证notary，则应隐藏除输入状态，时间窗口和公证人信息之外的所有组件。该数据足以使公证人知道应检查哪些input statues进行双花，时间窗口是否有效以及此事务是否应由该notary公证。</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/SubMerkleTree_Notary.png" alt="_images/SubMerkleTree_Notary.png" style="zoom:30%;">
+<h3 id="1-0-14-权衡">1.0.14 权衡</h3>
+<ul>
+<li><em>许可的网络会更好的适合金融的 user-cases</em></li>
+<li><em>点对点的通信允许信息是基于需要知道的原则被共享</em></li>
+<li><em>UTXO model 允许每秒钟能够处理更多的 transactions</em></li>
+</ul>
+<h4 id="1-0-14-1-需要许可-vs-和不需要许可的">1.0.14.1 需要许可 vs 和不需要许可的</h4>
+<p>传统的 blockchain 是 不需要许可 的。网络中的各方都是匿名的，而且可以随时加入或离开。</p>
+<p>不同的是， Corda 网络是 需要许可 的。网络中的每一方都有一个大家都知道的标识，这个会在同其他节点进行沟通的时候使用，并且访问网络是由一个 doorman 来控制的。这有一下的好处：</p>
+<ul>
+<li>匿名的用户对于大多数跟金融有关的情况都是不适用的</li>
+<li>知道你的合作方的身份可以允许当出现冲突的时候，可以使用已经存在的法律系统在账本外进行解决</li>
+<li>可以不通过使用昂贵的机制（比如工作量证明 proof-of-work）来避免女巫攻击（Sybil attacks）</li>
+</ul>
+<h4 id="1-0-14-2-点对点-vs-全局广播">1.0.14.2 点对点 vs 全局广播</h4>
+<p>传统的 blockchain networks 将每一条信息广播给网络上的所有参与者。原因是：</p>
+<ul>
+<li>合作方的身份是不知道的，所以一条消息需要发给网络上的所有人来确保原本需要收到这条消息的接受者能够接收到</li>
+<li>让所有参与者知道每一个 transaction 能够允许网络防止“双花”<br>
+不好的地方是所有的参与者都能看到所有其他人的数据。这在很多的 use-cases 是无法接受的。</li>
+</ul>
+<p>在 Corda 中，每条消息都会指定一个具体的合作方，而且是不会被任何其他无关方看到的。开发者能够完全掌控什么消息被发送了，发送给了谁，应该按照什么顺序发送。所以 数据是根据需要知道的原则来共享的。为了避免“双花”，我们引入了 notaries 来替换掉工作量证明（proof-of-work）。</p>
+<p>Corda 也是用了其他的一些技术来最大化的包括网络上的隐私：</p>
+<ul>
+<li><strong>Transaction 隐藏</strong>：Transactions 被结构化成不暴露 transaction 的内容就可以被数字化地签名。这个是通过使用一种叫默克尔树的数据结构来实现的。</li>
+<li><strong>随机化秘钥</strong>：一个 transaction 的所有参与方是通过他们的公钥进行识别的，并且针对每一个 transaction 都会生成 一个新的 keypairs。所以一个监视者无法识别出来对于一个给定 transaction 都哪些方参与了。</li>
+</ul>
+<h4 id="1-0-14-3-UTXO-vs-账户模型">1.0.14.3 UTXO vs. 账户模型</h4>
+<p>Corda 使用 <em>UTXO</em>（Unspent Transaction Output）model。每个 transaction 都会消费一系列的已经存在的 states 然后再生成一些新的 states。</p>
+<p>相反的一种方式是 账户 模型。在账户模型中，stateful 对象被存在账本上，transaction 会通过请求的方式来对这些对象的当前的 state 进行更新。</p>
+<p>UTXO 模型的主要优点在于含有不同的 inputs 的 transactions 能够并行地被执行，很大程度上地增加了网络中每秒能够处理的 transactions。在账户模型中，每秒钟能够处理的 transactions 数量有限，因为对于一个给定的 object 的更新需要按照给定的顺序来执行。</p>
+<h4 id="1-0-14-4-代码即法律-vs-既有的法律系统">1.0.14.4 代码即法律 vs. 既有的法律系统</h4>
+<p>金融体系需要在需要的时候使用传统的法律体系来解决冲突的能力。Corda 被设计用来使这个成为可能：</p>
+<ul>
+<li>拥有需要准入的网络，意味着所有参与方都能够知道在每一个 transaction 中他们都在跟谁打交道</li>
+<li>所有代码合约背后都存在有描述着合约意图行为的法律文档，这个文档可以在解决冲突的时候使用</li>
+</ul>
+<h4 id="1-0-14-5-构建-vs-重用">1.0.14.5 构建 vs. 重用</h4>
+<p>任何可能的情况，Corda 会使用 已经存在的技术来让这个平台更加的健壮。比如 Corda 重用了：</p>
+<ul>
+<li>用于开发CorDapps的标准JVM编程语言</li>
+<li>已经存在的 SQL database</li>
+<li>已经存在的 消息队列实现</li>
+</ul>
+<h3 id="1-0-15-Deterministic-JVM">1.0.15 <a href="https://cncorda.readthedocs.io/zh_CN/latest/key-concepts-djvm.html" target="_blank" rel="noopener">Deterministic JVM</a></h3>
+<p><strong>个人理解</strong>：为了达成共识，Corda要求所有的节点运行相同的JVM沙箱，叫做DJVM；DJVM为了让智能合约的代码每次执行的结果都相同而做了一些限制。</p>
+<h2 id="1-1-开发语言语言是什么？">1.1 开发语言语言是什么？</h2>
+<ul>
+<li>开发语言与智能合约的语言都是使用 JVM 编程语言编写（java 或者 kotlin）</li>
+<li>源码使用kotlin语言编写</li>
+</ul>
+<h2 id="1-2-网络是什么样的？">1.2 网络是什么样的？</h2>
+<p>可以选择加入<a href="https://corda.network/" target="_blank" rel="noopener">corda.network</a>，Corda Network由总部位于荷兰的非营利基金会管理。 Corda Network参与者有资格投票并代表基金会董事会做出重要决定，包括网络标准，参数和政策。</p>
+<p>或者搭建自己的私有网络，<a href="https://www.r3.com/download-corda-enterprise-network-manager/" target="_blank" rel="noopener">下载corda网络管理软件，需要填写信息</a></p>
+<h2 id="1-3-Corda是如何达成共识的？">1.3 Corda是如何达成共识的？</h2>
+<p>假如A发起一个交易给B转账500元，那么A需要提交一个交易（transaction）并签名；然后把交易发送给B（如果需要Notary和Oracle参与也会把need-to-know的部分发送给他们）；B验证交易没有问题（包括整个交易链、智能合约是否验证通过、是否同意当前的交易、Notary和Oracle是否签名等）就会提供签名然后提交这次交易。并把签名后的交易发送给A，A也执行相同的提交交易动作。</p>
+<img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/flow-sequence.png" alt="_images/flow-sequence.png" style="zoom:30%;">
+<h2 id="1-4-CorDapps是什么？">1.4 CorDapps是什么？</h2>
+<p>CorDapps是以plugin的形式运行在node上的“应用”；一个node可以有多个CorDapps，比如一个银行的node可以既有贷款的CorDapp，也有存款的CorDapp。</p>
+<p>CorDapp包含state, transaction, contract和flow类。</p>
+<h2 id="1-5-Corda的隐私保护是怎么做的？">1.5 Corda的隐私保护是怎么做的？</h2>
+<h3 id="1-5-1-在网络中的各节点之间的隐私保护">1.5.1 在网络中的各节点之间的隐私保护</h3>
+<p>Corda的网络需要申请加入并且对应了现实世界中的一个合法身份，所以不可以把交易信息公开。</p>
+<p>Corda的交易是通过一个节点发起的，除了交易涉及的其他节点知道全部的交易内容；和Oracle以及Notary知道交易的部分需要验证的内容之外，对其他节点来说是不知道这个交易的。所以在隐私性方面是比较好的。</p>
+<p><em>比特币和以太坊中的身份信息与现实世界的身份是没有对应关系的，所以把所有的账户和交易信息放在互联网上也是安全的。</em></p>
+<h3 id="1-5-2-在验证双花和依赖Oracle签名时的隐私保护">1.5.2 在验证双花和依赖Oracle签名时的隐私保护</h3>
+<p>Corda通过<strong>Transaction tear-offs</strong>的方式在需要Notary做唯一性校验或需要Oracle提供签名时，提供的只有need-to-know的部分，并不包含交易的所有内容，所以隐私得到了保护。</p>
+<h2 id="1-6-Corda交易的实时性怎么样？">1.6 Corda交易的实时性怎么样？</h2>
+<p>Corda交易相较于比特币和以太坊来说比较实时，因为Corda不必等待挖矿只要交易被校验通过，所有人都签了名就写在了区块链上了。（以太坊和比特币需要在挖到矿之后打包很多个交易，所以实时性会差一些）</p>
+<h2 id="1-7-Corda中是否有以太坊中的账本的概念？">1.7 Corda中是否有以太坊中的账本的概念？</h2>
+<p><strong>个人理解</strong>：Corda也有账本的概念，但是Corda账本所包含的内容远比以太坊的账本（只有余额）要多；Corda的账本有很多不同类型的state，Corda只保管了当前的state和历史state，但是Corda没有一个汇总的显示余额的“账本”；应该可以在账本外记录。</p>
+<h2 id="1-8-Corda中账户（Accounts）是什么？">1.8 Corda中账户（Accounts）是什么？</h2>
+<p>Corda中的Accounts是一个虚拟的概念，值得是一个节点的Vault的states打上标签来表示归属的账户；这个账户和节点的账户不一样，Account就像个人在银行（节点）开的账户（Account）。</p>
+<h2 id="1-9-Corda可以发布币吗？可以挖矿吗？">1.9 Corda可以发布币吗？可以挖矿吗？</h2>
+<p>没有数字货币，因此也不能挖矿。因为共识协议也并不是通过工作量证明完成，而是通过交易的涉及方和一些公证人和Oracle来达成共识的，所以也不需要挖矿。</p>
+<h2 id="1-10-Corda的Contract和以太坊中的智能合约有什么区别？">1.10 Corda的Contract和以太坊中的智能合约有什么区别？</h2>
+<h3 id="不同点：">不同点：</h3>
+<p>Corda的Contract主要是为了来做验证交易是否正确的，不可以做以太坊智能合约的转账的操作。</p>
+<p>以太坊中的智能合约是一个特殊的账户，里面有余额、交易次数、代码、存储等；但是Corda的Contract只有代码，只用来验证交易是否正确。</p>
+<h3 id="相同点：">相同点：</h3>
+<p>只要执行中遇到异常就表示验证不通过；能够证明交易非法（不符合合约内容）。</p>
+<h1 id="3、如何基于Corda构建应用">3、如何基于Corda构建应用</h1>
+<p>详情查看：</p>
+<ol>
+<li>
+<p><a href="3%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AACorDapp.md">如何开发一个CorDapp</a></p>
+</li>
+<li>
+<p><a href="4%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AACorda%E7%BD%91%E7%BB%9C.md">如何搭建一个Corda网络</a></p>
+</li>
+</ol>
+<h1 id="4、Corda汇总">4、Corda汇总</h1>
+<h2 id="Corda优点">Corda优点</h2>
+<ul>
+<li>隐私保护做的很好，交易只有涉及到的节点才知道</li>
+<li>提供了一些通用的State类，如现金、商品、商业票据、利率交换、债务等</li>
+<li>开发CorDapp简单，可以直接使用Java开发并且有模板和套路可循</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/blockchain/2%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6-Corda%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93.html" data-id="ckipf5vhg000941ry5hzm67gw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/">language/java/线程池无法捕获线程的异常踩坑复盘</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/15/language/java/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%E8%80%8C%E4%B8%8D%E6%98%AF@Autoware/">为什么我们在使用Spring的时候应该使用构造方法注入bean</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/">language/java/使用redis自增特性创建唯一id生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/">others/读书笔记-《我的第一本算法书》</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/17/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E4%BF%9D%E9%99%A9%E6%8C%87%E5%8D%97%E3%80%8B/">读书笔记-《你的第一本保险指南》</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 nijixucai<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
