@@ -17,7 +17,7 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>language/java/线程池无法捕获线程的异常踩坑复盘 | 郭哲的点滴积累</title>
+  <title>language/java/线程池无法捕获线程的异常踩坑复盘 | 点滴成涓</title>
   <meta name="description" content="问题描述 需求信息 最近在工作中有个需求，先在A服务页面增加一条数据，然后去B服务查询此数据的详细信息 解决方案 为了使A服务的新增数据接口快速响应，在查询B服务数据详情的地方使用了线程池异步查询与更新。 问题现象 在验证时发现数据库中的数据字段不全，经分析缺少的都是需要从B服务查询并更新的字段 初步定位 猜测应该是查询B服务时出了一些异常，而由于不规范使用线程池导致异常没有抛出，直接打到了控制台">
 <meta property="og:type" content="article">
 <meta property="og:title" content="language&#x2F;java&#x2F;线程池无法捕获线程的异常踩坑复盘">
@@ -99,7 +99,7 @@
       </button>
     </div>
     <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
-      <ul class="nav navbar-nav main-nav ">
+      <ul class="nav navbar-nav main-nav menu-highlight">
         
         
         <li class="menu-item menu-item-home">
