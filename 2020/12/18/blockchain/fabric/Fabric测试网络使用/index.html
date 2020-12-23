@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>blockchain/fabric/Fabric测试网络使用 | 点滴成涓</title>
+  <meta name="description" content="Fabric测试网络使用 2.2.1下载样例源码 运行命令下载最新版的Fabric和Fabric CA以及 hyperledger&#x2F;fabric-samples 1curl -sSL https:&#x2F;&#x2F;bit.ly&#x2F;2ysbOFE | bash -s 上面的命令干了这些事情：  下载 hyperledger&#x2F;fabric-samples 签出适当的版本标签 将Hyperledger Fabric平台">
+<meta property="og:type" content="article">
+<meta property="og:title" content="blockchain&#x2F;fabric&#x2F;Fabric测试网络使用">
+<meta property="og:url" content="https://nijixucai.github.io/2020/12/18/blockchain/fabric/Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="点击积累">
+<meta property="og:description" content="Fabric测试网络使用 2.2.1下载样例源码 运行命令下载最新版的Fabric和Fabric CA以及 hyperledger&#x2F;fabric-samples 1curl -sSL https:&#x2F;&#x2F;bit.ly&#x2F;2ysbOFE | bash -s 上面的命令干了这些事情：  下载 hyperledger&#x2F;fabric-samples 签出适当的版本标签 将Hyperledger Fabric平台">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/image-20201214185835819.png">
+<meta property="article:published_time" content="2020-12-18T02:22:59.740Z">
+<meta property="article:modified_time" content="2020-12-23T10:48:41.915Z">
+<meta property="article:author" content="guozhe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/guozhe001/images/raw/master/image-20201214185835819.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://nijixucai.github.io/2020/12/18/blockchain/fabric/Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="点击积累" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/nijixucai" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">guozhe</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">后端开发工程师</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 北京, 中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="https://github.com/nijixucai?tab=repositories" target="_blank" rel="noopener">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/nijixucai" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/" class="title">blockchain/fabric/添加一个新的组织到channel</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-23T09:58:30.091Z" itemprop="datePublished">2020-12-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/22/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/" class="title">blockchain/fabric/创建一个新的channel</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-22T09:09:41.285Z" itemprop="datePublished">2020-12-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/" class="title">blockchain/fabric/通过供应链金融练习Fabric</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-22T08:15:02.071Z" itemprop="datePublished">2020-12-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/21/blockchain/fabric/%E7%BC%96%E5%86%99%E6%82%A8%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAChaincode/" class="title">blockchain/fabric/编写您的第一个Chaincode</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-21T10:35:52.258Z" itemprop="datePublished">2020-12-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/21/others/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" class="title">others/Docker常用命令记录</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-21T03:52:27.579Z" itemprop="datePublished">2020-12-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-blockchain/fabric/Fabric测试网络使用" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      blockchain/fabric/Fabric测试网络使用
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/12/18/blockchain/fabric/Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2020-12-18T02:22:59.740Z" itemprop="datePublished">2020-12-18</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/12/18/blockchain/fabric/Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="Fabric测试网络使用">Fabric测试网络使用</h2>
+<h3 id="2-2-1下载样例源码">2.2.1下载样例源码</h3>
+<p>运行命令下载最新版的<strong>Fabric</strong>和<strong>Fabric CA</strong>以及 <a href="https://github.com/hyperledger/fabric-samples" target="_blank" rel="noopener">hyperledger/fabric-samples</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://bit.ly/2ysbOFE | bash -s</span><br></pre></td></tr></table></figure>
+<p>上面的命令干了这些事情：</p>
+<ul>
+<li>下载 <a href="https://github.com/hyperledger/fabric-samples" target="_blank" rel="noopener">hyperledger/fabric-samples</a></li>
+<li>签出适当的版本标签</li>
+<li>将Hyperledger Fabric平台特定的二进制文件和配置文件安装到Fabric-samples的/ bin和/ config目录中指定的版本</li>
+<li>下载指定版本的Hyperledger Fabric docker镜像，包括：
+<ul>
+<li>hyperledger/fabric-peer</li>
+<li>hyperledger/fabric-orderer</li>
+<li>hyperledger/fabric-ccenv</li>
+<li>hyperledger/fabric-tools</li>
+<li>hyperledger/fabric-baseos</li>
+<li>hyperledger/fabric-ca</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-2使用Fabric测试网络">2.2.2使用Fabric测试网络</h3>
+<h4 id="启动Fabric测试网络">启动Fabric测试网络</h4>
+<p>1.进入fabric-samples/test-network，可以看到network.sh文件,可以运行<code>./network.sh -h</code>来显示帮助</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd fabric-samples/test-network</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(base) apple@WHOAMIdeMacBook-Pro:~/code/open-source/blockchain/hyperledger/fabric-samples/test-network$     ll</span><br><span class="line">total 72</span><br><span class="line">-rw-r--r--   1 apple  staff    777 Dec 14 18:36 README.md</span><br><span class="line">drwxr-xr-x  12 apple  staff    384 Dec 14 18:36 addOrg3</span><br><span class="line">drwxr-xr-x   3 apple  staff     96 Dec 14 18:36 configtx</span><br><span class="line">drwxr-xr-x   5 apple  staff    160 Dec 14 18:36 docker</span><br><span class="line">-rwxr-xr-x   1 apple  staff  18645 Dec 14 18:36 network.sh</span><br><span class="line">drwxr-xr-x   7 apple  staff    224 Dec 14 18:36 organizations</span><br><span class="line">-rwxr-xr-x   1 apple  staff   8202 Dec 14 18:36 scriptUtils.sh</span><br><span class="line">drwxr-xr-x   6 apple  staff    192 Dec 14 18:36 scripts</span><br><span class="line">drwxr-xr-x   3 apple  staff     96 Dec 14 18:36 system-genesis-block</span><br></pre></td></tr></table></figure>
+<p>2.停止原来正在运行的docker容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./network.sh down</span><br></pre></td></tr></table></figure>
+<p>3.启动网络</p>
+<p>**注意事项：**必须在<code>$USER/fabric-samples/test-network</code>目录下执行此脚本，否则会报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./network.sh up</span><br></pre></td></tr></table></figure>
+<p>这个脚本启动两个peer节点，一个ordering节点。这个脚本不会创建channel，我的脚本运行结果如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Creating network "net_test" with the default driver</span><br><span class="line">Creating volume "net_orderer.example.com" with default driver</span><br><span class="line">Creating volume "net_peer0.org1.example.com" with default driver</span><br><span class="line">Creating volume "net_peer0.org2.example.com" with default driver</span><br><span class="line">Creating orderer.example.com    ... done</span><br><span class="line">Creating peer0.org1.example.com ... done</span><br><span class="line">Creating peer0.org2.example.com ... done</span><br><span class="line">CONTAINER ID   IMAGE                               COMMAND                  CREATED        STATUS                    PORTS                              NAMES</span><br><span class="line">31c36a007eb0   hyperledger/fabric-peer:latest      "peer node start"        1 second ago   Up Less than a second     7051/tcp, 0.0.0.0:9051-&gt;9051/tcp   peer0.org2.example.com</span><br><span class="line">42f314195c64   hyperledger/fabric-orderer:latest   "orderer"                1 second ago   Up Less than a second     0.0.0.0:7050-&gt;7050/tcp             orderer.example.com</span><br><span class="line">de62f2f44a03   hyperledger/fabric-peer:latest      "peer node start"        1 second ago   Up Less than a second     0.0.0.0:7051-&gt;7051/tcp             peer0.org1.example.com</span><br><span class="line">e9af4c11538c   cordite/network-map:latest          "/usr/bin/java -cp /…"   5 days ago     Exited (143) 3 days ago                                      network-map</span><br><span class="line">5128423bb8d7   redis:5.0                           "docker-entrypoint.s…"   5 months ago   Exited (0) 7 weeks ago                                       redis</span><br><span class="line">6796aadc5173   mysql                               "docker-entrypoint.s…"   7 months ago   Exited (0) 7 weeks ago                                       mysql</span><br><span class="line">66c3ac55f920   neo4j                               "/sbin/tini -g -- /d…"   7 months ago   Exited (0) 7 months ago</span><br></pre></td></tr></table></figure>
+<p>docker面板显示如下：</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/image-20201214185835819.png" alt="image-20201214185835819"></p>
+<p><a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/peers/peers.html" target="_blank" rel="noopener">Peers</a>是Fabric network的组成部分，Peers存储区块链账本并在提交之前验证交易。Peers运行包含业务逻辑的智能合约，智能合约用于管理区块链上的账本。</p>
+<p>在网络上的每个Peer都属于一个团体，上图显示的测试网络中的两个peer分别属于组织<code>peer0.org1.example.com</code>和组织<code>peer0.org2.example.com</code>。</p>
+<p>每个Fabric network同样包含<a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/orderer/ordering_service.html" target="_blank" rel="noopener">ordering service</a>，Peers在验证交易和提交交易到区块链的时候，他们不自己决定交易的顺序和区块中包含哪些交易。在分布式网络中，peers可能分布的特别远，所以让peers对交易顺序达成共识的成本是很高的。</p>
+<p>ordering service的存在是为了让peers专注于交易验证和提交到账本中。在接收到客户端提交的交易时，ordering service会对其进行排序，然后把这些交易添加到区块中。然后将这些区块分发给peer节点，peer节点再把区块写入区块链。Ordering节点还运行系统通道，该通道定义了Fabric network的能力，像如何制作区块以及节点可以使用哪些版本的Fabric。系统通道还定义了哪些组织是属于该联盟的。</p>
+<p>上面的测试网络只运行了一个Ordering节点，在实际的网络中可能存在多个Ordering节点，由一个或多个组织进行操作。不同的Ordering节点使用Raft共识算法来就网络上的交易顺序达成一致。</p>
+<h4 id="创建channel">创建channel</h4>
+<p>通道是特定网络成员之间的专用通信层。通道只能由被邀请加入通道的的组织使用，并且对网络上的其他成员不可见。每个通道都有一个单独的区块链账单，被邀请的组织加入通道上的其他peer以存储channel账本和验证通道上的交易。</p>
+<p>在org2和org2之间创建通道，默认的channel名称为mychannel。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./network.sh createChannel</span><br></pre></td></tr></table></figure>
+<p>如果运行成功，则会看到如下日志</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Channel successfully joined</span><br></pre></td></tr></table></figure>
+<p>也可以指定channel的名称，并且你可以创建多个channel。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./network.sh createChannel -c channel1</span><br></pre></td></tr></table></figure>
+<p>如果你想一步启动测试网络并创建channel，可以使用下面的命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./network.sh up createChannel</span><br></pre></td></tr></table></figure>
+<h4 id="在channel上启动chaincode">在channel上启动chaincode</h4>
+<p>启动成功之后，就可以开始使用智能合约来操作channel账本了。智能合约包含了管理区块链账本上资产的业务逻辑。运行在网络上的程序可以调用智能合约在账本上创建、修改、交易资产，这些程序也查询智能合约以读取账本上的数据。</p>
+<p>为了确保交易的有效性，使用智能合约创建的交易通常需要通道上的多个组织签名才能被提交到channel账本。交易也需要多次背书，来防止渠道上的某个组织篡改账本或使用未经过同意的逻辑。要签署交易，每个组织都需要在其peer上调用并执行智能合约，然后再签署交易的output。如果output一致并且收集到了足够的签名，交易就可以被提交到账本。指定需要哪些组织执行智能合约的策略叫做背书策略，该策略是为每个chaincode设置的，作为chaincode定义的一部分。</p>
+<p>在Fabric中，智能合约以称为chaincode的软件包部署在网络上。chaincode安装在组织的peers上，然后部署到channel，然后就可以在该渠道中用于认可交易并与区块链账本进行交互。在讲chaincode部署到channel上之前，channel上的组织需要对chaincode的内容达成共识。当所需数量的组织达成共识之后，chaincode就可以被提交到channel上，然后chaincode就准备好可以使用了。</p>
+<p>搭建完成测试环境之后，可以使用下面的命令来启动chaincode：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./network.sh deployCC</span><br></pre></td></tr></table></figure>
+<p>我本地的运行结果如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Chaincode definition committed on channel 'mychannel'</span><br><span class="line">Using organization 1</span><br><span class="line">Querying chaincode definition on peer0.org1 on channel 'mychannel'...</span><br><span class="line">Attempting to Query committed status on peer0.org1, Retry after 3 seconds.</span><br><span class="line">+ peer lifecycle chaincode querycommitted --channelID mychannel --name basic</span><br><span class="line">+ res=0</span><br><span class="line">Committed chaincode definition for chaincode 'basic' on channel 'mychannel':</span><br><span class="line">Version: 1.0, Sequence: 1, Endorsement Plugin: escc, Validation Plugin: vscc, Approvals: [Org1MSP: true, Org2MSP: true]</span><br><span class="line">Query chaincode definition successful on peer0.org1 on channel 'mychannel'</span><br><span class="line">Using organization 2</span><br><span class="line">Querying chaincode definition on peer0.org2 on channel 'mychannel'...</span><br><span class="line">Attempting to Query committed status on peer0.org2, Retry after 3 seconds.</span><br><span class="line">+ peer lifecycle chaincode querycommitted --channelID mychannel --name basic</span><br><span class="line">+ res=0</span><br><span class="line">Committed chaincode definition for chaincode 'basic' on channel 'mychannel':</span><br><span class="line">Version: 1.0, Sequence: 1, Endorsement Plugin: escc, Validation Plugin: vscc, Approvals: [Org1MSP: true, Org2MSP: true]</span><br><span class="line">Query chaincode definition successful on peer0.org2 on channel 'mychannel'</span><br><span class="line">Chaincode initialization is not required</span><br></pre></td></tr></table></figure>
+<h4 id="与网络互动">与网络互动</h4>
+<p>在启用测试网络之后，你可以使用peerCLI与测试网络进行互动。peerCLI允许你调用已经部署的智能合约、更新channels；也可以通过CLI更新或者部署新的智能合约。</p>
+<p>请确保你的操作在test-network目录下进行。</p>
+<p>1、把<code>fabric-samples</code>的<code>bin</code>目录下的二进制命令安装到你的客户端环境：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$&#123;PWD&#125;/../bin:$PATH</span><br></pre></td></tr></table></figure>
+<p>2、还需要将FABRIC_CFG_PATH设置为指向fabric-samples存储库中的core.yaml文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export FABRIC_CFG_PATH=$PWD/../config/</span><br></pre></td></tr></table></figure>
+<p>3、现在设置环境变量允许你使用Org1的身份操作peerCLI。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export CORE_PEER_TLS_ENABLED=true</span><br><span class="line">export CORE_PEER_LOCALMSPID="Org1MSP"</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:7051</span><br></pre></td></tr></table></figure>
+<p>4、使用下面的命令用资产初始化账本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '&#123;"function":"InitLedger","Args":[]&#125;'</span><br></pre></td></tr></table></figure>
+<p>如果成功你会看到像下面的结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020-12-16 15:35:41.511 CST [chaincodeCmd] chaincodeInvokeOrQuery -&gt; INFO 001 Chaincode invoke successful. result: status:200</span><br></pre></td></tr></table></figure>
+<p>5、现在你可以使用下面的命令查询账本上的资产</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -C mychannel -n basic -c '&#123;"Args":["GetAllAssets"]&#125;'</span><br></pre></td></tr></table></figure>
+<p>如果成功你会看到下面的结果：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;<span class="attr">"ID"</span>: <span class="string">"asset1"</span>, <span class="attr">"color"</span>: <span class="string">"blue"</span>, <span class="attr">"size"</span>: <span class="number">5</span>, <span class="attr">"owner"</span>: <span class="string">"Tomoko"</span>, <span class="attr">"appraisedValue"</span>: <span class="number">300</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"ID"</span>: <span class="string">"asset2"</span>, <span class="attr">"color"</span>: <span class="string">"red"</span>, <span class="attr">"size"</span>: <span class="number">5</span>, <span class="attr">"owner"</span>: <span class="string">"Brad"</span>, <span class="attr">"appraisedValue"</span>: <span class="number">400</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"ID"</span>: <span class="string">"asset3"</span>, <span class="attr">"color"</span>: <span class="string">"green"</span>, <span class="attr">"size"</span>: <span class="number">10</span>, <span class="attr">"owner"</span>: <span class="string">"Jin Soo"</span>, <span class="attr">"appraisedValue"</span>: <span class="number">500</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"ID"</span>: <span class="string">"asset4"</span>, <span class="attr">"color"</span>: <span class="string">"yellow"</span>, <span class="attr">"size"</span>: <span class="number">10</span>, <span class="attr">"owner"</span>: <span class="string">"Max"</span>, <span class="attr">"appraisedValue"</span>: <span class="number">600</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"ID"</span>: <span class="string">"asset5"</span>, <span class="attr">"color"</span>: <span class="string">"black"</span>, <span class="attr">"size"</span>: <span class="number">15</span>, <span class="attr">"owner"</span>: <span class="string">"Adriana"</span>, <span class="attr">"appraisedValue"</span>: <span class="number">700</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"ID"</span>: <span class="string">"asset6"</span>, <span class="attr">"color"</span>: <span class="string">"white"</span>, <span class="attr">"size"</span>: <span class="number">15</span>, <span class="attr">"owner"</span>: <span class="string">"Michel"</span>, <span class="attr">"appraisedValue"</span>: <span class="number">800</span>&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>6、网络上的成员想要交易资产或者更新资产时就会调用chaincode，使用下面的命令来调用资产转移chaincode来更改资产的owner。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '&#123;"function":"TransferAsset","Args":["asset6","Christopher"]&#125;'</span><br></pre></td></tr></table></figure>
+<p>如果成功结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020-12-16 15:43:18.062 CST [chaincodeCmd] chaincodeInvokeOrQuery -&gt; INFO 001 Chaincode invoke successful. result: status:200</span><br></pre></td></tr></table></figure>
+<p>重新查询可以发现asset6的owner已经更改。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">&#123;<span class="attr">"ID"</span>:<span class="string">"asset1"</span>,<span class="attr">"color"</span>:<span class="string">"blue"</span>,<span class="attr">"size"</span>:<span class="number">5</span>,<span class="attr">"owner"</span>:<span class="string">"Tomoko"</span>,<span class="attr">"appraisedValue"</span>:<span class="number">300</span>&#125;,</span><br><span class="line">&#123;<span class="attr">"ID"</span>:<span class="string">"asset2"</span>,<span class="attr">"color"</span>:<span class="string">"red"</span>,<span class="attr">"size"</span>:<span class="number">5</span>,<span class="attr">"owner"</span>:<span class="string">"Brad"</span>,<span class="attr">"appraisedValue"</span>:<span class="number">400</span>&#125;,&#123;<span class="attr">"ID"</span>:<span class="string">"asset3"</span>,<span class="attr">"color"</span>:<span class="string">"green"</span>,<span class="attr">"size"</span>:<span class="number">10</span>,<span class="attr">"owner"</span>:<span class="string">"Jin Soo"</span>,<span class="attr">"appraisedValue"</span>:<span class="number">500</span>&#125;,</span><br><span class="line">&#123;<span class="attr">"ID"</span>:<span class="string">"asset4"</span>,<span class="attr">"color"</span>:<span class="string">"yellow"</span>,<span class="attr">"size"</span>:<span class="number">10</span>,<span class="attr">"owner"</span>:<span class="string">"Max"</span>,<span class="attr">"appraisedValue"</span>:<span class="number">600</span>&#125;,</span><br><span class="line">&#123;<span class="attr">"ID"</span>:<span class="string">"asset5"</span>,<span class="attr">"color"</span>:<span class="string">"black"</span>,<span class="attr">"size"</span>:<span class="number">15</span>,<span class="attr">"owner"</span>:<span class="string">"Adriana"</span>,<span class="attr">"appraisedValue"</span>:<span class="number">700</span>&#125;,</span><br><span class="line">&#123;<span class="attr">"ID"</span>:<span class="string">"asset6"</span>,<span class="attr">"color"</span>:<span class="string">"white"</span>,<span class="attr">"size"</span>:<span class="number">15</span>,<span class="attr">"owner"</span>:<span class="string">"Christopher"</span>,<span class="attr">"appraisedValue"</span>:<span class="number">800</span>&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>7、我们在调用chaincode之后，我们来查一下这个调用是如何改变资产的。我们使用Org2来操作，配置环境变量如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export CORE_PEER_TLS_ENABLED=true</span><br><span class="line">export CORE_PEER_LOCALMSPID="Org2MSP"</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:9051</span><br></pre></td></tr></table></figure>
+<p>执行<code>peer chaincode query -C mychannel -n basic -c '{&quot;Args&quot;:[&quot;ReadAsset&quot;,&quot;asset6&quot;]}'</code>命令结果如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"ID"</span>:<span class="string">"asset6"</span>,<span class="attr">"color"</span>:<span class="string">"white"</span>,<span class="attr">"size"</span>:<span class="number">15</span>,<span class="attr">"owner"</span>:<span class="string">"Christopher"</span>,<span class="attr">"appraisedValue"</span>:<span class="number">800</span>&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="中断网络">中断网络</h4>
+<p>通过执行<code>./network.sh down</code>来中断网络，该命令会停止并删除peer河chaincode的容器；删除org的密钥等数据并从Docker中remove掉chaincode的镜像。该命令还会删除网路上的channel，如果有任何问题可以继续运行<code>./network.sh up</code>。</p>
+<h2 id="问题处理">问题处理</h2>
+<p>创建channel失败，日志如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Channel 'mychannel' created</span><br><span class="line">Join Org1 peers to the channel...</span><br><span class="line">Using organization 1</span><br><span class="line">+ peer channel join -b ./channel-artifacts/mychannel.block</span><br><span class="line">+ res=1</span><br><span class="line">+ peer channel join -b ./channel-artifacts/mychannel.block</span><br><span class="line">+ res=1</span><br><span class="line">+ peer channel join -b ./channel-artifacts/mychannel.block</span><br><span class="line">+ res=1</span><br><span class="line">+ peer channel join -b ./channel-artifacts/mychannel.block</span><br><span class="line">+ res=1</span><br><span class="line">2020-12-21 11:22:02.781 CST [comm.tls] ClientHandshake -&gt; ERRO 001 Client TLS handshake failed after 1.769196ms with error: EOF remoteaddress=[::1]:7051</span><br><span class="line">2020-12-21 11:22:03.785 CST [comm.tls] ClientHandshake -&gt; ERRO 002 Client TLS handshake failed after 2.054333ms with error: EOF remoteaddress=[::1]:7051</span><br><span class="line">2020-12-21 11:22:05.113 CST [comm.tls] ClientHandshake -&gt; ERRO 003 Client TLS handshake failed after 2.849348ms with error: EOF remoteaddress=[::1]:7051</span><br><span class="line">Error: error getting endorser client for channel: endorser client failed to connect to localhost:7051: failed to create new connection: context deadline exceeded</span><br><span class="line">After 5 attempts, peer0.org1 has failed to join channel 'mychannel'</span><br><span class="line">Create channel failed</span><br></pre></td></tr></table></figure>
+<p>解决方案：</p>
+<ul>
+<li>删除所有的测试网络相关的容器</li>
+<li>运行<code>./network.sh down</code></li>
+<li>删除docker本地未使用的volume</li>
+<li>重试</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://nijixucai.github.io/2020/12/18/blockchain/fabric/Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8/" title="blockchain/fabric/Fabric测试网络使用" target="_blank" rel="external">https://nijixucai.github.io/2020/12/18/blockchain/fabric/Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/nijixucai" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/nijixucai" target="_blank"><span class="text-dark">guozhe</span><small class="ml-1x">后端开发工程师</small></a></h3>
+        <div>Java，Blockchain</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/12/18/blockchain/fabric/Hyberledger-Fabric%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="blockchain/fabric/Hyberledger-Fabric学习总结"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/12/16/blockchain/fabric/7%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Hyperledger-Fabric%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8C%BA%E5%9D%97%E9%93%BE%E9%A1%B9%E7%9B%AE/" title="blockchain/fabric/7如何使用Hyperledger-Fabric搭建一个区块链项目"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/nijixucai" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://nijixucai.github.io/2020/12/18/blockchain/fabric/Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8/';
+        
+        this.page.identifier = 'blockchain/fabric/Fabric测试网络使用';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + '' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

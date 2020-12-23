@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>blockchain/fabric/添加一个新的组织到channel | 点滴成涓</title>
+  <meta name="description" content="官方文档 添加一个新的组织到channel This tutorial extends the Fabric test network by adding a new organization – Org3 – to an application channel. 本教程通过向应用程序通道添加新组织Org3扩展了Fabric测试网络。 While we will focus on adding a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="blockchain&#x2F;fabric&#x2F;添加一个新的组织到channel">
+<meta property="og:url" content="https://nijixucai.github.io/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/index.html">
+<meta property="og:site_name" content="点击积累">
+<meta property="og:description" content="官方文档 添加一个新的组织到channel This tutorial extends the Fabric test network by adding a new organization – Org3 – to an application channel. 本教程通过向应用程序通道添加新组织Org3扩展了Fabric测试网络。 While we will focus on adding a">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-23T09:58:30.091Z">
+<meta property="article:modified_time" content="2020-12-23T10:48:44.161Z">
+<meta property="article:author" content="guozhe">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://nijixucai.github.io/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="点击积累" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/nijixucai" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">guozhe</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">后端开发工程师</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 北京, 中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="https://github.com/nijixucai?tab=repositories" target="_blank" rel="noopener">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/nijixucai" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/" class="title">blockchain/fabric/添加一个新的组织到channel</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-23T09:58:30.091Z" itemprop="datePublished">2020-12-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/22/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/" class="title">blockchain/fabric/创建一个新的channel</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-22T09:09:41.285Z" itemprop="datePublished">2020-12-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/" class="title">blockchain/fabric/通过供应链金融练习Fabric</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-22T08:15:02.071Z" itemprop="datePublished">2020-12-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/21/blockchain/fabric/%E7%BC%96%E5%86%99%E6%82%A8%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAChaincode/" class="title">blockchain/fabric/编写您的第一个Chaincode</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-21T10:35:52.258Z" itemprop="datePublished">2020-12-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/21/others/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" class="title">others/Docker常用命令记录</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-21T03:52:27.579Z" itemprop="datePublished">2020-12-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-blockchain/fabric/添加一个新的组织到channel" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      blockchain/fabric/添加一个新的组织到channel
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/" class="article-date">
+	  <time datetime="2020-12-23T09:58:30.091Z" itemprop="datePublished">2020-12-23</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/channel_update_tutorial.html" target="_blank" rel="noopener">官方文档</a></p>
+<h1 id="添加一个新的组织到channel">添加一个新的组织到channel</h1>
+<p>This tutorial extends the Fabric test network by adding a new organization – Org3 – to an application channel.</p>
+<p>本教程通过向应用程序通道添加新组织Org3扩展了Fabric测试网络。</p>
+<p>While we will focus on adding a new organization to the channel, you can use a similar process to make other channel configuration updates (updating modification policies or altering batch size, for example). To learn more about the process and possibilities of channel config updates in general, check out <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/config_update.html" target="_blank" rel="noopener">Updating a channel configuration</a>). It’s also worth noting that channel configuration updates like the one demonstrated here will usually be the responsibility of an organization admin (rather than a chaincode or application developer).</p>
+<p>我们将专注于向channel添加新组织，你可以使用相似的流程来进行其他情况的通道配置更新。略</p>
+<h2 id="Setup-the-Environment（启动环境）">Setup the Environment（启动环境）</h2>
+<p>启动测试环境并创建默认的channel，请参考：<a href="Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8.md">Fabric测试网络使用</a></p>
+<h2 id="Bring-Org3-into-the-Channel-with-the-Script（使用脚本将Org3加入到通道）">Bring Org3 into the Channel with the Script（使用脚本将Org3加入到通道）</h2>
+<p>You should be in the <code>test-network</code> directory. To use the script, simply issue the following commands:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd addOrg3</span><br><span class="line">./addOrg3.sh up</span><br></pre></td></tr></table></figure>
+<p>The output here is well worth reading. You’ll see the Org3 crypto material being generated, the Org3 organization definition being created, and then the channel configuration being updated, signed, and then submitted to the channel.</p>
+<p>这里的输出值的我们一读。你会看到生成Org3组织的加密材料，创建组织Org3的定义然后通道配置会被更新、签名并且提交到通道。</p>
+<p>If everything goes well, you’ll get this message:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">========= Finished adding Org3 to your test network! =========</span><br></pre></td></tr></table></figure>
+<p>Now that we have confirmed we can add Org3 to our channel, we can go through the steps to update the channel configuration that the script completed behind the scenes.</p>
+<p>现在我们已经确认我们可以把组织Org3添加到我们的通道，我们可以按照以下步骤更新通道配置来完成脚本在幕后完成工作。</p>
+<h2 id="Bring-Org3-into-the-Channel-Manually（手动将Org3加入通道）">Bring Org3 into the Channel Manually（手动将Org3加入通道）</h2>
+<p>If you just used the <code>addOrg3.sh</code> script, you’ll need to bring your network down. The following command will bring down all running components and remove the crypto material for all organizations:</p>
+<p>如果你刚才使用了 <code>addOrg3.sh</code>脚本，你需要先把网络关闭。下面的命令会关闭所有正在运行的组件并且移除所有组织的加密材料：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd addOrg3</span><br><span class="line">./addOrg3.sh down</span><br></pre></td></tr></table></figure>
+<p>After the network is brought down, bring it back up again（网络关闭之后，重新启动它）:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br><span class="line">./network.sh up createChannel</span><br></pre></td></tr></table></figure>
+<p>This will bring your network back to the same state it was in before you executed the <code>addOrg3.sh</code> script.</p>
+<p>这将使您的网络恢复到执行addOrg3.sh脚本之前的状态。</p>
+<p>Now we’re ready to add Org3 to the channel manually. As a first step, we’ll need to generate Org3’s crypto material.</p>
+<p>现在我们已经准备好手动的将Org3添加到通道中了，第一步，我们需要生成Org3的加密材料。</p>
+<h2 id="Generate-the-Org3-Crypto-Material（生成Org3的加密材料）">Generate the Org3 Crypto Material（生成Org3的加密材料）</h2>
+<p>In another terminal, change into the <code>addOrg3</code> subdirectory from <code>test-network</code>.</p>
+<p>在另一个终端切换到 <code>test-network</code>目录的子目录 <code>addOrg3</code>中：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd addOrg3</span><br></pre></td></tr></table></figure>
+<p>First, we are going to create the certificates and keys for the Org3 peer, along with an application and admin user. Because we are updating an example channel, we are going to use the cryptogen tool instead of using a Certificate Authority. The following command uses cryptogen to read the <code>org3-crypto.yaml</code> file and generate the Org3 crypto material in a new <code>org3.example.com</code> folder:</p>
+<p>首先我们会为Org3的peer节点生成证书以及密钥，以及应用程序</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://nijixucai.github.io/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/" title="blockchain/fabric/添加一个新的组织到channel" target="_blank" rel="external">https://nijixucai.github.io/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/nijixucai" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/nijixucai" target="_blank"><span class="text-dark">guozhe</span><small class="ml-1x">后端开发工程师</small></a></h3>
+        <div>Java，Blockchain</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2020/12/22/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/" title="blockchain/fabric/创建一个新的channel"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/nijixucai" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://nijixucai.github.io/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/';
+        
+        this.page.identifier = 'blockchain/fabric/添加一个新的组织到channel';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + '' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
