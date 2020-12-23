@@ -21,7 +21,7 @@
   <meta name="description" content="需求说明 产品要求实现一个订单编号，此编号规则如下 订单编号规则： “字母” + “日期” + “自增ID” 订单编号举例 比如业务A，在2020-08-04日有三个订单，那么订单编号如下：  A202008040001 A202008040002 A202008040003  比如业务A，在2020-08-05日有4个订单，那么订单编号如下：  A202008050001 A2020080500">
 <meta property="og:type" content="article">
 <meta property="og:title" content="language&#x2F;java&#x2F;使用redis自增特性创建唯一id生成器">
-<meta property="og:url" content="https://nijixucai.github.io/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/index.html">
+<meta property="og:url" content="https://guozhe001.github.io/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/index.html">
 <meta property="og:site_name" content="点击积累">
 <meta property="og:description" content="需求说明 产品要求实现一个订单编号，此编号规则如下 订单编号规则： “字母” + “日期” + “自增ID” 订单编号举例 比如业务A，在2020-08-04日有三个订单，那么订单编号如下：  A202008040001 A202008040002 A202008040003  比如业务A，在2020-08-05日有4个订单，那么订单编号如下：  A202008050001 A2020080500">
 <meta property="og:locale" content="zh_CN">
@@ -30,7 +30,7 @@
 <meta property="article:author" content="guozhe">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://nijixucai.github.io/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/index.html">
+  <link rel="canonical" href="https://guozhe001.github.io/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/index.html">
   
     <link rel="alternate" href="/atom.xml" title="点击积累" type="application/atom+xml">
   
@@ -54,7 +54,7 @@
       
       
       <div class="profile-block text-center">
-        <a id="avatar" href="https://github.com/nijixucai" target="_blank">
+        <a id="avatar" href="https://github.com/guozhe001" target="_blank">
           <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">guozhe</h2>
@@ -119,7 +119,7 @@
         
         
         <li class="menu-item menu-item-repository">
-          <a href="https://github.com/nijixucai?tab=repositories" target="_blank" rel="noopener">
+          <a href="https://github.com/guozhe001?tab=repositories" target="_blank" rel="noopener">
             
             <i class="icon icon-project"></i>
             
@@ -132,7 +132,7 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/nijixucai" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/guozhe001" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
         <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
         
@@ -315,7 +315,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://nijixucai.github.io/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/" title="language/java/使用redis自增特性创建唯一id生成器" target="_blank" rel="external">https://nijixucai.github.io/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/</a>
+      <a href="https://guozhe001.github.io/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/" title="language/java/使用redis自增特性创建唯一id生成器" target="_blank" rel="external">https://guozhe001.github.io/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -329,12 +329,12 @@
   <div class="panel-body">
     <figure class="media">
       <div class="media-left">
-        <a href="https://github.com/nijixucai" target="_blank" class="img-burn thumb-sm visible-lg">
+        <a href="https://github.com/guozhe001" target="_blank" class="img-burn thumb-sm visible-lg">
           <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
         </a>
       </div>
       <div class="media-body">
-        <h3 class="media-heading"><a href="https://github.com/nijixucai" target="_blank"><span class="text-dark">guozhe</span><small class="ml-1x">后端开发工程师</small></a></h3>
+        <h3 class="media-heading"><a href="https://github.com/guozhe001" target="_blank"><span class="text-dark">guozhe</span><small class="ml-1x">后端开发工程师</small></a></h3>
         <div>Java，Blockchain</div>
       </div>
     </figure>
@@ -392,7 +392,7 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/nijixucai" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/guozhe001" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
         <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
         
@@ -452,7 +452,7 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     <script defer>
     var disqus_config = function () {
         
-            this.page.url = 'https://nijixucai.github.io/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/';
+            this.page.url = 'https://guozhe001.github.io/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/';
         
         this.page.identifier = 'language/java/使用redis自增特性创建唯一id生成器';
     };

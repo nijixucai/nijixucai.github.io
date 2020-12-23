@@ -21,7 +21,7 @@
   <meta name="description" content="问题描述 需求信息 最近在工作中有个需求，先在A服务页面增加一条数据，然后去B服务查询此数据的详细信息 解决方案 为了使A服务的新增数据接口快速响应，在查询B服务数据详情的地方使用了线程池异步查询与更新。 问题现象 在验证时发现数据库中的数据字段不全，经分析缺少的都是需要从B服务查询并更新的字段 初步定位 猜测应该是查询B服务时出了一些异常，而由于不规范使用线程池导致异常没有抛出，直接打到了控制台">
 <meta property="og:type" content="article">
 <meta property="og:title" content="language&#x2F;java&#x2F;线程池无法捕获线程的异常踩坑复盘">
-<meta property="og:url" content="https://nijixucai.github.io/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/index.html">
+<meta property="og:url" content="https://guozhe001.github.io/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/index.html">
 <meta property="og:site_name" content="点击积累">
 <meta property="og:description" content="问题描述 需求信息 最近在工作中有个需求，先在A服务页面增加一条数据，然后去B服务查询此数据的详细信息 解决方案 为了使A服务的新增数据接口快速响应，在查询B服务数据详情的地方使用了线程池异步查询与更新。 问题现象 在验证时发现数据库中的数据字段不全，经分析缺少的都是需要从B服务查询并更新的字段 初步定位 猜测应该是查询B服务时出了一些异常，而由于不规范使用线程池导致异常没有抛出，直接打到了控制台">
 <meta property="og:locale" content="zh_CN">
@@ -34,7 +34,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807110851677.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://nijixucai.github.io/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/index.html">
+  <link rel="canonical" href="https://guozhe001.github.io/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/index.html">
   
     <link rel="alternate" href="/atom.xml" title="点击积累" type="application/atom+xml">
   
@@ -58,7 +58,7 @@
       
       
       <div class="profile-block text-center">
-        <a id="avatar" href="https://github.com/nijixucai" target="_blank">
+        <a id="avatar" href="https://github.com/guozhe001" target="_blank">
           <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">guozhe</h2>
@@ -123,7 +123,7 @@
         
         
         <li class="menu-item menu-item-repository">
-          <a href="https://github.com/nijixucai?tab=repositories" target="_blank" rel="noopener">
+          <a href="https://github.com/guozhe001?tab=repositories" target="_blank" rel="noopener">
             
             <i class="icon icon-project"></i>
             
@@ -136,7 +136,7 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/nijixucai" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/guozhe001" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
         <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
         
@@ -338,7 +338,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://nijixucai.github.io/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/" title="language/java/线程池无法捕获线程的异常踩坑复盘" target="_blank" rel="external">https://nijixucai.github.io/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/</a>
+      <a href="https://guozhe001.github.io/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/" title="language/java/线程池无法捕获线程的异常踩坑复盘" target="_blank" rel="external">https://guozhe001.github.io/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -352,12 +352,12 @@
   <div class="panel-body">
     <figure class="media">
       <div class="media-left">
-        <a href="https://github.com/nijixucai" target="_blank" class="img-burn thumb-sm visible-lg">
+        <a href="https://github.com/guozhe001" target="_blank" class="img-burn thumb-sm visible-lg">
           <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
         </a>
       </div>
       <div class="media-body">
-        <h3 class="media-heading"><a href="https://github.com/nijixucai" target="_blank"><span class="text-dark">guozhe</span><small class="ml-1x">后端开发工程师</small></a></h3>
+        <h3 class="media-heading"><a href="https://github.com/guozhe001" target="_blank"><span class="text-dark">guozhe</span><small class="ml-1x">后端开发工程师</small></a></h3>
         <div>Java，Blockchain</div>
       </div>
     </figure>
@@ -415,7 +415,7 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/nijixucai" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/guozhe001" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
         <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
         
@@ -475,7 +475,7 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     <script defer>
     var disqus_config = function () {
         
-            this.page.url = 'https://nijixucai.github.io/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/';
+            this.page.url = 'https://guozhe001.github.io/2020/12/15/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/';
         
         this.page.identifier = 'language/java/线程池无法捕获线程的异常踩坑复盘';
     };

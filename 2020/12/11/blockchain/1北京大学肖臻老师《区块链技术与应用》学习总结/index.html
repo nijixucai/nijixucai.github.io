@@ -21,11 +21,11 @@
   <meta name="description" content="北京大学肖臻老师《区块链技术与应用》学习总结 3 数据结构 hash printers （hash指针） hash指针既可以找到块的位置，也可以验证hash的正确性 Block chain is a linked list using hash pointers 每一个区块都包含前一个区块的hash指针  后面一个区块的hash指针是通过前一个区块的值算出来的。 通过上面的数据结构可以实现：tam">
 <meta property="og:type" content="article">
 <meta property="og:title" content="blockchain&#x2F;1北京大学肖臻老师《区块链技术与应用》学习总结">
-<meta property="og:url" content="https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:url" content="https://guozhe001.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="点击积累">
 <meta property="og:description" content="北京大学肖臻老师《区块链技术与应用》学习总结 3 数据结构 hash printers （hash指针） hash指针既可以找到块的位置，也可以验证hash的正确性 Block chain is a linked list using hash pointers 每一个区块都包含前一个区块的hash指针  后面一个区块的hash指针是通过前一个区块的值算出来的。 通过上面的数据结构可以实现：tam">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/apple/code/open-source/python/che168/291.png">
+<meta property="og:image" content="https://guozhe001.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/apple/code/open-source/python/che168/291.png">
 <meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/295.png">
 <meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/471.png">
 <meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/474.png">
@@ -70,9 +70,9 @@
 <meta property="article:modified_time" content="2020-12-11T06:13:05.000Z">
 <meta property="article:author" content="guozhe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/apple/code/open-source/python/che168/291.png">
+<meta name="twitter:image" content="https://guozhe001.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/apple/code/open-source/python/che168/291.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/index.html">
+  <link rel="canonical" href="https://guozhe001.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/index.html">
   
     <link rel="alternate" href="/atom.xml" title="点击积累" type="application/atom+xml">
   
@@ -96,7 +96,7 @@
       
       
       <div class="profile-block text-center">
-        <a id="avatar" href="https://github.com/nijixucai" target="_blank">
+        <a id="avatar" href="https://github.com/guozhe001" target="_blank">
           <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">guozhe</h2>
@@ -161,7 +161,7 @@
         
         
         <li class="menu-item menu-item-repository">
-          <a href="https://github.com/nijixucai?tab=repositories" target="_blank" rel="noopener">
+          <a href="https://github.com/guozhe001?tab=repositories" target="_blank" rel="noopener">
             
             <i class="icon icon-project"></i>
             
@@ -174,7 +174,7 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/nijixucai" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/guozhe001" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
         <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
         
@@ -905,7 +905,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="blockchain/1北京大学肖臻老师《区块链技术与应用》学习总结" target="_blank" rel="external">https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</a>
+      <a href="https://guozhe001.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="blockchain/1北京大学肖臻老师《区块链技术与应用》学习总结" target="_blank" rel="external">https://guozhe001.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -919,12 +919,12 @@
   <div class="panel-body">
     <figure class="media">
       <div class="media-left">
-        <a href="https://github.com/nijixucai" target="_blank" class="img-burn thumb-sm visible-lg">
+        <a href="https://github.com/guozhe001" target="_blank" class="img-burn thumb-sm visible-lg">
           <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
         </a>
       </div>
       <div class="media-body">
-        <h3 class="media-heading"><a href="https://github.com/nijixucai" target="_blank"><span class="text-dark">guozhe</span><small class="ml-1x">后端开发工程师</small></a></h3>
+        <h3 class="media-heading"><a href="https://github.com/guozhe001" target="_blank"><span class="text-dark">guozhe</span><small class="ml-1x">后端开发工程师</small></a></h3>
         <div>Java，Blockchain</div>
       </div>
     </figure>
@@ -982,7 +982,7 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/nijixucai" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/guozhe001" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
         <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
         
@@ -1042,7 +1042,7 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     <script defer>
     var disqus_config = function () {
         
-            this.page.url = 'https://nijixucai.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/';
+            this.page.url = 'https://guozhe001.github.io/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/';
         
         this.page.identifier = 'blockchain/1北京大学肖臻老师《区块链技术与应用》学习总结';
     };
