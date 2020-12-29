@@ -26,7 +26,7 @@
 <meta property="og:description" content="官方文档 添加一个新的组织到channel This tutorial extends the Fabric test network by adding a new organization – Org3 – to an application channel. 本教程通过向应用程序通道添加新组织Org3扩展了Fabric测试网络。 While we will focus on adding a">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-23T09:58:30.091Z">
-<meta property="article:modified_time" content="2020-12-23T10:48:44.161Z">
+<meta property="article:modified_time" content="2020-12-24T04:01:21.674Z">
 <meta property="article:author" content="guozhe">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
@@ -161,6 +161,21 @@
                 
               </p>
               <p class="item-title">
+                <a href="/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" class="title">others/Linux Shell命令记录</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-25T03:38:24.105Z" itemprop="datePublished">2020-12-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
                 <a href="/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/" class="title">blockchain/fabric/添加一个新的组织到channel</a>
               </p>
               <p class="item-date">
@@ -210,21 +225,6 @@
               </p>
               <p class="item-date">
                 <time datetime="2020-12-21T10:35:52.258Z" itemprop="datePublished">2020-12-21</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2020/12/21/others/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" class="title">others/Docker常用命令记录</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-12-21T03:52:27.579Z" itemprop="datePublished">2020-12-21</time>
               </p>
             </div>
           </li>
@@ -304,7 +304,8 @@
 <p>在另一个终端切换到 <code>test-network</code>目录的子目录 <code>addOrg3</code>中：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd addOrg3</span><br></pre></td></tr></table></figure>
 <p>First, we are going to create the certificates and keys for the Org3 peer, along with an application and admin user. Because we are updating an example channel, we are going to use the cryptogen tool instead of using a Certificate Authority. The following command uses cryptogen to read the <code>org3-crypto.yaml</code> file and generate the Org3 crypto material in a new <code>org3.example.com</code> folder:</p>
-<p>首先我们会为Org3的peer节点生成证书以及密钥，以及应用程序</p>
+<p>首先，我们将为Org3组织的peer节点包括应用程序和管理员用户创建证书和密钥。因为我们正在更新示例通道，所以我们将使用<code>cryptogen</code>工具而不是使用证书颁发机构。 下面的命令使用<code>cryptogen</code>读取 <code>org3-crypto.yaml</code>文件然后在新的 <code>org3.example.com</code> 文件夹下面生成Org3的加密材料。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">../../bin/cryptogen generate --config=org3-crypto.yaml --output="../organizations"</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -361,6 +362,10 @@
   <div class="bar-inner">
   
   <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" title="others/Linux Shell命令记录"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
     
     
     <li class="next">
