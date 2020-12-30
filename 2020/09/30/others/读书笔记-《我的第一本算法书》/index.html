@@ -1,28 +1,16 @@
 <!DOCTYPE html>
 <html lang=zh>
 <head>
-  <meta charset="utf-8">
-  
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-transform" />
-  <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="format-detection" content="telephone=no,email=no,adress=no">
-  <!-- Color theme for statusbar -->
-  <meta name="theme-color" content="#000000" />
-  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
-  <meta http-equiv="window-target" content="_top" />
-  
-  
-  <title>others/读书笔记-《我的第一本算法书》 | 点滴成涓</title>
-  <meta name="description" content="第一章：数据结构 链表 特性  呈线性排列的数据结构，元素中有字段指向下一个元素  内存  内存空间不连续  时间复杂度   删除：   直接在最后把指向被删除的元素改为指向被删除的下一个元素修改即可   时间复杂度：O(1)     添加：   直接在当前列表的最后的元素的指向另一个元素即可   时间复杂度：O(1)     查询：   需要从最开始的元素查询   时间复杂度：O(n)">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="第一章：数据结构 链表 特性  呈线性排列的数据结构，元素中有字段指向下一个元素  内存  内存空间不连续  时间复杂度   删除：   直接在最后把指向被删除的元素改为指向被删除的下一个元素修改即可   时间复杂度：O(1)     添加：   直接在当前列表的最后的元素的指向另一个元素即可   时间复杂度：O(1)     查询：   需要从最开始的元素查询   时间复杂度：O(n)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="others&#x2F;读书笔记-《我的第一本算法书》">
 <meta property="og:url" content="https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/index.html">
-<meta property="og:site_name" content="点击积累">
+<meta property="og:site_name" content="滴水成涓">
 <meta property="og:description" content="第一章：数据结构 链表 特性  呈线性排列的数据结构，元素中有字段指向下一个元素  内存  内存空间不连续  时间复杂度   删除：   直接在最后把指向被删除的元素改为指向被删除的下一个元素修改即可   时间复杂度：O(1)     添加：   直接在当前列表的最后的元素的指向另一个元素即可   时间复杂度：O(1)     查询：   需要从最开始的元素查询   时间复杂度：O(n)">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/null/image-20200822163332465.png">
@@ -61,250 +49,139 @@
 <meta property="article:author" content="guozhe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master/null/image-20200822163332465.png">
-  <!-- Canonical links -->
-  <link rel="canonical" href="https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/index.html">
-  
-    <link rel="alternate" href="/atom.xml" title="点击积累" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png" type="image/x-icon">
-  
-  
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>others/读书笔记-《我的第一本算法书》</title>
+    <!-- styles -->
+    
 <link rel="stylesheet" href="/css/style.css">
 
-  
-  
-  
-  
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-
-<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
-  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-  <div class="slimContent">
-    <div class="navbar-header">
+    <!-- persian styles -->
+    
       
-      
-      <div class="profile-block text-center">
-        <a id="avatar" href="https://github.com/guozhe001" target="_blank">
-          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
-        </a>
-        <h2 id="name" class="hidden-xs hidden-sm">guozhe</h2>
-        <h3 id="title" class="hidden-xs hidden-sm hidden-md">后端开发工程师</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 北京, 中国</small>
-      </div>
-      
-      <div class="search" id="search-form-wrap">
+<link rel="stylesheet" href="/css/rtl.css">
 
-    <form class="search-form sidebar-form">
-        <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="搜索" />
-            <span class="input-group-btn">
-                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
-            </span>
-        </div>
-    </form>
-    <div class="ins-search">
-  <div class="ins-search-mask"></div>
-  <div class="ins-search-container">
-    <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
-      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-    </div>
-    <div class="ins-section-wrapper">
-      <div class="ins-section-container"></div>
-    </div>
-  </div>
-</div>
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
 
-
-</div>
-      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
-      <ul class="nav navbar-nav main-nav menu-highlight">
-        
-        
-        <li class="menu-item menu-item-home">
-          <a href="/.">
-            
-            <i class="icon icon-home-fill"></i>
-            
-            <span class="menu-title">首页</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives">
-            
-            <i class="icon icon-archives-fill"></i>
-            
-            <span class="menu-title">归档</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-repository">
-          <a href="https://github.com/guozhe001?tab=repositories" target="_blank" rel="noopener">
-            
-            <i class="icon icon-project"></i>
-            
-            <span class="menu-title">项目</span>
-          </a>
-        </li>
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
         
       </ul>
-      
-	
-    <ul class="social-links">
-    	
-        <li><a href="https://github.com/guozhe001" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
         
-        <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        <li><a class="icon" href="/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
-    </ul>
-
-    </nav>
-  </div>
-</header>
-
-  
-    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
-  <div class="slimContent">
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget-body">
-      <ul class="recent-post-list list-unstyled no-thumbnail">
+        <li><a class="icon" href="/2020/09/17/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E4%BF%9D%E9%99%A9%E6%8C%87%E5%8D%97%E3%80%8B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" class="title">others/Linux Shell命令记录</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-12-25T03:38:24.105Z" itemprop="datePublished">2020-12-25</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/" class="title">blockchain/fabric/添加一个新的组织到channel</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-12-23T09:58:30.091Z" itemprop="datePublished">2020-12-23</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2020/12/22/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/" class="title">blockchain/fabric/创建一个新的channel</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-12-22T09:09:41.285Z" itemprop="datePublished">2020-12-22</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/" class="title">blockchain/fabric/通过供应链金融练习Fabric</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-12-22T08:15:02.071Z" itemprop="datePublished">2020-12-22</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2020/12/21/blockchain/fabric/%E7%BC%96%E5%86%99%E6%82%A8%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAChaincode/" class="title">blockchain/fabric/编写您的第一个Chaincode</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-12-21T10:35:52.258Z" itemprop="datePublished">2020-12-21</time>
-              </p>
-            </div>
-          </li>
-          
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&text=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&is_video=false&description=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=others/读书笔记-《我的第一本算法书》&body=Check out this article: https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&name=others/读书笔记-《我的第一本算法书》&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&t=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
     </div>
-  </div>
-  
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#第一章：数据结构"><span class="toc-number">1.</span> <span class="toc-text">第一章：数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#链表"><span class="toc-number">1.1.</span> <span class="toc-text">链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性"><span class="toc-number">1.1.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存"><span class="toc-number">1.1.2.</span> <span class="toc-text">内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度"><span class="toc-number">1.1.3.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展"><span class="toc-number">1.1.4.</span> <span class="toc-text">扩展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组"><span class="toc-number">1.2.</span> <span class="toc-text">数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v2"><span class="toc-number">1.2.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存-v2"><span class="toc-number">1.2.2.</span> <span class="toc-text">内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v2"><span class="toc-number">1.2.3.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#栈"><span class="toc-number">1.3.</span> <span class="toc-text">栈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v3"><span class="toc-number">1.3.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v3"><span class="toc-number">1.3.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#队列"><span class="toc-number">1.4.</span> <span class="toc-text">队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v4"><span class="toc-number">1.4.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v4"><span class="toc-number">1.4.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哈希表"><span class="toc-number">1.5.</span> <span class="toc-text">哈希表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v5"><span class="toc-number">1.5.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v5"><span class="toc-number">1.5.2.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#补充说明"><span class="toc-number">1.5.3.</span> <span class="toc-text">补充说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆"><span class="toc-number">1.6.</span> <span class="toc-text">堆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v6"><span class="toc-number">1.6.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v6"><span class="toc-number">1.6.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉查找树"><span class="toc-number">1.7.</span> <span class="toc-text">二叉查找树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v7"><span class="toc-number">1.7.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v7"><span class="toc-number">1.7.2.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展-v2"><span class="toc-number">1.7.3.</span> <span class="toc-text">扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于时间复杂度"><span class="toc-number">1.7.3.1.</span> <span class="toc-text">关于时间复杂度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#以二叉查找树为基础扩展的数据结构"><span class="toc-number">1.7.3.2.</span> <span class="toc-text">以二叉查找树为基础扩展的数据结构</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二章：排序"><span class="toc-number">2.</span> <span class="toc-text">第二章：排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#冒泡排序"><span class="toc-number">2.1.</span> <span class="toc-text">冒泡排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义"><span class="toc-number">2.1.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-n²"><span class="toc-number">2.1.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现"><span class="toc-number">2.1.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择排序"><span class="toc-number">2.2.</span> <span class="toc-text">选择排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义-v2"><span class="toc-number">2.2.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-n²-v2"><span class="toc-number">2.2.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v2"><span class="toc-number">2.2.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插入排序"><span class="toc-number">2.3.</span> <span class="toc-text">插入排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义-v3"><span class="toc-number">2.3.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-n²-v3"><span class="toc-number">2.3.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v3"><span class="toc-number">2.3.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆排序"><span class="toc-number">2.4.</span> <span class="toc-text">堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义-v4"><span class="toc-number">2.4.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-nlogn"><span class="toc-number">2.4.2.</span> <span class="toc-text">时间复杂度：O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v4"><span class="toc-number">2.4.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#归并排序"><span class="toc-number">2.5.</span> <span class="toc-text">归并排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义-v5"><span class="toc-number">2.5.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-O-nlogn"><span class="toc-number">2.5.2.</span> <span class="toc-text">时间复杂度:O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v5"><span class="toc-number">2.5.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速排序"><span class="toc-number">2.6.</span> <span class="toc-text">快速排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义-v6"><span class="toc-number">2.6.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-nlogn-v2"><span class="toc-number">2.6.2.</span> <span class="toc-text">时间复杂度：O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v6"><span class="toc-number">2.6.3.</span> <span class="toc-text">Java代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展-v3"><span class="toc-number">2.6.4.</span> <span class="toc-text">扩展</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第三章：数组的查找"><span class="toc-number">3.</span> <span class="toc-text">第三章：数组的查找</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#线性查找"><span class="toc-number">3.1.</span> <span class="toc-text">线性查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v8"><span class="toc-number">3.1.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-n"><span class="toc-number">3.1.2.</span> <span class="toc-text">时间复杂度：O(n)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v7"><span class="toc-number">3.1.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二分查找"><span class="toc-number">3.2.</span> <span class="toc-text">二分查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v9"><span class="toc-number">3.2.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-O-logn"><span class="toc-number">3.2.2.</span> <span class="toc-text">时间复杂度 O(logn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v8"><span class="toc-number">3.2.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第四章：图的搜索"><span class="toc-number">4.</span> <span class="toc-text">第四章：图的搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#图的定义"><span class="toc-number">4.1.</span> <span class="toc-text">图的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#加权图"><span class="toc-number">4.1.1.</span> <span class="toc-text">加权图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有向图"><span class="toc-number">4.1.2.</span> <span class="toc-text">有向图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图能给我们带来哪些便利"><span class="toc-number">4.1.3.</span> <span class="toc-text">图能给我们带来哪些便利</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图在代码中如何实现"><span class="toc-number">4.1.4.</span> <span class="toc-text">图在代码中如何实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图的搜索"><span class="toc-number">4.2.</span> <span class="toc-text">图的搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#广度优先搜索"><span class="toc-number">4.2.1.</span> <span class="toc-text">广度优先搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java代码实现-v9"><span class="toc-number">4.2.1.1.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深度优先搜索"><span class="toc-number">4.2.2.</span> <span class="toc-text">深度优先搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java代码实现-v10"><span class="toc-number">4.2.2.1.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#广度优先搜索和深度优先搜索对比"><span class="toc-number">4.2.3.</span> <span class="toc-text">广度优先搜索和深度优先搜索对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#贝尔曼-福特算法"><span class="toc-number">4.2.4.</span> <span class="toc-text">贝尔曼 - 福特算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决的问题"><span class="toc-number">4.2.4.1.</span> <span class="toc-text">解决的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#求解的步骤"><span class="toc-number">4.2.4.2.</span> <span class="toc-text">求解的步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#时间复杂度O-nm"><span class="toc-number">4.2.4.3.</span> <span class="toc-text">时间复杂度O(nm)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java代码实现-v11"><span class="toc-number">4.2.4.4.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#狄克斯特拉算法"><span class="toc-number">4.2.5.</span> <span class="toc-text">狄克斯特拉算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决的问题-v2"><span class="toc-number">4.2.5.1.</span> <span class="toc-text">解决的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#求解的步骤-v2"><span class="toc-number">4.2.5.2.</span> <span class="toc-text">求解的步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#时间复杂度-v8"><span class="toc-number">4.2.5.3.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java代码实现-v12"><span class="toc-number">4.2.5.4.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#贝尔曼福特算法和迪克斯特拉算法对比"><span class="toc-number">4.2.6.</span> <span class="toc-text">贝尔曼福特算法和迪克斯特拉算法对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#说明"><span class="toc-number">4.2.6.1.</span> <span class="toc-text">说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-（A-Star）算法"><span class="toc-number">4.2.7.</span> <span class="toc-text">A*（A-Star）算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决的问题-v3"><span class="toc-number">4.2.7.1.</span> <span class="toc-text">解决的问题</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第五章-安全算法"><span class="toc-number">5.</span> <span class="toc-text">第五章 安全算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安全和算法"><span class="toc-number">5.1.</span> <span class="toc-text">安全和算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#传输数据时的四个问题"><span class="toc-number">5.1.1.</span> <span class="toc-text">传输数据时的四个问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#窃听"><span class="toc-number">5.1.1.1.</span> <span class="toc-text">窃听</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#假冒"><span class="toc-number">5.1.1.2.</span> <span class="toc-text">假冒</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#篡改"><span class="toc-number">5.1.1.3.</span> <span class="toc-text">篡改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事后否认"><span class="toc-number">5.1.1.4.</span> <span class="toc-text">事后否认</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决这些问题的安全技术"><span class="toc-number">5.1.2.</span> <span class="toc-text">解决这些问题的安全技术</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哈希函数"><span class="toc-number">5.2.</span> <span class="toc-text">哈希函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用示例"><span class="toc-number">5.2.1.</span> <span class="toc-text">应用示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#共享密钥加密（对称加密）"><span class="toc-number">5.3.</span> <span class="toc-text">共享密钥加密（对称加密）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在密钥分配问题"><span class="toc-number">5.3.1.</span> <span class="toc-text">存在密钥分配问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#公开密钥加密（非对称加密）"><span class="toc-number">5.4.</span> <span class="toc-text">公开密钥加密（非对称加密）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不存在密钥分配问题"><span class="toc-number">5.4.1.</span> <span class="toc-text">不存在密钥分配问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#密钥数量不会过多"><span class="toc-number">5.4.2.</span> <span class="toc-text">密钥数量不会过多</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#公开密钥加密存在公开密钥可靠性的问题"><span class="toc-number">5.4.3.</span> <span class="toc-text">公开密钥加密存在公开密钥可靠性的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非对称加密算法的条件"><span class="toc-number">5.4.4.</span> <span class="toc-text">非对称加密算法的条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#混合加密"><span class="toc-number">5.5.</span> <span class="toc-text">混合加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迪菲-赫尔曼密钥交换"><span class="toc-number">5.6.</span> <span class="toc-text">迪菲 - 赫尔曼密钥交换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法的概念"><span class="toc-number">5.6.1.</span> <span class="toc-text">算法的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#密钥的交换"><span class="toc-number">5.6.2.</span> <span class="toc-text">密钥的交换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#消息认证码，MAC（Message-Authentication-Code）"><span class="toc-number">5.7.</span> <span class="toc-text">消息认证码，MAC（Message Authentication Code）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用消息认证码解决篡改问题呢？"><span class="toc-number">5.7.1.</span> <span class="toc-text">如何使用消息认证码解决篡改问题呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果MAC和密文都被X截获了怎么办？"><span class="toc-number">5.7.2.</span> <span class="toc-text">如果MAC和密文都被X截获了怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息验证码无法防止“事后否认”"><span class="toc-number">5.7.3.</span> <span class="toc-text">消息验证码无法防止“事后否认”</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字签名"><span class="toc-number">5.8.</span> <span class="toc-text">数字签名</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数字签名的特征"><span class="toc-number">5.8.1.</span> <span class="toc-text">数字签名的特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何实现数字签名"><span class="toc-number">5.8.2.</span> <span class="toc-text">如何实现数字签名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字证书"><span class="toc-number">5.9.</span> <span class="toc-text">数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用数据证书发送公钥"><span class="toc-number">5.9.1.</span> <span class="toc-text">如何使用数据证书发送公钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#循环质疑，我们从认证中心获取的公钥Pc真的来自认证中心吗"><span class="toc-number">5.9.2.</span> <span class="toc-text">循环质疑，我们从认证中心获取的公钥Pc真的来自认证中心吗</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第六章-聚类"><span class="toc-number">6.</span> <span class="toc-text">第六章 聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是聚类"><span class="toc-number">6.1.</span> <span class="toc-text">什么是聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#将相似的对象分为一组"><span class="toc-number">6.1.1.</span> <span class="toc-text">将相似的对象分为一组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何定义“相似”"><span class="toc-number">6.1.2.</span> <span class="toc-text">如何定义“相似”</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义数据间的差距"><span class="toc-number">6.1.2.1.</span> <span class="toc-text">定义数据间的差距</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#符合条件的算法"><span class="toc-number">6.1.2.2.</span> <span class="toc-text">符合条件的算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k-means-算法"><span class="toc-number">6.2.</span> <span class="toc-text">k-means 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#k-means算法步骤"><span class="toc-number">6.2.1.</span> <span class="toc-text">k-means算法步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解说："><span class="toc-number">6.2.2.</span> <span class="toc-text">解说：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#补充说明-v2"><span class="toc-number">6.2.3.</span> <span class="toc-text">补充说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第七章-其他算法"><span class="toc-number">7.</span> <span class="toc-text">第七章 其他算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#欧几里得算法"><span class="toc-number">7.1.</span> <span class="toc-text">欧几里得算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用欧几里得算法求1112和695的最大公约数"><span class="toc-number">7.1.1.</span> <span class="toc-text">使用欧几里得算法求1112和695的最大公约数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java实现"><span class="toc-number">7.1.2.</span> <span class="toc-text">Java实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#素性测试"><span class="toc-number">7.2.</span> <span class="toc-text">素性测试</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
 
     
-  </div>
-</aside>
-
-  
-  
-<main class="main" role="main">
-  <div class="content">
-  <article id="post-others/读书笔记-《我的第一本算法书》" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-    
-    <div class="article-header">
-      
+    <div class="content index py4">
         
-  
-    <h1 class="article-title" itemprop="name">
-      others/读书笔记-《我的第一本算法书》
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        others/读书笔记-《我的第一本算法书》
     </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-09-30T03:23:49.091Z" itemprop="datePublished">2020-09-30</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
   
 
-      
-      <div class="article-meta">
-        <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/" class="article-date">
-	  <time datetime="2020-09-30T03:23:49.091Z" itemprop="datePublished">2020-09-30</time>
-	</a>
-</span>
-        
-        
-
-        
-
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/#comments" class="article-comment-link">评论</a></span>
-        
-      </div>
-    </div>
-    <div class="article-entry marked-body" itemprop="articleBody">
-      
-        <h1 id="第一章：数据结构">第一章：数据结构</h1>
+  <div class="content" itemprop="articleBody">
+    <h1 id="第一章：数据结构">第一章：数据结构</h1>
 <h2 id="链表">链表</h2>
 <h3 id="特性">特性</h3>
 <ul>
@@ -1026,168 +903,145 @@
 <p>素性测试是判断一个自然数是否为素数的测试。素数(prime number)就是只能被 1 和其自身整除，且大于 1 的自然数。</p>
 <p>素数从小到大有 2、3、5、7、11、13…目前在加密技术中被广泛应用的 RSA 算法就会用到大素数，因此“素性测试”在该算法中起到了重要的作用。</p>
 
-      
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
     </div>
-    <div class="article-footer">
-      <blockquote class="mt-2x">
-  <ul class="post-copyright list-unstyled">
-    
-    <li class="post-copyright-link hidden-xs">
-      <strong>本文链接：</strong>
-      <a href="https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/" title="others/读书笔记-《我的第一本算法书》" target="_blank" rel="external">https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/</a>
-    </li>
-    
-    <li class="post-copyright-license">
-      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
-    </li>
-  </ul>
-</blockquote>
 
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#第一章：数据结构"><span class="toc-number">1.</span> <span class="toc-text">第一章：数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#链表"><span class="toc-number">1.1.</span> <span class="toc-text">链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性"><span class="toc-number">1.1.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存"><span class="toc-number">1.1.2.</span> <span class="toc-text">内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度"><span class="toc-number">1.1.3.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展"><span class="toc-number">1.1.4.</span> <span class="toc-text">扩展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组"><span class="toc-number">1.2.</span> <span class="toc-text">数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v2"><span class="toc-number">1.2.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存-v2"><span class="toc-number">1.2.2.</span> <span class="toc-text">内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v2"><span class="toc-number">1.2.3.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#栈"><span class="toc-number">1.3.</span> <span class="toc-text">栈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v3"><span class="toc-number">1.3.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v3"><span class="toc-number">1.3.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#队列"><span class="toc-number">1.4.</span> <span class="toc-text">队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v4"><span class="toc-number">1.4.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v4"><span class="toc-number">1.4.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哈希表"><span class="toc-number">1.5.</span> <span class="toc-text">哈希表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v5"><span class="toc-number">1.5.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v5"><span class="toc-number">1.5.2.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#补充说明"><span class="toc-number">1.5.3.</span> <span class="toc-text">补充说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆"><span class="toc-number">1.6.</span> <span class="toc-text">堆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v6"><span class="toc-number">1.6.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v6"><span class="toc-number">1.6.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉查找树"><span class="toc-number">1.7.</span> <span class="toc-text">二叉查找树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v7"><span class="toc-number">1.7.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-v7"><span class="toc-number">1.7.2.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展-v2"><span class="toc-number">1.7.3.</span> <span class="toc-text">扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于时间复杂度"><span class="toc-number">1.7.3.1.</span> <span class="toc-text">关于时间复杂度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#以二叉查找树为基础扩展的数据结构"><span class="toc-number">1.7.3.2.</span> <span class="toc-text">以二叉查找树为基础扩展的数据结构</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二章：排序"><span class="toc-number">2.</span> <span class="toc-text">第二章：排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#冒泡排序"><span class="toc-number">2.1.</span> <span class="toc-text">冒泡排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义"><span class="toc-number">2.1.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-n²"><span class="toc-number">2.1.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现"><span class="toc-number">2.1.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择排序"><span class="toc-number">2.2.</span> <span class="toc-text">选择排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义-v2"><span class="toc-number">2.2.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-n²-v2"><span class="toc-number">2.2.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v2"><span class="toc-number">2.2.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插入排序"><span class="toc-number">2.3.</span> <span class="toc-text">插入排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义-v3"><span class="toc-number">2.3.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-n²-v3"><span class="toc-number">2.3.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v3"><span class="toc-number">2.3.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆排序"><span class="toc-number">2.4.</span> <span class="toc-text">堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义-v4"><span class="toc-number">2.4.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-nlogn"><span class="toc-number">2.4.2.</span> <span class="toc-text">时间复杂度：O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v4"><span class="toc-number">2.4.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#归并排序"><span class="toc-number">2.5.</span> <span class="toc-text">归并排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义-v5"><span class="toc-number">2.5.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-O-nlogn"><span class="toc-number">2.5.2.</span> <span class="toc-text">时间复杂度:O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v5"><span class="toc-number">2.5.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速排序"><span class="toc-number">2.6.</span> <span class="toc-text">快速排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法释义-v6"><span class="toc-number">2.6.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-nlogn-v2"><span class="toc-number">2.6.2.</span> <span class="toc-text">时间复杂度：O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v6"><span class="toc-number">2.6.3.</span> <span class="toc-text">Java代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展-v3"><span class="toc-number">2.6.4.</span> <span class="toc-text">扩展</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第三章：数组的查找"><span class="toc-number">3.</span> <span class="toc-text">第三章：数组的查找</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#线性查找"><span class="toc-number">3.1.</span> <span class="toc-text">线性查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v8"><span class="toc-number">3.1.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度：O-n"><span class="toc-number">3.1.2.</span> <span class="toc-text">时间复杂度：O(n)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v7"><span class="toc-number">3.1.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二分查找"><span class="toc-number">3.2.</span> <span class="toc-text">二分查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-v9"><span class="toc-number">3.2.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度-O-logn"><span class="toc-number">3.2.2.</span> <span class="toc-text">时间复杂度 O(logn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java代码实现-v8"><span class="toc-number">3.2.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第四章：图的搜索"><span class="toc-number">4.</span> <span class="toc-text">第四章：图的搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#图的定义"><span class="toc-number">4.1.</span> <span class="toc-text">图的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#加权图"><span class="toc-number">4.1.1.</span> <span class="toc-text">加权图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有向图"><span class="toc-number">4.1.2.</span> <span class="toc-text">有向图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图能给我们带来哪些便利"><span class="toc-number">4.1.3.</span> <span class="toc-text">图能给我们带来哪些便利</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图在代码中如何实现"><span class="toc-number">4.1.4.</span> <span class="toc-text">图在代码中如何实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图的搜索"><span class="toc-number">4.2.</span> <span class="toc-text">图的搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#广度优先搜索"><span class="toc-number">4.2.1.</span> <span class="toc-text">广度优先搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java代码实现-v9"><span class="toc-number">4.2.1.1.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深度优先搜索"><span class="toc-number">4.2.2.</span> <span class="toc-text">深度优先搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java代码实现-v10"><span class="toc-number">4.2.2.1.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#广度优先搜索和深度优先搜索对比"><span class="toc-number">4.2.3.</span> <span class="toc-text">广度优先搜索和深度优先搜索对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#贝尔曼-福特算法"><span class="toc-number">4.2.4.</span> <span class="toc-text">贝尔曼 - 福特算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决的问题"><span class="toc-number">4.2.4.1.</span> <span class="toc-text">解决的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#求解的步骤"><span class="toc-number">4.2.4.2.</span> <span class="toc-text">求解的步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#时间复杂度O-nm"><span class="toc-number">4.2.4.3.</span> <span class="toc-text">时间复杂度O(nm)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java代码实现-v11"><span class="toc-number">4.2.4.4.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#狄克斯特拉算法"><span class="toc-number">4.2.5.</span> <span class="toc-text">狄克斯特拉算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决的问题-v2"><span class="toc-number">4.2.5.1.</span> <span class="toc-text">解决的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#求解的步骤-v2"><span class="toc-number">4.2.5.2.</span> <span class="toc-text">求解的步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#时间复杂度-v8"><span class="toc-number">4.2.5.3.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java代码实现-v12"><span class="toc-number">4.2.5.4.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#贝尔曼福特算法和迪克斯特拉算法对比"><span class="toc-number">4.2.6.</span> <span class="toc-text">贝尔曼福特算法和迪克斯特拉算法对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#说明"><span class="toc-number">4.2.6.1.</span> <span class="toc-text">说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-（A-Star）算法"><span class="toc-number">4.2.7.</span> <span class="toc-text">A*（A-Star）算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决的问题-v3"><span class="toc-number">4.2.7.1.</span> <span class="toc-text">解决的问题</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第五章-安全算法"><span class="toc-number">5.</span> <span class="toc-text">第五章 安全算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安全和算法"><span class="toc-number">5.1.</span> <span class="toc-text">安全和算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#传输数据时的四个问题"><span class="toc-number">5.1.1.</span> <span class="toc-text">传输数据时的四个问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#窃听"><span class="toc-number">5.1.1.1.</span> <span class="toc-text">窃听</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#假冒"><span class="toc-number">5.1.1.2.</span> <span class="toc-text">假冒</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#篡改"><span class="toc-number">5.1.1.3.</span> <span class="toc-text">篡改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事后否认"><span class="toc-number">5.1.1.4.</span> <span class="toc-text">事后否认</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决这些问题的安全技术"><span class="toc-number">5.1.2.</span> <span class="toc-text">解决这些问题的安全技术</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哈希函数"><span class="toc-number">5.2.</span> <span class="toc-text">哈希函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用示例"><span class="toc-number">5.2.1.</span> <span class="toc-text">应用示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#共享密钥加密（对称加密）"><span class="toc-number">5.3.</span> <span class="toc-text">共享密钥加密（对称加密）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在密钥分配问题"><span class="toc-number">5.3.1.</span> <span class="toc-text">存在密钥分配问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#公开密钥加密（非对称加密）"><span class="toc-number">5.4.</span> <span class="toc-text">公开密钥加密（非对称加密）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不存在密钥分配问题"><span class="toc-number">5.4.1.</span> <span class="toc-text">不存在密钥分配问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#密钥数量不会过多"><span class="toc-number">5.4.2.</span> <span class="toc-text">密钥数量不会过多</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#公开密钥加密存在公开密钥可靠性的问题"><span class="toc-number">5.4.3.</span> <span class="toc-text">公开密钥加密存在公开密钥可靠性的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非对称加密算法的条件"><span class="toc-number">5.4.4.</span> <span class="toc-text">非对称加密算法的条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#混合加密"><span class="toc-number">5.5.</span> <span class="toc-text">混合加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迪菲-赫尔曼密钥交换"><span class="toc-number">5.6.</span> <span class="toc-text">迪菲 - 赫尔曼密钥交换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法的概念"><span class="toc-number">5.6.1.</span> <span class="toc-text">算法的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#密钥的交换"><span class="toc-number">5.6.2.</span> <span class="toc-text">密钥的交换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#消息认证码，MAC（Message-Authentication-Code）"><span class="toc-number">5.7.</span> <span class="toc-text">消息认证码，MAC（Message Authentication Code）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用消息认证码解决篡改问题呢？"><span class="toc-number">5.7.1.</span> <span class="toc-text">如何使用消息认证码解决篡改问题呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果MAC和密文都被X截获了怎么办？"><span class="toc-number">5.7.2.</span> <span class="toc-text">如果MAC和密文都被X截获了怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息验证码无法防止“事后否认”"><span class="toc-number">5.7.3.</span> <span class="toc-text">消息验证码无法防止“事后否认”</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字签名"><span class="toc-number">5.8.</span> <span class="toc-text">数字签名</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数字签名的特征"><span class="toc-number">5.8.1.</span> <span class="toc-text">数字签名的特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何实现数字签名"><span class="toc-number">5.8.2.</span> <span class="toc-text">如何实现数字签名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字证书"><span class="toc-number">5.9.</span> <span class="toc-text">数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用数据证书发送公钥"><span class="toc-number">5.9.1.</span> <span class="toc-text">如何使用数据证书发送公钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#循环质疑，我们从认证中心获取的公钥Pc真的来自认证中心吗"><span class="toc-number">5.9.2.</span> <span class="toc-text">循环质疑，我们从认证中心获取的公钥Pc真的来自认证中心吗</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第六章-聚类"><span class="toc-number">6.</span> <span class="toc-text">第六章 聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是聚类"><span class="toc-number">6.1.</span> <span class="toc-text">什么是聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#将相似的对象分为一组"><span class="toc-number">6.1.1.</span> <span class="toc-text">将相似的对象分为一组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何定义“相似”"><span class="toc-number">6.1.2.</span> <span class="toc-text">如何定义“相似”</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义数据间的差距"><span class="toc-number">6.1.2.1.</span> <span class="toc-text">定义数据间的差距</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#符合条件的算法"><span class="toc-number">6.1.2.2.</span> <span class="toc-text">符合条件的算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k-means-算法"><span class="toc-number">6.2.</span> <span class="toc-text">k-means 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#k-means算法步骤"><span class="toc-number">6.2.1.</span> <span class="toc-text">k-means算法步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解说："><span class="toc-number">6.2.2.</span> <span class="toc-text">解说：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#补充说明-v2"><span class="toc-number">6.2.3.</span> <span class="toc-text">补充说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第七章-其他算法"><span class="toc-number">7.</span> <span class="toc-text">第七章 其他算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#欧几里得算法"><span class="toc-number">7.1.</span> <span class="toc-text">欧几里得算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用欧几里得算法求1112和695的最大公约数"><span class="toc-number">7.1.1.</span> <span class="toc-text">使用欧几里得算法求1112和695的最大公约数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java实现"><span class="toc-number">7.1.2.</span> <span class="toc-text">Java实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#素性测试"><span class="toc-number">7.2.</span> <span class="toc-text">素性测试</span></a></li></ol></li></ol>
+    </div>
 
-<div class="panel panel-default panel-badger">
-  <div class="panel-body">
-    <figure class="media">
-      <div class="media-left">
-        <a href="https://github.com/guozhe001" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
-        </a>
-      </div>
-      <div class="media-body">
-        <h3 class="media-heading"><a href="https://github.com/guozhe001" target="_blank"><span class="text-dark">guozhe</span><small class="ml-1x">后端开发工程师</small></a></h3>
-        <div>Java，Blockchain</div>
-      </div>
-    </figure>
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&text=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&is_video=false&description=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=others/读书笔记-《我的第一本算法书》&body=Check out this article: https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&name=others/读书笔记-《我的第一本算法书》&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&t=others/读书笔记-《我的第一本算法书》" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
   </div>
 </div>
 
-
-    </div>
-  </article>
-  
-    
-  <section id="comments">
-  	
-      <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
-      </div>
-    
-  </section>
-
-
-  
-</div>
-
-  <nav class="bar bar-footer clearfix" data-stick-bottom>
-  <div class="bar-inner">
-  
-  <ul class="pager pull-left">
-    
-    <li class="prev">
-      <a href="/2020/12/11/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="blockchain/1北京大学肖臻老师《区块链技术与应用》学习总结"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
     
     
-    <li class="next">
-      <a href="/2020/09/17/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E4%BF%9D%E9%99%A9%E6%8C%87%E5%8D%97%E3%80%8B/" title="读书笔记-《你的第一本保险指南》"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
-    </li>
-    
-    
-  </ul>
-  
-  
-  
-  <div class="bar-right">
-    
+    2020
+    guozhe
   </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
   </div>
-</nav>
-  
-
-
-</main>
-
-  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
-	
-	
-    <ul class="social-links">
-    	
-        <li><a href="https://github.com/guozhe001" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
-        
-        <li><a href="https://twitter.com/guozhegz" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
-        
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
-        
-    </ul>
-
-    <div class="copyright">
-    	
-        <div class="publishby">
-        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
-        </div>
-    </div>
 </footer>
-  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-<script>
-window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
-</script>
 
-<script src="/js/plugin.min.js"></script>
+    </div>
+    <!-- styles -->
 
-
-<script src="/js/application.js"></script>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 
-    <script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-
-<script src="/js/insight.js"></script>
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
 
 
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
 
 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
 
 
-   
+<script src="/js/main.js"></script>
 
+<!-- search -->
 
+<!-- Google Analytics -->
 
+<!-- Baidu Analytics -->
 
-   
-    
-    <script defer>
-    var disqus_config = function () {
-        
-            this.page.url = 'https://guozhe001.github.io/2020/09/30/others/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/';
-        
-        this.page.identifier = 'others/读书笔记-《我的第一本算法书》';
-    };
-    (function() { 
-        var d = document, s = d.createElement('script');  
-        s.src = '//' + '' + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
+<!-- Cloudflare Analytics -->
 
+<!-- Umami Analytics -->
 
-
-
-
-
+<!-- Disqus Comments -->
 
 
 </body>

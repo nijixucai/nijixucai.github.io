@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="通过供应链金融练习Fabric-创建网络 一个生产的fabric网络应该由各个组织自己保存自己的加密材料，测试环境为了演示在本地生成所有组织的加密材料。 生成加密材料 创建配置文件 创建supply-finance文件夹，配置config&#x2F;crypto-config.yaml文件： 123456789101112131415161718192021222324252627282930Orderer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="blockchain&#x2F;fabric&#x2F;通过供应链金融练习Fabric&#x2F;创建网络">
+<meta property="og:url" content="https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="通过供应链金融练习Fabric-创建网络 一个生产的fabric网络应该由各个组织自己保存自己的加密材料，测试环境为了演示在本地生成所有组织的加密材料。 生成加密材料 创建配置文件 创建supply-finance文件夹，配置config&#x2F;crypto-config.yaml文件： 123456789101112131415161718192021222324252627282930Orderer">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-30T09:11:32.892Z">
+<meta property="article:modified_time" content="2020-12-30T09:16:53.953Z">
+<meta property="article:author" content="guozhe">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>blockchain/fabric/通过供应链金融练习Fabric/创建网络</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&text=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&is_video=false&description=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=blockchain/fabric/通过供应链金融练习Fabric/创建网络&body=Check out this article: https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&name=blockchain/fabric/通过供应链金融练习Fabric/创建网络&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&t=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#通过供应链金融练习Fabric-创建网络"><span class="toc-number">1.</span> <span class="toc-text">通过供应链金融练习Fabric-创建网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生成加密材料"><span class="toc-number">1.1.</span> <span class="toc-text">生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建配置文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用配置文件生成加密材料"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用配置文件生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用加密材料生成创世纪区块"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">使用加密材料生成创世纪区块</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动网络"><span class="toc-number">1.2.</span> <span class="toc-text">启动网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置docker-compose-yml文件"><span class="toc-number">1.2.1.</span> <span class="toc-text">配置docker-compose.yml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用docker-compose-yml配置文件启动各组织的服务"><span class="toc-number">1.2.2.</span> <span class="toc-text">使用docker-compose.yml配置文件启动各组织的服务</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        blockchain/fabric/通过供应链金融练习Fabric/创建网络
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-30T09:11:32.892Z" itemprop="datePublished">2020-12-30</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="通过供应链金融练习Fabric-创建网络">通过供应链金融练习Fabric-创建网络</h1>
+<p>一个生产的fabric网络应该由各个组织自己保存自己的加密材料，测试环境为了演示在本地生成所有组织的加密材料。</p>
+<h2 id="生成加密材料">生成加密材料</h2>
+<h3 id="创建配置文件">创建配置文件</h3>
+<p>创建<code>supply-finance</code>文件夹，配置<code>config/crypto-config.yaml</code>文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">OrdererOrgs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">Name:</span> <span class="string">Orderer</span></span><br><span class="line">    <span class="attr">Domain:</span> <span class="string">supply.com</span></span><br><span class="line">    <span class="attr">Specs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">Hostname:</span> <span class="string">orderer</span></span><br><span class="line"><span class="attr">PeerOrgs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">Name:</span> <span class="string">gyl_core_org1</span></span><br><span class="line">    <span class="attr">Domain:</span> <span class="string">core.supply.com</span></span><br><span class="line">    <span class="attr">Template:</span></span><br><span class="line">      <span class="attr">Count:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">Users:</span></span><br><span class="line">      <span class="attr">Count:</span> <span class="number">2</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">Name:</span> <span class="string">gyl_f_org1</span></span><br><span class="line">    <span class="attr">Domain:</span> <span class="string">f1.supply.com</span></span><br><span class="line">    <span class="attr">Template:</span></span><br><span class="line">      <span class="attr">Count:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">Users:</span></span><br><span class="line">      <span class="attr">Count:</span> <span class="number">2</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">Name:</span> <span class="string">gyl_s_org1</span></span><br><span class="line">    <span class="attr">Domain:</span> <span class="string">s1.supply.com</span></span><br><span class="line">    <span class="attr">Template:</span></span><br><span class="line">      <span class="attr">Count:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">Users:</span></span><br><span class="line">      <span class="attr">Count:</span> <span class="number">2</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">Name:</span> <span class="string">gyl_s_org2</span></span><br><span class="line">    <span class="attr">Domain:</span> <span class="string">s2.supply.com</span></span><br><span class="line">    <span class="attr">Template:</span></span><br><span class="line">      <span class="attr">Count:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">Users:</span></span><br><span class="line">      <span class="attr">Count:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用配置文件生成加密材料">使用配置文件生成加密材料</h3>
+<p>使用下面的命令生成加密材料：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cryptogen generate --config=config/crypto-config.yaml --output="./organizations"</span><br></pre></td></tr></table></figure>
+<h4 id="使用加密材料生成创世纪区块">使用加密材料生成创世纪区块</h4>
+<p>使用下面的命令生成系统创世纪区块：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configtxgen -profile TestOrgsOrdererGenesis -channelID system-channel -outputBlock ./system-genesis-block/genesis.block</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">esis.block</span><br><span class="line">2020-12-24 15:41:52.702 CST [common.tools.configtxgen] main -&gt; INFO 001 Loading configuration</span><br><span class="line">2020-12-24 15:41:52.716 CST [common.tools.configtxgen.localconfig] completeInitialization -&gt; INFO 002 orderer type: etcdraft</span><br><span class="line">2020-12-24 15:41:52.716 CST [common.tools.configtxgen.localconfig] completeInitialization -&gt; INFO 003 Orderer.EtcdRaft.Options unset, setting to tick_interval:"500ms" election_tick:10 heartbeat_tick:1 max_inflight_blocks:5 snapshot_interval_size:16777216</span><br><span class="line">2020-12-24 15:41:52.716 CST [common.tools.configtxgen.localconfig] Load -&gt; INFO 004 Loaded configuration: /Users/apple/code/open-source/blockchain/hyperledger/supply-finance/config/configtx.yaml</span><br><span class="line">2020-12-24 15:41:52.723 CST [common.tools.configtxgen] doOutputBlock -&gt; INFO 005 Generating genesis block</span><br><span class="line">2020-12-24 15:41:52.723 CST [common.tools.configtxgen] doOutputBlock -&gt; INFO 006 Creating system channel genesis block</span><br><span class="line">2020-12-24 15:41:52.724 CST [common.tools.configtxgen] doOutputBlock -&gt; INFO 007 Writing genesis block</span><br></pre></td></tr></table></figure>
+<p><strong>遇到的错误信息：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020-12-24 15:39:28.696 CST [common.tools.configtxgen] main -&gt; FATA 005 Error on outputBlock: could not create bootstrapper: could not create channel group: could not create orderer group: cannot marshal metadata for orderer type etcdraft: cannot load client cert for consenter orderer.supply.com:8050: open /Users/apple/code/open-source/blockchain/hyperledger/supply-finance/cryptogen/crypto-config/ordererOrganizations/supply.com/orderers/orderer.supply.com/tls/server.crt: no such file or directory</span><br></pre></td></tr></table></figure>
+<p><strong>错误原因：</strong><code>$FABRIC_CFG_PATH/configtx.yaml</code>配置的加密文件地址不正确</p>
+<h2 id="启动网络">启动网络</h2>
+<p>各个组织的加密材料生成之后，在本地docker环境启动这些组织的peer节点。</p>
+<h3 id="配置docker-compose-yml文件">配置docker-compose.yml文件</h3>
+<p>在<code>supply-finance</code>目录下添加<code>docker/docker-compose.yml</code>文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Copyright IBM Corp. All Rights Reserved.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># SPDX-License-Identifier: Apache-2.0</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="attr">version:</span> <span class="string">'2'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">orderer.supply.com:</span></span><br><span class="line">  <span class="attr">peer0.core.supply.com:</span></span><br><span class="line">  <span class="attr">peer0.f1.supply.com:</span></span><br><span class="line">  <span class="attr">peer0.s1.supply.com:</span></span><br><span class="line">  <span class="attr">peer0.s2.supply.com:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">test:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">orderer.supply.com:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">orderer.supply.com</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">hyperledger/fabric-orderer:2.2.0</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">FABRIC_LOGGING_SPEC=INFO</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_LISTENADDRESS=0.0.0.0</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_LISTENPORT=8050</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_GENESISMETHOD=file</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_BOOTSTRAPFILE=/etc/hyperledger/orderer/orderer.genesis.block</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_LOCALMSPID=OrdererMSP</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/fabric/msp</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_LEDGERTYPE=file</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443</span></span><br><span class="line">      <span class="comment"># enabled TLS</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_TLS_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/fabric/tls/server.key</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/fabric/tls/server.crt</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/fabric/tls/ca.crt]</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/fabric/tls/server.crt</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/fabric/tls/server.key</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ORDERER_GENERAL_CLUSTER_ROOTCAS=[/etc/hyperledger/fabric/tls/ca.crt]</span></span><br><span class="line">    <span class="attr">working_dir:</span> <span class="string">/opt/gopath/src/github.com/hyperledger/fabric</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">orderer</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../system-genesis-block/genesis.block:/etc/hyperledger/orderer/orderer.genesis.block</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp:/etc/hyperledger/fabric/msp</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/tls:/etc/hyperledger/fabric/tls</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">orderer.supply.com:/var/hyperledger/production/orderer</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations:/tmp</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8050</span><span class="string">:8050</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">peer0.core.supply.com:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">peer0.core.supply.com</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">hyperledger/fabric-peer:2.2.0</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="comment">#Generic peer variables</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock</span></span><br><span class="line">      <span class="comment"># the following setting starts chaincode containers on the same</span></span><br><span class="line">      <span class="comment"># bridge network as the peers</span></span><br><span class="line">      <span class="comment"># https://docs.docker.com/compose/networking/</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=docker_test</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">FABRIC_LOGGING_SPEC=INFO</span></span><br><span class="line">      <span class="comment">#- FABRIC_LOGGING_SPEC=DEBUG</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_PROFILE_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt</span></span><br><span class="line">      <span class="comment"># Peer specific variabes</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_ID=peer0.core.supply.com</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_ADDRESS=peer0.core.supply.com:8051</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_LISTENADDRESS=0.0.0.0:8051</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_CHAINCODEADDRESS=peer0.core.supply.com:8052</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_GOSSIP_BOOTSTRAP=peer0.core.supply.com:8051</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.core.supply.com:8051</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_LOCALMSPID=GylCoreOrg1MSP</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/var/run/:/host/var/run/</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations/peerOrganizations/core.supply.com/peers/peer0.core.supply.com/msp:/etc/hyperledger/fabric/msp</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations/peerOrganizations/core.supply.com/peers/peer0.core.supply.com/tls:/etc/hyperledger/fabric/tls</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">peer0.core.supply.com:/var/hyperledger/production</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations:/tmp</span></span><br><span class="line">    <span class="attr">working_dir:</span> <span class="string">/opt/gopath/src/github.com/hyperledger/fabric/peer</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">peer</span> <span class="string">node</span> <span class="string">start</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8051</span><span class="string">:8051</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">peer0.f1.supply.com:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">peer0.f1.supply.com</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">hyperledger/fabric-peer:2.2.0</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="comment">#Generic peer variables</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock</span></span><br><span class="line">      <span class="comment"># the following setting starts chaincode containers on the same</span></span><br><span class="line">      <span class="comment"># bridge network as the peers</span></span><br><span class="line">      <span class="comment"># https://docs.docker.com/compose/networking/</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=docker_test</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">FABRIC_LOGGING_SPEC=INFO</span></span><br><span class="line">      <span class="comment">#- FABRIC_LOGGING_SPEC=DEBUG</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_PROFILE_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt</span></span><br><span class="line">      <span class="comment"># Peer specific variabes</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_ID=peer0.f1.supply.com</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_ADDRESS=peer0.f1.supply.com:8053</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_LISTENADDRESS=0.0.0.0:8053</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_CHAINCODEADDRESS=peer0.f1.supply.com:8054</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8054</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_GOSSIP_BOOTSTRAP=peer0.f1.supply.com:8053</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_LOCALMSPID=GylFOrg1MSP</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/var/run/:/host/var/run/</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations/peerOrganizations/f1.supply.com/peers/peer0.f1.supply.com/msp:/etc/hyperledger/fabric/msp</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations/peerOrganizations/f1.supply.com/peers/peer0.f1.supply.com/tls:/etc/hyperledger/fabric/tls</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">peer0.f1.supply.com:/var/hyperledger/production</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations:/tmp</span></span><br><span class="line">    <span class="attr">working_dir:</span> <span class="string">/opt/gopath/src/github.com/hyperledger/fabric/peer</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">peer</span> <span class="string">node</span> <span class="string">start</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8053</span><span class="string">:8053</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">peer0.s1.supply.com:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">peer0.s1.supply.com</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">hyperledger/fabric-peer:2.2.0</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="comment">#Generic peer variables</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock</span></span><br><span class="line">      <span class="comment"># the following setting starts chaincode containers on the same</span></span><br><span class="line">      <span class="comment"># bridge network as the peers</span></span><br><span class="line">      <span class="comment"># https://docs.docker.com/compose/networking/</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=docker_test</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">FABRIC_LOGGING_SPEC=INFO</span></span><br><span class="line">      <span class="comment">#- FABRIC_LOGGING_SPEC=DEBUG</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_PROFILE_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt</span></span><br><span class="line">      <span class="comment"># Peer specific variabes</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_ID=peer0.s1.supply.com</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_ADDRESS=peer0.s1.supply.com:8055</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_LISTENADDRESS=0.0.0.0:8055</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_CHAINCODEADDRESS=peer0.s1.supply.com:8056</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8056</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_GOSSIP_BOOTSTRAP=peer0.s1.supply.com:8055</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_LOCALMSPID=GylSOrg1MSP</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/var/run/:/host/var/run/</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations/peerOrganizations/s1.supply.com/peers/peer0.s1.supply.com/msp:/etc/hyperledger/fabric/msp</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations/peerOrganizations/s1.supply.com/peers/peer0.s1.supply.com/tls:/etc/hyperledger/fabric/tls</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">peer0.s1.supply.com:/var/hyperledger/production</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations:/tmp</span></span><br><span class="line">    <span class="attr">working_dir:</span> <span class="string">/opt/gopath/src/github.com/hyperledger/fabric/peer</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">peer</span> <span class="string">node</span> <span class="string">start</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8055</span><span class="string">:8055</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">peer0.s2.supply.com:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">peer0.s2.supply.com</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">hyperledger/fabric-peer:2.2.0</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="comment">#Generic peer variables</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock</span></span><br><span class="line">      <span class="comment"># the following setting starts chaincode containers on the same</span></span><br><span class="line">      <span class="comment"># bridge network as the peers</span></span><br><span class="line">      <span class="comment"># https://docs.docker.com/compose/networking/</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=docker_test</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">FABRIC_LOGGING_SPEC=INFO</span></span><br><span class="line">      <span class="comment">#- FABRIC_LOGGING_SPEC=DEBUG</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_PROFILE_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt</span></span><br><span class="line">      <span class="comment"># Peer specific variabes</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_ID=peer0.s2.supply.com</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_ADDRESS=peer0.s2.supply.com:8151</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_LISTENADDRESS=0.0.0.0:8151</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_CHAINCODEADDRESS=peer0.s2.supply.com:8152</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8152</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.s2.supply.com:8151</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_GOSSIP_BOOTSTRAP=peer0.s2.supply.com:8151</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CORE_PEER_LOCALMSPID=GylSOrg2MSP</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/var/run/:/host/var/run/</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations/peerOrganizations/s2.supply.com/peers/peer0.s2.supply.com/msp:/etc/hyperledger/fabric/msp</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations/peerOrganizations/s2.supply.com/peers/peer0.s2.supply.com/tls:/etc/hyperledger/fabric/tls</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">../organizations:/tmp</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">peer0.s2.supply.com:/var/hyperledger/production</span></span><br><span class="line">    <span class="attr">working_dir:</span> <span class="string">/opt/gopath/src/github.com/hyperledger/fabric/peer</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">peer</span> <span class="string">node</span> <span class="string">start</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8151</span><span class="string">:8151</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">test</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用docker-compose-yml配置文件启动各组织的服务">使用docker-compose.yml配置文件启动各组织的服务</h3>
+<p>命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose -f ./docker/docker-compose.yml up -d</span><br></pre></td></tr></table></figure>
+<p>启动之后会在docker启动下面这些容器：</p>
+<ul>
+<li><a href="http://orderer.supply.com" target="_blank" rel="noopener">orderer.supply.com</a>:排序节点</li>
+<li><a href="http://peer0.core.supply.com" target="_blank" rel="noopener">peer0.core.supply.com</a>:核心企业节点</li>
+<li><a href="http://peer0.f1.supply.com" target="_blank" rel="noopener">peer0.f1.supply.com</a>:一级供应商节点</li>
+<li><a href="http://peer0.s1.supply.com" target="_blank" rel="noopener">peer0.s1.supply.com</a>:二级供应商1节点</li>
+<li><a href="http://peer0.s2.supply.com" target="_blank" rel="noopener">peer0.s2.supply.com</a>:二级供应商2节点</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#通过供应链金融练习Fabric-创建网络"><span class="toc-number">1.</span> <span class="toc-text">通过供应链金融练习Fabric-创建网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生成加密材料"><span class="toc-number">1.1.</span> <span class="toc-text">生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建配置文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用配置文件生成加密材料"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用配置文件生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用加密材料生成创世纪区块"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">使用加密材料生成创世纪区块</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动网络"><span class="toc-number">1.2.</span> <span class="toc-text">启动网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置docker-compose-yml文件"><span class="toc-number">1.2.1.</span> <span class="toc-text">配置docker-compose.yml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用docker-compose-yml配置文件启动各组织的服务"><span class="toc-number">1.2.2.</span> <span class="toc-text">使用docker-compose.yml配置文件启动各组织的服务</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&text=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&is_video=false&description=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=blockchain/fabric/通过供应链金融练习Fabric/创建网络&body=Check out this article: https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&name=blockchain/fabric/通过供应链金融练习Fabric/创建网络&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&t=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
