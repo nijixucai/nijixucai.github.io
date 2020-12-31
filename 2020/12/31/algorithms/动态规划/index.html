@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="动态规划 本来想用5W2H分析法来解释此问题，但是发现比较困难，还是先看例子吧。动态规划的原理：动态规划先解决子问题，再逐步解决大问题。先有这个简单的概念即可，我会通过例子来说明。 举例：做个小偷顾问 例1，打家劫舍（无限背包问题） 问题描述 在万恶的资本主义社会美国，有一个小偷（罗伯特），有一天晚上罗伯特与他的同伙开了一辆卡车（假如可以装无限的现金）来到了一排主人都出门旅游去了的房屋面前，每间房">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划学习">
+<meta property="og:url" content="https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="动态规划 本来想用5W2H分析法来解释此问题，但是发现比较困难，还是先看例子吧。动态规划的原理：动态规划先解决子问题，再逐步解决大问题。先有这个简单的概念即可，我会通过例子来说明。 举例：做个小偷顾问 例1，打家劫舍（无限背包问题） 问题描述 在万恶的资本主义社会美国，有一个小偷（罗伯特），有一天晚上罗伯特与他的同伙开了一辆卡车（假如可以装无限的现金）来到了一排主人都出门旅游去了的房屋面前，每间房">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/1604543616351-c27c0806-d0c7-47a7-b7f7-2e182fc1e17d.png">
+<meta property="article:published_time" content="2020-12-31T05:34:31.461Z">
+<meta property="article:modified_time" content="2020-12-31T05:47:40.408Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="数据结构与算法">
+<meta property="article:tag" content="动态规划">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/guozhe001/images/raw/master/1604543616351-c27c0806-d0c7-47a7-b7f7-2e182fc1e17d.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>动态规划学习</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/12/31/others/Gradle%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%88%B0channel/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&text=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&title=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&is_video=false&description=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=动态规划学习&body=Check out this article: https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&title=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&title=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&title=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&title=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&name=动态规划学习&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&t=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#动态规划"><span class="toc-number">1.</span> <span class="toc-text">动态规划</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#举例：做个小偷顾问"><span class="toc-number">2.</span> <span class="toc-text">举例：做个小偷顾问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#例1，打家劫舍（无限背包问题）"><span class="toc-number">2.1.</span> <span class="toc-text">例1，打家劫舍（无限背包问题）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述"><span class="toc-number">2.1.1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题分析"><span class="toc-number">2.1.2.</span> <span class="toc-text">问题分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、简化问题"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">1、简化问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、各个击破简化后的问题"><span class="toc-number">2.1.2.2.</span> <span class="toc-text">2、各个击破简化后的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、总结归纳"><span class="toc-number">2.1.2.3.</span> <span class="toc-text">3、总结归纳</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、代码实现"><span class="toc-number">2.1.2.4.</span> <span class="toc-text">4、代码实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例2，背包问题"><span class="toc-number">2.2.</span> <span class="toc-text">例2，背包问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述-v2"><span class="toc-number">2.2.1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题分析-v2"><span class="toc-number">2.2.2.</span> <span class="toc-text">问题分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、简化问题-v2"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">1、简化问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、简化后的问题各个击破"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">2、简化后的问题各个击破</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#把问题最小化：只有一个商品，只能装1kg的背包"><span class="toc-number">2.2.2.2.1.</span> <span class="toc-text">把问题最小化：只有一个商品，只能装1kg的背包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#增加难度，增加背包的容量：只有一个商品，背包的重量逐渐增加到罗伯特的背包重量"><span class="toc-number">2.2.2.2.2.</span> <span class="toc-text">增加难度，增加背包的容量：只有一个商品，背包的重量逐渐增加到罗伯特的背包重量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#继续增加难度，增加一个商品"><span class="toc-number">2.2.2.2.3.</span> <span class="toc-text">继续增加难度，增加一个商品</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#继续增加难度，再增加一个商品再增加一个商品"><span class="toc-number">2.2.2.2.4.</span> <span class="toc-text">继续增加难度，再增加一个商品再增加一个商品</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、总结归纳"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">2、总结归纳</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是动态规划（英语：Dynamic-programming，简称DP）"><span class="toc-number">3.</span> <span class="toc-text">什么是动态规划（英语：Dynamic programming，简称DP）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念："><span class="toc-number">3.1.</span> <span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用途："><span class="toc-number">3.2.</span> <span class="toc-text">用途：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#适用情况"><span class="toc-number">3.2.1.</span> <span class="toc-text">适用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最优子结构性质"><span class="toc-number">3.2.2.</span> <span class="toc-text">最优子结构性质</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#效率："><span class="toc-number">3.3.</span> <span class="toc-text">效率：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些可以使用动态规划解决的常见题目"><span class="toc-number">3.4.</span> <span class="toc-text">一些可以使用动态规划解决的常见题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态规划不可以解决什么问题"><span class="toc-number">3.5.</span> <span class="toc-text">动态规划不可以解决什么问题</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        动态规划学习
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-31T05:34:31.461Z" itemprop="datePublished">2020-12-31</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a>, <a class="tag-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="动态规划">动态规划</h1>
+<p>本来想用5W2H分析法来解释此问题，但是发现比较困难，还是先看例子吧。<br>动态规划的原理：动态规划先解决子问题，再逐步解决大问题。先有这个简单的概念即可，我会通过例子来说明。</p>
+<h1 id="举例：做个小偷顾问">举例：做个小偷顾问</h1>
+<h2 id="例1，打家劫舍（无限背包问题）">例1，打家劫舍（无限背包问题）</h2>
+<h3 id="问题描述">问题描述</h3>
+<p>在万恶的资本主义社会美国，有一个小偷（罗伯特），有一天晚上罗伯特与他的同伙开了一辆卡车（假如可以装无限的现金）来到了一排主人都出门旅游去了的房屋面前，每间房内都藏有一定的现金，影响罗伯特偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。 请帮他设计程序以偷取最多的现金。<br></p>
+<h3 id="问题分析"><img src="https://gitee.com/guozhe001/images/raw/master/1604543616351-c27c0806-d0c7-47a7-b7f7-2e182fc1e17d.png" alt="image.png">问题分析</h3>
+<h4 id="1、简化问题">1、简化问题</h4>
+<ul>
+<li>如果只有一个房子罗伯特最多能偷多少钱？</li>
+<li>如果有两个房子罗伯特最多能偷多少钱？</li>
+<li>如果有三个房子罗伯特最多能偷多少钱？</li>
+<li>。。。。。。</li>
+</ul>
+<p><br>为了方便分析，我们把房子的数量和能够偷的钱数记录下来，我们画一个表格如下：</p>
+<ul>
+<li>第一列表示如果只偷前面的n个房子</li>
+<li>第二列表示如果只偷前面的n个房子最多能偷多少钱</li>
+<li>括号里面的是偷哪些房子</li>
+</ul>
+<h4 id="2、各个击破简化后的问题">2、各个击破简化后的问题</h4>
+<p><strong>如果只有前面一个房子罗伯特最多能偷多少钱？</strong></p>
+<table>
+<thead>
+<tr>
+<th>房子数量</th>
+<th>最多能偷多少钱？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>$100(1)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>如果只有前面两个房子罗伯特最多能偷多少钱？</strong><br>当只有前面两个房子时，因为限制条件是不能偷相邻的房子不然会触发报警，所以偷其中金额大的那个即可。<br></p>
+<table>
+<thead>
+<tr>
+<th>房子数量</th>
+<th>最多能偷多少钱？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>$100(1)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$200(2)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>如果只有前面三个房子罗伯特最多能偷多少钱？</strong><br>当只有前面三个房子时，我们有两种选择，第1种：偷第三个和第一个；第2种：偷第二个。从两种选择中挑一个能偷的金额较大的方法。</p>
+<table>
+<thead>
+<tr>
+<th>房子数量</th>
+<th>最多能偷多少钱？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>$100(1)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$200(2)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$200(2)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>如果只有前面四个房子罗伯特最多能偷多少钱？</strong></p>
+<p>当只有前面四个房子时，我们有两种选择：</p>
+<ul>
+<li>第1种：偷第四个，再加上偷前两个房子的最大值</li>
+<li>第2种：不偷第四个，只偷前面三个房子的最大值</li>
+</ul>
+<p>从两种选择中挑一个能偷的金额较大的方法。</p>
+<table>
+<thead>
+<tr>
+<th>房子数量</th>
+<th>最多能偷多少钱？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>$100(1)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$200(2)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$200(2)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>$500 = $300(4) + $200(2)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>如果只有前面五个房子罗伯特最多能偷多少钱？</strong><br>当只有前面五个房子时，我们有两种选择：</p>
+<ul>
+<li>第1种：偷第五个，再加上偷前三个房子的最大值</li>
+<li>第2种：不偷第五个，只偷前面四个房子的最大值</li>
+</ul>
+<p>从两种选择中挑一个能偷的金额较大的方法。</p>
+<table>
+<thead>
+<tr>
+<th>房子数量</th>
+<th>最多能偷多少钱？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>$100(1)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$200(2)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$200(2)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>$500 = $300(4) + $200(2)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>$500 = $300(4) + $200(2)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3、总结归纳">3、总结归纳</h4>
+<p>我们通过上面的表格可以总结出来什么吗？我们在此约定一个数学公式：total(n)表示最大能偷的金额；使用amount(n)表示第n个房子有多少金额<br>根据以上的表格我们可以知道<br>total(1) = 100 = amount(1) = max(amount(1), 0)<br>total(2) = 200 = max(amount(2), amount(1))<br>total(3) = 200 = max(amount(3) + amount(1), amount(2)) = max(amount(3) + total(3-2), total(2))<br>total(4) = 500 = max(amount(4) + total(4-2), amount(3)) = max(amount(4) + total(4-2), total(3)) <br>total(n) = max(amount(n) + total(n-2), total(n-1))</p>
+<h4 id="4、代码实现">4、代码实现</h4>
+<p>经过上面的分析我们竟然总结出了一个公式：total(n) = max(amount(n) + total(n-2), total(n-1))<br>大家应该对斐波那契数列比较熟悉，他的公式是：f(n) = f(n-1) + f(n-2)，然后可能第一反应就想到了递归的实现，那么我们也可以使用递归的方式解决罗伯特的问题把？show you the code：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 递归方式</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">robRecursion</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 当没有房子时</span></span><br><span class="line">    <span class="keyword">if</span> (Objects.isNull(nums) || nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums.length == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 当只有一个房子时</span></span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums.length == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="comment">// 当只有两个房子时</span></span><br><span class="line">        <span class="keyword">return</span> Math.max(nums[<span class="number">0</span>], nums[<span class="number">1</span>]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 其他情况</span></span><br><span class="line">        <span class="comment">// total(n) = max(amount(n) + total(n-2), total(n-1))</span></span><br><span class="line">        <span class="keyword">return</span> Math.max(nums[nums.length - <span class="number">1</span>] + robRecursion(Arrays.copyOf(nums, nums.length - <span class="number">2</span>)),</span><br><span class="line">                robRecursion(Arrays.copyOf(nums, nums.length - <span class="number">1</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>OK，大功告成，上面的代码经过测试是没有问题的，解决了罗伯特的问题，回家睡觉。<br>等等！！！我们是不是忘了什么，这篇文章的标题不是动态规划吗，动态规划呢？<br>**<br>让我们再回头看一下递归的方式实现，每当要计算total(n)时，就先计算total(n-1)和total(n-2)，如果说我们先计算出来total(n-1)和total(n-2)是不是计算total(n)的时候就不用重新计算total(n-1)和total(n-2)了？按照这个思路我们就需要把每次计算出的total(n-1)和total(n-2)的结果记录下来，等计算total(n)的时候就可以直接用了。<br>show you the code：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 动态规划方式</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 初始化动态规划的数组，此时的数组中的值都是0</span></span><br><span class="line"><span class="comment">     * 此数组的下标为偷取的前n个房屋的数量</span></span><br><span class="line"><span class="comment">     * 此数组的值为偷取的前n个房屋可以偷取的金钱最大值</span></span><br><span class="line"><span class="comment">     * 如果dp[5] = 100；表示偷取前面的5家房屋，最多可以偷取100刀</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> amountOfNumberI = nums[i - <span class="number">1</span>];</span><br><span class="line">        <span class="comment">// 如果只偷第一个房子</span></span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">1</span>) &#123;</span><br><span class="line">            dp[i] = amountOfNumberI;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">             * 此时有两种选择:1、偷当前的房屋；2、不偷当前的房屋，两种选择取最大值</span></span><br><span class="line"><span class="comment">             * 如果选择1，则要计算当前房屋的金钱与当前房屋前一个不相邻的所有房屋的金钱价值</span></span><br><span class="line"><span class="comment">             * 如果选择2，则直接取当前房屋之前的所有房屋能够偷的金钱最大值</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            dp[i] = Math.max(amountOfNumberI + dp[i - <span class="number">2</span>], dp[i - <span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[nums.length];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>恭喜你，上面的代码就是动态规划的方式；与递归的方式不同，每次的计算结果都保存在了dp数组中，计算下一个值时直接从数组中获取以前计算过的值即可。<a href="https://github.com/guozhe001/my-tools/blob/eb33781f6fe3613ca531ad047de60b2cb0ec8e45/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/leetcode/editor/cn/P198HouseRobber.java" target="_blank" rel="noopener">罗伯特偷一排房子的源码</a><br></p>
+<h2 id="例2，背包问题">例2，背包问题</h2>
+<h3 id="问题描述-v2">问题描述</h3>
+<p>有一天罗伯特带着一个可以装4kg的背包，去了一家小商店，小商店里面有下面至少三个商品；请帮助他决定应该偷哪些商品。</p>
+<table>
+<thead>
+<tr>
+<th>商品名称</th>
+<th>商品价格（单位$）</th>
+<th>商品重量（单位kg）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>吉他</td>
+<td>1500</td>
+<td>1</td>
+</tr>
+<tr>
+<td>音箱</td>
+<td>3000</td>
+<td>4</td>
+</tr>
+<tr>
+<td>电脑</td>
+<td>2000</td>
+<td>3</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+<h3 id="问题分析-v2">问题分析</h3>
+<p>首先拿到这个问题可能一眼就看出来了答案，就是偷吉他和电脑；那么如果说商品数量是100个的话是无法一眼看出答案的，那么我们应该怎么去帮罗伯特决策呢？<br><br>
+<br>我们再来看一下问题的关键：</p>
+<ul>
+<li>容量4kg的背包</li>
+<li>至少三个不同价格和不同重量的商品</li>
+<li>一个商品要嘛全偷要嘛不偷，不能只偷一部分</li>
+<li>偷的商品列表背包必须能装的下，并且价格最大</li>
+</ul>
+<h4 id="1、简化问题-v2">1、简化问题</h4>
+<p>简化问题的过程：</p>
+<ul>
+<li>最简单的是什么？只有一个商品，只能装1kg的背包</li>
+<li>增加点难度，只有一个商品，背包的重量逐渐增加到罗伯特的背包重量</li>
+<li>继续增加难度，只有两个商品，1kg的背包能偷什么？2kg的背包能偷什么？3kg、4kg呢？</li>
+<li>有三个商品，1kg的背包能偷什么？2kg的背包能偷什么？3kg、4kg呢？</li>
+<li>有n个商品和能装mkg的背包</li>
+</ul>
+<h4 id="2、简化后的问题各个击破">2、简化后的问题各个击破</h4>
+<h5 id="把问题最小化：只有一个商品，只能装1kg的背包">把问题最小化：只有一个商品，只能装1kg的背包</h5>
+<p>到这里其实我们还是无法知道到底应该怎么帮罗伯特决策，那么我们可不可以把问题简化一下，假如背包容量是1，商品个数也是1只有一把吉他；如下：</p>
+<ul>
+<li>容量1kg的背包</li>
+<li>1把重量是1kg价格是$1500的吉他</li>
+</ul>
+<p>如果是上面简化后的问题，我们是可以计算的，计算方法是：判断吉他能否装入背包，如果可以则1kg容量的背包可以偷吉他，最大价格是$1500，我们继续使用一个表格把它记录下来：<br>我们先约定好表格的内容：</p>
+<ul>
+<li>行表示背包的容量</li>
+<li>列表示有哪些商品</li>
+<li>单元格的数字表示可以偷的最大值</li>
+<li>括号里面是偷哪些商品<br>
+| 商品\容量 | 1 |<br>
+| — | — |<br>
+| 吉他 | 1500（吉他） |</li>
+</ul>
+<p>我们是如何得到上面的表格的呢？判断吉他是否能装进容量为1kg的背包中，如果可以则偷吉他，吉他的价格也就是偷取的最大的价格。</p>
+<h5 id="增加难度，增加背包的容量：只有一个商品，背包的重量逐渐增加到罗伯特的背包重量">增加难度，增加背包的容量：只有一个商品，背包的重量逐渐增加到罗伯特的背包重量</h5>
+<p>我们在上面的基础上再把背包的容量增加，直到增加到与罗伯特的背包相同的容量为止，但是依然只可以偷取一把吉他；我们把这些信息记录下来如下，其中第一列为商品，第一行为背包容量，表格记录的是偷取商品的最大价格，括号里面的是偷取的商品。<br>如下表的红色部分就代表，背包容量为4只有一把吉他可偷时，可以偷取的商品最大价格是1500，偷取的商品是吉他。</p>
+<table>
+<thead>
+<tr>
+<th>商品\容量</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>吉他</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+</tr>
+</tbody>
+</table>
+<h5 id="继续增加难度，增加一个商品">继续增加难度，增加一个商品</h5>
+<p>我们再在上面的基础上，增加可以偷取的商品，再加一个音箱，然后使用相同的方法绘制上面的表格；</p>
+<table>
+<thead>
+<tr>
+<th>商品\容量</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>吉他</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+</tr>
+<tr>
+<td>音箱</td>
+<td>1500（吉他）</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>上面可以看到**table[音箱][容量1]**的单元格的值如上表是1500,因为容量是1的背包无法装下音箱，所以依然只能偷吉他，所以可以偷取的商品的最大的价格为1500。<br>让我们完成这个表格的填写：</p>
+<table>
+<thead>
+<tr>
+<th>商品\容量</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>吉他</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+</tr>
+<tr>
+<td>音箱</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>3000（音箱）</td>
+</tr>
+</tbody>
+</table>
+<p>如上表所示，当背包容量为4时，可以装下音箱，并且音箱的价格3000大于**table[吉他][容量4]<strong>的1500，所以此时我们设置</strong>table[音箱][容量4]<strong>的单元格的最大价格为3000。<strong>table[音箱][容量4] = Max(当前行计算的值, table[吉他][容量4])</strong><br></strong></p>
+<h5 id="继续增加难度，再增加一个商品再增加一个商品">继续增加难度，再增加一个商品再增加一个商品</h5>
+<p>我们继续把电脑增加到可以偷取的商品列表中，然后继续使用相同的方法画出电脑行的前三个容量的单元格如下：此时我们可以看到**table[电脑][容量3]**的值应该是2000，因为容量是3时可以装下电脑，而且电脑的价格比吉他的价格高，所以此时罗伯特应该偷电脑而不是吉他。</p>
+<table>
+<thead>
+<tr>
+<th>商品\容量</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>吉他</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+</tr>
+<tr>
+<td>音箱</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>3000（音箱）</td>
+</tr>
+<tr>
+<td>电脑</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>2000（电脑）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>table[电脑][容量3] = Max(当前行计算的值, table[音箱][容量3])</strong><br>我们继续看最后一个单元格（**table[电脑][容量4]）**应该填什么，如果罗伯特偷电脑，则背包容量还剩下1，而容量为1的背包可以偷取的商品价格最大值是1500，偷取的商品是吉他，所以此时可以选择偷取电脑+吉他，价格是2000+1500=3500；这比之前记录的背包容量是4时的商品最大值（3000）大，所以这个单元格的价格应该是3500，偷取的商品是电脑+吉他</p>
+<table>
+<thead>
+<tr>
+<th>商品\容量</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>吉他</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+</tr>
+<tr>
+<td>音箱</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>3000（音箱）</td>
+</tr>
+<tr>
+<td>电脑</td>
+<td>1500（吉他）</td>
+<td>1500（吉他）</td>
+<td>2000（电脑）</td>
+<td>3500（电脑+吉他）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>table[电脑][容量4] = Max(当前行计算的值 + 剩余容量可以偷取的最大值, table[音箱][容量3])</strong><br>OK，完成上面的表格之后我们就可以确定，罗伯特应该偷电脑+吉他，商品的价格为3500。随着我们不断的填写表格，我们可以知道结果最终保存在表格的右下角，即**table[电脑][容量4]**的单元格内。</p>
+<h4 id="2、总结归纳">2、总结归纳</h4>
+<p>让我们总结一下每个单元格填写的规律：<br>假设背包总容量为V，商品的数量是M，第i个商品的重量是Wi，价格是Pi，容量是v（1&lt;v&lt;=V）时我们可以使用下面的公式：<br>f(i,v) = Wi &lt;= v ? max(Pi + f(i-1, v-Wi), f(i-1, v)) : f(i-1, v)<br>分解上面的公式：</p>
+<table>
+<thead>
+<tr>
+<th>情形</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wi &lt;= v</td>
+<td>max(Pi + f(i-1, v-Wi), f(i-1, v))</td>
+</tr>
+<tr>
+<td>Wi &gt; v</td>
+<td>f(i-1, v)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3、代码实现</strong><br>我们继续用上面罗伯特打家劫舍的思路，把已经计算过的值保存下来，然后在用到的时候直接取用。因为当前问题有多个商品和多种背包容量两个限制纬度，所以在记录时需要用到二维数组。<br>show you the code：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 给出商品列表和背包的容量，请计算偷取哪些商品可以达到价格最大化，最大的价格是多少？</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> products    商品列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bagCapacity 背包容量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 能够偷取的商品最大的价格之和</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">stealMaxPrice</span><span class="params">(Product[] products, <span class="keyword">int</span> bagCapacity)</span> </span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 二维数组，记录已经计算过的最大价格</span></span><br><span class="line"><span class="comment">         * 二维数组比商品的个数多1，比背包的大小多1，原因是为了方便使用相同的公式，第0行和第0列的值都是0</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">int</span>[][] table = <span class="keyword">new</span> <span class="keyword">int</span>[products.length + <span class="number">1</span>][bagCapacity + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= products.length; j++) &#123;</span><br><span class="line">            Product product = products[j - <span class="number">1</span>];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> currentBagCapacity = <span class="number">1</span>; currentBagCapacity &lt;= bagCapacity; currentBagCapacity++) &#123;</span><br><span class="line">                table[j][currentBagCapacity] = product.weight &lt;= currentBagCapacity ?</span><br><span class="line">                        Math.max(product.price + table[j - <span class="number">1</span>][currentBagCapacity - product.weight], table[j - <span class="number">1</span>][currentBagCapacity])</span><br><span class="line">                        : table[j - <span class="number">1</span>][currentBagCapacity];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> table[products.length][bagCapacity];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 商品信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Product</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Product</span><span class="params">(String name, <span class="keyword">int</span> price, <span class="keyword">int</span> weight)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.name = name;</span><br><span class="line">            <span class="keyword">this</span>.price = price;</span><br><span class="line">            <span class="keyword">this</span>.weight = weight;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 商品名称</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        String name;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 商品价格(单位$)</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">int</span> price;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 商品重量(单位磅)</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">int</span> weight;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br>代码中的table最终是这样的：</p>
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+<td>3000</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+<td>2000</td>
+<td>3500</td>
+</tr>
+</tbody>
+</table>
+<p>其实上面的代码我简化了一下，返回的是最大能偷的价格，而罗伯特当然是要价格最大的商品列表了，这个实现比较麻烦不贴在这里了可以看<a href="https://github.com/guozhe001/my-tools/blob/eb33781f6fe3613ca531ad047de60b2cb0ec8e45/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/other/DynamicProgrammingPractice.java" target="_blank" rel="noopener">源码</a></p>
+<h1 id="什么是动态规划（英语：Dynamic-programming，简称DP）">什么是动态规划（英语：Dynamic programming，简称DP）</h1>
+<h2 id="概念：">概念：</h2>
+<p>动态规划是一种在<a href="https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6" target="_blank" rel="noopener">数学</a>、<a href="https://zh.wikipedia.org/wiki/%E7%AE%A1%E7%90%86%E7%A7%91%E5%AD%A6" target="_blank" rel="noopener">管理科学</a>、<a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6" target="_blank" rel="noopener">计算机科学</a>、<a href="https://zh.wikipedia.org/wiki/%E7%BB%8F%E6%B5%8E%E5%AD%A6" target="_blank" rel="noopener">经济学</a>和<a href="https://zh.wikipedia.org/wiki/%E7%94%9F%E7%89%A9%E4%BF%A1%E6%81%AF%E5%AD%A6" target="_blank" rel="noopener">生物信息学</a>中使用的，通过把原问题分解为相对简单的子问题的方式求解复杂问题的方法。</p>
+<h2 id="用途：">用途：</h2>
+<p>动态规划常常适用于有重叠子问题和最优子结构性质的问题，动态规划方法所耗时间往往远少于朴素解法。<br>动态规划背后的基本思想非常简单。大致上，若要解一个给定问题，我们需要解其不同部分（即子问题），再根据子问题的解以得出原问题的解。</p>
+<h3 id="适用情况">适用情况</h3>
+<ul>
+<li>最优子结构性质。
+<ul>
+<li>如果问题的最优解所包含的子问题的解也是最优的，我们就称该问题具有最优子结构性质（即满足最优化原理）。</li>
+<li>最优子结构性质为动态规划算法解决问题提供了重要线索。</li>
+</ul>
+</li>
+<li>无后效性。
+<ul>
+<li>即子问题的解一旦确定，就不再改变，不受在这之后、包含它的更大的问题的求解决策影响。</li>
+</ul>
+</li>
+<li>子问题重叠性质。
+<ul>
+<li>子问题重叠性质是指在用递归算法自顶向下对问题进行求解时，每次产生的子问题并不总是新问题，有些子问题会被重复计算多次。</li>
+<li>动态规划算法正是利用了这种子问题的重叠性质，对每一个子问题只计算一次，然后将其计算结果保存在一个表格中，当再次需要计算已经计算过的子问题时，只是在表格中简单地查看一下结果，从而获得较高的效率，降低了时间复杂度。</li>
+</ul>
+</li>
+</ul>
+<br>
+### 重叠子问题：如何理解这个概念呢？Fibnacci数列
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">assert</span> n &gt;=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;<span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fib(n-<span class="number">2</span>) + fib(n-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的斐波那契数列的递归的实现方法中，我们传入的参数n等于8或者等于10的时候，第m（m&lt;n）个数字是变化的吗？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">assert</span> n &gt;= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span>[] c = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            c[i] = i;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            c[i] = c[i - <span class="number">2</span>] + c[i - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> c[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>动态规划是递归算法的优化方案，一般来说能用递归的都可以思考一下能不能使用动态规划的方式优化。</p>
+<h3 id="最优子结构性质">最优子结构性质</h3>
+<p>上面两个罗伯特的例子就是最“优自结构性质”的问题，不好解释大家可以自己体会。</p>
+<p><strong>总结：判断是否可以用动态规划解决问题的核心是：大规模的问题是否能够通过较小规模的问题来解决。</strong></p>
+<h2 id="效率：">效率：</h2>
+<p>通常许多子问题非常相似，为此动态规划法试图仅仅解决每个子问题一次，从而减少计算量：一旦某个给定子问题的解已经算出，则将其<a href="https://zh.wikipedia.org/wiki/%E8%AE%B0%E5%BF%86%E5%8C%96" target="_blank" rel="noopener">记忆化</a>存储，以便下次需要同一个子问题解之时直接查表。这种做法在重复子问题的数目关于输入的规模呈<a href="https://zh.wikipedia.org/wiki/%E6%8C%87%E6%95%B8%E5%A2%9E%E9%95%B7" target="_blank" rel="noopener">指数增长</a>时特别有用。<br></p>
+<h2 id="一些可以使用动态规划解决的常见题目">一些可以使用动态规划解决的常见题目</h2>
+<ul>
+<li>爬楼梯问题</li>
+<li>最长子串（子串需要连续）</li>
+<li>最长子序列（子序列不需要连续）</li>
+<li>最长子串的变种：最长回文子串（回文：“上海自来水来自海上”）</li>
+<li>DNA序列比对</li>
+</ul>
+<h2 id="动态规划不可以解决什么问题">动态规划不可以解决什么问题</h2>
+<ul>
+<li>可以拆分的商品（如罗伯特拿着4kg的背包偷四袋不同价格的豆子（这些商品可以拆分））</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#动态规划"><span class="toc-number">1.</span> <span class="toc-text">动态规划</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#举例：做个小偷顾问"><span class="toc-number">2.</span> <span class="toc-text">举例：做个小偷顾问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#例1，打家劫舍（无限背包问题）"><span class="toc-number">2.1.</span> <span class="toc-text">例1，打家劫舍（无限背包问题）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述"><span class="toc-number">2.1.1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题分析"><span class="toc-number">2.1.2.</span> <span class="toc-text">问题分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、简化问题"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">1、简化问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、各个击破简化后的问题"><span class="toc-number">2.1.2.2.</span> <span class="toc-text">2、各个击破简化后的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、总结归纳"><span class="toc-number">2.1.2.3.</span> <span class="toc-text">3、总结归纳</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、代码实现"><span class="toc-number">2.1.2.4.</span> <span class="toc-text">4、代码实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例2，背包问题"><span class="toc-number">2.2.</span> <span class="toc-text">例2，背包问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述-v2"><span class="toc-number">2.2.1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题分析-v2"><span class="toc-number">2.2.2.</span> <span class="toc-text">问题分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、简化问题-v2"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">1、简化问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、简化后的问题各个击破"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">2、简化后的问题各个击破</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#把问题最小化：只有一个商品，只能装1kg的背包"><span class="toc-number">2.2.2.2.1.</span> <span class="toc-text">把问题最小化：只有一个商品，只能装1kg的背包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#增加难度，增加背包的容量：只有一个商品，背包的重量逐渐增加到罗伯特的背包重量"><span class="toc-number">2.2.2.2.2.</span> <span class="toc-text">增加难度，增加背包的容量：只有一个商品，背包的重量逐渐增加到罗伯特的背包重量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#继续增加难度，增加一个商品"><span class="toc-number">2.2.2.2.3.</span> <span class="toc-text">继续增加难度，增加一个商品</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#继续增加难度，再增加一个商品再增加一个商品"><span class="toc-number">2.2.2.2.4.</span> <span class="toc-text">继续增加难度，再增加一个商品再增加一个商品</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、总结归纳"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">2、总结归纳</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是动态规划（英语：Dynamic-programming，简称DP）"><span class="toc-number">3.</span> <span class="toc-text">什么是动态规划（英语：Dynamic programming，简称DP）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念："><span class="toc-number">3.1.</span> <span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用途："><span class="toc-number">3.2.</span> <span class="toc-text">用途：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#适用情况"><span class="toc-number">3.2.1.</span> <span class="toc-text">适用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最优子结构性质"><span class="toc-number">3.2.2.</span> <span class="toc-text">最优子结构性质</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#效率："><span class="toc-number">3.3.</span> <span class="toc-text">效率：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些可以使用动态规划解决的常见题目"><span class="toc-number">3.4.</span> <span class="toc-text">一些可以使用动态规划解决的常见题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态规划不可以解决什么问题"><span class="toc-number">3.5.</span> <span class="toc-text">动态规划不可以解决什么问题</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&text=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&title=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&is_video=false&description=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=动态规划学习&body=Check out this article: https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&title=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&title=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&title=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&title=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&name=动态规划学习&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/31/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&t=动态规划学习" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
