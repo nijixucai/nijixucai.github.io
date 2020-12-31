@@ -6,16 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="通过供应链金融练习Fabric-创建网络 一个生产的fabric网络应该由各个组织自己保存自己的加密材料，测试环境为了演示在本地生成所有组织的加密材料。 生成加密材料 创建配置文件 创建supply-finance文件夹，配置config&#x2F;crypto-config.yaml文件： 123456789101112131415161718192021222324252627282930Orderer">
+    <meta name="description" content="创建网络 一个生产的fabric网络应该由各个组织自己保存自己的加密材料，测试环境为了演示在本地生成所有组织的加密材料。 生成加密材料 创建配置文件 创建supply-finance文件夹，配置config&#x2F;crypto-config.yaml文件： 123456789101112131415161718192021222324252627282930OrdererOrgs:  - Name: O">
 <meta property="og:type" content="article">
-<meta property="og:title" content="blockchain&#x2F;fabric&#x2F;通过供应链金融练习Fabric&#x2F;创建网络">
+<meta property="og:title" content="创建网络">
 <meta property="og:url" content="https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/index.html">
 <meta property="og:site_name" content="滴水成涓">
-<meta property="og:description" content="通过供应链金融练习Fabric-创建网络 一个生产的fabric网络应该由各个组织自己保存自己的加密材料，测试环境为了演示在本地生成所有组织的加密材料。 生成加密材料 创建配置文件 创建supply-finance文件夹，配置config&#x2F;crypto-config.yaml文件： 123456789101112131415161718192021222324252627282930Orderer">
+<meta property="og:description" content="创建网络 一个生产的fabric网络应该由各个组织自己保存自己的加密材料，测试环境为了演示在本地生成所有组织的加密材料。 生成加密材料 创建配置文件 创建supply-finance文件夹，配置config&#x2F;crypto-config.yaml文件： 123456789101112131415161718192021222324252627282930OrdererOrgs:  - Name: O">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-30T09:11:32.892Z">
-<meta property="article:modified_time" content="2020-12-30T09:16:53.953Z">
+<meta property="article:modified_time" content="2020-12-31T04:09:53.355Z">
 <meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="供应链金融">
 <meta name="twitter:card" content="summary">
     
     
@@ -36,7 +39,7 @@
       
     
     <!-- title -->
-    <title>blockchain/fabric/通过供应链金融练习Fabric/创建网络</title>
+    <title>创建网络</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -65,7 +68,9 @@
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -96,21 +101,21 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&text=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&is_video=false&description=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=blockchain/fabric/通过供应链金融练习Fabric/创建网络&body=Check out this article: https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&name=blockchain/fabric/通过供应链金融练习Fabric/创建网络&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&t=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&text=创建网络" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=创建网络" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&is_video=false&description=创建网络" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=创建网络&body=Check out this article: https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=创建网络" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=创建网络" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=创建网络" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=创建网络" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&name=创建网络&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&t=创建网络" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#通过供应链金融练习Fabric-创建网络"><span class="toc-number">1.</span> <span class="toc-text">通过供应链金融练习Fabric-创建网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生成加密材料"><span class="toc-number">1.1.</span> <span class="toc-text">生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建配置文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用配置文件生成加密材料"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用配置文件生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用加密材料生成创世纪区块"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">使用加密材料生成创世纪区块</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动网络"><span class="toc-number">1.2.</span> <span class="toc-text">启动网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置docker-compose-yml文件"><span class="toc-number">1.2.1.</span> <span class="toc-text">配置docker-compose.yml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用docker-compose-yml配置文件启动各组织的服务"><span class="toc-number">1.2.2.</span> <span class="toc-text">使用docker-compose.yml配置文件启动各组织的服务</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#创建网络"><span class="toc-number">1.</span> <span class="toc-text">创建网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生成加密材料"><span class="toc-number">1.1.</span> <span class="toc-text">生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建配置文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用配置文件生成加密材料"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用配置文件生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用加密材料生成创世纪区块"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">使用加密材料生成创世纪区块</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动网络"><span class="toc-number">1.2.</span> <span class="toc-text">启动网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置docker-compose-yml文件"><span class="toc-number">1.2.1.</span> <span class="toc-text">配置docker-compose.yml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用docker-compose-yml配置文件启动各组织的服务"><span class="toc-number">1.2.2.</span> <span class="toc-text">使用docker-compose.yml配置文件启动各组织的服务</span></a></li></ol></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -122,7 +127,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        blockchain/fabric/通过供应链金融练习Fabric/创建网络
+        创建网络
     </h1>
 
 
@@ -141,15 +146,25 @@
 
 
       
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a>
+    </div>
+
 
       
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link" href="/tags/%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D/" rel="tag">供应链金融</a>
+    </div>
+
 
     </div>
   </header>
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="通过供应链金融练习Fabric-创建网络">通过供应链金融练习Fabric-创建网络</h1>
+    <h1 id="创建网络">创建网络</h1>
 <p>一个生产的fabric网络应该由各个组织自己保存自己的加密材料，测试环境为了演示在本地生成所有组织的加密材料。</p>
 <h2 id="生成加密材料">生成加密材料</h2>
 <h3 id="创建配置文件">创建配置文件</h3>
@@ -197,7 +212,9 @@
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -209,22 +226,22 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#通过供应链金融练习Fabric-创建网络"><span class="toc-number">1.</span> <span class="toc-text">通过供应链金融练习Fabric-创建网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生成加密材料"><span class="toc-number">1.1.</span> <span class="toc-text">生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建配置文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用配置文件生成加密材料"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用配置文件生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用加密材料生成创世纪区块"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">使用加密材料生成创世纪区块</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动网络"><span class="toc-number">1.2.</span> <span class="toc-text">启动网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置docker-compose-yml文件"><span class="toc-number">1.2.1.</span> <span class="toc-text">配置docker-compose.yml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用docker-compose-yml配置文件启动各组织的服务"><span class="toc-number">1.2.2.</span> <span class="toc-text">使用docker-compose.yml配置文件启动各组织的服务</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#创建网络"><span class="toc-number">1.</span> <span class="toc-text">创建网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生成加密材料"><span class="toc-number">1.1.</span> <span class="toc-text">生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建配置文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用配置文件生成加密材料"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用配置文件生成加密材料</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用加密材料生成创世纪区块"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">使用加密材料生成创世纪区块</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动网络"><span class="toc-number">1.2.</span> <span class="toc-text">启动网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置docker-compose-yml文件"><span class="toc-number">1.2.1.</span> <span class="toc-text">配置docker-compose.yml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用docker-compose-yml配置文件启动各组织的服务"><span class="toc-number">1.2.2.</span> <span class="toc-text">使用docker-compose.yml配置文件启动各组织的服务</span></a></li></ol></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&text=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&is_video=false&description=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=blockchain/fabric/通过供应链金融练习Fabric/创建网络&body=Check out this article: https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&name=blockchain/fabric/通过供应链金融练习Fabric/创建网络&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&t=blockchain/fabric/通过供应链金融练习Fabric/创建网络" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&text=创建网络" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=创建网络" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&is_video=false&description=创建网络" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=创建网络&body=Check out this article: https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=创建网络" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=创建网络" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=创建网络" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&title=创建网络" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&name=创建网络&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C/&t=创建网络" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -248,13 +265,15 @@
     2020
     guozhe
   </div>
-  <div class="footer-right">
+  <!-- <div class="footer-right">
     <nav>
       <ul>
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -264,7 +283,7 @@
         
       </ul>
     </nav>
-  </div>
+  </div> -->
 </footer>
 
     </div>

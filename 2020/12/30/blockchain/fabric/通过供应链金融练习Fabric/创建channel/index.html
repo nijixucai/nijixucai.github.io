@@ -6,17 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="通过供应链金融练习Fabric-创建channel 2. 创建Channel 参考：创建一个新的channel 创建通道： 运行下面的程序来为coreandfirstchannel通道创建一个“创建通道的交易” 1configtxgen -profile CoreAndFirstChannel -outputCreateChannelTx .&#x2F;channel-artifacts&#x2F;coreandfi">
+    <meta name="description" content="2. 创建Channel 参考：创建一个新的channel 创建通道： 运行下面的程序来为coreandfirstchannel通道创建一个“创建通道的交易” 1configtxgen -profile CoreAndFirstChannel -outputCreateChannelTx .&#x2F;channel-artifacts&#x2F;coreandfirstchannel.tx -channelID c">
 <meta property="og:type" content="article">
-<meta property="og:title" content="blockchain&#x2F;fabric&#x2F;通过供应链金融练习Fabric&#x2F;创建channel">
+<meta property="og:title" content="创建channel">
 <meta property="og:url" content="https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/index.html">
 <meta property="og:site_name" content="滴水成涓">
-<meta property="og:description" content="通过供应链金融练习Fabric-创建channel 2. 创建Channel 参考：创建一个新的channel 创建通道： 运行下面的程序来为coreandfirstchannel通道创建一个“创建通道的交易” 1configtxgen -profile CoreAndFirstChannel -outputCreateChannelTx .&#x2F;channel-artifacts&#x2F;coreandfi">
+<meta property="og:description" content="2. 创建Channel 参考：创建一个新的channel 创建通道： 运行下面的程序来为coreandfirstchannel通道创建一个“创建通道的交易” 1configtxgen -profile CoreAndFirstChannel -outputCreateChannelTx .&#x2F;channel-artifacts&#x2F;coreandfirstchannel.tx -channelID c">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/image-20201224192439225.png">
 <meta property="article:published_time" content="2020-12-30T09:18:28.198Z">
-<meta property="article:modified_time" content="2020-12-30T09:21:57.597Z">
+<meta property="article:modified_time" content="2020-12-31T04:09:40.538Z">
 <meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="channel">
+<meta property="article:tag" content="供应链金融">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://gitee.com/guozhe001/images/raw/master/image-20201224192439225.png">
     
@@ -38,7 +42,7 @@
       
     
     <!-- title -->
-    <title>blockchain/fabric/通过供应链金融练习Fabric/创建channel</title>
+    <title>创建channel</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -67,7 +71,9 @@
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -98,16 +104,16 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&text=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&is_video=false&description=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=blockchain/fabric/通过供应链金融练习Fabric/创建channel&body=Check out this article: https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&name=blockchain/fabric/通过供应链金融练习Fabric/创建channel&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&t=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&text=创建channel" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=创建channel" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&is_video=false&description=创建channel" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=创建channel&body=Check out this article: https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=创建channel" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=创建channel" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=创建channel" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=创建channel" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&name=创建channel&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&t=创建channel" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -124,7 +130,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        blockchain/fabric/通过供应链金融练习Fabric/创建channel
+        创建channel
     </h1>
 
 
@@ -143,16 +149,25 @@
 
 
       
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/channel/">channel</a>
+    </div>
+
 
       
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link" href="/tags/channel/" rel="tag">channel</a>, <a class="tag-link" href="/tags/%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D/" rel="tag">供应链金融</a>
+    </div>
+
 
     </div>
   </header>
   
 
   <div class="content" itemprop="articleBody">
-    <p>通过供应链金融练习Fabric-创建channel</p>
-<h2 id="2-创建Channel">2. 创建Channel</h2>
+    <h2 id="2-创建Channel">2. 创建Channel</h2>
 <p>参考：<a href="%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel.md">创建一个新的channel</a></p>
 <h3 id="创建通道：">创建通道：</h3>
 <p>运行下面的程序来为<code>coreandfirstchannel</code>通道创建一个“创建通道的交易”</p>
@@ -311,7 +326,9 @@
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -329,16 +346,16 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&text=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&is_video=false&description=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=blockchain/fabric/通过供应链金融练习Fabric/创建channel&body=Check out this article: https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&name=blockchain/fabric/通过供应链金融练习Fabric/创建channel&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&t=blockchain/fabric/通过供应链金融练习Fabric/创建channel" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&text=创建channel" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=创建channel" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&is_video=false&description=创建channel" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=创建channel&body=Check out this article: https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=创建channel" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=创建channel" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=创建channel" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&title=创建channel" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&name=创建channel&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E5%88%9B%E5%BB%BAchannel/&t=创建channel" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -362,13 +379,15 @@
     2020
     guozhe
   </div>
-  <div class="footer-right">
+  <!-- <div class="footer-right">
     <nav>
       <ul>
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -378,7 +397,7 @@
         
       </ul>
     </nav>
-  </div>
+  </div> -->
 </footer>
 
     </div>

@@ -8,14 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="项目背景 为了学习Fabric，模拟搭建一个供应链金融的区块链项目。 为了简单起见，此项目有以下四个组织：  核心企业 一级供应商 二级供应商1 二级供应商2  操作步骤：  设置环境变量 创建网络 创建channel 开发智能合约 部署智能合约到channel并进行交易 交易与验证：查看“部署supply-v8到alljoinchannel通道”部分 源码地址  总结： 本项目成功的在测试环境自">
 <meta property="og:type" content="article">
-<meta property="og:title" content="blockchain&#x2F;fabric&#x2F;通过供应链金融练习Fabric&#x2F;summary">
+<meta property="og:title" content="使用Fabric搭建一个简单的供应链金融项目">
 <meta property="og:url" content="https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/index.html">
 <meta property="og:site_name" content="滴水成涓">
 <meta property="og:description" content="项目背景 为了学习Fabric，模拟搭建一个供应链金融的区块链项目。 为了简单起见，此项目有以下四个组织：  核心企业 一级供应商 二级供应商1 二级供应商2  操作步骤：  设置环境变量 创建网络 创建channel 开发智能合约 部署智能合约到channel并进行交易 交易与验证：查看“部署supply-v8到alljoinchannel通道”部分 源码地址  总结： 本项目成功的在测试环境自">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-22T08:15:02.071Z">
-<meta property="article:modified_time" content="2020-12-30T10:03:35.183Z">
+<meta property="article:modified_time" content="2020-12-31T04:09:20.018Z">
 <meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="供应链金融">
 <meta name="twitter:card" content="summary">
     
     
@@ -36,7 +39,7 @@
       
     
     <!-- title -->
-    <title>blockchain/fabric/通过供应链金融练习Fabric/summary</title>
+    <title>使用Fabric搭建一个简单的供应链金融项目</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -65,7 +68,9 @@
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -96,16 +101,16 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&text=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&is_video=false&description=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=blockchain/fabric/通过供应链金融练习Fabric/summary&body=Check out this article: https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&name=blockchain/fabric/通过供应链金融练习Fabric/summary&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&t=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&text=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&is_video=false&description=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用Fabric搭建一个简单的供应链金融项目&body=Check out this article: https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&name=使用Fabric搭建一个简单的供应链金融项目&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&t=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -122,7 +127,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        blockchain/fabric/通过供应链金融练习Fabric/summary
+        使用Fabric搭建一个简单的供应链金融项目
     </h1>
 
 
@@ -141,8 +146,18 @@
 
 
       
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a>
+    </div>
+
 
       
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link" href="/tags/%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D/" rel="tag">供应链金融</a>
+    </div>
+
 
     </div>
   </header>
@@ -194,7 +209,9 @@
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -212,16 +229,16 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&text=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&is_video=false&description=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=blockchain/fabric/通过供应链金融练习Fabric/summary&body=Check out this article: https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&name=blockchain/fabric/通过供应链金融练习Fabric/summary&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&t=blockchain/fabric/通过供应链金融练习Fabric/summary" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&text=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&is_video=false&description=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用Fabric搭建一个简单的供应链金融项目&body=Check out this article: https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&title=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&name=使用Fabric搭建一个简单的供应链金融项目&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/22/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/summary/&t=使用Fabric搭建一个简单的供应链金融项目" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -245,13 +262,15 @@
     2020
     guozhe
   </div>
-  <div class="footer-right">
+  <!-- <div class="footer-right">
     <nav>
       <ul>
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -261,7 +280,7 @@
         
       </ul>
     </nav>
-  </div>
+  </div> -->
 </footer>
 
     </div>

@@ -6,16 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Linux Shell命令记录 修改终端显示，不显示用户名和电脑名称 修改&#x2F;etc&#x2F;bashrc：PS1&#x3D;&#39;\w $ ’ 123456789101112~&#x2F;code&#x2F;open-source&#x2F;blockchain&#x2F;hyperledger&#x2F;supply-finance $ more &#x2F;etc&#x2F;bashrc# System-wide .bashrc file for interactive bash(1">
+    <meta name="description" content="tar(解压，压缩，帮助：tar -h) 解压，-C标签指定解压到哪个目录 1tar -xf -C .&#x2F;test 压缩 1tar -cf &lt;archive-filename&gt; [filenames...] shasum（hash，帮助shasum -h） 生成hash，-a标签指定使用哪个算法 1shasum -a 256 README.md 修改终端显示，不显示用户名和电脑名称 修改">
 <meta property="og:type" content="article">
-<meta property="og:title" content="others&#x2F;Linux Shell命令记录">
+<meta property="og:title" content="Linux常用命令记录">
 <meta property="og:url" content="https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="滴水成涓">
-<meta property="og:description" content="Linux Shell命令记录 修改终端显示，不显示用户名和电脑名称 修改&#x2F;etc&#x2F;bashrc：PS1&#x3D;&#39;\w $ ’ 123456789101112~&#x2F;code&#x2F;open-source&#x2F;blockchain&#x2F;hyperledger&#x2F;supply-finance $ more &#x2F;etc&#x2F;bashrc# System-wide .bashrc file for interactive bash(1">
+<meta property="og:description" content="tar(解压，压缩，帮助：tar -h) 解压，-C标签指定解压到哪个目录 1tar -xf -C .&#x2F;test 压缩 1tar -cf &lt;archive-filename&gt; [filenames...] shasum（hash，帮助shasum -h） 生成hash，-a标签指定使用哪个算法 1shasum -a 256 README.md 修改终端显示，不显示用户名和电脑名称 修改">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-25T03:38:24.105Z">
-<meta property="article:modified_time" content="2020-12-25T03:39:43.258Z">
+<meta property="article:modified_time" content="2020-12-31T04:13:10.553Z">
 <meta property="article:author" content="guozhe">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="shell">
 <meta name="twitter:card" content="summary">
     
     
@@ -36,7 +38,7 @@
       
     
     <!-- title -->
-    <title>others/Linux Shell命令记录</title>
+    <title>Linux常用命令记录</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -65,7 +67,9 @@
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -79,7 +83,7 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric-%E9%83%A8%E7%BD%B2v8%E7%89%88%E6%9C%ACchaincode/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2020/12/30/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/2020/12/23/blockchain/fabric/%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%BB%84%E7%BB%87%E5%88%B0channel/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -96,21 +100,21 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&text=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&is_video=false&description=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=others/Linux Shell命令记录&body=Check out this article: https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&name=others/Linux Shell命令记录&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&t=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&text=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&is_video=false&description=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux常用命令记录&body=Check out this article: https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&name=Linux常用命令记录&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&t=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-Shell命令记录"><span class="toc-number">1.</span> <span class="toc-text">Linux Shell命令记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#修改终端显示，不显示用户名和电脑名称"><span class="toc-number">1.0.1.</span> <span class="toc-text">修改终端显示，不显示用户名和电脑名称</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tar-解压，压缩，帮助：tar-h"><span class="toc-number">1.</span> <span class="toc-text">tar(解压，压缩，帮助：tar -h)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shasum（hash，帮助shasum-h）"><span class="toc-number">2.</span> <span class="toc-text">shasum（hash，帮助shasum -h）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改终端显示，不显示用户名和电脑名称"><span class="toc-number">3.</span> <span class="toc-text">修改终端显示，不显示用户名和电脑名称</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -122,7 +126,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        others/Linux Shell命令记录
+        Linux常用命令记录
     </h1>
 
 
@@ -141,16 +145,33 @@
 
 
       
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
 
       
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Linux/" rel="tag">Linux</a>, <a class="tag-link" href="/tags/shell/" rel="tag">shell</a>
+    </div>
+
 
     </div>
   </header>
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="Linux-Shell命令记录">Linux Shell命令记录</h1>
-<h3 id="修改终端显示，不显示用户名和电脑名称">修改终端显示，不显示用户名和电脑名称</h3>
+    <h2 id="tar-解压，压缩，帮助：tar-h">tar(解压，压缩，帮助：tar -h)</h2>
+<p>解压，<code>-C</code>标签指定解压到哪个目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xf -C ./test</span><br></pre></td></tr></table></figure>
+<p>压缩</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -cf &lt;archive-filename&gt; [filenames...]</span><br></pre></td></tr></table></figure>
+<h2 id="shasum（hash，帮助shasum-h）">shasum（hash，帮助shasum -h）</h2>
+<p>生成hash，<code>-a</code>标签指定使用哪个算法</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shasum -a 256 README.md</span><br></pre></td></tr></table></figure>
+<h2 id="修改终端显示，不显示用户名和电脑名称">修改终端显示，不显示用户名和电脑名称</h2>
 <p>修改<code>/etc/bashrc</code>：PS1='\w $ ’</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">~/code/open-source/blockchain/hyperledger/supply-finance $ more /etc/bashrc</span><br><span class="line"><span class="meta">#</span><span class="bash"> System-wide .bashrc file <span class="keyword">for</span> interactive bash(1) shells.</span></span><br><span class="line">if [ -z "$PS1" ]; then</span><br><span class="line">   return</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">PS1=<span class="string">'\h:\W \u\$ '</span></span></span><br><span class="line">PS1='\w \$ '</span><br><span class="line"><span class="meta">#</span><span class="bash"> Make bash check its window size after a process completes</span></span><br><span class="line">shopt -s checkwinsize</span><br><span class="line"></span><br><span class="line">[ -r "/etc/bashrc_$TERM_PROGRAM" ] &amp;&amp; . "/etc/bashrc_$TERM_PROGRAM"</span><br></pre></td></tr></table></figure>
 <p>其他参数：</p>
@@ -181,7 +202,9 @@
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -193,22 +216,22 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-Shell命令记录"><span class="toc-number">1.</span> <span class="toc-text">Linux Shell命令记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#修改终端显示，不显示用户名和电脑名称"><span class="toc-number">1.0.1.</span> <span class="toc-text">修改终端显示，不显示用户名和电脑名称</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tar-解压，压缩，帮助：tar-h"><span class="toc-number">1.</span> <span class="toc-text">tar(解压，压缩，帮助：tar -h)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shasum（hash，帮助shasum-h）"><span class="toc-number">2.</span> <span class="toc-text">shasum（hash，帮助shasum -h）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改终端显示，不显示用户名和电脑名称"><span class="toc-number">3.</span> <span class="toc-text">修改终端显示，不显示用户名和电脑名称</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&text=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&is_video=false&description=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=others/Linux Shell命令记录&body=Check out this article: https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&name=others/Linux Shell命令记录&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&t=others/Linux Shell命令记录" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&text=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&is_video=false&description=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux常用命令记录&body=Check out this article: https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&title=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&name=Linux常用命令记录&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2020/12/25/others/Linux%20Shell%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/&t=Linux常用命令记录" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -232,13 +255,15 @@
     2020
     guozhe
   </div>
-  <div class="footer-right">
+  <!-- <div class="footer-right">
     <nav>
       <ul>
          
           <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">关于</a></li>
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
          
           <li><a href="/archives/">归档</a></li>
          
@@ -248,7 +273,7 @@
         
       </ul>
     </nav>
-  </div>
+  </div> -->
 </footer>
 
     </div>
