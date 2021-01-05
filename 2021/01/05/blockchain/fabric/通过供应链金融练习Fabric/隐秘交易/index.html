@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="自己开发的智能合约在channel上的所有成员都可以看到，这不符合现实世界中的交易规则。理论上两个组织之间的交易是不允许别人看到的。所以这次我使用fabric-samples提供的asset-transfer-secured-agreement来作为我的供应链金融区块链项目的chaincode。 部署链码 打包 1peer lifecycle chaincode package secured_s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="隐秘交易.md">
+<meta property="og:url" content="https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="自己开发的智能合约在channel上的所有成员都可以看到，这不符合现实世界中的交易规则。理论上两个组织之间的交易是不允许别人看到的。所以这次我使用fabric-samples提供的asset-transfer-secured-agreement来作为我的供应链金融区块链项目的chaincode。 部署链码 打包 1peer lifecycle chaincode package secured_s">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-05T03:28:50.056Z">
+<meta property="article:modified_time" content="2021-01-05T11:34:52.131Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="peer">
+<meta property="article:tag" content="供应链金融">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>隐秘交易.md</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/fabric%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/12/31/blockchain/fabric/Secured%20asset%20transfer%20in%20Fabric%EF%BC%88%E5%9C%A8Fabric%E4%B8%AD%E5%AE%89%E5%85%A8%E7%9A%84%E4%BA%A4%E6%98%93%E8%B5%84%E4%BA%A7%EF%BC%89/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&text=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&title=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&is_video=false&description=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=隐秘交易.md&body=Check out this article: https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&title=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&title=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&title=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&title=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&name=隐秘交易.md&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&t=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#部署链码"><span class="toc-number">1.</span> <span class="toc-text">部署链码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打包"><span class="toc-number">1.1.</span> <span class="toc-text">打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装链码包"><span class="toc-number">1.2.</span> <span class="toc-text">安装链码包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#批准链码定义"><span class="toc-number">1.3.</span> <span class="toc-text">批准链码定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看已经安装的chaincode"><span class="toc-number">1.3.1.</span> <span class="toc-text">查看已经安装的chaincode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#批准链码定义-v2"><span class="toc-number">1.3.2.</span> <span class="toc-text">批准链码定义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将链码定义提交到通道"><span class="toc-number">1.4.</span> <span class="toc-text">将链码定义提交到通道</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用链码"><span class="toc-number">2.</span> <span class="toc-text">调用链码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建资产"><span class="toc-number">2.1.</span> <span class="toc-text">创建资产</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资产交易"><span class="toc-number">2.2.</span> <span class="toc-text">资产交易</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#允许出售资产"><span class="toc-number">2.2.1.</span> <span class="toc-text">允许出售资产</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#核心企业将资产的价格设置为1000："><span class="toc-number">2.2.1.1.</span> <span class="toc-text">核心企业将资产的价格设置为1000：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#一级供应商出价1000"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">一级供应商出价1000</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#核心企业把资产转移给一级供应商"><span class="toc-number">2.2.2.</span> <span class="toc-text">核心企业把资产转移给一级供应商</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#交易验证"><span class="toc-number">2.3.</span> <span class="toc-text">交易验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资产拆分"><span class="toc-number">3.</span> <span class="toc-text">资产拆分</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        隐秘交易.md
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-05T03:28:50.056Z" itemprop="datePublished">2021-01-05</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D/">供应链金融</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link" href="/tags/peer/" rel="tag">peer</a>, <a class="tag-link" href="/tags/%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D/" rel="tag">供应链金融</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>自己开发的智能合约在channel上的所有成员都可以看到，这不符合现实世界中的交易规则。理论上两个组织之间的交易是不允许别人看到的。所以这次我使用fabric-samples提供的<code>asset-transfer-secured-agreement</code>来作为我的供应链金融区块链项目的chaincode。</p>
+<h2 id="部署链码">部署链码</h2>
+<h3 id="打包">打包</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode package secured_supply.3.tar.gz --path ./asset-transfer-secured-agreement/chaincode-go --lang golang --label secured_supply_3.0</span><br></pre></td></tr></table></figure>
+<h3 id="安装链码包">安装链码包</h3>
+<p>每个peer都要安装：<code>peer lifecycle chaincode install secured_supply.3.tar.gz</code></p>
+<h3 id="批准链码定义">批准链码定义</h3>
+<h4 id="查看已经安装的chaincode">查看已经安装的chaincode</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode queryinstalled</span><br></pre></td></tr></table></figure>
+<p>将链码的信息保存为一个变量，两个组织都需要定义此变量：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export CC_PACKAGE_ID=secured_supply_3.0:e9465c7b2b1ef1ddb80f94a9755daf281239be69bd47fbd716a629b6c202840d</span><br></pre></td></tr></table></figure>
+<h4 id="批准链码定义-v2">批准链码定义</h4>
+<p>每个peer都要执行此命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode approveformyorg -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --channelID alljoinchannel --name secured_supply --version 3.0 --package-id $CC_PACKAGE_ID --sequence 5 --signature-policy "OR('GylCoreOrg1MSP.peer','GylFOrg1MSP.peer','GylSOrg1MSP.peer','GylSOrg2MSP.peer')" --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p><strong>错误信息记录：</strong></p>
+<p>再所有的组织都批准了链码之后，查询批准结果返回的全部是false。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(base) w:supply-finance apple$ peer lifecycle chaincode checkcommitreadiness --channelID alljoinchannel --name secured_supply --version 2.0 --sequence 2 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem --output json</span><br><span class="line">&#123;</span><br><span class="line">	"approvals": &#123;</span><br><span class="line">		"GylCoreOrg1MSP": false,</span><br><span class="line">		"GylFOrg1MSP": false,</span><br><span class="line">		"GylSOrg1MSP": false,</span><br><span class="line">		"GylSOrg2MSP": false</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>错误原因及解决方案：</strong></p>
+<p>因为批准的时候制定了签名策略，但是查询的时候没有指定；在查询时指定背书策略即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(base) w:supply-finance apple$ peer lifecycle chaincode checkcommitreadiness --channelID alljoinchannel --name secured_supply --version 2.0 --sequence 2 --signature-policy "OR('GylCoreOrg1MSP.peer','GylFOrg1MSP.peer','GylSOrg1MSP.peer','GylSOrg2MSP.peer')" --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem --output json</span><br><span class="line">&#123;</span><br><span class="line">	"approvals": &#123;</span><br><span class="line">		"GylCoreOrg1MSP": true,</span><br><span class="line">		"GylFOrg1MSP": true,</span><br><span class="line">		"GylSOrg1MSP": true,</span><br><span class="line">		"GylSOrg2MSP": true</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="将链码定义提交到通道">将链码定义提交到通道</h3>
+<p>检查channel上的成员是否已经批准了链码定义：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode checkcommitreadiness --channelID alljoinchannel --name secured_supply --version 3.0 --sequence 5 --signature-policy "OR('GylCoreOrg1MSP.peer','GylFOrg1MSP.peer','GylSOrg1MSP.peer','GylSOrg2MSP.peer')" --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem --output json</span><br></pre></td></tr></table></figure>
+<p>在所有组织都批准之后，执行下面的命令将链码定义提交到通道：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode commit -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --channelID alljoinchannel --name secured_supply --version 3.0 --sequence 5 --signature-policy "OR('GylCoreOrg1MSP.peer','GylFOrg1MSP.peer','GylSOrg1MSP.peer','GylSOrg2MSP.peer')" --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem --peerAddresses localhost:8053 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/f1.supply.com/peers/peer0.f1.supply.com/tls/ca.crt --peerAddresses localhost:8055 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/s1.supply.com/peers/peer0.s1.supply.com/tls/ca.crt --peerAddresses localhost:8151 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/s2.supply.com/peers/peer0.s2.supply.com/tls/ca.crt --peerAddresses localhost:8051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/core.supply.com/peers/peer0.core.supply.com/tls/ca.crt</span><br></pre></td></tr></table></figure>
+<p>使用 <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-querycommitted" target="_blank" rel="noopener">peer lifecycle chaincode querycommitted</a> 命令来确认链码定义已经提交到通道。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode querycommitted --channelID alljoinchannel --name secured_supply --output json</span><br></pre></td></tr></table></figure>
+<h2 id="调用链码">调用链码</h2>
+<h3 id="创建资产">创建资产</h3>
+<p><em><strong>资产的内容需要打个问号，因为这个资产在后面需要被交易，如果资产的内容不能够修改那么合同和发票的hash应该不在资产的详细信息里面，这里先放这里后面再改</strong></em></p>
+<p><em><strong>发行者能否放在外面而不是资产里面？哪种方式比较好呢？</strong></em></p>
+<p>在核心企业的节点创建一个资产如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export ASSET_PROPERTIES=$(echo -n "&#123;\"object_type\":\"asset_properties\",\"asset_id\":\"asset001\",\"issuer\":\"GylCoreOrg1MSP\",\"amount\":1000,\"createDate\":\"2020-12-30T06:57:06.963617Z\",\"endDate\":\"2021-06-30T06:57:06.963617Z\",\"salt\":\"224cba6c547aecc76ab6acfac41d12dfd96e7165\"&#125;" | base64 | tr -d \\n)</span><br></pre></td></tr></table></figure>
+<p>在核心企业的节点上调用chaincode，创建资产：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode invoke -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem -C alljoinchannel -n secured_supply -c '&#123;"function":"CreateAsset","Args":["asset001", "我是核心企业，我发行了一个凭证资产"]&#125;' --transient "&#123;\"asset_properties\":\"$ASSET_PROPERTIES\"&#125;"</span><br></pre></td></tr></table></figure>
+<p>在私有数据集中查询刚才创建的资产：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem -C alljoinchannel -n secured_supply -c '&#123;"function":"GetAssetPrivateProperties","Args":["asset001"]&#125;'</span><br></pre></td></tr></table></figure>
+<p>成功结果：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"object_type"</span>: <span class="string">"asset_properties"</span>,</span><br><span class="line">  <span class="attr">"asset_id"</span>: <span class="string">"asset001"</span>,</span><br><span class="line">  <span class="attr">"issuer"</span>: <span class="string">"GylCoreOrg1MSP"</span>,</span><br><span class="line">  <span class="attr">"amount"</span>: <span class="number">1000</span>,</span><br><span class="line">  <span class="attr">"createDate"</span>: <span class="string">"2020-12-30T06:57:06.963617Z"</span>,</span><br><span class="line">  <span class="attr">"endDate"</span>: <span class="string">"2021-06-30T06:57:06.963617Z"</span>,</span><br><span class="line">  <span class="attr">"salt"</span>: <span class="string">"224cba6c547aecc76ab6acfac41d12dfd96e7165"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>错误信息记录：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: endorsement failure during query. response: status:500 message:"asset private details does not exist in client org's collection: asset001"</span><br></pre></td></tr></table></figure>
+<p>核心企业日志如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2021-01-05 07:58:42.414 UTC [vscc] Validate -&gt; ERRO 24f0 VSCC error: stateBasedValidator.Validate failed, err validation of endorsement policy for chaincode secured_supply in tx 45:0 failed: signature set did not satisfy policy</span><br><span class="line">2021-01-05 07:58:42.415 UTC [committer.txvalidator] validateTx -&gt; ERRO 24f1 Dispatch for transaction txId &#x3D; 6744ce0b4617b0eec6258871fd6c55c7a23a46b7a8faf3c8ef042b601af03bf9 returned error: validation of endorsement policy for chaincode secured_supply in tx 45:0 failed: signature set did not satisfy policy</span><br></pre></td></tr></table></figure>
+<p><strong>错误原因及解决方案：</strong></p>
+<p>从日志内容来看是签名的人不满足策略，所以导致的错误，解决方案是暂时修改组织内的任意的成员签名即可，如下：</p>
+<p>更多背书策略：<a href="https://hyperledger-fabric.readthedocs.io/en/latest/endorsement-policies.html#endorsement-policy-syntax" target="_blank" rel="noopener">Endorsement policies</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--signature-policy "OR('GylCoreOrg1MSP.member','GylFOrg1MSP.member','GylSOrg1MSP.member','GylSOrg2MSP.member')"</span><br></pre></td></tr></table></figure>
+<p>查询账本来查看公共记录，所有在channel上的成员都可以查询得到：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem -C alljoinchannel -n secured_supply -c '&#123;"function":"ReadAsset","Args":["asset001"]&#125;'</span><br></pre></td></tr></table></figure>
+<p>返回结果，channel上的成员只能看到资产的部分信息，详细信息是无法看到的。：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"objectType"</span>: <span class="string">"asset"</span>,</span><br><span class="line">  <span class="attr">"assetID"</span>: <span class="string">"asset001"</span>,</span><br><span class="line">  <span class="attr">"ownerOrg"</span>: <span class="string">"GylCoreOrg1MSP"</span>,</span><br><span class="line">  <span class="attr">"publicDescription"</span>: <span class="string">"我是核心企业，我发行了一个凭证资产"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="资产交易">资产交易</h3>
+<h4 id="允许出售资产">允许出售资产</h4>
+<p>现在核心企业要与一级供应商交易核心企业的资产。首先核心企业与一级供应商要在链下对价格达成共识，并且核心企业要把资产的详情也通过链下的通道发送给一级供应商。之后买卖双方就可以对价格达成共识了。</p>
+<h5 id="核心企业将资产的价格设置为1000：">核心企业将资产的价格设置为1000：</h5>
+<p>下面的trade_id是合同的hash值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export ASSET_PRICE=$(echo -n "&#123;\"asset_id\":\"asset001\",\"trade_id\":\"93b46869be90a6b1f688357965f89b5a8a5e32bf13710fb4ad00e25cca0f0b14\",\"price\":1000&#125;" | base64)</span><br><span class="line">peer chaincode invoke -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem -C alljoinchannel -n secured_supply -c '&#123;"function":"AgreeToSell","Args":["asset001"]&#125;' --transient "&#123;\"asset_price\":\"$ASSET_PRICE\"&#125;"</span><br></pre></td></tr></table></figure>
+<p>查询核心企业的私有数据集合来读取同意的销售价格：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem -C alljoinchannel -n secured_supply -c '&#123;"function":"GetAssetSalesPrice","Args":["asset001"]&#125;'</span><br></pre></td></tr></table></figure>
+<h5 id="一级供应商出价1000">一级供应商出价1000</h5>
+<p>在一级供应商出价之前，他需要先验证资产的信息是否正确。此链码中返回true即为正确。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export ASSET_PROPERTIES=$(echo -n "&#123;\"object_type\":\"asset_properties\",\"asset_id\":\"asset001\",\"issuer\":\"GylCoreOrg1MSP\",\"amount\":1000,\"createDate\":\"2020-12-30T06:57:06.963617Z\",\"endDate\":\"2021-06-30T06:57:06.963617Z\",\"salt\":\"224cba6c547aecc76ab6acfac41d12dfd96e7165\"&#125;" | base64)</span><br><span class="line">peer chaincode query -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem -C alljoinchannel -n secured_supply -c '&#123;"function":"VerifyAssetProperties","Args":["asset001"]&#125;' --transient "&#123;\"asset_properties\":\"$ASSET_PROPERTIES\"&#125;"</span><br></pre></td></tr></table></figure>
+<p>验证通过之后，就对资产出价：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export ASSET_PRICE=$(echo -n "&#123;\"asset_id\":\"asset001\",\"trade_id\":\"93b46869be90a6b1f688357965f89b5a8a5e32bf13710fb4ad00e25cca0f0b14\",\"price\":1000&#125;" | base64)</span><br><span class="line">peer chaincode invoke -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem -C alljoinchannel -n secured_supply -c '&#123;"function":"AgreeToBuy","Args":["asset001"]&#125;' --transient "&#123;\"asset_price\":\"$ASSET_PRICE\"&#125;"</span><br></pre></td></tr></table></figure>
+<p>可以在一级供应商的隐私数据集中查询到出价信息：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem -C alljoinchannel -n secured_supply -c '&#123;"function":"GetAssetBidPrice","Args":["asset001"]&#125;'</span><br></pre></td></tr></table></figure>
+<p>如果在其他组织上查询，会看到如下错误，说明出价卖出设置的价格信息是隐秘的：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: endorsement failure during query. response: status:500 message:"asset price does not exist: asset001"</span><br></pre></td></tr></table></figure>
+<h4 id="核心企业把资产转移给一级供应商">核心企业把资产转移给一级供应商</h4>
+<p>核心企业和一级供应商对相同的价格达成共识之后，核心企业就可以把资产转移给一级供应商了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode invoke -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem -C alljoinchannel -n secured_supply --peerAddresses localhost:8053 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/f1.supply.com/peers/peer0.f1.supply.com/tls/ca.crt --peerAddresses localhost:8055 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/s1.supply.com/peers/peer0.s1.supply.com/tls/ca.crt --peerAddresses localhost:8151 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/s2.supply.com/peers/peer0.s2.supply.com/tls/ca.crt --peerAddresses localhost:8051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/core.supply.com/peers/peer0.core.supply.com/tls/ca.crt -c '&#123;"function":"TransferAsset","Args":["asset001","GylFOrg1MSP"]&#125;' --transient "&#123;\"asset_properties\":\"$ASSET_PROPERTIES\",\"asset_price\":\"$ASSET_PRICE\"&#125;"</span><br></pre></td></tr></table></figure>
+<p><strong>错误信息记录：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2021-01-05 09:40:29.461 UTC [vscc] Validate -&gt; ERRO 3212 VSCC error: stateBasedValidator.Validate failed, err validation of key asset001 (coll'':ns'secured_supply') in tx 59:0 failed: signature set did not satisfy policy</span><br><span class="line">2021-01-05 09:40:29.461 UTC [committer.txvalidator] validateTx -&gt; ERRO 3213 Dispatch for transaction txId = 7d13143d4a24fe370528b0e47e6e8a71d7a8b660798c424769a57b67a9cb69ae returned error: validation of key asset001 (coll'':ns'secured_supply') in tx 59:0 failed: signature set did not satisfy policy</span><br></pre></td></tr></table></figure>
+<p>又遇到了签名和背书策略不一致的问题。</p>
+<p><a href="https://cloud.ibm.com/docs/blockchain-sw?topic=blockchain-sw-ibp-v2-troubleshooting" target="_blank" rel="noopener">Troubleshooting</a>网站</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Why are my transactions returning an endorsement policy error: signature set did not satisfy policy?</span><br><span class="line">问题情况</span><br><span class="line">When I invoke a smart contract to submit a transaction, the transaction returns the following endorsement policy failure:</span><br><span class="line"></span><br><span class="line">returned error: VSCC error: endorsement policy failure, err: signature set did not satisfy policy</span><br><span class="line">问题原因</span><br><span class="line">If you have recently joined a channel and installed the smart contract, this error occurs if you have not added your organization to the endorsement policy. Because your organization is not on the list of organizations who can endorse a transaction from the smart contract, the endorsement from your peers is rejected by the channel. If you encounter this problem, you can change the endorsement policy by upgrading the smart contract. For more information, see Specifying an endorsement policy and Upgrading a smart contract.</span><br></pre></td></tr></table></figure>
+<p>查询公共数据的资产归属以验证交易成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -o localhost:8050 --ordererTLSHostnameOverride orderer.supply.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/supply.com/orderers/orderer.supply.com/msp/tlscacerts/tlsca.supply.com-cert.pem -C alljoinchannel -n secured_supply -c '&#123;"function":"ReadAsset","Args":["asset001"]&#125;'</span><br></pre></td></tr></table></figure>
+<h3 id="交易验证">交易验证</h3>
+<p>除了交易双方其他人无法查看到资产详情</p>
+<h2 id="资产拆分">资产拆分</h2>
+<p><code>asset-transfer-secured-agreement</code>里面没有资产拆分，需要自己写</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#部署链码"><span class="toc-number">1.</span> <span class="toc-text">部署链码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打包"><span class="toc-number">1.1.</span> <span class="toc-text">打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装链码包"><span class="toc-number">1.2.</span> <span class="toc-text">安装链码包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#批准链码定义"><span class="toc-number">1.3.</span> <span class="toc-text">批准链码定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看已经安装的chaincode"><span class="toc-number">1.3.1.</span> <span class="toc-text">查看已经安装的chaincode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#批准链码定义-v2"><span class="toc-number">1.3.2.</span> <span class="toc-text">批准链码定义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将链码定义提交到通道"><span class="toc-number">1.4.</span> <span class="toc-text">将链码定义提交到通道</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用链码"><span class="toc-number">2.</span> <span class="toc-text">调用链码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建资产"><span class="toc-number">2.1.</span> <span class="toc-text">创建资产</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资产交易"><span class="toc-number">2.2.</span> <span class="toc-text">资产交易</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#允许出售资产"><span class="toc-number">2.2.1.</span> <span class="toc-text">允许出售资产</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#核心企业将资产的价格设置为1000："><span class="toc-number">2.2.1.1.</span> <span class="toc-text">核心企业将资产的价格设置为1000：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#一级供应商出价1000"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">一级供应商出价1000</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#核心企业把资产转移给一级供应商"><span class="toc-number">2.2.2.</span> <span class="toc-text">核心企业把资产转移给一级供应商</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#交易验证"><span class="toc-number">2.3.</span> <span class="toc-text">交易验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资产拆分"><span class="toc-number">3.</span> <span class="toc-text">资产拆分</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&text=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&title=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&is_video=false&description=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=隐秘交易.md&body=Check out this article: https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&title=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&title=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&title=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&title=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&name=隐秘交易.md&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/05/blockchain/fabric/%E9%80%9A%E8%BF%87%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D%E7%BB%83%E4%B9%A0Fabric/%E9%9A%90%E7%A7%98%E4%BA%A4%E6%98%93/&t=隐秘交易.md" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

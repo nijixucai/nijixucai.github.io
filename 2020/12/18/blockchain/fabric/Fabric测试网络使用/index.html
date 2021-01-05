@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Fabric测试网络使用 2.2.1下载样例源码 运行命令下载最新版的Fabric和Fabric CA以及 hyperledger&#x2F;fabric-samples 1curl -sSL https:&#x2F;&#x2F;bit.ly&#x2F;2ysbOFE | bash -s 上面的命令干了这些事情：  下载 hyperledger&#x2F;fabric-samples 签出适当的版本标签 将Hyperledger Fabric平台">
+    <meta name="description" content="Fabric测试网络使用 测试网络设置环境变量记录 Org1： 1234567export PATH&#x3D;$&amp;#123;PWD&amp;#125;&#x2F;..&#x2F;bin:$&amp;#123;PWD&amp;#125;:$PATHexport FABRIC_CFG_PATH&#x3D;$PWD&#x2F;..&#x2F;config&#x2F;export CORE_PEER_TLS_ENABLED&#x3D;trueexport CORE_PEER_LOCALMSPID&#x3D;&quot;Org">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fabric测试网络使用">
 <meta property="og:url" content="https://guozhe001.github.io/2020/12/18/blockchain/fabric/Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="滴水成涓">
-<meta property="og:description" content="Fabric测试网络使用 2.2.1下载样例源码 运行命令下载最新版的Fabric和Fabric CA以及 hyperledger&#x2F;fabric-samples 1curl -sSL https:&#x2F;&#x2F;bit.ly&#x2F;2ysbOFE | bash -s 上面的命令干了这些事情：  下载 hyperledger&#x2F;fabric-samples 签出适当的版本标签 将Hyperledger Fabric平台">
+<meta property="og:description" content="Fabric测试网络使用 测试网络设置环境变量记录 Org1： 1234567export PATH&#x3D;$&amp;#123;PWD&amp;#125;&#x2F;..&#x2F;bin:$&amp;#123;PWD&amp;#125;:$PATHexport FABRIC_CFG_PATH&#x3D;$PWD&#x2F;..&#x2F;config&#x2F;export CORE_PEER_TLS_ENABLED&#x3D;trueexport CORE_PEER_LOCALMSPID&#x3D;&quot;Org">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/image-20201214185835819.png">
 <meta property="article:published_time" content="2020-12-18T02:22:59.740Z">
-<meta property="article:modified_time" content="2020-12-31T04:11:13.378Z">
+<meta property="article:modified_time" content="2021-01-04T03:50:18.073Z">
 <meta property="article:author" content="guozhe">
 <meta property="article:tag" content="blockchain">
 <meta property="article:tag" content="Hyperledger-Fabric">
@@ -116,7 +116,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fabric测试网络使用"><span class="toc-number">1.</span> <span class="toc-text">Fabric测试网络使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1下载样例源码"><span class="toc-number">1.1.</span> <span class="toc-text">2.2.1下载样例源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2使用Fabric测试网络"><span class="toc-number">1.2.</span> <span class="toc-text">2.2.2使用Fabric测试网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#启动Fabric测试网络"><span class="toc-number">1.2.1.</span> <span class="toc-text">启动Fabric测试网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建channel"><span class="toc-number">1.2.2.</span> <span class="toc-text">创建channel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在channel上启动chaincode"><span class="toc-number">1.2.3.</span> <span class="toc-text">在channel上启动chaincode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#与网络互动"><span class="toc-number">1.2.4.</span> <span class="toc-text">与网络互动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#中断网络"><span class="toc-number">1.2.5.</span> <span class="toc-text">中断网络</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题处理"><span class="toc-number">2.</span> <span class="toc-text">问题处理</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fabric测试网络使用"><span class="toc-number">1.</span> <span class="toc-text">Fabric测试网络使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试网络设置环境变量记录"><span class="toc-number">1.1.</span> <span class="toc-text">测试网络设置环境变量记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1下载样例源码"><span class="toc-number">1.2.</span> <span class="toc-text">2.2.1下载样例源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2使用Fabric测试网络"><span class="toc-number">1.3.</span> <span class="toc-text">2.2.2使用Fabric测试网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#启动Fabric测试网络"><span class="toc-number">1.3.1.</span> <span class="toc-text">启动Fabric测试网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建channel"><span class="toc-number">1.3.2.</span> <span class="toc-text">创建channel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在channel上启动chaincode"><span class="toc-number">1.3.3.</span> <span class="toc-text">在channel上启动chaincode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#与网络互动"><span class="toc-number">1.3.4.</span> <span class="toc-text">与网络互动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#中断网络"><span class="toc-number">1.3.5.</span> <span class="toc-text">中断网络</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题处理"><span class="toc-number">2.</span> <span class="toc-text">问题处理</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -166,6 +166,11 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="Fabric测试网络使用">Fabric测试网络使用</h2>
+<h3 id="测试网络设置环境变量记录">测试网络设置环境变量记录</h3>
+<p>Org1：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$&#123;PWD&#125;/../bin:$&#123;PWD&#125;:$PATH</span><br><span class="line">export FABRIC_CFG_PATH=$PWD/../config/</span><br><span class="line">export CORE_PEER_TLS_ENABLED=true</span><br><span class="line">export CORE_PEER_LOCALMSPID="Org1MSP"</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:7051</span><br></pre></td></tr></table></figure>
+<p>Org2：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$&#123;PWD&#125;/../bin:$&#123;PWD&#125;:$PATH</span><br><span class="line">export FABRIC_CFG_PATH=$PWD/../config/</span><br><span class="line">export CORE_PEER_TLS_ENABLED=true</span><br><span class="line">export CORE_PEER_LOCALMSPID="Org2MSP"</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:9051</span><br></pre></td></tr></table></figure>
 <h3 id="2-2-1下载样例源码">2.2.1下载样例源码</h3>
 <p>运行命令下载最新版的<strong>Fabric</strong>和<strong>Fabric CA</strong>以及 <a href="https://github.com/hyperledger/fabric-samples" target="_blank" rel="noopener">hyperledger/fabric-samples</a></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://bit.ly/2ysbOFE | bash -s</span><br></pre></td></tr></table></figure>
@@ -290,7 +295,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fabric测试网络使用"><span class="toc-number">1.</span> <span class="toc-text">Fabric测试网络使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1下载样例源码"><span class="toc-number">1.1.</span> <span class="toc-text">2.2.1下载样例源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2使用Fabric测试网络"><span class="toc-number">1.2.</span> <span class="toc-text">2.2.2使用Fabric测试网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#启动Fabric测试网络"><span class="toc-number">1.2.1.</span> <span class="toc-text">启动Fabric测试网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建channel"><span class="toc-number">1.2.2.</span> <span class="toc-text">创建channel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在channel上启动chaincode"><span class="toc-number">1.2.3.</span> <span class="toc-text">在channel上启动chaincode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#与网络互动"><span class="toc-number">1.2.4.</span> <span class="toc-text">与网络互动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#中断网络"><span class="toc-number">1.2.5.</span> <span class="toc-text">中断网络</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题处理"><span class="toc-number">2.</span> <span class="toc-text">问题处理</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fabric测试网络使用"><span class="toc-number">1.</span> <span class="toc-text">Fabric测试网络使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试网络设置环境变量记录"><span class="toc-number">1.1.</span> <span class="toc-text">测试网络设置环境变量记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1下载样例源码"><span class="toc-number">1.2.</span> <span class="toc-text">2.2.1下载样例源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2使用Fabric测试网络"><span class="toc-number">1.3.</span> <span class="toc-text">2.2.2使用Fabric测试网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#启动Fabric测试网络"><span class="toc-number">1.3.1.</span> <span class="toc-text">启动Fabric测试网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建channel"><span class="toc-number">1.3.2.</span> <span class="toc-text">创建channel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在channel上启动chaincode"><span class="toc-number">1.3.3.</span> <span class="toc-text">在channel上启动chaincode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#与网络互动"><span class="toc-number">1.3.4.</span> <span class="toc-text">与网络互动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#中断网络"><span class="toc-number">1.3.5.</span> <span class="toc-text">中断网络</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题处理"><span class="toc-number">2.</span> <span class="toc-text">问题处理</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
@@ -326,7 +331,7 @@
     Copyright &copy;
     
     
-    2020
+    2020-2021
     guozhe
   </div>
   <div class="footer-right">
