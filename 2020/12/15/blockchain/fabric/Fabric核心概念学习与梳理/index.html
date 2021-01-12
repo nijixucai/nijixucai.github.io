@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="遇到的问题： 1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？ 背书节点的功能不同，安装什么链码就具有回事呢么功能。 因为交易是通过链码生成的，所以也只能由安装了相同链码的背书节点进行验证。 2、背书节点在验证的时候是否知道了交易的全部内容，如何保证数据的隐私的？ 只有在同一个channel中的背书节点才会对该channel的交易进">
+    <meta name="description" content="使用fabric开发的关于票据的应用示例： https:&#x2F;&#x2F;github.com&#x2F;Skyellbin&#x2F;bill https:&#x2F;&#x2F;github.com&#x2F;Zhidafeng&#x2F;BillSystem https:&#x2F;&#x2F;github.com&#x2F;alectian&#x2F;HyperledgerFabric_BillManage https:&#x2F;&#x2F;github.com&#x2F;sweetMegan&#x2F;bill 0.资料整理   hyp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="区块链开发框架-Hyperledger-Fabric学习总结">
 <meta property="og:url" content="https://guozhe001.github.io/2020/12/15/blockchain/fabric/Fabric%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%A2%B3%E7%90%86/index.html">
 <meta property="og:site_name" content="滴水成涓">
-<meta property="og:description" content="遇到的问题： 1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？ 背书节点的功能不同，安装什么链码就具有回事呢么功能。 因为交易是通过链码生成的，所以也只能由安装了相同链码的背书节点进行验证。 2、背书节点在验证的时候是否知道了交易的全部内容，如何保证数据的隐私的？ 只有在同一个channel中的背书节点才会对该channel的交易进">
+<meta property="og:description" content="使用fabric开发的关于票据的应用示例： https:&#x2F;&#x2F;github.com&#x2F;Skyellbin&#x2F;bill https:&#x2F;&#x2F;github.com&#x2F;Zhidafeng&#x2F;BillSystem https:&#x2F;&#x2F;github.com&#x2F;alectian&#x2F;HyperledgerFabric_BillManage https:&#x2F;&#x2F;github.com&#x2F;sweetMegan&#x2F;bill 0.资料整理   hyp">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.2.png">
 <meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.2.1.png">
@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.6.png">
 <meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.7.png">
 <meta property="article:published_time" content="2020-12-15T02:24:42.054Z">
-<meta property="article:modified_time" content="2021-01-11T10:11:49.246Z">
+<meta property="article:modified_time" content="2021-01-12T09:10:12.660Z">
 <meta property="article:author" content="guozhe">
 <meta property="article:tag" content="blockchain">
 <meta property="article:tag" content="Hyperledger-Fabric">
@@ -91,7 +91,7 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2020/12/15/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2020/12/15/language/java/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%E8%80%8C%E4%B8%8D%E6%98%AF@Autoware/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/2020/12/11/blockchain/0%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -171,16 +171,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>遇到的问题：</p>
-<p>1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？<br>
-背书节点的功能不同，安装什么链码就具有回事呢么功能。<br>
-因为交易是通过链码生成的，所以也只能由安装了相同链码的背书节点进行验证。</p>
-<p>2、背书节点在验证的时候是否知道了交易的全部内容，如何保证数据的隐私的？<br>
-只有在同一个channel中的背书节点才会对该channel的交易进行验证，而在一个组织加入一个channel的时候时需要其他所有组织的同意才行，所以在同一个channel中，所有的交易都是公开透明的，因为这个channel中的所有组织都是相互信任的。</p>
-<p>3、区块数据的数据结构如果是数组的话，如何做到防篡改？</p>
-<p>4、主节点是干什么的？主节点可以交易吗？主节点和普通的peer节点有什么不一样？</p>
-<p>5、链码是不是就是智能合约，那么是不是说只能在这个链上的交易才能使用这个智能合约？</p>
-<p>使用fabric开发的关于票据的应用示例：</p>
+    <p>使用fabric开发的关于票据的应用示例：</p>
 <p><a href="https://github.com/Skyellbin/bill" target="_blank" rel="noopener">https://github.com/Skyellbin/bill</a><br>
 <a href="https://github.com/Zhidafeng/BillSystem" target="_blank" rel="noopener">https://github.com/Zhidafeng/BillSystem</a><br>
 <a href="https://github.com/alectian/HyperledgerFabric_BillManage" target="_blank" rel="noopener">https://github.com/alectian/HyperledgerFabric_BillManage</a><br>

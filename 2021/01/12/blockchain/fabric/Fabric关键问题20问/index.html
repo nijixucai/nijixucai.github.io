@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？ 答：只有安装了相同的chaincode的peer节点才具有背书的功能。所以一个peer节点想要成为背书节点，必须安装对应的chaincode。 一笔交易肯定是由于调用了链码而产生的，所以这笔交易必须由其他的安装了相同链码的背书节点进行验证。 2、背书节点在验证的时候是否知道了交易的全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fabric关键问题20问">
+<meta property="og:url" content="https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？ 答：只有安装了相同的chaincode的peer节点才具有背书的功能。所以一个peer节点想要成为背书节点，必须安装对应的chaincode。 一笔交易肯定是由于调用了链码而产生的，所以这笔交易必须由其他的安装了相同链码的背书节点进行验证。 2、背书节点在验证的时候是否知道了交易的全">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-12T03:39:23.842Z">
+<meta property="article:modified_time" content="2021-01-12T04:07:48.290Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Fabric关键问题20问</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2021/01/06/blockchain/fabric/%E5%9C%A8Fabric%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%A7%81%E6%9C%89%E6%95%B0%E6%8D%AE/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&text=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&title=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&is_video=false&description=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Fabric关键问题20问&body=Check out this article: https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&title=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&title=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&title=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&title=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&name=Fabric关键问题20问&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&t=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？"><span class="toc-number">1.</span> <span class="toc-text">1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、背书节点在验证的时候是否知道了交易的全部内容，如何保证数据的隐私的？"><span class="toc-number">2.</span> <span class="toc-text">2、背书节点在验证的时候是否知道了交易的全部内容，如何保证数据的隐私的？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-这个问题会引出另一个新的问题，背书节点在缺少数据的情况下如何进行背书呢？这不就导致背书失败了吗？"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 这个问题会引出另一个新的问题，背书节点在缺少数据的情况下如何进行背书呢？这不就导致背书失败了吗？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、区块数据的数据结构如果是数组的话，如何做到防篡改？"><span class="toc-number">3.</span> <span class="toc-text">3、区块数据的数据结构如果是数组的话，如何做到防篡改？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、主节点是干什么的？主节点可以交易吗？主节点和普通的peer节点有什么不一样？"><span class="toc-number">4.</span> <span class="toc-text">4、主节点是干什么的？主节点可以交易吗？主节点和普通的peer节点有什么不一样？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、链码是不是就是智能合约？"><span class="toc-number">5.</span> <span class="toc-text">5、链码是不是就是智能合约？</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Fabric关键问题20问
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-12T03:39:23.842Z" itemprop="datePublished">2021-01-12</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？">1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？</h2>
+<p>答：只有安装了相同的chaincode的peer节点才具有背书的功能。所以一个peer节点想要成为背书节点，必须安装对应的chaincode。<br>
+一笔交易肯定是由于调用了链码而产生的，所以这笔交易必须由其他的安装了相同链码的背书节点进行验证。</p>
+<h2 id="2、背书节点在验证的时候是否知道了交易的全部内容，如何保证数据的隐私的？">2、背书节点在验证的时候是否知道了交易的全部内容，如何保证数据的隐私的？</h2>
+<p>答：背书节点在验证的时候可能并不知道交易的全部内容，Fabric有一个名为“transient”的存储，这个存储只在当前peer节点；如果有交易的话“transient”存储的数据会通过Gossip协议隐秘的传输给另一个peer节点。然后这两个peer节点都可以查询到“transient”存储的数据。而channel上的其他成员是无法看到这些数据的，因此并不是所有的背书节点都可以直到交易的全部内容。</p>
+<h3 id="2-1-这个问题会引出另一个新的问题，背书节点在缺少数据的情况下如何进行背书呢？这不就导致背书失败了吗？">2.1 这个问题会引出另一个新的问题，背书节点在缺少数据的情况下如何进行背书呢？这不就导致背书失败了吗？</h3>
+<p>答：是的，拿不到“transient”存储的数据的背书节点会背书失败。但是由于我们可以设置chaincode和key的基于状态的背书策略，因此就算有部分背书节点背书失败了，只要能看到数据的背书节点做了背书并符合背书策略即可达成共识。</p>
+<p>这个问题可以查看<a href="https://guozhe001.github.io/2020/12/31/blockchain/fabric/%E5%9C%A8Fabric%E4%B8%AD%E4%BA%A4%E6%98%93%E5%8F%97%E4%BF%9D%E6%8A%A4%E7%9A%84%E8%B5%84%E4%BA%A7/">在Fabric中交易受保护的资产</a></p>
+<h2 id="3、区块数据的数据结构如果是数组的话，如何做到防篡改？">3、区块数据的数据结构如果是数组的话，如何做到防篡改？</h2>
+<p>答：暂时无法回答此问题，待完成。</p>
+<h2 id="4、主节点是干什么的？主节点可以交易吗？主节点和普通的peer节点有什么不一样？">4、主节点是干什么的？主节点可以交易吗？主节点和普通的peer节点有什么不一样？</h2>
+<p>答：所谓的主节点应该是Order，目前了解到的只是负责交易的排序以及信息的转发。更多内容待学习。</p>
+<h2 id="5、链码是不是就是智能合约？">5、链码是不是就是智能合约？</h2>
+<p>答：链码就是智能合约，只有调用智能合约才可以更改channel上的账本。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？"><span class="toc-number">1.</span> <span class="toc-text">1、是否所有的背书节点都有相同的功能？一笔交易是不是任意的背书节点都可以验证，还是只能由支持此交易的背书节点验证？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、背书节点在验证的时候是否知道了交易的全部内容，如何保证数据的隐私的？"><span class="toc-number">2.</span> <span class="toc-text">2、背书节点在验证的时候是否知道了交易的全部内容，如何保证数据的隐私的？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-这个问题会引出另一个新的问题，背书节点在缺少数据的情况下如何进行背书呢？这不就导致背书失败了吗？"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 这个问题会引出另一个新的问题，背书节点在缺少数据的情况下如何进行背书呢？这不就导致背书失败了吗？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、区块数据的数据结构如果是数组的话，如何做到防篡改？"><span class="toc-number">3.</span> <span class="toc-text">3、区块数据的数据结构如果是数组的话，如何做到防篡改？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、主节点是干什么的？主节点可以交易吗？主节点和普通的peer节点有什么不一样？"><span class="toc-number">4.</span> <span class="toc-text">4、主节点是干什么的？主节点可以交易吗？主节点和普通的peer节点有什么不一样？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、链码是不是就是智能合约？"><span class="toc-number">5.</span> <span class="toc-text">5、链码是不是就是智能合约？</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&text=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&title=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&is_video=false&description=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Fabric关键问题20问&body=Check out this article: https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&title=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&title=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&title=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&title=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&name=Fabric关键问题20问&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/&t=Fabric关键问题20问" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
