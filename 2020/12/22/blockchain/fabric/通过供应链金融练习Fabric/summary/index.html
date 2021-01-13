@@ -14,7 +14,7 @@
 <meta property="og:description" content="项目背景 为了学习Fabric，模拟搭建一个供应链金融的区块链项目。 为了简单起见，此项目有以下四个组织：  核心企业 一级供应商 二级供应商1 二级供应商2  操作步骤：  设置环境变量 创建网络 创建channel 开发智能合约 部署智能合约到channel并进行交易 [交易与验证](file:&#x2F;&#x2F;部署智能合约到channel.md)：查看“部署supply-v8到alljoinchannel">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-22T08:15:02.071Z">
-<meta property="article:modified_time" content="2021-01-12T02:48:01.598Z">
+<meta property="article:modified_time" content="2021-01-13T07:17:49.191Z">
 <meta property="article:author" content="guozhe">
 <meta property="article:tag" content="blockchain">
 <meta property="article:tag" content="Hyperledger-Fabric">
@@ -115,7 +115,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#项目背景"><span class="toc-number">1.</span> <span class="toc-text">项目背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作步骤："><span class="toc-number">2.</span> <span class="toc-text">操作步骤：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">3.</span> <span class="toc-text">总结：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存在的问题："><span class="toc-number">4.</span> <span class="toc-text">存在的问题：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1"><span class="toc-number">4.1.</span> <span class="toc-text">问题1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案1："><span class="toc-number">4.1.1.</span> <span class="toc-text">解决方案1：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案2："><span class="toc-number">4.1.2.</span> <span class="toc-text">解决方案2：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题2"><span class="toc-number">4.2.</span> <span class="toc-text">问题2:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-number">4.3.</span> <span class="toc-text">解决方案</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#项目背景"><span class="toc-number">1.</span> <span class="toc-text">项目背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作步骤："><span class="toc-number">2.</span> <span class="toc-text">操作步骤：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">3.</span> <span class="toc-text">总结：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存在的问题："><span class="toc-number">4.</span> <span class="toc-text">存在的问题：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1"><span class="toc-number">4.1.</span> <span class="toc-text">问题1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案1："><span class="toc-number">4.1.1.</span> <span class="toc-text">解决方案1：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案2："><span class="toc-number">4.1.2.</span> <span class="toc-text">解决方案2：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题2"><span class="toc-number">4.2.</span> <span class="toc-text">问题2:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-number">4.3.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题3："><span class="toc-number">4.4.</span> <span class="toc-text">问题3：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-v2"><span class="toc-number">4.4.1.</span> <span class="toc-text">解决方案</span></a></li></ol></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -200,6 +200,10 @@
 <h3 id="解决方案">解决方案</h3>
 <p>同一个智能合约可以由部署智能合约的成员调用，所以无法限制，除非智能合约里面写死。</p>
 <p>在应收账款供应链金融的demo中，我们写的智能合约可以由任何人发行应收账款，但是这只是生成了私有的数据，别人认不认可是否跟发行应收账款的组织交易是链下解决的问题。</p>
+<h3 id="问题3：">问题3：</h3>
+<p>使用安全的方式交易资产之后，除了资产的拥有者之外其他任何人都无法知道资产的金额等私有信息。但是现实中的供应链金融应该是允许凭证资产的发行人知道资产归属是谁、资产的金额是多少；只有这样发行人才能够在凭证资产到期时进行还款。</p>
+<h4 id="解决方案-v2">解决方案</h4>
+<p>修改智能合约，待完成。</p>
 
   </div>
 </article>
@@ -229,7 +233,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#项目背景"><span class="toc-number">1.</span> <span class="toc-text">项目背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作步骤："><span class="toc-number">2.</span> <span class="toc-text">操作步骤：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">3.</span> <span class="toc-text">总结：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存在的问题："><span class="toc-number">4.</span> <span class="toc-text">存在的问题：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1"><span class="toc-number">4.1.</span> <span class="toc-text">问题1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案1："><span class="toc-number">4.1.1.</span> <span class="toc-text">解决方案1：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案2："><span class="toc-number">4.1.2.</span> <span class="toc-text">解决方案2：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题2"><span class="toc-number">4.2.</span> <span class="toc-text">问题2:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-number">4.3.</span> <span class="toc-text">解决方案</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#项目背景"><span class="toc-number">1.</span> <span class="toc-text">项目背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作步骤："><span class="toc-number">2.</span> <span class="toc-text">操作步骤：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">3.</span> <span class="toc-text">总结：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存在的问题："><span class="toc-number">4.</span> <span class="toc-text">存在的问题：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1"><span class="toc-number">4.1.</span> <span class="toc-text">问题1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案1："><span class="toc-number">4.1.1.</span> <span class="toc-text">解决方案1：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案2："><span class="toc-number">4.1.2.</span> <span class="toc-text">解决方案2：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题2"><span class="toc-number">4.2.</span> <span class="toc-text">问题2:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-number">4.3.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题3："><span class="toc-number">4.4.</span> <span class="toc-text">问题3：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-v2"><span class="toc-number">4.4.1.</span> <span class="toc-text">解决方案</span></a></li></ol></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
