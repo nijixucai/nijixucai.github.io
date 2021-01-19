@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文档来自The Ordering Service,有所简化。 What is ordering? Many distributed blockchains, such as Ethereum and Bitcoin, are not permissioned, which means that any node can participate in the consensus process,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Ordering Service">
+<meta property="og:url" content="https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="本文档来自The Ordering Service,有所简化。 What is ordering? Many distributed blockchains, such as Ethereum and Bitcoin, are not permissioned, which means that any node can participate in the consensus process,">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/orderer.diagram.1.png">
+<meta property="article:published_time" content="2021-01-19T10:13:46.868Z">
+<meta property="article:modified_time" content="2021-01-19T10:59:30.337Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="Ordering Service">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/orderer.diagram.1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>The Ordering Service</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Ledger/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&text=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&title=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&is_video=false&description=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=The Ordering Service&body=Check out this article: https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&title=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&title=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&title=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&title=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&name=The Ordering Service&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&t=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-ordering"><span class="toc-number">1.</span> <span class="toc-text">What is ordering?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Orderer-nodes-and-channel-configuration"><span class="toc-number">2.</span> <span class="toc-text">Orderer nodes and channel configuration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Orderer-nodes-and-identity"><span class="toc-number">3.</span> <span class="toc-text">Orderer nodes and identity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Orderers-and-the-transaction-flow"><span class="toc-number">4.</span> <span class="toc-text">Orderers and the transaction flow</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Phase-one-Proposal"><span class="toc-number">4.1.</span> <span class="toc-text">Phase one: Proposal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Phase-two-Ordering-and-packaging-transactions-into-blocks"><span class="toc-number">4.2.</span> <span class="toc-text">Phase two: Ordering and packaging transactions into blocks</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        The Ordering Service
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-19T10:13:46.868Z" itemprop="datePublished">2021-01-19</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/Key-Concepts/">Key Concepts</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link" href="/tags/Ordering-Service/" rel="tag">Ordering Service</a>, <a class="tag-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>本文档来自<a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/orderer/ordering_service.html" target="_blank" rel="noopener">The Ordering Service</a>,有所简化。</p>
+<h2 id="What-is-ordering">What is ordering?</h2>
+<p>Many distributed blockchains, such as Ethereum and Bitcoin, are not permissioned, which means that any node can participate in the consensus process, wherein transactions are ordered and bundled into blocks. Because of this fact, these systems rely on <strong>probabilistic</strong> consensus algorithms which eventually guarantee ledger consistency to a high degree of probability, but which are still vulnerable to divergent ledgers (also known as a ledger “fork”), where different participants in the network have a different view of the accepted order of transactions.</p>
+<p>许多的分布式区块链系统，例如以太坊和比特币都是不需要认可的；这意味着任何节点都可以参与共识过程，这个共识就是把交易排序并打包成区块。由于这个事实，这些系统依赖于概率共识算法（目前是Pow共识算法），该算法最终可以确保分类帐的一致性具有很高的概率，但是它们仍然容易收到分叉的影响，在分叉的分类账中，网络中的不同参与者对接受的交易顺序有不同的看法。</p>
+<p>Hyperledger Fabric works differently. It features a node called an <strong>orderer</strong> (it’s also known as an “ordering node”) that does this transaction ordering, which along with other orderer nodes forms an <strong>ordering service</strong>. Because Fabric’s design relies on <strong>deterministic</strong> consensus algorithms, any block validated by the peer is guaranteed to be final and correct. Ledgers cannot fork the way they do in many other distributed and permissionless blockchain networks.</p>
+<p>Hyperledger Fabric的工作方式有所不同。它具有一个称为“排序者”的节点（也称为“排序节点”）来执行此交易的排序，该节点与其他排序节点一起构成排序服务。由于Fabric的设计依赖于确定性共识算法，因此可以保证peer验证的任何块都是最终的和正确的。账本也不会像以太坊和比特币那样出现分叉。</p>
+<p>In addition to promoting finality, separating the endorsement of chaincode execution (which happens at the peers) from ordering gives Fabric advantages in performance and scalability, eliminating bottlenecks which can occur when execution and ordering are performed by the same nodes.</p>
+<p>除了促进不可变性之外，将链码执行的背书（在同级中发生）与排序分开可以使Fabric在性能和可伸缩性方面具有优势，消除了由相同节点执行和排序时可能发生的瓶颈。</p>
+<h2 id="Orderer-nodes-and-channel-configuration">Orderer nodes and channel configuration</h2>
+<p>In addition to their <strong>ordering</strong> role, orderers also maintain the list of organizations that are allowed to create channels. This list of organizations is known as the “consortium”, and the list itself is kept in the configuration of the “orderer system channel” (also known as the “ordering system channel”). By default, this list, and the channel it lives on, can only be edited by the orderer admin. Note that it is possible for an ordering service to hold several of these lists, which makes the consortium a vehicle for Fabric multi-tenancy.</p>
+<p>除了作为排序的角色之外，orderers还维护允许创建通道的组织的列表。这个组织的列表被称为“联盟”，并且这个列表被保存在 “orderer system channel” 的配置中。默认情况下，此列表及其所处的通道只能由orderer的管理员进行编辑。</p>
+<p>Orderers also enforce basic access control for channels, restricting who can read and write data to them, and who can configure them. Remember that who is authorized to modify a configuration element in a channel is subject to the policies that the relevant administrators set when they created the consortium or the channel. Configuration transactions are processed by the orderer, as it needs to know the current set of policies to execute its basic form of access control. In this case, the orderer processes the configuration update to make sure that the requestor has the proper administrative rights. If so, the orderer validates the update request against the existing configuration, generates a new configuration transaction, and packages it into a block that is relayed to all peers on the channel. The peers then process the configuration transactions in order to verify that the modifications approved by the orderer do indeed satisfy the policies defined in the channel.</p>
+<p>Orderers还对通道实施基本访问控制，限制谁可以向通道读取和写入数据以及谁可以对其进行配置。</p>
+<h2 id="Orderer-nodes-and-identity">Orderer nodes and identity</h2>
+<p>Everything that interacts with a blockchain network, including peers, applications, admins, and orderers, acquires their organizational identity from their digital certificate and their Membership Service Provider (MSP) definition.</p>
+<p>For more information about identities and MSPs, check out our documentation on <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/identity/identity.html" target="_blank" rel="noopener">Identity</a> and <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/membership/membership.html" target="_blank" rel="noopener">Membership</a>.</p>
+<p>Just like peers, ordering nodes belong to an organization. And similar to peers, a separate Certificate Authority (CA) should be used for each organization. Whether this CA will function as the root CA, or whether you choose to deploy a root CA and then intermediate CAs associated with that root CA, is up to you.</p>
+<h2 id="Orderers-and-the-transaction-flow">Orderers and the transaction flow</h2>
+<h3 id="Phase-one-Proposal">Phase one: Proposal</h3>
+<p>We’ve seen from our topic on <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/peers/peers.html" target="_blank" rel="noopener">Peers</a> that they form the basis for a blockchain network, hosting ledgers, which can be queried and updated by applications through smart contracts.</p>
+<p>Specifically, applications that want to update the ledger are involved in a process with three phases that ensures all of the peers in a blockchain network keep their ledgers consistent with each other.</p>
+<p>具体来说，应用程序想要更新账本需要涉及三个阶段的过程来确保区块链网络中的所有peer节点保持账本彼此一致。</p>
+<p>In the first phase, a client application sends a transaction proposal to a subset of peers that will invoke a smart contract to produce a proposed ledger update and then endorse the results. The endorsing peers do not apply the proposed update to their copy of the ledger at this time. Instead, the endorsing peers return a proposal response to the client application. The endorsed transaction proposals will ultimately be ordered into blocks in phase two, and then distributed to all peers for final validation and commit in phase three.</p>
+<p>在第一个阶段中，客户端应用程序将交易建议发送给一些peer节点，这些peer节点将调用智能合约以产生提议的账本更新，然后对结果进行背书。背书的peer节点此时不将建议的更新应用于其账本副本。相反，背书的对等方将提议响应返回到客户端应用程序。然后认可的交易建议将最终在第二阶段按顺序排列，然后分发给所有peer节点以进行最终验证并在第三阶段进行提交。</p>
+<p>For an in-depth look at the first phase, refer back to the <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/peers/peers.html#phase-1-proposal" target="_blank" rel="noopener">Peers</a> topic.</p>
+<h3 id="Phase-two-Ordering-and-packaging-transactions-into-blocks">Phase two: Ordering and packaging transactions into blocks</h3>
+<p>After the completion of the first phase of a transaction, a client application has received an endorsed transaction proposal response from a set of peers. It’s now time for the second phase of a transaction.</p>
+<p>In this phase, application clients submit transactions containing endorsed transaction proposal responses to an ordering service node. The ordering service creates blocks of transactions which will ultimately be distributed to all peers on the channel for final validation and commit in phase three.</p>
+<p>Ordering service nodes receive transactions from many different application clients concurrently. These ordering service nodes work together to collectively form the ordering service. Its job is to arrange batches of submitted transactions into a well-defined sequence and package them into <em>blocks</em>. These blocks will become the <em>blocks</em> of the blockchain!</p>
+<p>The number of transactions in a block depends on channel configuration parameters related to the desired size and maximum elapsed duration for a block (<code>BatchSize</code> and <code>BatchTimeout</code> parameters, to be exact). The blocks are then saved to the orderer’s ledger and distributed to all peers that have joined the channel. If a peer happens to be down at this time, or joins the channel later, it will receive the blocks after reconnecting to an ordering service node, or by gossiping with another peer. We’ll see how this block is processed by peers in the third phase.</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/orderer.diagram.1.png" alt="Orderer1"></p>
+<p><em>The first role of an ordering node is to package proposed ledger updates. In this example, application A1 sends a transaction T1 endorsed by E1 and E2 to the orderer O1. In parallel, Application A2 sends transaction T2 endorsed by E1 to the orderer O1. O1 packages transaction T1 from application A1 and transaction T2 from application A2 together with other transactions from other applications in the network into block B2. We can see that in B2, the transaction order is T1,T2,T3,T4,T6,T5 – which may not be the order in which these transactions arrived at the orderer! (This example shows a very simplified ordering service configuration with only one ordering node.)</em></p>
+<p>It’s worth noting that the sequencing of transactions in a block is not necessarily the same as the order received by the ordering service, since there can be multiple ordering service nodes that receive transactions at approximately the same time. What’s important is that the ordering service puts the transactions into a strict order, and peers will use this order when validating and committing transactions.</p>
+<p>This strict ordering of transactions within blocks makes Hyperledger Fabric a little different from other blockchains where the same transaction can be packaged into multiple different blocks that compete to form a chain. In Hyperledger Fabric, the blocks generated by the ordering service are <strong>final</strong>. Once a transaction has been written to a block, its position in the ledger is immutably assured. As we said earlier, Hyperledger Fabric’s finality means that there are no <strong>ledger forks</strong> — validated transactions will never be reverted or dropped.</p>
+<p>We can also see that, whereas peers execute smart contracts and process transactions, orderers most definitely do not. Every authorized transaction that arrives at an orderer is mechanically packaged in a block — the orderer makes no judgement as to the content of a transaction (except for channel configuration transactions, as mentioned earlier).</p>
+<p>At the end of phase two, we see that orderers have been responsible for the simple but vital processes of collecting proposed transaction updates, ordering them, and packaging them into blocks, ready for distribution.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-ordering"><span class="toc-number">1.</span> <span class="toc-text">What is ordering?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Orderer-nodes-and-channel-configuration"><span class="toc-number">2.</span> <span class="toc-text">Orderer nodes and channel configuration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Orderer-nodes-and-identity"><span class="toc-number">3.</span> <span class="toc-text">Orderer nodes and identity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Orderers-and-the-transaction-flow"><span class="toc-number">4.</span> <span class="toc-text">Orderers and the transaction flow</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Phase-one-Proposal"><span class="toc-number">4.1.</span> <span class="toc-text">Phase one: Proposal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Phase-two-Ordering-and-packaging-transactions-into-blocks"><span class="toc-number">4.2.</span> <span class="toc-text">Phase two: Ordering and packaging transactions into blocks</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&text=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&title=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&is_video=false&description=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=The Ordering Service&body=Check out this article: https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&title=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&title=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&title=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&title=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&name=The Ordering Service&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/&t=The Ordering Service" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

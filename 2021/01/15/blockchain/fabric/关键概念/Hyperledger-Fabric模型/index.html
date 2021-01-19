@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Hyperledger-Fabric模型 This section outlines the key design features woven into Hyperledger Fabric that fulfill its promise of a comprehensive, yet customizable, enterprise blockchain solution: 本节概述了编织到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hyperledger-Fabric模型">
+<meta property="og:url" content="https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="Hyperledger-Fabric模型 This section outlines the key design features woven into Hyperledger Fabric that fulfill its promise of a comprehensive, yet customizable, enterprise blockchain solution: 本节概述了编织到">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-15T02:53:13.529Z">
+<meta property="article:modified_time" content="2021-01-19T10:59:12.607Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="Model">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Hyperledger-Fabric模型</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/01/13/blockchain/fabric/Fabric%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&text=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&title=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&is_video=false&description=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hyperledger-Fabric模型&body=Check out this article: https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&title=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&title=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&title=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&title=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&name=Hyperledger-Fabric模型&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&t=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hyperledger-Fabric模型"><span class="toc-number">1.</span> <span class="toc-text">Hyperledger-Fabric模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Assets"><span class="toc-number">1.1.</span> <span class="toc-text">Assets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chaincode"><span class="toc-number">1.2.</span> <span class="toc-text">Chaincode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ledger-Features"><span class="toc-number">1.3.</span> <span class="toc-text">Ledger Features</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Privacy"><span class="toc-number">1.4.</span> <span class="toc-text">Privacy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Security-Membership-Services"><span class="toc-number">1.5.</span> <span class="toc-text">Security &amp; Membership Services</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consensus"><span class="toc-number">1.6.</span> <span class="toc-text">Consensus</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Hyperledger-Fabric模型
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-15T02:53:13.529Z" itemprop="datePublished">2021-01-15</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/Key-Concepts/">Key Concepts</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link" href="/tags/Model/" rel="tag">Model</a>, <a class="tag-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Hyperledger-Fabric模型">Hyperledger-Fabric模型</h1>
+<p>This section outlines the key design features woven into Hyperledger Fabric that fulfill its promise of a comprehensive, yet customizable, enterprise blockchain solution:</p>
+<p>本节概述了编织到Hyperledger Fabric中的关键设计功能，这些功能实现了其全面，可定制的企业区块链解决方案的承诺：</p>
+<ul>
+<li>
+<p><a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/fabric_model.html#assets" target="_blank" rel="noopener">Assets</a> — Asset definitions enable the exchange of almost anything with monetary value over the network, from whole foods to antique cars to currency futures.</p>
+<p>资产定义了允许通过网络交换的几乎所有具有货币价值的东西，从食品到古董车再到货币期货。</p>
+</li>
+<li>
+<p><a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/fabric_model.html#chaincode" target="_blank" rel="noopener">Chaincode</a> — Chaincode execution is partitioned from transaction ordering, limiting the required levels of trust and verification across node types, and optimizing network scalability and performance.</p>
+<p>链码执行从交易顺序中划分出来，从而限制了跨节点类型所需的信任和验证级别，并优化网络可伸缩和性能。</p>
+</li>
+<li>
+<p><a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/fabric_model.html#ledger-features" target="_blank" rel="noopener">Ledger Features</a> — The immutable, shared ledger encodes the entire transaction history for each channel, and includes SQL-like query capability for efficient auditing and dispute resolution.</p>
+<p>不变的，共享的账本对每个通道的整个交易历史进行编码，并包括类似SQL的查询功能，以进行有效的审计和争议解决。</p>
+</li>
+<li>
+<p><a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/fabric_model.html#privacy" target="_blank" rel="noopener">Privacy</a> — Channels and private data collections enable private and confidential multi-lateral transactions that are usually required by competing businesses and regulated industries that exchange assets on a common network.</p>
+<p>通道和隐私数据收集可实现私人和机密的多边交易，通常是在竞争企业和受管制的行业（在同一网络上交换资产）所需要。</p>
+</li>
+<li>
+<p><a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/fabric_model.html#security-membership-services" target="_blank" rel="noopener">Security &amp; Membership Services</a> — Permissioned membership provides a trusted blockchain network, where participants know that all transactions can be detected and traced by authorized regulators and auditors.</p>
+<p>获得许可的成员资格提供了一个受信任的区块链网络，参与者知道所有交易都可以由授权的监管机构和审计师检测和追踪。</p>
+</li>
+<li>
+<p><a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/fabric_model.html#consensus" target="_blank" rel="noopener">Consensus</a> — A unique approach to consensus enables the flexibility and scalability needed for the enterprise.</p>
+<p>一种唯一的共识方法可以实现企业所需的灵活性和可伸缩性。</p>
+</li>
+</ul>
+<h2 id="Assets">Assets</h2>
+<p>Assets can range from the tangible (real estate and hardware) to the intangible (contracts and intellectual property). Hyperledger Fabric provides the ability to modify assets using chaincode transactions.</p>
+<p>资产范围从有形资产（房地产和硬件）到无形资产（合同和知识产权）。Hyperledger Fabric提供了使用链码交易修改资产的功能。</p>
+<p>Assets are represented in Hyperledger Fabric as a collection of key-value pairs, with state changes recorded as transactions on a <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#channel" target="_blank" rel="noopener">Channel</a> ledger. Assets can be represented in binary and/or JSON form.</p>
+<p>资产在Hyperledger Fabric中表示为键值对的集合，状态更改记录为通道账本中的交易。资产可以二进制和/或JSON形式表示。</p>
+<h2 id="Chaincode">Chaincode</h2>
+<p>Chaincode is software defining an asset or assets, and the transaction instructions for modifying the asset(s); in other words, it’s the business logic. Chaincode enforces the rules for reading or altering key-value pairs or other state database information. Chaincode functions execute against the ledger’s current state database and are initiated through a transaction proposal. Chaincode execution results in a set of key-value writes (write set) that can be submitted to the network and applied to the ledger on all peers.</p>
+<p>链码是定义了一个或多个资产的软件，以及用于修改资产的交易指令；Chaincode强制执行用于读取或更改键值对或其他状态数据库信息的规则。链码功能针对账本的当前状态数据库执行，并通过交易提议启动。链码执行产生的一组键值写操作（写集），这些键值写操作可以提交给网络，并应用于所有peer的账本中。</p>
+<h2 id="Ledger-Features">Ledger Features</h2>
+<p>The ledger is the sequenced, tamper-resistant record of all state transitions in the fabric. State transitions are a result of chaincode invocations (‘transactions’) submitted by participating parties. Each transaction results in a set of asset key-value pairs that are committed to the ledger as creates, updates, or deletes.</p>
+<p>账本是Fabric中所有有序的、防篡改的状态转换。状态转换是参与方提交的链码调用（“交易”）的结果。每个交易都会产生一组资产键值对，这些键值对会在创建，更新或删除时提交到账本中。</p>
+<p>The ledger is comprised of a blockchain (‘chain’) to store the immutable, sequenced record in blocks, as well as a state database to maintain current fabric state. There is one ledger per channel. Each peer maintains a copy of the ledger for each channel of which they are a member.</p>
+<p>账本由区块链组成，以区块形式存储不可变的、有序的记录，以及用于维护当前结构状态的状态数据库。每个通道有一个账本。每个peer都为其所属的每个通道维护一个账本的副本。</p>
+<p>Some features of a Fabric ledger（Fabric账本的一些功能）:</p>
+<ul>
+<li>
+<p>Query and update ledger using key-based lookups, range queries, and composite key queries</p>
+<p>使用基于键的查找，范围查询和组合键查询来查询和更新分类帐</p>
+</li>
+<li>
+<p>Read-only queries using a rich query language (if using CouchDB as state database)</p>
+<p>使用丰富查询语言的只读查询（如果使用CouchDB作为状态数据库）</p>
+</li>
+<li>
+<p>Read-only history queries — Query ledger history for a key, enabling data provenance scenarios</p>
+<p>只读历史记录查询—为一个key查询史记录，从而启用数据出处场景</p>
+</li>
+<li>
+<p>Transactions consist of the versions of keys/values that were read in chaincode (read set) and keys/values that were written in chaincode (write set)</p>
+<p>交易由链码中读取的键/值的版本 (读取集)和用链码编写的键/值（写入集）所组成。</p>
+</li>
+<li>
+<p>Transactions contain signatures of every endorsing peer and are submitted to ordering service</p>
+<p>交易包含每个背书peer的签名，并提交给排序服务</p>
+</li>
+<li>
+<p>Transactions are ordered into blocks and are “delivered” from an ordering service to peers on a channel</p>
+<p>交易被排序并打包成区块，并从排序服务“交付”到通道上的peer节点</p>
+</li>
+<li>
+<p>Peers validate transactions against endorsement policies and enforce the policies</p>
+<p>Peer根据背书策略验证交易并执行政策</p>
+</li>
+<li>
+<p>Prior to appending a block, a versioning check is performed to ensure that states for assets that were read have not changed since chaincode execution time</p>
+<p>在追加区块之前，执行版本检查，以确保自链码执行以来，已读取资产的状态未发生变化</p>
+</li>
+<li>
+<p>There is immutability once a transaction is validated and committed</p>
+<p>交易一旦经过验证并提交，便具有不变性</p>
+</li>
+<li>
+<p>A channel’s ledger contains a configuration block defining policies, access control lists, and other pertinent information</p>
+<p>通道的账本包含一个配置块，用于定义策略、访问控制列表和其他相关信息</p>
+</li>
+<li>
+<p>Channels contain <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#msp" target="_blank" rel="noopener">Membership Service Provider</a> instances allowing for crypto materials to be derived from different certificate authorities</p>
+<p>通道包含MSP实例，允许从不同的证书颁发机构生成加密材料</p>
+</li>
+</ul>
+<p>See the <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/ledger.html" target="_blank" rel="noopener">Ledger</a> topic for a deeper dive on the databases, storage structure, and “query-ability.”</p>
+<p>有关数据库，存储结构和“查询能力”的更深入了解，请参阅<a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/ledger.html" target="_blank" rel="noopener">账本</a>主题。</p>
+<h2 id="Privacy">Privacy</h2>
+<p>Hyperledger Fabric employs an immutable ledger on a per-channel basis, as well as chaincode that can manipulate and modify the current state of assets (i.e. update key-value pairs). A ledger exists in the scope of a channel — it can be shared across the entire network (assuming every participant is operating on one common channel) — or it can be privatized to include only a specific set of participants.</p>
+<p>Hyperledger Fabric在每个通道的基础上使用不变的账本，以及可以操纵和修改资产当前状态的链码。账本存在于通道范围内-可以在整个网络中共享（假设每个参与者都在一个公共频道上进行操作）也可以仅包括一组特定的参与者以将其私有化。</p>
+<p>In the latter scenario, these participants would create a separate channel and thereby isolate/segregate their transactions and ledger. In order to solve scenarios that want to bridge the gap between total transparency and privacy, chaincode can be installed only on peers that need to access the asset states to perform reads and writes (in other words, if a chaincode is not installed on a peer, it will not be able to properly interface with the ledger).</p>
+<p>在后一种情况下，这些参与者将创建一个单独的通道，从而隔离/分离他们的交易和账本。为了解决总体透明度和隐私之间存在间隙的场景，链码只能安装在需要访问资产状态以执行读写的peer节点上（换句话说，如果未在peer节点上安装链码，则它将无法与账本正确连接）。</p>
+<p>When a subset of organizations on that channel need to keep their transaction data confidential, a private data collection (collection) is used to segregate this data in a private database, logically separate from the channel ledger, accessible only to the authorized subset of organizations.</p>
+<p>当该渠道上的部分组织需要对其交易数据保密时，私有数据集合用于将这些数据隔离在私有数据库中，从逻辑上与通道账本隔离，并仅允许组织的授权子集访问。</p>
+<p>Thus, channels keep transactions private from the broader network whereas collections keep data private between subsets of organizations on the channel.</p>
+<p>因此，通道使交易对于更广泛的网络而言是不公开的，而集合则对通道上的组织子集之间的数据不公开。</p>
+<p>To further obfuscate the data, values within chaincode can be encrypted (in part or in total) using common cryptographic algorithms such as AES before sending transactions to the ordering service and appending blocks to the ledger. Once encrypted data has been written to the ledger, it can be decrypted only by a user in possession of the corresponding key that was used to generate the cipher text.</p>
+<p>为了进一步混淆数据，在将chaincode中的数据发送给排序服务和追加到账本区块上之前可以使用标准的加密算法（如AES）进行加密。加密数据一旦写入分类帐，则只有拥有用于生成密文的密钥的用户才能对其解密。</p>
+<p>See the <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/private-data-arch.html" target="_blank" rel="noopener">Private Data</a> topic for more details on how to achieve privacy on your blockchain network.</p>
+<p>有关如何在区块链网络上实现隐私的更多详细信息，请参阅<a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/private-data-arch.html" target="_blank" rel="noopener">私有数据</a>主题。</p>
+<h2 id="Security-Membership-Services">Security &amp; Membership Services</h2>
+<p>Hyperledger Fabric underpins a transactional network where all participants have known identities. Public Key Infrastructure is used to generate cryptographic certificates which are tied to organizations, network components, and end users or client applications. As a result, data access control can be manipulated and governed on the broader network and on channel levels. This “permissioned” notion of Hyperledger Fabric, coupled with the existence and capabilities of channels, helps address scenarios where privacy and confidentiality are paramount concerns.</p>
+<p>Hyperledger Fabric支持所有参与者都具有已知身份的交易网络。公钥基础结构用于生成与组织，网络组件以及最终用户或客户端应用程序绑定的加密证书。结果，可以在更广泛的网络和通道级别上操纵和控制数据访问控制。Hyperledger Fabric的“许可”概念以及通道的存在和功能，帮助解决隐私和机密至关重要的情况。</p>
+<p>See the <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/msp.html" target="_blank" rel="noopener">Membership Service Providers (MSP)</a> topic to better understand cryptographic implementations, and the sign, verify, authenticate approach used in Hyperledger Fabric.</p>
+<h2 id="Consensus">Consensus</h2>
+<p>In distributed ledger technology, consensus has recently become synonymous with a specific algorithm, within a single function. However, consensus encompasses more than simply agreeing upon the order of transactions, and this differentiation is highlighted in Hyperledger Fabric through its fundamental role in the entire transaction flow, from proposal and endorsement, to ordering, validation and commitment. In a nutshell, consensus is defined as the full-circle verification of the correctness of a set of transactions comprising a block.</p>
+<p>在分布式分类帐技术中，共识最近已成为单一功能内特定算法的同义词。但是，共识不只是简单地约定交易顺序，Hyperledger Fabric通过在整个交易流程（从提案和认可，到排序，验证和提交）中的基本作用，突显了这种差异。简而言之，共识被定义为对包含一个区块的一组交易的正确性的全面验证。</p>
+<p>Consensus is achieved ultimately when the order and results of a block’s transactions have met the explicit policy criteria checks. These checks and balances take place during the lifecycle of a transaction, and include the usage of endorsement policies to dictate which specific members must endorse a certain transaction class, as well as system chaincodes to ensure that these policies are enforced and upheld. Prior to commitment, the peers will employ these system chaincodes to make sure that enough endorsements are present, and that they were derived from the appropriate entities. Moreover, a versioning check will take place during which the current state of the ledger is agreed or consented upon, before any blocks containing transactions are appended to the ledger. This final check provides protection against double spend operations and other threats that might compromise data integrity, and allows for functions to be executed against non-static variables.</p>
+<p>区块交易的顺序和结果满足明确的策略标准检查后，才能最终达成共识。这些检查和平衡发生在交易的生命周期中，并包括使用背书策略规定哪些特定成员必须背书某个交易类别，以及系统链码确保这些策略得到实施和维护。在作出承诺之前，peer将使用这些系统链码来确保存在足够的背书，并且背书来自适当的实体。此外，在将包含交易的任何块追加到账本之前，将进行版本控制检查，在此期间将对账本的当前状态进行被同意或同意。最终检查可以防止重复使用操作和其他可能危害数据完整性的威胁，并允许针对非静态变量执行功能。</p>
+<p>In addition to the multitude of endorsement, validity and versioning checks that take place, there are also ongoing identity verifications happening in all directions of the transaction flow. Access control lists are implemented on hierarchical layers of the network (ordering service down to channels), and payloads are repeatedly signed, verified and authenticated as a transaction proposal passes through the different architectural components. To conclude, consensus is not merely limited to the agreed upon order of a batch of transactions; rather, it is an overarching characterization that is achieved as a byproduct of the ongoing verifications that take place during a transaction’s journey from proposal to commitment.</p>
+<p>除了进行大量的背书，有效性和版本检查外，还在交易流程的各个方向上都在进行身份验证。访问控制列表是在网络的分层的层面实现的，当交易提议通过不同的架构组件时，有效载荷将被反复签名，验证和认证。总而言之，共识不仅限于一批交易的商定顺序；它更是一项总体特征，它是交易从提案到承诺过程中不断进行的验证的副产品。</p>
+<p>Check out the <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/txflow.html" target="_blank" rel="noopener">Transaction Flow</a> diagram for a visual representation of consensus.</p>
+<p>查看<a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/txflow.html" target="_blank" rel="noopener">交易流程</a>图以直观表示共识。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hyperledger-Fabric模型"><span class="toc-number">1.</span> <span class="toc-text">Hyperledger-Fabric模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Assets"><span class="toc-number">1.1.</span> <span class="toc-text">Assets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chaincode"><span class="toc-number">1.2.</span> <span class="toc-text">Chaincode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ledger-Features"><span class="toc-number">1.3.</span> <span class="toc-text">Ledger Features</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Privacy"><span class="toc-number">1.4.</span> <span class="toc-text">Privacy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Security-Membership-Services"><span class="toc-number">1.5.</span> <span class="toc-text">Security &amp; Membership Services</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consensus"><span class="toc-number">1.6.</span> <span class="toc-text">Consensus</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&text=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&title=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&is_video=false&description=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hyperledger-Fabric模型&body=Check out this article: https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&title=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&title=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&title=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&title=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&name=Hyperledger-Fabric模型&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/&t=Hyperledger-Fabric模型" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

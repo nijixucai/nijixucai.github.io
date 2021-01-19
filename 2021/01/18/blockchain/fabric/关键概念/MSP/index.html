@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Why do I need an MSP?（为什么我需要MSP） Because Fabric is a permissioned network, blockchain participants need a way to prove their identity to the rest of the network in order to transact on the network. If">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Membership Service Provider (MSP)">
+<meta property="og:url" content="https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="Why do I need an MSP?（为什么我需要MSP） Because Fabric is a permissioned network, blockchain participants need a way to prove their identity to the rest of the network in order to transact on the network. If">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/membership.msp.diagram.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/ChannelMSP.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/membership.diagram.2.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/ca-msp-visualization.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/signcert.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/membership.diagram.6.png">
+<meta property="article:published_time" content="2021-01-18T06:49:51.734Z">
+<meta property="article:modified_time" content="2021-01-19T10:59:19.807Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="MSP">
+<meta property="article:tag" content="Membership Service Provider">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/membership.msp.diagram.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Membership Service Provider (MSP)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Policies/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/%E8%BA%AB%E5%88%86%E8%AF%86%E5%88%AB/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&text=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&title=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&is_video=false&description=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Membership Service Provider (MSP)&body=Check out this article: https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&title=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&title=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&title=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&title=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&name=Membership Service Provider (MSP)&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&t=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-do-I-need-an-MSP-（为什么我需要MSP）"><span class="toc-number">1.</span> <span class="toc-text">Why do I need an MSP?（为什么我需要MSP）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-an-MSP"><span class="toc-number">2.</span> <span class="toc-text">What is an MSP?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSP-domains"><span class="toc-number">3.</span> <span class="toc-text">MSP domains</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Local-MSPs"><span class="toc-number">3.1.</span> <span class="toc-text">Local MSPs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Channel-MSPs"><span class="toc-number">3.2.</span> <span class="toc-text">Channel MSPs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-role-does-an-organization-play-in-an-MSP-（组织在MSP中扮演什么角色？）"><span class="toc-number">4.</span> <span class="toc-text">What role does an organization play in an MSP?（组织在MSP中扮演什么角色？）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Organizational-Units-OUs-and-MSPs（组织单位（OU）和MSP）"><span class="toc-number">4.1.</span> <span class="toc-text">Organizational Units (OUs) and MSPs（组织单位（OU）和MSP）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Node-OU-Roles-and-MSPs"><span class="toc-number">4.2.</span> <span class="toc-text">Node OU Roles and MSPs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSP-Structure"><span class="toc-number">5.</span> <span class="toc-text">MSP Structure</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Membership Service Provider (MSP)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-18T06:49:51.734Z" itemprop="datePublished">2021-01-18</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/Key-Concepts/">Key Concepts</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link" href="/tags/MSP/" rel="tag">MSP</a>, <a class="tag-link" href="/tags/Membership-Service-Provider/" rel="tag">Membership Service Provider</a>, <a class="tag-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Why-do-I-need-an-MSP-（为什么我需要MSP）">Why do I need an MSP?（为什么我需要MSP）</h2>
+<p>Because Fabric is a permissioned network, blockchain participants need a way to prove their identity to the rest of the network in order to transact on the network. If you’ve read through the documentation on <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/identity/identity.html" target="_blank" rel="noopener">Identity</a> you’ve seen how a Public Key Infrastructure (PKI) can provide verifiable identities through a chain of trust. How is that chain of trust used by the blockchain network?</p>
+<p>因为Fabric是一个许可形式的网络，区块链参与者需要一种向网络其他成员证明自己身份的方法，以便在网络上进行交易。如果你已经阅读了 <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/identity/identity.html" target="_blank" rel="noopener">Identity</a> 文档，你已经看到PKI如何通过信任链提供可验证的身份。区块链网络如何使用该信任链？</p>
+<p>Certificate Authorities issue identities by generating a public and private key which forms a key-pair that can be used to prove identity. Because a private key can never be shared publicly, a mechanism is required to enable that proof which is where the MSP comes in. For example, a peer uses its private key to digitally sign, or endorse, a transaction. The MSP on the ordering service contains the peer’s public key which is then used to verify that the signature attached to the transaction is valid. The private key is used to produce a signature on a transaction that only the corresponding public key, that is part of an MSP, can match. Thus, the MSP is the mechanism that allows that identity to be trusted and recognized by the rest of the network without ever revealing the member’s private key.</p>
+<p>证书颁发机构通过生成公钥和私钥来颁发身份，该公钥和私钥形成可用于证明身份的密钥对。由于永远不能公开共享私钥，因此需要一种机制来证明他是谁，然后MSP就是做这件事的。例如一个peer节点是用他自己的私钥来签名或者背书一个交易。排序服务的MSP包含了peer节点的公钥，该公钥随后用于验证附加到交易的签名是否有效。私钥用于在交易上产生签名，只有相应的公钥（MSP的一部分）才能匹配该签名。因此，MSP是一种允许身份由网络的其余部分信任和识别，而无需透露成员的私钥的机制。</p>
+<p>Recall from the credit card scenario in the Identity topic that the Certificate Authority is like a card provider — it dispenses many different types of verifiable identities. An MSP, on the other hand, determines which credit card providers are accepted at the store. In this way, the MSP turns an identity (the credit card) into a role (the ability to buy things at the store).</p>
+<p>从“身份”主题中的信用卡业务情景中回想起，证书颁发机构就像发卡组织一样-它分配了许多不同类型的可验证身份。另一方面，MSP确定商店接受哪些信用卡发卡组织。这样，MSP将身份（信用卡）转变为角色（在商店购买商品的能力）。</p>
+<p>This ability to turn verifiable identities into roles is fundamental to the way Fabric networks function, since it allows organizations, nodes, and channels the ability establish MSPs that determine who is allowed to do what at the organization, node, and channel level.</p>
+<p>这种将可验证身份转换为角色的能力是Fabric网络运行方式的基础，因为它允许组织，节点和渠道具备建立MSP的能力，从而确定允许谁在组织，节点和渠道级别上做什么。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/membership.msp.diagram.png" alt="membership.msp.diagram"></p>
+<p><em>Identities are similar to your credit cards that are used to prove you can pay. The MSP is similar to the list of accepted credit cards.</em></p>
+<p>Consider a consortium of banks that operate a blockchain network. Each bank operates peer and ordering nodes, and the peers endorse transactions submitted to the network. However, each bank would also have departments and account holders. The account holders would belong to each organization, but would not run nodes on the network. They would only interact with the system from their mobile or web application. So how does the network recognize and differentiate these identities? A CA was used to create the identities, but like the card example, those identities can’t just be issued, they need to be recognized by the network. MSPs are used to define the organizations that are trusted by the network members. MSPs are also the mechanism that provide members with a set of roles and permissions within the network. Because the MSPs defining these organizations are known to the members of a network, they can then be used to validate that network entities that attempt to perform actions are allowed to.</p>
+<p>考虑一个经营区块链网络的银行联盟。每个银行都操作peer节点和排序节点，并且peer节点认可提交给网络的交易。但是每个银行也同样有部门和账户持有者。帐户持有者将属于各自的组织，但不会在网络上运行节点。他们只能通过其移动或Web应用程序与系统进行交互。那么网络如何识别和区分这些身份呢？可以使用CA来创建身份，但是就像卡片示例一样，不能仅仅是颁发了身份，还必须由网络来识别这些身份。MSP用于定义网络成员信任的组织。MSP还是一个机制，这个机制为成员提供网络中的一组角色和权限。由于MSP定义的这些组织对网络成员而言是已知的，因此它们可以用于验证允许尝试执行操作的网络实体。</p>
+<p>Finally, consider if you want to join an <em>existing</em> network, you need a way to turn your identity into something that is recognized by the network. The MSP is the mechanism that enables you to participate on a permissioned blockchain network. To transact on a Fabric network a member needs to:</p>
+<ol>
+<li>Have an identity issued by a CA that is trusted by the network.</li>
+<li>Become a member of an <em>organization</em> that is recognized and approved by the network members. The MSP is how the identity is linked to the membership of an organization. Membership is achieved by adding the member’s public key (also known as certificate, signing cert, or signcert) to the organization’s MSP.</li>
+<li>Add the MSP to either a <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#consortium" target="_blank" rel="noopener">consortium</a> on the network or a channel.</li>
+<li>Ensure the MSP is included in the <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/policies/policies.html" target="_blank" rel="noopener">policy</a> definitions on the network.</li>
+</ol>
+<p>最后，考虑如果你想要加入一个现有网络，你需要一个方法来将你的身份转换为网络可识别的内容。MSP是使您能够参与许可的区块链网络的机制。为了在Fabric的网络上进行交易，一个成员需要：</p>
+<ol>
+<li>具有由网络信任的CA颁发的身份。</li>
+<li>成为由网络成员认可并批准的组织的成员。MSP是将身份链接到组织成员的方式。成员资格是通过将成员的公钥（也称为证书，签名证书或signcert）添加到组织的MSP中来实现的。</li>
+<li>将MSP添加到网络上的联盟或通道上。</li>
+<li>确保MSP包含在网络上定义的策略。</li>
+</ol>
+<h2 id="What-is-an-MSP">What is an MSP?</h2>
+<p>Despite its name, the Membership Service Provider does not actually provide anything. Rather, the implementation of the MSP requirement is a set of folders that are added to the configuration of the network and is used to define an organization both inwardly (organizations decide who its admins are) and outwardly (by allowing other organizations to validate that entities have the authority to do what they are attempting to do). Whereas Certificate Authorities generate the certificates that represent identities, the MSP contains a list of permissioned identities.</p>
+<p>The MSP identifies which Root CAs and Intermediate CAs are accepted to define the members of a trust domain by listing the identities of their members, or by identifying which CAs are authorized to issue valid identities for their members.</p>
+<p>But the power of an MSP goes beyond simply listing who is a network participant or member of a channel. It is the MSP that turns an identity into a <strong>role</strong> by identifying specific privileges an actor has on a node or channel. Note that when a user is registered with a Fabric CA, a role of admin, peer, client, orderer, or member must be associated with the user. For example, identities registered with the “peer” role should, naturally, be given to a peer. Similarly, identities registered with the “admin” role should be given to organization admins. We’ll delve more into the significance of these roles later in the topic.</p>
+<p>In addition, an MSP can allow for the identification of a list of identities that have been revoked — as discussed in the <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/identity/identity.html" target="_blank" rel="noopener">Identity</a> documentation — but we will talk about how that process also extends to an MSP.</p>
+<h2 id="MSP-domains">MSP domains</h2>
+<p>MSPs occur in two domains in a blockchain network:</p>
+<ul>
+<li>Locally on an actor’s node (<strong>local MSP</strong>)</li>
+<li>In channel configuration (<strong>channel MSP</strong>)</li>
+</ul>
+<p>The key difference between local and channel MSPs is not how they function – both turn identities into roles – but their <strong>scope</strong>. Each MSP lists roles and permissions at a particular level of administration.</p>
+<p>本地MSP和通道MSP之间的主要区别不是它们的功能（两者都将身份转换为角色），而是它们的范围。每个MSP都列出特定管理级别的角色和权限。</p>
+<h3 id="Local-MSPs">Local MSPs</h3>
+<p><strong>Local MSPs are defined for clients and for nodes (peers and orderers)</strong>. Local MSPs define the permissions for a node (who are the peer admins who can operate the node, for example). The local MSPs of clients (the account holders in the banking scenario above), allow the user to authenticate itself in its transactions as a member of a channel (e.g. in chaincode transactions), or as the owner of a specific role into the system such as an organization admin, for example, in configuration transactions.</p>
+<p><strong>Local MSPs</strong>是为客户端和节点（peers和订orderers）定义的。本地MSP定义了一个节点的权限（例如谁是peer的管理员，谁可以操作这个节点）。客户端的本地MSP（上述银行业务场景中的帐户持有人）允许用户在自身交易中作为通道成员进行身份验证（例如在链码中交易中），或者作为系统中特定角色（例如组织管理员）的所有者，例如，在配置事务中。</p>
+<p><strong>Every node must have a local MSP defined</strong>, as it defines who has administrative or participatory rights at that level (peer admins will not necessarily be channel admins, and vice versa). This allows for authenticating member messages outside the context of a channel and to define the permissions over a particular node (who has the ability to install chaincode on a peer, for example). Note that one or more nodes can be owned by an organization. An MSP defines the organization admins. And the organization, the admin of the organization, the admin of the node, and the node itself should all have the same root of trust.</p>
+<p><strong>每个节点都需要定义一个本地的MSP</strong>，因为它定义了在该级别具有管理或参与权的人（peer管理员不一定是通道管理员，反之亦然）。这允许在通道上下文之外对成员消息进行身份验证，并定义对特定节点的权限（如谁有能力在peer上安装链码）。请注意，一个组织可以拥有一个或多个节点。MSP定义组织管理员。组织、组织的管理员、节点的管理员以及节点本身都应具有相同的根CA。</p>
+<p>An orderer local MSP is also defined on the file system of the node and only applies to that node. Like peer nodes, orderers are also owned by a single organization and therefore have a single MSP to list the actors or nodes it trusts.</p>
+<p>在排序者节点的文件系统上也定义了本地MSP，它仅适用于该节点。就像peer节点一样，排序者由单个组织拥有，因此有一个MSP列出其信任的参与者或节点。</p>
+<h3 id="Channel-MSPs">Channel MSPs</h3>
+<p>In contrast, <strong>channel MSPs define administrative and participatory rights at the channel level</strong>. Peers and ordering nodes on an application channel share the same view of channel MSPs, and will therefore be able to correctly authenticate the channel participants. This means that if an organization wishes to join the channel, an MSP incorporating the chain of trust for the organization’s members would need to be included in the channel configuration. Otherwise transactions originating from this organization’s identities will be rejected. Whereas local MSPs are represented as a folder structure on the file system, channel MSPs are described in a channel configuration.</p>
+<p>相反，<strong>通道MSP在通道级别定义了管理权和参与权</strong>。应用程序通道上的peer节点和排序节点共享通道MSP的相同视图，因此将能够正确地验证通道参与者。这意味着如果组织希望加入通道，则需要在通道配置中包含一个包含组织成员信任链的MSP。否则，来自该组织身份的交易将被拒绝。本地MSP在文件系统上表示为文件夹结构，而通道MSP则在通道配置中描述。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/ChannelMSP.png" alt="ChannelMSP"></p>
+<p><em>Snippet from a channel config.json file that includes two organization MSPs.</em></p>
+<p><strong>Channel MSPs identify who has authorities at a channel level</strong>. The channel MSP defines the <em>relationship</em> between the identities of channel members (which themselves are MSPs) and the enforcement of channel level policies. Channel MSPs contain the MSPs of the organizations of the channel members.</p>
+<p>**通道MSP识别谁拥有通道级别的权限。**通道MSP定义了通道成员身份（本身就是MSP）和通道级策略执行之间的关系。通道MSP包含通道成员组织的MSP。</p>
+<p><strong>Every organization participating in a channel must have an MSP defined for it</strong>. In fact, it is recommended that there is a one-to-one mapping between organizations and MSPs. The MSP defines which members are empowered to act on behalf of the organization. This includes configuration of the MSP itself as well as approving administrative tasks that the organization has role, such as adding new members to a channel. If all network members were part of a single organization or MSP, data privacy is sacrificed. Multiple organizations facilitate privacy by segregating ledger data to only channel members. If more granularity is required within an organization, the organization can be further divided into organizational units (OUs) which we describe in more detail later in this topic.</p>
+<p>**每个参与渠道的组织都必须为其定义MSP。**实际上，建议组织与MSP之间存在一对一的映射。MSP定义了哪些成员有权代表组织行事。这包括MSP本身的配置以及批准组织所扮演的管理任务，例如将新成员添加到渠道。如果所有网络成员都是单个组织或MSP的一部分，则会牺牲数据隐私。多个组织通过将账本数据仅隔离到通道成员来促成隐私。如果在组织内需要更多的粒度，则可以将组织进一步划分为组织单位（OU），我们将在本主题的后面部分对此进行详细介绍。</p>
+<p><strong>The system channel MSP includes the MSPs of all the organizations that participate in an ordering service.</strong> An ordering service will likely include ordering nodes from multiple organizations and collectively these organizations run the ordering service, most importantly managing the consortium of organizations and the default policies that are inherited by the application channels.</p>
+<p>**系统通道MSP包括加入排序服务的所有组织的MSP。**排序服务可能会包括来自多个组织的排序节点，并且这些组织共同运行排序服务，最重要的是管理组织联盟和应用程序通道继承的默认策略。</p>
+<p><strong>Local MSPs are only defined on the file system of the node or user</strong> to which they apply. Therefore, physically and logically there is only one local MSP per node. However, as channel MSPs are available to all nodes in the channel, they are logically defined once in the channel configuration. However, <strong>a channel MSP is also instantiated on the file system of every node in the channel and kept synchronized via consensus</strong>. So while there is a copy of each channel MSP on the local file system of every node, logically a channel MSP resides on and is maintained by the channel or the network.</p>
+<p>**本地MSP仅在它们应用到的节点或用户的文件系统上定义。**因此，在物理上和逻辑上每个节点只有一个本地MSP。但是，由于通道MSP可用于通道中的所有节点，因此它们在通道配置中被逻辑定义一次。但是，<strong>通道MSP也会在该通道中每个节点的文件系统上实例化，并通过共识保持同步</strong>。因此，尽管每个节点的本地文件系统上都有每个通道MSP的副本，但从逻辑上讲，通道MSP驻留在通道或网络上并由通道或网络维护。</p>
+<p>The following diagram illustrates how local and channel MSPs coexist on the network:</p>
+<p>下图说明了本地和通道MSP在网络上如何共存：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/membership.diagram.2.png" alt="membership.diagram.2"></p>
+<p><em>The MSPs for the peer and orderer are local, whereas the MSPs for a channel (including the network configuration channel, also known as the system channel) are global, shared across all participants of that channel. In this figure, the network system channel is administered by ORG1, but another application channel can be managed by ORG1 and ORG2. The peer is a member of and managed by ORG2, whereas ORG1 manages the orderer of the figure. ORG1 trusts identities from RCA1, whereas ORG2 trusts identities from RCA2. It is important to note that these are administration identities, reflecting who can administer these components. So while ORG1 administers the network, ORG2.MSP does exist in the network definition.</em></p>
+<h2 id="What-role-does-an-organization-play-in-an-MSP-（组织在MSP中扮演什么角色？）">What role does an organization play in an MSP?（组织在MSP中扮演什么角色？）</h2>
+<p>An <strong>organization</strong> is a logical managed group of members. This can be something as big as a multinational corporation or a small as a flower shop. What’s most important about organizations (or <strong>orgs</strong>) is that they manage their members under a single MSP. The MSP allows an identity to be linked to an organization. Note that this is different from the organization concept defined in an X.509 certificate, which we mentioned above.</p>
+<p>组织是成员的逻辑托管组。它可以像跨国公司一样大，也可以像花店一样小。对于组织而言最重要的是他们在单个MSP下管理成员。MSP允许将身份链接到组织。请注意，这与我们上面提到的X.509证书中定义的组织概念不同。</p>
+<p>The exclusive relationship between an organization and its MSP makes it sensible to name the MSP after the organization, a convention you’ll find adopted in most policy configurations. For example, organization <code>ORG1</code> would likely have an MSP called something like <code>ORG1-MSP</code>. In some cases an organization may require multiple membership groups — for example, where channels are used to perform very different business functions between organizations. In these cases it makes sense to have multiple MSPs and name them accordingly, e.g., <code>ORG2-MSP-NATIONAL</code> and <code>ORG2-MSP-GOVERNMENT</code>, reflecting the different membership roots of trust within <code>ORG2</code> in the <code>NATIONAL</code> sales channel compared to the <code>GOVERNMENT</code> regulatory channel.</p>
+<p>由于组织及其MSP之间的排他关系，因此用组织名称来命名MSP是很明智的，这是大多数策略配置中都会采用的约定。例如组织<code>ORG1</code> 会有一个名为<code>ORG1-MSP</code>的MSP。 在某些情况下组织可能需要多个成员组；例如，在组织之间使用通道执行非常不同的业务功能的情况。在这些情况下，拥有多个MSP并相应地命名它们是很有意义的，，例如<code>ORG2-MSP-NATIONAL</code>和<code>ORG2-MSP-GOVERNMENT</code>，体现出<code>ORG2</code>内部在交易通道和监管通道的两个不同的信任根源。</p>
+<h3 id="Organizational-Units-OUs-and-MSPs（组织单位（OU）和MSP）">Organizational Units (OUs) and MSPs（组织单位（OU）和MSP）</h3>
+<p>An organization can also be divided into multiple <strong>organizational units</strong>, each of which has a certain set of responsibilities, also referred to as <code>affiliations</code>. Think of an OU as a department inside an organization. For example, the <code>ORG1</code> organization might have both <code>ORG1.MANUFACTURING</code> and <code>ORG1.DISTRIBUTION</code> OUs to reflect these separate lines of business. When a CA issues X.509 certificates, the <code>OU</code> field in the certificate specifies the line of business to which the identity belongs. A benefit of using OUs like this is that these values can then be used in policy definitions in order to restrict access or in smart contracts for attribute-based access control. Otherwise, separate MSPs would need to be created for each organization.</p>
+<p>一个组织也可以分为多个组织单位，每个组织单位都有一定的职责集，也称为从属关系。将OU视为组织内部的一个部门。例如，<code>ORG1</code>组织可能同时具有<code>ORG1.MANUFACTURING</code>和<code>ORG1.DISTRIBUTION</code> 两个组织单位，以反映这些单独的业务线。当CA颁发X.509证书时，证书中的<code>OU</code>字段会指定身份所属的业务范围。使用这样的OU的好处是，可将其用于策略定义中以限制访问，或用于基于属性的访问控制的智能合约中。否则，将需要为每个组织创建单独的MSP。</p>
+<p>Specifying OUs is optional. If OUs are not used, all of the identities that are part of an MSP — as identified by the Root CA and Intermediate CA folders — will be considered members of the organization.</p>
+<p>指定OU是可选的。如果不使用OU，则MSP部分的所有身份（由根CA和中级CA文件夹标识）将被视为组织的成员。</p>
+<h3 id="Node-OU-Roles-and-MSPs">Node OU Roles and MSPs</h3>
+<p>Additionally, there is a special kind of OU, sometimes referred to as a <code>Node OU</code>, that can be used to confer a role onto an identity. These Node OU roles are defined in the <code>$FABRIC_CFG_PATH/msp/config.yaml</code> file and contain a list of organizational units whose members are considered to be part of the organization represented by this MSP. This is particularly useful when you want to restrict the members of an organization to the ones holding an identity (signed by one of MSP designated CAs) with a specific Node OU role in it. For example, with node OU’s you can implement a more granular endorsement policy that requires Org1 peers to endorse a transaction, rather than any member of Org1.</p>
+<p>此外，还有一种特殊的OU，有时也称为节点OU，可用于将角色赋予身份。这些节点OU角色在<code>$FABRIC_CFG_PATH/msp/config.yaml</code>文件中定义，并且包含一个组织单位列表，其成员被视为此MSP代表的组织的一部分。当您希望将组织的成员限制为持有具有特定Node OU角色的身份（由MSP指定的CA之一签名）的成员时，此功能特别有用。例如，通过节点OU，您可以实施更精细的认可政策，该政策要求Org1peer认可交易，而不是Org1的任何成员。</p>
+<p>In order to use the Node OU roles, the “identity classification” feature must be enabled for the network. When using the folder-based MSP structure, this is accomplished by enabling “Node OUs” in the config.yaml file which resides in the root of the MSP folder:</p>
+<p>为了使用节点OU角色，必须为网络启用“身份分类”功能。当使用基于文件夹的MSP结构时，可通过启用位于MSP文件夹根目录中的config.yaml文件中的 “Node OUs”来实现</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">NodeOUs:</span></span><br><span class="line">  <span class="attr">Enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">ClientOUIdentifier:</span></span><br><span class="line">    <span class="attr">Certificate:</span> <span class="string">cacerts/ca.sampleorg-cert.pem</span></span><br><span class="line">    <span class="attr">OrganizationalUnitIdentifier:</span> <span class="string">client</span></span><br><span class="line">  <span class="attr">PeerOUIdentifier:</span></span><br><span class="line">    <span class="attr">Certificate:</span> <span class="string">cacerts/ca.sampleorg-cert.pem</span></span><br><span class="line">    <span class="attr">OrganizationalUnitIdentifier:</span> <span class="string">peer</span></span><br><span class="line">  <span class="attr">AdminOUIdentifier:</span></span><br><span class="line">    <span class="attr">Certificate:</span> <span class="string">cacerts/ca.sampleorg-cert.pem</span></span><br><span class="line">    <span class="attr">OrganizationalUnitIdentifier:</span> <span class="string">admin</span></span><br><span class="line">  <span class="attr">OrdererOUIdentifier:</span></span><br><span class="line">    <span class="attr">Certificate:</span> <span class="string">cacerts/ca.sampleorg-cert.pem</span></span><br><span class="line">    <span class="attr">OrganizationalUnitIdentifier:</span> <span class="string">orderer</span></span><br></pre></td></tr></table></figure>
+<p>In the example above, there are 4 possible Node OU <code>ROLES</code> for the MSP:</p>
+<ul>
+<li>client</li>
+<li>peer</li>
+<li>admin</li>
+<li>orderer</li>
+</ul>
+<p>This convention allows you to distinguish MSP roles by the OU present in the CommonName attribute of the X509 certificate. The example above says that any certificate issued by cacerts/ca.sampleorg-cert.pem in which OU=client will identified as a client, OU=peer as a peer, etc. Starting with Fabric v1.4.3, there is also an OU for the orderer and for admins. The new admins role means that you no longer have to explicitly place certs in the admincerts folder of the MSP directory. Rather, the <code>admin</code> role present in the user’s signcert qualifies the identity as an admin user.</p>
+<p>此约定允许您通过X509证书的CommonName属性中存在的OU区分MSP角色。上面的示例表明，由cacerts/ca.sampleorg-cert.pem颁发的证书中，OU=client 将被标识为客户端，OU=peer 将被标识为peer。从Fabric v1.4.3开始，排序者和管理员也有对应的OU。新的管理员角色意味着您不再需要将证书明确放置在MSP目录的admincerts文件夹中；而是用户签名证书中的管理员角色可以将身份标识为管理员用户。</p>
+<p>These Role and OU attributes are assigned to an identity when the Fabric CA or SDK is used to <code>register</code> a user with the CA. It is the subsequent <code>enroll</code> user command that generates the certificates in the users’ <code>/msp</code> folder.</p>
+<p>当使用Fabric的CA或SDK向CA注册用户时，这些角色和OU属性将分配给一个身份。随后使用用户命令<code>enroll</code> 在用户 <code>/msp</code> 文件夹中生成证书。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/ca-msp-visualization.png" alt="ca-msp-visualization"></p>
+<p>The resulting ROLE and OU attributes are visible inside the X.509 signing certificate located in the <code>/signcerts</code> folder. The <code>ROLE</code> attribute is identified as <code>hf.Type</code> and refers to an actor’s role within its organization, (specifying, for example, that an actor is a <code>peer</code>). See the following snippet from a signing certificate shows how the Roles and OUs are represented in the certificate.</p>
+<p>生成的ROLE和OU属性在<code>/signcerts</code> 文件夹中的X.509签名证书中可以看到。<code>ROLE</code>属性标识为<code>hf.Type</code>，是指参与者在其组织中的角色(例如指定是一个<code>peer</code>)。请参阅签名证书中的以下片段，以显示角色和OU如何在证书中表示。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/signcert.png" alt="signcert"></p>
+<p><strong>Note:</strong> For Channel MSPs, just because an actor has the role of an administrator it doesn’t mean that they can administer particular resources. The actual power a given identity has with respect to administering the system is determined by the <em>policies</em> that manage system resources. For example, a channel policy might specify that <code>ORG1-MANUFACTURING</code> administrators, meaning identities with a role of <code>admin</code> and a Node OU of <code>ORG1-MANUFACTURING</code>, have the rights to add new organizations to the channel, whereas the <code>ORG1-DISTRIBUTION</code> administrators have no such rights.</p>
+<p>**注意：**对于通道MSP，仅仅因为参与者具有管理员角色，并不意味着他们可以管理特定资源。给定身份在管理系统方面的实际能力由管理系统资源的策略确定。例如，渠道策略可能指定<code>ORG1-MANUFACTURING</code>管理员，即具有<code>admin</code>角色和<code>ORG1-MANUFACTURING</code>的节点OU的身份，有权向频道添加新组织，而<code>ORG1-DISTRIBUTION</code>管理员则无此权利。</p>
+<p>Finally, OUs could be used by different organizations in a consortium to distinguish each other. But in such cases, the different organizations have to use the same Root CAs and Intermediate CAs for their chain of trust, and assign the OU field to identify members of each organization. When every organization has the same CA or chain of trust, this makes the system more centralized than what might be desirable and therefore deserves careful consideration on a blockchain network.</p>
+<p>最后，联盟中的不同组织可以使用OU来区分彼此。但是在这种情况下，不同的组织必须为它们的信任链使用相同的根CA和中间CA，并分配OU字段以标识每个组织的成员。当每个组织都具有相同的CA或信任链时，这会使系统比可能需要的系统更加集中，因此在区块链网络上值得仔细考虑。</p>
+<h2 id="MSP-Structure">MSP Structure</h2>
+<p>Let’s explore the MSP elements that render the functionality we’ve described so far.</p>
+<p>让我们探索MSP的元素呈现我们到目前为止所描述的功能。</p>
+<p>A local MSP folder contains the following sub-folders:</p>
+<p>本地MSP文件夹包含以下子文件夹：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/membership.diagram.6.png" alt="membership.diagram.6"></p>
+<p><em>The figure above shows the subfolders in a local MSP on the file system</em></p>
+<p><em>上图显示了文件系统上本地MSP中的子文件夹</em></p>
+<ul>
+<li>
+<p><strong>config.yaml:</strong> Used to configure the identity classification feature in Fabric by enabling “Node OUs” and defining the accepted roles.</p>
+<p>用于通过启用“Node OUs”并定义接受的角色来在Fabric中配置身份分类功能。</p>
+</li>
+<li>
+<p><strong>cacerts:</strong> This folder contains a list of self-signed X.509 certificates of the Root CAs trusted by the organization represented by this MSP. There must be at least one Root CA certificate in this MSP folder.</p>
+<p>此文件夹包含由此MSP代表的组织信任的根CA的自签名X.509证书的列表。此MSP文件夹中至少必须有一个根CA证书。</p>
+<p>This is the most important folder because it identifies the CAs from which all other certificates must be derived to be considered members of the corresponding organization to form the chain of trust.</p>
+<p>这是最重要的文件夹，它标识了必须从中导出所有其他证书的CA，才能将其视为相应组织的成员以形成信任链。</p>
+</li>
+<li>
+<p><strong>intermediatecerts:</strong> This folder contains a list of X.509 certificates of the Intermediate CAs trusted by this organization. Each certificate must be signed by one of the Root CAs in the MSP or by any Intermediate CA whose issuing CA chain ultimately leads back to a trusted Root CA.</p>
+<p>此文件夹包含此组织信任的中间CA的X.509证书的列表。每个证书必须由MSP中的一个根CA签名，或由其发行CA链最终引回到受信任的根CA的任何中间CA。</p>
+<p>An intermediate CA may represent a different subdivision of the organization (like <code>ORG1-MANUFACTURING</code> and <code>ORG1-DISTRIBUTION</code> do for <code>ORG1</code>), or the organization itself (as may be the case if a commercial CA is leveraged for the organization’s identity management). In the latter case intermediate CAs can be used to represent organization subdivisions. <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/msp.html" target="_blank" rel="noopener">Here</a> you may find more information on best practices for MSP configuration. Notice, that it is possible to have a functioning network that does not have an Intermediate CA, in which case this folder would be empty.</p>
+<p>中间CA可能代表组织的不同部门（例如<code>ORG1</code>的<code>ORG1-MANUFACTURING</code>和<code>ORG1-DISTRIBUTION</code>），或者是组织本身（如果利用商业CA来进行组织的身份管理，可能就是这种情况）。在后一种情况下，中间CA可以用来表示组织细分。请注意，一个正常运行的网络可能没有中间，在这种情况下，此文件夹将为空。</p>
+<p>Like the Root CA folder, this folder defines the CAs from which certificates must be issued to be considered members of the organization.</p>
+<p>与“根CA”文件夹类似，此文件夹定义的证书必须是由当前组织的成员所颁发的。</p>
+</li>
+<li>
+<p><strong>admincerts (Deprecated from Fabric v1.4.3 and higher):</strong> This folder contains a list of identities that define the actors who have the role of administrators for this organization. In general, there should be one or more X.509 certificates in this list.</p>
+<p>该文件夹包含一个身份列表，这些身份定义了哪些参与者具有该组织的管理员角色。通常，此列表中应该有一个或多个X.509证书。</p>
+<p><strong>Note:</strong> Prior to Fabric v1.4.3, admins were defined by explicitly putting certs in the <code>admincerts</code> folder in the local MSP directory of your peer. <strong>With Fabric v1.4.3 or higher, certificates in this folder are no longer required.</strong> Instead, it is recommended that when the user is registered with the CA, that the <code>admin</code> role is used to designate the node administrator. Then, the identity is recognized as an <code>admin</code> by the Node OU role value in their signcert. As a reminder, in order to leverage the admin role, the “identity classification” feature must be enabled in the config.yaml above by setting “Node OUs” to <code>Enable: true</code>. We’ll explore this more later.</p>
+<p><strong>注意：</strong> 在Fabric v1.4.3之前，通过显式将证书放入peer的本地MSP目录下的<code>admincerts</code>文件夹中来定义管理员。对于Fabric v1.4.3或更高版本，不再需要此文件夹中的证书。相反，建议在向CA注册用户后，使用admin角色指定节点管理员。然后通过其签名证书中的节点OU角色值将身份识别为管理员。提醒一下，为了利用管理员角色，必须在上面的config.yaml中通过将“Node OUs”设置为<code>Enable：true</code>来启用“身份分类”功能。我们将在以后进行探讨。</p>
+<p>And as a reminder, for Channel MSPs, just because an actor has the role of an administrator it doesn’t mean that they can administer particular resources. The actual power a given identity has with respect to administering the system is determined by the <em>policies</em> that manage system resources. For example, a channel policy might specify that <code>ORG1-MANUFACTURING</code> administrators have the rights to add new organizations to the channel, whereas the <code>ORG1-DISTRIBUTION</code> administrators have no such rights.</p>
+<p>提醒一下，对于通道MSP，仅仅因为参与者具有管理员角色，并不意味着他们可以管理特定资源。给定身份在管理系统方面的实际能力由管理系统资源的策略确定。例如，通道政策可能指定<code>ORG1-MANUFACTURING</code>管理员有权向该渠道添加新组织，而<code>ORG1-DISTRIBUTION</code>管理员没有这种权利。</p>
+</li>
+<li>
+<p><strong>keystore: (private Key)</strong> This folder is defined for the local MSP of a peer or orderer node (or in a client’s local MSP), and contains the node’s private key. This key is used to sign data — for example to sign a transaction proposal response, as part of the endorsement phase.</p>
+<p>此文件夹是为peer节点或orderer节点的本地MSP（或在客户端的本地MSP中）定义的，它包含节点的私钥。这个私钥用于签名数据 - 例如在背书阶段签署交易建议响应。</p>
+<p>This folder is mandatory for local MSPs, and must contain exactly one private key. Obviously, access to this folder must be limited only to the identities of users who have administrative responsibility on the peer.</p>
+<p>对于本地MSP，此文件夹是必需的，并且必须仅包含一个私钥。显然，对此文件夹的访问必须仅限于对peer具有管理责任的用户的身份。</p>
+<p>The <strong>channel MSP</strong> configuration does not include this folder, because channel MSPs solely aim to offer identity validation functionalities and not signing abilities.</p>
+<p>通道MSP配置不包括此文件夹，因为通道MSP仅旨在提供身份验证功能而不是签名功能。</p>
+<p><strong>Note:</strong> If you are using a <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/hsm.html" target="_blank" rel="noopener">Hardware Security Module(HSM)</a> for key management, this folder is empty because the private key is generated by and stored in the HSM.</p>
+<p><strong>注意：</strong> 如果你使用<a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/hsm.html" target="_blank" rel="noopener">硬件级别的安全模块(HSM)</a> 来管理key，这个文件夹是空的因为私钥已经被生成并存储在HSM。</p>
+</li>
+<li>
+<p><strong>signcert:</strong> For a peer or orderer node (or in a client’s local MSP) this folder contains the node’s certificate issued by CA. The certificate represents the node’s identity, and this certificate’s corresponding <strong>private key</strong> can be used to generate signatures which may be verified by anyone with a copy of this certificate.</p>
+<p>对于peer节点ordered节点（或在客户端的本地MSP中），此文件夹包含CA颁发的节点的证书。该证书代表节点的身份，并且该证书的相应私钥可用于生成签名，任何拥有此证书副本的人都可以对其进行验证。</p>
+<p>This folder is mandatory for local MSPs, and must contain exactly one <strong>public key</strong>. Obviously, access to this folder must be limited only to the identities of users who have administrative responsibility on the peer.</p>
+<p>此文件夹对于本地MSP是必需的，并且必须仅包含一个公共密钥。显然，对此文件夹的访问必须仅限于对peer具有管理责任的用户的身份。</p>
+<p>Configuration of a <strong>channel MSP</strong> does not include this folder, as channel MSPs solely aim to offer identity validation functionalities and not signing abilities.</p>
+<p>通道MSP的配置不包括此文件夹，因为通道MSP仅旨在提供身份验证功能而不是签名功能。</p>
+</li>
+<li>
+<p><strong>tlscacerts:</strong> This folder contains a list of self-signed X.509 certificates of the Root CAs trusted by this organization <strong>for secure communications between nodes using TLS</strong>. An example of a TLS communication would be when a peer needs to connect to an orderer so that it can receive ledger updates.</p>
+<p>此文件夹包含此组织信任的根CA的自签名X.509证书列表，以使用TLS在节点之间进行安全通信。TLS通信的一个示例是peer需要连接到ordered以便接收账本更新。</p>
+<p>MSP TLS information relates to the nodes inside the network — the peers and the orderers, in other words, rather than the applications and administrations that consume the network.</p>
+<p>MSP TLS信息与网络内部的节点有关（peers和orderers），换句话说，而不是消耗网络的应用程序和管理。</p>
+<p>There must be at least one TLS Root CA certificate in this folder. For more information about TLS, see <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/enable_tls.html" target="_blank" rel="noopener">Securing Communication with Transport Layer Security (TLS)</a>.</p>
+<p>此文件夹中至少必须有一个TLS根CA证书， 有关TLS的更多信息请查看 <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/enable_tls.html" target="_blank" rel="noopener">Securing Communication with Transport Layer Security (TLS)</a>。</p>
+</li>
+<li>
+<p><strong>tlsintermediatecacerts:</strong> This folder contains a list intermediate CA certificates CAs trusted by the organization represented by this MSP <strong>for secure communications between nodes using TLS</strong>. This folder is specifically useful when commercial CAs are used for TLS certificates of an organization. Similar to membership intermediate CAs, specifying intermediate TLS CAs is optional.</p>
+<p>此文件夹包含此MSP代表的组织信任的中间CA证书CA列表，<strong>用于使用TLS的节点之间的安全通信</strong>。当组织使用商业CA作为TLS证书时，此文件夹特别有用。与成员资格中间CA相似，指定中间TLS CA是可选的。</p>
+</li>
+<li>
+<p><strong>operationscerts:</strong> This folder contains the certificates required to communicate with the <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/operations_service.html" target="_blank" rel="noopener">Fabric Operations Service</a> API.</p>
+<p>该文件夹包含与 <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/operations_service.html" target="_blank" rel="noopener">Fabric Operations Service</a> API通信所需的证书。</p>
+</li>
+</ul>
+<p>A channel MSP includes the following additional folder:</p>
+<p>通道MSP包括以下额外的文件夹：</p>
+<ul>
+<li>
+<p><strong>Revoked Certificates:</strong> If the identity of an actor has been revoked, identifying information about the identity — not the identity itself — is held in this folder. For X.509-based identities, these identifiers are pairs of strings known as Subject Key Identifier (SKI) and Authority Access Identifier (AKI), and are checked whenever the certificate is being used to make sure the certificate has not been revoked.</p>
+<p>如果参与者的身份已被撤销，则有关该身份的识别信息（而不是身份本身）将保存在此文件夹中。对于基于X.509的身份，这些标识符是称为Subject Key Identifier（SKI）和授权访问标识符（AKI）的字符串对，并在使用证书时进行检查，以确保证书未被吊销。</p>
+<p>This list is conceptually the same as a CA’s Certificate Revocation List (CRL), but it also relates to revocation of membership from the organization. As a result, the administrator of a channel MSP can quickly revoke an actor or node from an organization by advertising the updated CRL of the CA. This “list of lists” is optional. It will only become populated as certificates are revoked.</p>
+<p>此列表在概念上与CA的证书吊销列表（CRL）相同，但也与组织的成员资格吊销有关。结果，通道MSP的管理员可以通过发布CA的更新的CRL来快速从组织撤消参与者或节点。此“列表”是可选的。仅当证书被吊销时，它才会被填充。</p>
+</li>
+</ul>
+<p>If you’ve read this doc as well as our doc on <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/identity/identity.html" target="_blank" rel="noopener">Identity</a>, you should now have a pretty good grasp of how identities and MSPs work in Hyperledger Fabric. You’ve seen how a PKI and MSPs are used to identify the actors collaborating in a blockchain network. You’ve learned how certificates, public/private keys, and roots of trust work, in addition to how MSPs are physically and logically structured.</p>
+<p>如果你已经阅读过我们的<a href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/identity/identity.html" target="_blank" rel="noopener">Identity</a>文档，您现在应该对身份和MSP在Hyperledger Fabric中的工作方式有了很好的了解。您已经了解了如何使用PKI和MSP来识别在区块链网络中进行协作的参与者。您已经了解了证书、公钥/私钥和信任根的工作原理，以及MSP的物理和逻辑结构。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-do-I-need-an-MSP-（为什么我需要MSP）"><span class="toc-number">1.</span> <span class="toc-text">Why do I need an MSP?（为什么我需要MSP）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-an-MSP"><span class="toc-number">2.</span> <span class="toc-text">What is an MSP?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSP-domains"><span class="toc-number">3.</span> <span class="toc-text">MSP domains</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Local-MSPs"><span class="toc-number">3.1.</span> <span class="toc-text">Local MSPs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Channel-MSPs"><span class="toc-number">3.2.</span> <span class="toc-text">Channel MSPs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-role-does-an-organization-play-in-an-MSP-（组织在MSP中扮演什么角色？）"><span class="toc-number">4.</span> <span class="toc-text">What role does an organization play in an MSP?（组织在MSP中扮演什么角色？）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Organizational-Units-OUs-and-MSPs（组织单位（OU）和MSP）"><span class="toc-number">4.1.</span> <span class="toc-text">Organizational Units (OUs) and MSPs（组织单位（OU）和MSP）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Node-OU-Roles-and-MSPs"><span class="toc-number">4.2.</span> <span class="toc-text">Node OU Roles and MSPs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSP-Structure"><span class="toc-number">5.</span> <span class="toc-text">MSP Structure</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&text=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&title=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&is_video=false&description=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Membership Service Provider (MSP)&body=Check out this article: https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&title=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&title=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&title=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&title=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&name=Membership Service Provider (MSP)&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/&t=Membership Service Provider (MSP)" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

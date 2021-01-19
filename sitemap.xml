@@ -2,6 +2,76 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/The-Ordering-Service/</loc>
+    
+    <lastmod>2021-01-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Policies/</loc>
+    
+    <lastmod>2021-01-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/MSP/</loc>
+    
+    <lastmod>2021-01-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/2021/01/19/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Ledger/</loc>
+    
+    <lastmod>2021-01-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/</loc>
+    
+    <lastmod>2021-01-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/2021/01/15/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/</loc>
+    
+    <lastmod>2021-01-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/2021/01/18/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/%E8%BA%AB%E5%88%86%E8%AF%86%E5%88%AB/</loc>
+    
+    <lastmod>2021-01-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/2021/01/13/blockchain/fabric/Fabric%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2021-01-15</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/2020/12/18/blockchain/fabric/Hyberledger-Fabric%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</loc>
+    
+    <lastmod>2021-01-15</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/2020/12/15/blockchain/fabric/Frbirc%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/</loc>
+    
+    <lastmod>2021-01-15</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://guozhe001.github.io/2021/01/12/blockchain/fabric/Fabric%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%9820%E9%97%AE/</loc>
     
     <lastmod>2021-01-13</lastmod>
@@ -9,35 +79,7 @@
   </url>
   
   <url>
-    <loc>https://guozhe001.github.io/2021/01/13/blockchain/fabric/Fabric%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/</loc>
-    
-    <lastmod>2021-01-13</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://guozhe001.github.io/2020/12/18/blockchain/fabric/Hyberledger-Fabric%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</loc>
-    
-    <lastmod>2021-01-13</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://guozhe001.github.io/2020/12/21/blockchain/fabric/%E7%BC%96%E5%86%99%E6%82%A8%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAChaincode/</loc>
-    
-    <lastmod>2021-01-13</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://guozhe001.github.io/2020/12/15/blockchain/fabric/Fabric%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%A2%B3%E7%90%86/</loc>
-    
-    <lastmod>2021-01-13</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://guozhe001.github.io/2020/12/15/blockchain/fabric/Frbirc%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/</loc>
     
     <lastmod>2021-01-13</lastmod>
     
@@ -298,218 +340,274 @@
 
   <url>
     <loc>https://guozhe001.github.io/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>https://guozhe001.github.io/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
-    <lastmod>2021-01-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://guozhe001.github.io/tags/Corda/</loc>
-    <lastmod>2021-01-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://guozhe001.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/leetcode/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/IntelliJ/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://guozhe001.github.io/tags/Docker/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <loc>https://guozhe001.github.io/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://guozhe001.github.io/tags/docker-compose/</loc>
-    <lastmod>2021-01-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://guozhe001.github.io/tags/Homebrew/</loc>
-    <lastmod>2021-01-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://guozhe001.github.io/tags/Mac/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <loc>https://guozhe001.github.io/tags/Corda/</loc>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/Gradle/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/Java/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/Homebrew/</loc>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/Mac/</loc>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/Docker/</loc>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/docker-compose/</loc>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/Linux/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/shell/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/CorDapp/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/Hyperledger-Fabric/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/channel/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/peer/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/Spring/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/Endorsement-policies/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/Redis/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/%E4%BF%9D%E9%99%A9/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/Secured/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/Private-Data/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/chaincode/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/Ledger/</loc>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/Ordering-Service/</loc>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/Identity/</loc>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/Model/</loc>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/Policies/</loc>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/MSP/</loc>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/Membership-Service-Provider/</loc>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/tags/API/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/tags/network/</loc>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -517,127 +615,134 @@
 
   
   <url>
-    <loc>https://guozhe001.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <loc>https://guozhe001.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://guozhe001.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <loc>https://guozhe001.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Corda/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/Linux/</loc>
-    <lastmod>2021-01-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://guozhe001.github.io/categories/%E5%B7%A5%E5%85%B7/Docker/</loc>
-    <lastmod>2021-01-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://guozhe001.github.io/categories/%E5%B7%A5%E5%85%B7/Homebrew/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/%E5%B7%A5%E5%85%B7/Gradle/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/categories/%E5%B7%A5%E5%85%B7/Homebrew/</loc>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/categories/%E5%B7%A5%E5%85%B7/Docker/</loc>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Corda/CorDapp/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/Java/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/channel/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/Java/Spring/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/peer/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/Java/Redis/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/chaincode/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://guozhe001.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/%E4%BE%9B%E5%BA%94%E9%93%BE%E9%87%91%E8%9E%8D/</loc>
-    <lastmod>2021-01-13</lastmod>
+    <lastmod>2021-01-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://guozhe001.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/Key-Concepts/</loc>
+    <lastmod>2021-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
