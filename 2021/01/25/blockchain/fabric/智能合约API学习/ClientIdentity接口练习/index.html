@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="学习&#x2F;github.com&#x2F;hyperledger&#x2F;fabric-chaincode-go&#x2F;pkg&#x2F;cid&#x2F;interfaces.go中的ClientIdentity接口，源码如下，比较简单： 源码 12345678910111213141516171819202122232425262728293031323334&#x2F;&#x2F; ClientIdentity represents information">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ClientIdentity接口练习">
+<meta property="og:url" content="https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="学习&#x2F;github.com&#x2F;hyperledger&#x2F;fabric-chaincode-go&#x2F;pkg&#x2F;cid&#x2F;interfaces.go中的ClientIdentity接口，源码如下，比较简单： 源码 12345678910111213141516171819202122232425262728293031323334&#x2F;&#x2F; ClientIdentity represents information">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-25T02:59:54.130Z">
+<meta property="article:modified_time" content="2021-01-25T11:32:58.842Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="API">
+<meta property="article:tag" content="ClientIdentity">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>ClientIdentity接口练习</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2021/01/21/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/contract_chaincode.go%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&text=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&title=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&is_video=false&description=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ClientIdentity接口练习&body=Check out this article: https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&title=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&title=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&title=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&title=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&name=ClientIdentity接口练习&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&t=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#源码"><span class="toc-number">1.</span> <span class="toc-text">源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试代码："><span class="toc-number">2.</span> <span class="toc-text">测试代码：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试日志"><span class="toc-number">3.</span> <span class="toc-text">测试日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试日志分析"><span class="toc-number">4.</span> <span class="toc-text">测试日志分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#clientIdentity-GetID"><span class="toc-number">4.1.</span> <span class="toc-text">clientIdentity.GetID()</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#源码-v2"><span class="toc-number">4.1.1.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#clientIdentity-GetAttributeValue-“test”"><span class="toc-number">4.2.</span> <span class="toc-text">clientIdentity.GetAttributeValue(“test”)</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ClientIdentity接口练习
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-25T02:59:54.130Z" itemprop="datePublished">2021-01-25</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/API/">API</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/API/" rel="tag">API</a>, <a class="tag-link" href="/tags/ClientIdentity/" rel="tag">ClientIdentity</a>, <a class="tag-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>学习<code>/github.com/hyperledger/fabric-chaincode-go/pkg/cid/interfaces.go</code>中的ClientIdentity接口，源码如下，比较简单：</p>
+<h3 id="源码">源码</h3>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ClientIdentity represents information about the identity that submitted the</span></span><br><span class="line"><span class="comment">// transaction</span></span><br><span class="line"><span class="comment">// ClientIdentity表示提交交易的身份的信息</span></span><br><span class="line"><span class="keyword">type</span> ClientIdentity <span class="keyword">interface</span> &#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// GetID returns the ID associated with the invoking identity.  This ID</span></span><br><span class="line">   <span class="comment">// is guaranteed to be unique within the MSP.</span></span><br><span class="line">   <span class="comment">// 返回与调用者身份关联的ID。该ID在MSP中保证是唯一的。</span></span><br><span class="line">   GetID() (<span class="keyword">string</span>, error)</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Return the MSP ID of the client</span></span><br><span class="line">   <span class="comment">// 获取客户端的MSP的ID</span></span><br><span class="line">   GetMSPID() (<span class="keyword">string</span>, error)</span><br><span class="line"></span><br><span class="line">   <span class="comment">// GetAttributeValue returns the value of the client's attribute named `attrName`.</span></span><br><span class="line">   <span class="comment">// If the client possesses the attribute, `found` is true and `value` equals the</span></span><br><span class="line">   <span class="comment">// value of the attribute.</span></span><br><span class="line">   <span class="comment">// If the client does not possess the attribute, `found` is false and `value`</span></span><br><span class="line">   <span class="comment">// equals "".</span></span><br><span class="line">   <span class="comment">// 返回名为`attrName`的客户端的属性信息</span></span><br><span class="line">   <span class="comment">// 如果客户端有这个属性，返回值`found`等于true并且返回值`value`等于这个属性。</span></span><br><span class="line">   <span class="comment">// 如果这个客户端不拥有这个属性，`found`等于false并且`value`等于""。</span></span><br><span class="line">   GetAttributeValue(attrName <span class="keyword">string</span>) (value <span class="keyword">string</span>, found <span class="keyword">bool</span>, err error)</span><br><span class="line"></span><br><span class="line">   <span class="comment">// AssertAttributeValue verifies that the client has the attribute named `attrName`</span></span><br><span class="line">   <span class="comment">// with a value of `attrValue`; otherwise, an error is returned.</span></span><br><span class="line">   <span class="comment">// 验证客户端是否有名为`attrName`的属性，并且值为`attrValue`；如果没有或者值不一致则返回一个error</span></span><br><span class="line">   AssertAttributeValue(attrName, attrValue <span class="keyword">string</span>) error</span><br><span class="line"></span><br><span class="line">   <span class="comment">// GetX509Certificate returns the X509 certificate associated with the client,</span></span><br><span class="line">   <span class="comment">// or nil if it was not identified by an X509 certificate.</span></span><br><span class="line">   <span class="comment">// 返回与客户端关联的X509证书，如果没有被X509证书标识，则返回nil。</span></span><br><span class="line">   GetX509Certificate() (*x509.Certificate, error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试代码：">测试代码：</h3>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/hyperledger/fabric-contract-api-go/contractapi"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ClientIdentityPractice ClientIdentity接口提供的方法练习</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmartContract)</span> <span class="title">ClientIdentityPractice</span><span class="params">(ctx contractapi.TransactionContextInterface)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	log.Println(<span class="string">"ClientIdentityPractice==================start====================="</span>)</span><br><span class="line">	clientIdentity := ctx.GetClientIdentity()</span><br><span class="line">	id, err := clientIdentity.GetID()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	log.Printf(<span class="string">"clientIdentity.GetID()=%s"</span>, id)</span><br><span class="line">	mspid, err := clientIdentity.GetMSPID()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	log.Printf(<span class="string">"clientIdentity.GetMSPID()=%s"</span>, mspid)</span><br><span class="line">	certificate, err := clientIdentity.GetX509Certificate()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	log.Printf(<span class="string">"clientIdentity.GetX509Certificate()=%#v"</span>, certificate)</span><br><span class="line">	value, found, err := clientIdentity.GetAttributeValue(<span class="string">"test"</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> found &#123;</span><br><span class="line">		log.Printf(<span class="string">"clientIdentity.GetAttributeValue(\"test\")=%s"</span>, value)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err := clientIdentity.AssertAttributeValue(<span class="string">"test"</span>, <span class="string">"hello"</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">"clientIdentity.AssertAttributeValue(\"test\", \"hello\") error!"</span>)</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	log.Println(<span class="string">"ClientIdentityPractice===================end======================"</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试日志">测试日志</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2021&#x2F;01&#x2F;25 03:42:33 ClientIdentityPractice&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;start&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">2021&#x2F;01&#x2F;25 03:42:33 clientIdentity.GetID()&#x3D;eDUwOTo6Q049QWRtaW5AczIuc3VwcGx5LmNvbSxMPVNhbiBGcmFuY2lzY28sU1Q9Q2FsaWZvcm5pYSxDPVVTOjpDTj1jYS5zMi5zdXBwbHkuY29tLE89czIuc3VwcGx5LmNvbSxMPVNhbiBGcmFuY2lzY28sU1Q9Q2FsaWZvcm5pYSxDPVVT</span><br><span class="line">2021&#x2F;01&#x2F;25 03:42:33 clientIdentity.GetMSPID()&#x3D;GylSOrg2MSP</span><br><span class="line">2021&#x2F;01&#x2F;25 03:42:33 clientIdentity.GetX509Certificate()&#x3D;&amp;x509.Certificate&#123;Raw:[]uint8&#123;0x30, 0x82, 0x2, 0x11, 0x30, 0x82, 0x1, 0xb7, 0xa0, 0x3, 0x2, 0x1, 0x2, 0x2, 0x11, 0x0, 0x9c, 0x36, 0x61, 0x42, 0xa4, 0x9b, 0x22, 0xae, 0xb0, 0x61, 0xe6, 0xdf, 0x70, 0xfb, 0x2e, 0x19, 0x30, 0xa, 0x6, 0x8, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x4, 0x3, 0x2, 0x30, 0x6d, 0x31, 0xb, 0x30, 0x9, 0x6, 0x3, 0x55, 0x4, 0x6, 0x13, 0x2, 0x55, 0x53, 0x31, 0x13, 0x30, 0x11, 0x6, 0x3, 0x55, 0x4, 0x8, 0x13, 0xa, 0x43, 0x61, 0x6c, 0x69, 0x66, 0x6f, 0x72, 0x6e, 0x69, 0x61, 0x31, 0x16, 0x30, 0x14, 0x6, 0x3, 0x55, 0x4, 0x7, 0x13, 0xd, 0x53, 0x61, 0x6e, 0x20, 0x46, 0x72, 0x61, 0x6e, 0x63, 0x69, 0x73, 0x63, 0x6f, 0x31, 0x16, 0x30, 0x14, 0x6, 0x3, 0x55, 0x4, 0xa, 0x13, 0xd, 0x73, 0x32, 0x2e, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x2e, 0x63, 0x6f, 0x6d, 0x31, 0x19, 0x30, 0x17, 0x6, 0x3, 0x55, 0x4, 0x3, 0x13, 0x10, 0x63, 0x61, 0x2e, 0x73, 0x32, 0x2e, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x2e, 0x63, 0x6f, 0x6d, 0x30, 0x1e, 0x17, 0xd, 0x32, 0x31, 0x30, 0x31, 0x30, 0x37, 0x30, 0x38, 0x33, 0x31, 0x30, 0x30, 0x5a, 0x17, 0xd, 0x33, 0x31, 0x30, 0x31, 0x30, 0x35, 0x30, 0x38, 0x33, 0x31, 0x30, 0x30, 0x5a, 0x30, 0x58, 0x31, 0xb, 0x30, 0x9, 0x6, 0x3, 0x55, 0x4, 0x6, 0x13, 0x2, 0x55, 0x53, 0x31, 0x13, 0x30, 0x11, 0x6, 0x3, 0x55, 0x4, 0x8, 0x13, 0xa, 0x43, 0x61, 0x6c, 0x69, 0x66, 0x6f, 0x72, 0x6e, 0x69, 0x61, 0x31, 0x16, 0x30, 0x14, 0x6, 0x3, 0x55, 0x4, 0x7, 0x13, 0xd, 0x53, 0x61, 0x6e, 0x20, 0x46, 0x72, 0x61, 0x6e, 0x63, 0x69, 0x73, 0x63, 0x6f, 0x31, 0x1c, 0x30, 0x1a, 0x6, 0x3, 0x55, 0x4, 0x3, 0xc, 0x13, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x40, 0x73, 0x32, 0x2e, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x2e, 0x63, 0x6f, 0x6d, 0x30, 0x59, 0x30, 0x13, 0x6, 0x7, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x2, 0x1, 0x6, 0x8, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x3, 0x1, 0x7, 0x3, 0x42, 0x0, 0x4, 0x9e, 0x80, 0x9f, 0x9b, 0xc7, 0x9a, 0xe8, 0x35, 0x60, 0x12, 0x14, 0x5c, 0xab, 0x83, 0xe7, 0x46, 0x49, 0xef, 0xd4, 0xe2, 0xc0, 0x39, 0x16, 0xe6, 0xe1, 0x2b, 0xd9, 0x99, 0x17, 0x53, 0x91, 0x26, 0x5f, 0x5, 0x65, 0xc7, 0x0, 0x8e, 0x2a, 0x97, 0xea, 0x28, 0xea, 0xf5, 0x5d, 0xd9, 0x34, 0xd, 0x63, 0x25, 0x1, 0x3, 0xd0, 0x23, 0x17, 0x97, 0x92, 0xd7, 0x55, 0x4, 0x9c, 0x45, 0x73, 0x82, 0xa3, 0x4d, 0x30, 0x4b, 0x30, 0xe, 0x6, 0x3, 0x55, 0x1d, 0xf, 0x1, 0x1, 0xff, 0x4, 0x4, 0x3, 0x2, 0x7, 0x80, 0x30, 0xc, 0x6, 0x3, 0x55, 0x1d, 0x13, 0x1, 0x1, 0xff, 0x4, 0x2, 0x30, 0x0, 0x30, 0x2b, 0x6, 0x3, 0x55, 0x1d, 0x23, 0x4, 0x24, 0x30, 0x22, 0x80, 0x20, 0x63, 0xbd, 0xab, 0x9a, 0x9c, 0xa7, 0x4f, 0x3d, 0x8b, 0xb6, 0xc3, 0xab, 0xc, 0xb1, 0x45, 0x87, 0x60, 0x69, 0x7e, 0xb9, 0x6, 0xfb, 0x38, 0x5f, 0x9c, 0x2, 0xb1, 0x75, 0x9b, 0xc6, 0x3d, 0xfb, 0x30, 0xa, 0x6, 0x8, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x4, 0x3, 0x2, 0x3, 0x48, 0x0, 0x30, 0x45, 0x2, 0x21, 0x0, 0x91, 0x4, 0x2f, 0xee, 0x17, 0xca, 0x28, 0x68, 0xb4, 0x33, 0x48, 0x3a, 0x3a, 0x7b, 0x9f, 0xb8, 0x51, 0xb0, 0x6a, 0x8d, 0x28, 0xb9, 0x31, 0x4c, 0xb7, 0x21, 0x87, 0xd5, 0xac, 0xce, 0x6d, 0x1d, 0x2, 0x20, 0x68, 0x61, 0xca, 0x5d, 0xc2, 0x99, 0x63, 0xba, 0xb4, 0x4f, 0x1b, 0x3a, 0x2e, 0xc6, 0xed, 0x6b, 0x25, 0xba, 0x91, 0x63, 0xce, 0x1, 0xe7, 0xba, 0x67, 0x55, 0xbc, 0xb6, 0x8a, 0x76, 0x54, 0x37&#125;, RawTBSCertificate:[]uint8&#123;0x30, 0x82, 0x1, 0xb7, 0xa0, 0x3, 0x2, 0x1, 0x2, 0x2, 0x11, 0x0, 0x9c, 0x36, 0x61, 0x42, 0xa4, 0x9b, 0x22, 0xae, 0xb0, 0x61, 0xe6, 0xdf, 0x70, 0xfb, 0x2e, 0x19, 0x30, 0xa, 0x6, 0x8, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x4, 0x3, 0x2, 0x30, 0x6d, 0x31, 0xb, 0x30, 0x9, 0x6, 0x3, 0x55, 0x4, 0x6, 0x13, 0x2, 0x55, 0x53, 0x31, 0x13, 0x30, 0x11, 0x6, 0x3, 0x55, 0x4, 0x8, 0x13, 0xa, 0x43, 0x61, 0x6c, 0x69, 0x66, 0x6f, 0x72, 0x6e, 0x69, 0x61, 0x31, 0x16, 0x30, 0x14, 0x6, 0x3, 0x55, 0x4, 0x7, 0x13, 0xd, 0x53, 0x61, 0x6e, 0x20, 0x46, 0x72, 0x61, 0x6e, 0x63, 0x69, 0x73, 0x63, 0x6f, 0x31, 0x16, 0x30, 0x14, 0x6, 0x3, 0x55, 0x4, 0xa, 0x13, 0xd, 0x73, 0x32, 0x2e, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x2e, 0x63, 0x6f, 0x6d, 0x31, 0x19, 0x30, 0x17, 0x6, 0x3, 0x55, 0x4, 0x3, 0x13, 0x10, 0x63, 0x61, 0x2e, 0x73, 0x32, 0x2e, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x2e, 0x63, 0x6f, 0x6d, 0x30, 0x1e, 0x17, 0xd, 0x32, 0x31, 0x30, 0x31, 0x30, 0x37, 0x30, 0x38, 0x33, 0x31, 0x30, 0x30, 0x5a, 0x17, 0xd, 0x33, 0x31, 0x30, 0x31, 0x30, 0x35, 0x30, 0x38, 0x33, 0x31, 0x30, 0x30, 0x5a, 0x30, 0x58, 0x31, 0xb, 0x30, 0x9, 0x6, 0x3, 0x55, 0x4, 0x6, 0x13, 0x2, 0x55, 0x53, 0x31, 0x13, 0x30, 0x11, 0x6, 0x3, 0x55, 0x4, 0x8, 0x13, 0xa, 0x43, 0x61, 0x6c, 0x69, 0x66, 0x6f, 0x72, 0x6e, 0x69, 0x61, 0x31, 0x16, 0x30, 0x14, 0x6, 0x3, 0x55, 0x4, 0x7, 0x13, 0xd, 0x53, 0x61, 0x6e, 0x20, 0x46, 0x72, 0x61, 0x6e, 0x63, 0x69, 0x73, 0x63, 0x6f, 0x31, 0x1c, 0x30, 0x1a, 0x6, 0x3, 0x55, 0x4, 0x3, 0xc, 0x13, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x40, 0x73, 0x32, 0x2e, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x2e, 0x63, 0x6f, 0x6d, 0x30, 0x59, 0x30, 0x13, 0x6, 0x7, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x2, 0x1, 0x6, 0x8, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x3, 0x1, 0x7, 0x3, 0x42, 0x0, 0x4, 0x9e, 0x80, 0x9f, 0x9b, 0xc7, 0x9a, 0xe8, 0x35, 0x60, 0x12, 0x14, 0x5c, 0xab, 0x83, 0xe7, 0x46, 0x49, 0xef, 0xd4, 0xe2, 0xc0, 0x39, 0x16, 0xe6, 0xe1, 0x2b, 0xd9, 0x99, 0x17, 0x53, 0x91, 0x26, 0x5f, 0x5, 0x65, 0xc7, 0x0, 0x8e, 0x2a, 0x97, 0xea, 0x28, 0xea, 0xf5, 0x5d, 0xd9, 0x34, 0xd, 0x63, 0x25, 0x1, 0x3, 0xd0, 0x23, 0x17, 0x97, 0x92, 0xd7, 0x55, 0x4, 0x9c, 0x45, 0x73, 0x82, 0xa3, 0x4d, 0x30, 0x4b, 0x30, 0xe, 0x6, 0x3, 0x55, 0x1d, 0xf, 0x1, 0x1, 0xff, 0x4, 0x4, 0x3, 0x2, 0x7, 0x80, 0x30, 0xc, 0x6, 0x3, 0x55, 0x1d, 0x13, 0x1, 0x1, 0xff, 0x4, 0x2, 0x30, 0x0, 0x30, 0x2b, 0x6, 0x3, 0x55, 0x1d, 0x23, 0x4, 0x24, 0x30, 0x22, 0x80, 0x20, 0x63, 0xbd, 0xab, 0x9a, 0x9c, 0xa7, 0x4f, 0x3d, 0x8b, 0xb6, 0xc3, 0xab, 0xc, 0xb1, 0x45, 0x87, 0x60, 0x69, 0x7e, 0xb9, 0x6, 0xfb, 0x38, 0x5f, 0x9c, 0x2, 0xb1, 0x75, 0x9b, 0xc6, 0x3d, 0xfb&#125;, RawSubjectPublicKeyInfo:[]uint8&#123;0x30, 0x59, 0x30, 0x13, 0x6, 0x7, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x2, 0x1, 0x6, 0x8, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x3, 0x1, 0x7, 0x3, 0x42, 0x0, 0x4, 0x9e, 0x80, 0x9f, 0x9b, 0xc7, 0x9a, 0xe8, 0x35, 0x60, 0x12, 0x14, 0x5c, 0xab, 0x83, 0xe7, 0x46, 0x49, 0xef, 0xd4, 0xe2, 0xc0, 0x39, 0x16, 0xe6, 0xe1, 0x2b, 0xd9, 0x99, 0x17, 0x53, 0x91, 0x26, 0x5f, 0x5, 0x65, 0xc7, 0x0, 0x8e, 0x2a, 0x97, 0xea, 0x28, 0xea, 0xf5, 0x5d, 0xd9, 0x34, 0xd, 0x63, 0x25, 0x1, 0x3, 0xd0, 0x23, 0x17, 0x97, 0x92, 0xd7, 0x55, 0x4, 0x9c, 0x45, 0x73, 0x82&#125;, RawSubject:[]uint8&#123;0x30, 0x58, 0x31, 0xb, 0x30, 0x9, 0x6, 0x3, 0x55, 0x4, 0x6, 0x13, 0x2, 0x55, 0x53, 0x31, 0x13, 0x30, 0x11, 0x6, 0x3, 0x55, 0x4, 0x8, 0x13, 0xa, 0x43, 0x61, 0x6c, 0x69, 0x66, 0x6f, 0x72, 0x6e, 0x69, 0x61, 0x31, 0x16, 0x30, 0x14, 0x6, 0x3, 0x55, 0x4, 0x7, 0x13, 0xd, 0x53, 0x61, 0x6e, 0x20, 0x46, 0x72, 0x61, 0x6e, 0x63, 0x69, 0x73, 0x63, 0x6f, 0x31, 0x1c, 0x30, 0x1a, 0x6, 0x3, 0x55, 0x4, 0x3, 0xc, 0x13, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x40, 0x73, 0x32, 0x2e, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x2e, 0x63, 0x6f, 0x6d&#125;, RawIssuer:[]uint8&#123;0x30, 0x6d, 0x31, 0xb, 0x30, 0x9, 0x6, 0x3, 0x55, 0x4, 0x6, 0x13, 0x2, 0x55, 0x53, 0x31, 0x13, 0x30, 0x11, 0x6, 0x3, 0x55, 0x4, 0x8, 0x13, 0xa, 0x43, 0x61, 0x6c, 0x69, 0x66, 0x6f, 0x72, 0x6e, 0x69, 0x61, 0x31, 0x16, 0x30, 0x14, 0x6, 0x3, 0x55, 0x4, 0x7, 0x13, 0xd, 0x53, 0x61, 0x6e, 0x20, 0x46, 0x72, 0x61, 0x6e, 0x63, 0x69, 0x73, 0x63, 0x6f, 0x31, 0x16, 0x30, 0x14, 0x6, 0x3, 0x55, 0x4, 0xa, 0x13, 0xd, 0x73, 0x32, 0x2e, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x2e, 0x63, 0x6f, 0x6d, 0x31, 0x19, 0x30, 0x17, 0x6, 0x3, 0x55, 0x4, 0x3, 0x13, 0x10, 0x63, 0x61, 0x2e, 0x73, 0x32, 0x2e, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x2e, 0x63, 0x6f, 0x6d&#125;, Signature:[]uint8&#123;0x30, 0x45, 0x2, 0x21, 0x0, 0x91, 0x4, 0x2f, 0xee, 0x17, 0xca, 0x28, 0x68, 0xb4, 0x33, 0x48, 0x3a, 0x3a, 0x7b, 0x9f, 0xb8, 0x51, 0xb0, 0x6a, 0x8d, 0x28, 0xb9, 0x31, 0x4c, 0xb7, 0x21, 0x87, 0xd5, 0xac, 0xce, 0x6d, 0x1d, 0x2, 0x20, 0x68, 0x61, 0xca, 0x5d, 0xc2, 0x99, 0x63, 0xba, 0xb4, 0x4f, 0x1b, 0x3a, 0x2e, 0xc6, 0xed, 0x6b, 0x25, 0xba, 0x91, 0x63, 0xce, 0x1, 0xe7, 0xba, 0x67, 0x55, 0xbc, 0xb6, 0x8a, 0x76, 0x54, 0x37&#125;, SignatureAlgorithm:10, PublicKeyAlgorithm:3, PublicKey:(*ecdsa.PublicKey)(0xc0003f4980), Version:3, SerialNumber:207641924046541125914056390919893757465, Issuer:pkix.Name&#123;Country:[]string&#123;&quot;US&quot;&#125;, Organization:[]string&#123;&quot;s2.supply.com&quot;&#125;, OrganizationalUnit:[]string(nil), Locality:[]string&#123;&quot;San Francisco&quot;&#125;, Province:[]string&#123;&quot;California&quot;&#125;, StreetAddress:[]string(nil), PostalCode:[]string(nil), SerialNumber:&quot;&quot;, CommonName:&quot;ca.s2.supply.com&quot;, Names:[]pkix.AttributeTypeAndValue&#123;pkix.AttributeTypeAndValue&#123;Type:asn1.ObjectIdentifier&#123;2, 5, 4, 6&#125;, Value:&quot;US&quot;&#125;, pkix.AttributeTypeAndValue&#123;Type:asn1.ObjectIdentifier&#123;2, 5, 4, 8&#125;, Value:&quot;California&quot;&#125;, pkix.AttributeTypeAndValue&#123;Type:asn1.ObjectIdentifier&#123;2, 5, 4, 7&#125;, Value:&quot;San Francisco&quot;&#125;, pkix.AttributeTypeAndValue&#123;Type:asn1.ObjectIdentifier&#123;2, 5, 4, 10&#125;, Value:&quot;s2.supply.com&quot;&#125;, pkix.AttributeTypeAndValue&#123;Type:asn1.ObjectIdentifier&#123;2, 5, 4, 3&#125;, Value:&quot;ca.s2.supply.com&quot;&#125;&#125;, ExtraNames:[]pkix.AttributeTypeAndValue(nil)&#125;, Subject:pkix.Name&#123;Country:[]string&#123;&quot;US&quot;&#125;, Organization:[]string(nil), OrganizationalUnit:[]string(nil), Locality:[]string&#123;&quot;San Francisco&quot;&#125;, Province:[]string&#123;&quot;California&quot;&#125;, StreetAddress:[]string(nil), PostalCode:[]string(nil), SerialNumber:&quot;&quot;, CommonName:&quot;Admin@s2.supply.com&quot;, Names:[]pkix.AttributeTypeAndValue&#123;pkix.AttributeTypeAndValue&#123;Type:asn1.ObjectIdentifier&#123;2, 5, 4, 6&#125;, Value:&quot;US&quot;&#125;, pkix.AttributeTypeAndValue&#123;Type:asn1.ObjectIdentifier&#123;2, 5, 4, 8&#125;, Value:&quot;California&quot;&#125;, pkix.AttributeTypeAndValue&#123;Type:asn1.ObjectIdentifier&#123;2, 5, 4, 7&#125;, Value:&quot;San Francisco&quot;&#125;, pkix.AttributeTypeAndValue&#123;Type:asn1.ObjectIdentifier&#123;2, 5, 4, 3&#125;, Value:&quot;Admin@s2.supply.com&quot;&#125;&#125;, ExtraNames:[]pkix.AttributeTypeAndValue(nil)&#125;, NotBefore:time.Time&#123;wall:0x0, ext:63745605060, loc:(*time.Location)(nil)&#125;, NotAfter:time.Time&#123;wall:0x0, ext:64060965060, loc:(*time.Location)(nil)&#125;, KeyUsage:1, Extensions:[]pkix.Extension&#123;pkix.Extension&#123;Id:asn1.ObjectIdentifier&#123;2, 5, 29, 15&#125;, Critical:true, Value:[]uint8&#123;0x3, 0x2, 0x7, 0x80&#125;&#125;, pkix.Extension&#123;Id:asn1.ObjectIdentifier&#123;2, 5, 29, 19&#125;, Critical:true, Value:[]uint8&#123;0x30, 0x0&#125;&#125;, pkix.Extension&#123;Id:asn1.ObjectIdentifier&#123;2, 5, 29, 35&#125;, Critical:false, Value:[]uint8&#123;0x30, 0x22, 0x80, 0x20, 0x63, 0xbd, 0xab, 0x9a, 0x9c, 0xa7, 0x4f, 0x3d, 0x8b, 0xb6, 0xc3, 0xab, 0xc, 0xb1, 0x45, 0x87, 0x60, 0x69, 0x7e, 0xb9, 0x6, 0xfb, 0x38, 0x5f, 0x9c, 0x2, 0xb1, 0x75, 0x9b, 0xc6, 0x3d, 0xfb&#125;&#125;&#125;, ExtraExtensions:[]pkix.Extension(nil), UnhandledCriticalExtensions:[]asn1.ObjectIdentifier(nil), ExtKeyUsage:[]x509.ExtKeyUsage(nil), UnknownExtKeyUsage:[]asn1.ObjectIdentifier(nil), BasicConstraintsValid:true, IsCA:false, MaxPathLen:-1, MaxPathLenZero:false, SubjectKeyId:[]uint8(nil), AuthorityKeyId:[]uint8&#123;0x63, 0xbd, 0xab, 0x9a, 0x9c, 0xa7, 0x4f, 0x3d, 0x8b, 0xb6, 0xc3, 0xab, 0xc, 0xb1, 0x45, 0x87, 0x60, 0x69, 0x7e, 0xb9, 0x6, 0xfb, 0x38, 0x5f, 0x9c, 0x2, 0xb1, 0x75, 0x9b, 0xc6, 0x3d, 0xfb&#125;, OCSPServer:[]string(nil), IssuingCertificateURL:[]string(nil), DNSNames:[]string(nil), EmailAddresses:[]string(nil), IPAddresses:[]net.IP(nil), URIs:[]*url.URL(nil), PermittedDNSDomainsCritical:false, PermittedDNSDomains:[]string(nil), ExcludedDNSDomains:[]string(nil), PermittedIPRanges:[]*net.IPNet(nil), ExcludedIPRanges:[]*net.IPNet(nil), PermittedEmailAddresses:[]string(nil), ExcludedEmailAddresses:[]string(nil), PermittedURIDomains:[]string(nil), ExcludedURIDomains:[]string(nil), CRLDistributionPoints:[]string(nil), PolicyIdentifiers:[]asn1.ObjectIdentifier(nil)&#125;</span><br><span class="line">2021&#x2F;01&#x2F;25 03:42:33 clientIdentity.AssertAttributeValue(&quot;test&quot;, &quot;hello&quot;) error!</span><br></pre></td></tr></table></figure>
+<h3 id="测试日志分析">测试日志分析</h3>
+<h4 id="clientIdentity-GetID">clientIdentity.GetID()</h4>
+<h5 id="源码-v2">源码</h5>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id := fmt.Sprintf(<span class="string">"x509::%s::%s"</span>, getDN(&amp;c.cert.Subject), getDN(&amp;c.cert.Issuer))</span><br><span class="line"><span class="keyword">return</span> base64.StdEncoding.EncodeToString([]<span class="keyword">byte</span>(id)), <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
+<p>解码日志输出的base64编码的内容<code>eDUwOTo6Q049QWRtaW5AczIuc3VwcGx5LmNvbSxMPVNhbiBGcmFuY2lzY28sU1Q9Q2FsaWZvcm5pYSxDPVVTOjpDTj1jYS5zMi5zdXBwbHkuY29tLE89czIuc3VwcGx5LmNvbSxMPVNhbiBGcmFuY2lzY28sU1Q9Q2FsaWZvcm5pYSxDPVVT</code>结果如下，主要是证书里面的摘要信息：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x509::CN=Admin@s2.supply.com,L=San Francisco,ST=California,C=US::CN=ca.s2.supply.com,O=s2.supply.com,L=San Francisco,ST=California,C=US</span><br></pre></td></tr></table></figure>
+<h4 id="clientIdentity-GetAttributeValue-“test”">clientIdentity.GetAttributeValue(“test”)</h4>
+<p><code>		log.Printf(&quot;clientIdentity.GetAttributeValue(\&quot;test\&quot;)=%s&quot;, value)</code>这行日志没有打印，是因为没有查询到这个属性。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#源码"><span class="toc-number">1.</span> <span class="toc-text">源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试代码："><span class="toc-number">2.</span> <span class="toc-text">测试代码：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试日志"><span class="toc-number">3.</span> <span class="toc-text">测试日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试日志分析"><span class="toc-number">4.</span> <span class="toc-text">测试日志分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#clientIdentity-GetID"><span class="toc-number">4.1.</span> <span class="toc-text">clientIdentity.GetID()</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#源码-v2"><span class="toc-number">4.1.1.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#clientIdentity-GetAttributeValue-“test”"><span class="toc-number">4.2.</span> <span class="toc-text">clientIdentity.GetAttributeValue(“test”)</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&text=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&title=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&is_video=false&description=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ClientIdentity接口练习&body=Check out this article: https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&title=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&title=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&title=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&title=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&name=ClientIdentity接口练习&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/01/25/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/&t=ClientIdentity接口练习" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="https://github.com/guozhe001" target="_blank" rel="noopener">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
