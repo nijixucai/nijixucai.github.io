@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="第一章：数据结构 链表 特性  呈线性排列的数据结构，元素中有字段指向下一个元素  内存  内存空间不连续  时间复杂度   删除：   直接在最后把指向被删除的元素改为指向被删除的下一个元素修改即可   时间复杂度：O(1)     添加：   直接在当前列表的最后的元素的指向另一个元素即可   时间复杂度：O(1)     查询：   需要从最开始的元素查询   时间复杂度：O(n)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读书笔记-《我的第一本算法书》">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="第一章：数据结构 链表 特性  呈线性排列的数据结构，元素中有字段指向下一个元素  内存  内存空间不连续  时间复杂度   删除：   直接在最后把指向被删除的元素改为指向被删除的下一个元素修改即可   时间复杂度：O(1)     添加：   直接在当前列表的最后的元素的指向另一个元素即可   时间复杂度：O(1)     查询：   需要从最开始的元素查询   时间复杂度：O(n)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/null/image-20200822163332465.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/null/image-20200822164224711.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200918183116803.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200918183227754.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200918183344985.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200918183430948.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200918185110697.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200918185651314.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919111210334-20200919113122148.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919113151447.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919113611840.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919114040964.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919114844473.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919115000979-0487431.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919115117042.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919115514893.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919115535132.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919115557280.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919115921527.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919153334400.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919153913102.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919165548842.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master//image-20200919165633696.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/null/%E6%88%AA%E5%B1%8F2020-09-21%20%E4%B8%8B%E5%8D%8811.05.28.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/null/image-20200921231952128.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/null/image-20200921232008317.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/null/image-20200921232023522.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/null/image-20200921232039847.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/null/image-20200921232309104.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/null/image-20200921232443009.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/null/image-20200921233013836.png">
+<meta property="article:published_time" content="2021-04-01T10:18:21.452Z">
+<meta property="article:modified_time" content="2021-04-01T10:18:21.453Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="读书笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/guozhe001/images/raw/master/null/image-20200822163332465.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>读书笔记-《我的第一本算法书》</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/1%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/01/algorithms/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&text=读书笔记-《我的第一本算法书》"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=读书笔记-《我的第一本算法书》"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&is_video=false&description=读书笔记-《我的第一本算法书》"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=读书笔记-《我的第一本算法书》&body=Check out this article: https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=读书笔记-《我的第一本算法书》"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=读书笔记-《我的第一本算法书》"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=读书笔记-《我的第一本算法书》"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=读书笔记-《我的第一本算法书》"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&name=读书笔记-《我的第一本算法书》&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&t=读书笔记-《我的第一本算法书》"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">第一章：数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text">链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">1.1.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98"><span class="toc-number">1.1.2.</span> <span class="toc-text">内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">1.1.3.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95"><span class="toc-number">1.1.4.</span> <span class="toc-text">扩展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-number">1.2.</span> <span class="toc-text">数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v2"><span class="toc-number">1.2.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98-v2"><span class="toc-number">1.2.2.</span> <span class="toc-text">内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v2"><span class="toc-number">1.2.3.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88"><span class="toc-number">1.3.</span> <span class="toc-text">栈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v3"><span class="toc-number">1.3.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v3"><span class="toc-number">1.3.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-number">1.4.</span> <span class="toc-text">队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v4"><span class="toc-number">1.4.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v4"><span class="toc-number">1.4.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="toc-number">1.5.</span> <span class="toc-text">哈希表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v5"><span class="toc-number">1.5.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v5"><span class="toc-number">1.5.2.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E8%AF%B4%E6%98%8E"><span class="toc-number">1.5.3.</span> <span class="toc-text">补充说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86"><span class="toc-number">1.6.</span> <span class="toc-text">堆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v6"><span class="toc-number">1.6.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v6"><span class="toc-number">1.6.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91"><span class="toc-number">1.7.</span> <span class="toc-text">二叉查找树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v7"><span class="toc-number">1.7.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v7"><span class="toc-number">1.7.2.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95-v2"><span class="toc-number">1.7.3.</span> <span class="toc-text">扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">1.7.3.1.</span> <span class="toc-text">关于时间复杂度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A5%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91%E4%B8%BA%E5%9F%BA%E7%A1%80%E6%89%A9%E5%B1%95%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.7.3.2.</span> <span class="toc-text">以二叉查找树为基础扩展的数据结构</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%9A%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">第二章：排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-number">2.1.</span> <span class="toc-text">冒泡排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89"><span class="toc-number">2.1.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-n%C2%B2"><span class="toc-number">2.1.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.1.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">2.2.</span> <span class="toc-text">选择排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89-v2"><span class="toc-number">2.2.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-n%C2%B2-v2"><span class="toc-number">2.2.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v2"><span class="toc-number">2.2.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">2.3.</span> <span class="toc-text">插入排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89-v3"><span class="toc-number">2.3.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-n%C2%B2-v3"><span class="toc-number">2.3.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v3"><span class="toc-number">2.3.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-number">2.4.</span> <span class="toc-text">堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89-v4"><span class="toc-number">2.4.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-nlogn"><span class="toc-number">2.4.2.</span> <span class="toc-text">时间复杂度：O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v4"><span class="toc-number">2.4.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">2.5.</span> <span class="toc-text">归并排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89-v5"><span class="toc-number">2.5.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-O-nlogn"><span class="toc-number">2.5.2.</span> <span class="toc-text">时间复杂度:O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v5"><span class="toc-number">2.5.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">2.6.</span> <span class="toc-text">快速排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89-v6"><span class="toc-number">2.6.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-nlogn-v2"><span class="toc-number">2.6.2.</span> <span class="toc-text">时间复杂度：O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v6"><span class="toc-number">2.6.3.</span> <span class="toc-text">Java代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95-v3"><span class="toc-number">2.6.4.</span> <span class="toc-text">扩展</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%9A%E6%95%B0%E7%BB%84%E7%9A%84%E6%9F%A5%E6%89%BE"><span class="toc-number">3.</span> <span class="toc-text">第三章：数组的查找</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E6%9F%A5%E6%89%BE"><span class="toc-number">3.1.</span> <span class="toc-text">线性查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v8"><span class="toc-number">3.1.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-n"><span class="toc-number">3.1.2.</span> <span class="toc-text">时间复杂度：O(n)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v7"><span class="toc-number">3.1.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE"><span class="toc-number">3.2.</span> <span class="toc-text">二分查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v9"><span class="toc-number">3.2.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-O-logn"><span class="toc-number">3.2.2.</span> <span class="toc-text">时间复杂度 O(logn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v8"><span class="toc-number">3.2.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%9A%E5%9B%BE%E7%9A%84%E6%90%9C%E7%B4%A2"><span class="toc-number">4.</span> <span class="toc-text">第四章：图的搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">4.1.</span> <span class="toc-text">图的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E6%9D%83%E5%9B%BE"><span class="toc-number">4.1.1.</span> <span class="toc-text">加权图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%90%91%E5%9B%BE"><span class="toc-number">4.1.2.</span> <span class="toc-text">有向图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%83%BD%E7%BB%99%E6%88%91%E4%BB%AC%E5%B8%A6%E6%9D%A5%E5%93%AA%E4%BA%9B%E4%BE%BF%E5%88%A9"><span class="toc-number">4.1.3.</span> <span class="toc-text">图能给我们带来哪些便利</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%9C%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.1.4.</span> <span class="toc-text">图在代码中如何实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E6%90%9C%E7%B4%A2"><span class="toc-number">4.2.</span> <span class="toc-text">图的搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">4.2.1.</span> <span class="toc-text">广度优先搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v9"><span class="toc-number">4.2.1.1.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">4.2.2.</span> <span class="toc-text">深度优先搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v10"><span class="toc-number">4.2.2.1.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%92%8C%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%AF%B9%E6%AF%94"><span class="toc-number">4.2.3.</span> <span class="toc-text">广度优先搜索和深度优先搜索对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9D%E5%B0%94%E6%9B%BC-%E7%A6%8F%E7%89%B9%E7%AE%97%E6%B3%95"><span class="toc-number">4.2.4.</span> <span class="toc-text">贝尔曼 - 福特算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">4.2.4.1.</span> <span class="toc-text">解决的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%82%E8%A7%A3%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-number">4.2.4.2.</span> <span class="toc-text">求解的步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6O-nm"><span class="toc-number">4.2.4.3.</span> <span class="toc-text">时间复杂度O(nm)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v11"><span class="toc-number">4.2.4.4.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8B%84%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95"><span class="toc-number">4.2.5.</span> <span class="toc-text">狄克斯特拉算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98-v2"><span class="toc-number">4.2.5.1.</span> <span class="toc-text">解决的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%82%E8%A7%A3%E7%9A%84%E6%AD%A5%E9%AA%A4-v2"><span class="toc-number">4.2.5.2.</span> <span class="toc-text">求解的步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v8"><span class="toc-number">4.2.5.3.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v12"><span class="toc-number">4.2.5.4.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9D%E5%B0%94%E6%9B%BC%E7%A6%8F%E7%89%B9%E7%AE%97%E6%B3%95%E5%92%8C%E8%BF%AA%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95%E5%AF%B9%E6%AF%94"><span class="toc-number">4.2.6.</span> <span class="toc-text">贝尔曼福特算法和迪克斯特拉算法对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">4.2.6.1.</span> <span class="toc-text">说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-%EF%BC%88A-Star%EF%BC%89%E7%AE%97%E6%B3%95"><span class="toc-number">4.2.7.</span> <span class="toc-text">A*（A-Star）算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98-v3"><span class="toc-number">4.2.7.1.</span> <span class="toc-text">解决的问题</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E5%AE%89%E5%85%A8%E7%AE%97%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">第五章 安全算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%92%8C%E7%AE%97%E6%B3%95"><span class="toc-number">5.1.</span> <span class="toc-text">安全和算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E6%95%B0%E6%8D%AE%E6%97%B6%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">5.1.1.</span> <span class="toc-text">传输数据时的四个问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AA%83%E5%90%AC"><span class="toc-number">5.1.1.1.</span> <span class="toc-text">窃听</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%87%E5%86%92"><span class="toc-number">5.1.1.2.</span> <span class="toc-text">假冒</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AF%A1%E6%94%B9"><span class="toc-number">5.1.1.3.</span> <span class="toc-text">篡改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E5%90%8E%E5%90%A6%E8%AE%A4"><span class="toc-number">5.1.1.4.</span> <span class="toc-text">事后否认</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E8%BF%99%E4%BA%9B%E9%97%AE%E9%A2%98%E7%9A%84%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF"><span class="toc-number">5.1.2.</span> <span class="toc-text">解决这些问题的安全技术</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0"><span class="toc-number">5.2.</span> <span class="toc-text">哈希函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.2.1.</span> <span class="toc-text">应用示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86%EF%BC%88%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%EF%BC%89"><span class="toc-number">5.3.</span> <span class="toc-text">共享密钥加密（对称加密）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%9C%A8%E5%AF%86%E9%92%A5%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98"><span class="toc-number">5.3.1.</span> <span class="toc-text">存在密钥分配问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%BC%80%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86%EF%BC%88%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%EF%BC%89"><span class="toc-number">5.4.</span> <span class="toc-text">公开密钥加密（非对称加密）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%AD%98%E5%9C%A8%E5%AF%86%E9%92%A5%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98"><span class="toc-number">5.4.1.</span> <span class="toc-text">不存在密钥分配问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E9%92%A5%E6%95%B0%E9%87%8F%E4%B8%8D%E4%BC%9A%E8%BF%87%E5%A4%9A"><span class="toc-number">5.4.2.</span> <span class="toc-text">密钥数量不会过多</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E5%BC%80%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86%E5%AD%98%E5%9C%A8%E5%85%AC%E5%BC%80%E5%AF%86%E9%92%A5%E5%8F%AF%E9%9D%A0%E6%80%A7%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">5.4.3.</span> <span class="toc-text">公开密钥加密存在公开密钥可靠性的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="toc-number">5.4.4.</span> <span class="toc-text">非对称加密算法的条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E5%8A%A0%E5%AF%86"><span class="toc-number">5.5.</span> <span class="toc-text">混合加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AA%E8%8F%B2-%E8%B5%AB%E5%B0%94%E6%9B%BC%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2"><span class="toc-number">5.6.</span> <span class="toc-text">迪菲 - 赫尔曼密钥交换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">5.6.1.</span> <span class="toc-text">算法的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E9%92%A5%E7%9A%84%E4%BA%A4%E6%8D%A2"><span class="toc-number">5.6.2.</span> <span class="toc-text">密钥的交换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E8%AE%A4%E8%AF%81%E7%A0%81%EF%BC%8CMAC%EF%BC%88Message-Authentication-Code%EF%BC%89"><span class="toc-number">5.7.</span> <span class="toc-text">消息认证码，MAC（Message Authentication Code）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%B6%88%E6%81%AF%E8%AE%A4%E8%AF%81%E7%A0%81%E8%A7%A3%E5%86%B3%E7%AF%A1%E6%94%B9%E9%97%AE%E9%A2%98%E5%91%A2%EF%BC%9F"><span class="toc-number">5.7.1.</span> <span class="toc-text">如何使用消息认证码解决篡改问题呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9CMAC%E5%92%8C%E5%AF%86%E6%96%87%E9%83%BD%E8%A2%ABX%E6%88%AA%E8%8E%B7%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-number">5.7.2.</span> <span class="toc-text">如果MAC和密文都被X截获了怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%AA%8C%E8%AF%81%E7%A0%81%E6%97%A0%E6%B3%95%E9%98%B2%E6%AD%A2%E2%80%9C%E4%BA%8B%E5%90%8E%E5%90%A6%E8%AE%A4%E2%80%9D"><span class="toc-number">5.7.3.</span> <span class="toc-text">消息验证码无法防止“事后否认”</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="toc-number">5.8.</span> <span class="toc-text">数字签名</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E7%9A%84%E7%89%B9%E5%BE%81"><span class="toc-number">5.8.1.</span> <span class="toc-text">数字签名的特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="toc-number">5.8.2.</span> <span class="toc-text">如何实现数字签名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="toc-number">5.9.</span> <span class="toc-text">数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E8%AF%81%E4%B9%A6%E5%8F%91%E9%80%81%E5%85%AC%E9%92%A5"><span class="toc-number">5.9.1.</span> <span class="toc-text">如何使用数据证书发送公钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%B4%A8%E7%96%91%EF%BC%8C%E6%88%91%E4%BB%AC%E4%BB%8E%E8%AE%A4%E8%AF%81%E4%B8%AD%E5%BF%83%E8%8E%B7%E5%8F%96%E7%9A%84%E5%85%AC%E9%92%A5Pc%E7%9C%9F%E7%9A%84%E6%9D%A5%E8%87%AA%E8%AE%A4%E8%AF%81%E4%B8%AD%E5%BF%83%E5%90%97"><span class="toc-number">5.9.2.</span> <span class="toc-text">循环质疑，我们从认证中心获取的公钥Pc真的来自认证中心吗</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E8%81%9A%E7%B1%BB"><span class="toc-number">6.</span> <span class="toc-text">第六章 聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%81%9A%E7%B1%BB"><span class="toc-number">6.1.</span> <span class="toc-text">什么是聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E7%9B%B8%E4%BC%BC%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%88%86%E4%B8%BA%E4%B8%80%E7%BB%84"><span class="toc-number">6.1.1.</span> <span class="toc-text">将相似的对象分为一组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E2%80%9C%E7%9B%B8%E4%BC%BC%E2%80%9D"><span class="toc-number">6.1.2.</span> <span class="toc-text">如何定义“相似”</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E9%97%B4%E7%9A%84%E5%B7%AE%E8%B7%9D"><span class="toc-number">6.1.2.1.</span> <span class="toc-text">定义数据间的差距</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84%E7%AE%97%E6%B3%95"><span class="toc-number">6.1.2.2.</span> <span class="toc-text">符合条件的算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k-means-%E7%AE%97%E6%B3%95"><span class="toc-number">6.2.</span> <span class="toc-text">k-means 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#k-means%E7%AE%97%E6%B3%95%E6%AD%A5%E9%AA%A4"><span class="toc-number">6.2.1.</span> <span class="toc-text">k-means算法步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E8%AF%B4%EF%BC%9A"><span class="toc-number">6.2.2.</span> <span class="toc-text">解说：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E8%AF%B4%E6%98%8E-v2"><span class="toc-number">6.2.3.</span> <span class="toc-text">补充说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%85%B6%E4%BB%96%E7%AE%97%E6%B3%95"><span class="toc-number">7.</span> <span class="toc-text">第七章 其他算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95"><span class="toc-number">7.1.</span> <span class="toc-text">欧几里得算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95%E6%B1%821112%E5%92%8C695%E7%9A%84%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0"><span class="toc-number">7.1.1.</span> <span class="toc-text">使用欧几里得算法求1112和695的最大公约数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%AE%9E%E7%8E%B0"><span class="toc-number">7.1.2.</span> <span class="toc-text">Java实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A0%E6%80%A7%E6%B5%8B%E8%AF%95"><span class="toc-number">7.2.</span> <span class="toc-text">素性测试</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        读书笔记-《我的第一本算法书》
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-01T10:18:21.452Z" itemprop="datePublished">2021-04-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a> › <a class="category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="第一章：数据结构">第一章：数据结构</h1>
+<h2 id="链表">链表</h2>
+<h3 id="特性">特性</h3>
+<ul>
+<li>呈线性排列的数据结构，元素中有字段指向下一个元素</li>
+</ul>
+<h3 id="内存">内存</h3>
+<ul>
+<li>内存空间不连续</li>
+</ul>
+<h3 id="时间复杂度">时间复杂度</h3>
+<ul>
+<li>
+<p>删除：</p>
+<ul>
+<li>
+<p>直接在最后把指向被删除的元素改为指向被删除的下一个元素修改即可</p>
+</li>
+<li>
+<p>时间复杂度：O(1)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>添加：</p>
+<ul>
+<li>
+<p>直接在当前列表的最后的元素的指向另一个元素即可</p>
+</li>
+<li>
+<p>时间复杂度：O(1)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>查询：</p>
+<ul>
+<li>
+<p>需要从最开始的元素查询</p>
+</li>
+<li>
+<p>时间复杂度：O(n)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="扩展">扩展</h3>
+<ul>
+<li>循环链表，最后一个元素的下一个元素指向开头的元素</li>
+<li>每个元素有两个指向，分别指向前一个元素和后一个元素</li>
+</ul>
+<h2 id="数组">数组</h2>
+<h3 id="特性-v2">特性</h3>
+<ul>
+<li>呈线性排列的数据结构，元素有下标</li>
+</ul>
+<h3 id="内存-v2">内存</h3>
+<ul>
+<li>元素在内存中是连续的</li>
+</ul>
+<h3 id="时间复杂度-v2">时间复杂度</h3>
+<ul>
+<li>
+<p>添加：</p>
+<ul>
+<li>
+<p>首先需要在末尾增加需要的存储空间，把需要添加的位置以及以后的元素的下标全部+1，把需要添加的位置放进新的元素</p>
+</li>
+<li>
+<p>时间复杂度：O(n)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>删除：</p>
+<ul>
+<li>
+<p>依此把需要删除的位置的以后的元素的下标-1</p>
+</li>
+<li>
+<p>时间复杂度：O(n)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>查询：</p>
+<ul>
+<li>
+<p>根据下标直接随机访问</p>
+</li>
+<li>
+<p>时间复杂度：O(1)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="栈">栈</h2>
+<h3 id="特性-v3">特性</h3>
+<ul>
+<li>
+<p>呈线性排列的数据结构；后进先出Last In First Out，简称 LIFO</p>
+</li>
+<li>
+<p>push（入栈），pop（出栈）</p>
+</li>
+</ul>
+<h3 id="时间复杂度-v3">时间复杂度</h3>
+<ul>
+<li>入栈和出栈，时间复杂度都是：O(1)</li>
+</ul>
+<h2 id="队列">队列</h2>
+<h3 id="特性-v4">特性</h3>
+<ul>
+<li>呈线性排列的数据结构；先进先出First In First Out，简称FIFO</li>
+<li>入队，出队</li>
+</ul>
+<h3 id="时间复杂度-v4">时间复杂度</h3>
+<ul>
+<li>入队和出队的时间复杂度都是：O(1)</li>
+</ul>
+<h2 id="哈希表">哈希表</h2>
+<h3 id="特性-v5">特性</h3>
+<ul>
+<li>哈希表存储的是由键（key）和值（value）组 成的数据</li>
+<li>如果在hash值不冲突时，哈希表的每个桶都只保存一个key；如果hash值冲突了，则会变成链表存储</li>
+<li>先用key计算hash值，将得到的哈希值除以数组的长度，求得其余数、就找到了存储位置。这样的求余运算叫作“mod 运算”</li>
+<li>如果两个key的hash值求余后找到的存储位置已经有值，这种存储位置重复了的情况便叫作“冲突”。遇到这种情况，可使用链表在已有数据的后面 继续存储新的数据</li>
+</ul>
+<h3 id="时间复杂度-v5">时间复杂度</h3>
+<ul>
+<li>哈希表的时间复杂度与hash算法有关
+<ul>
+<li>如果hash值不会冲突（理想情况），则新增、修改、删除、查询的时间复杂度都是：O(1)</li>
+<li>如果hash值全部一致，则hash表其实就是一个链表，时间复杂度也与链表一致</li>
+</ul>
+</li>
+</ul>
+<h3 id="补充说明">补充说明</h3>
+<p>在存储数据的过程中，如果发生冲突，可以利用链表在已有数据的后面插入新数据 来解决冲突；这种方法被称为“链地址法”。</p>
+<p>除了链地址法以外，还有几种解决冲突的方法。</p>
+<p>其中，应用较为广泛的是“开放地址法”。这种方法是指当冲突发生时，立刻计算出一个候补地址（数组上的位置）并将数 据存进去。如果仍然有冲突，便继续计算下一个候补地址，直到有空地址为止。可以通过多次使用哈希函数或“线性探测法”等方法计算候补地址。</p>
+<h2 id="堆">堆</h2>
+<h3 id="特性-v6">特性</h3>
+<ul>
+<li>
+<p>堆是一种图的树形结构，被用于实现“优先队列”（priority queues）。</p>
+</li>
+<li>
+<p>优先队列是一种数据结构，可以自由添加数据，但取出数据时要从最小值开始按顺 序取出。</p>
+</li>
+<li>
+<p>在堆的树形结构中，各个顶点被称为“结点”（node），数据就存储在这些结点中。</p>
+</li>
+<li>
+<p>堆中的节点最多有两个子节点，节点的排序为从上到下，同一行则从左到右。</p>
+</li>
+<li>
+<p>堆中存储数据的规则：子节点必须大于父节点</p>
+</li>
+</ul>
+<h3 id="时间复杂度-v6">时间复杂度</h3>
+<ul>
+<li>
+<p>添加数据</p>
+<ul>
+<li>增加节点时在最下面一行的最左边增加，如果最下面的一行没有位置则增加新的一行</li>
+<li>如果增加的数据比父节点的数字小，则与父节点交换位置，重复此步骤直到比父节点大或者没有父节点为止</li>
+<li>时间复杂度：O(logn)</li>
+</ul>
+</li>
+<li>
+<p>取出数据</p>
+<ul>
+<li>取出数据永远是取最上面节点的数据</li>
+<li>最上面节点的数据被取走之后，需要重新调整</li>
+<li>重新调整时，需要把最后的数据（即最下面一行最右边的节点）移动到最上面</li>
+<li>然后与最上面的两个子节点做比较，如果数字小于两个子节点，则调整完成</li>
+<li>如果最上面的数据大于子节点的数据，则与较小的子节点的位置进行交换，重复此操作直到所有父节点小于子节点为止</li>
+<li>时间复杂度:O(logn)</li>
+</ul>
+</li>
+</ul>
+<h2 id="二叉查找树">二叉查找树</h2>
+<h3 id="特性-v7">特性</h3>
+<ul>
+<li>
+<p>二叉查找树（又叫作二叉搜索树或二叉排序树）是一种采用了图的树形结构的数据结构</p>
+</li>
+<li>
+<p>每个节点最多有两个子节点</p>
+</li>
+<li>
+<p><strong>每个节点的值大于其左子树的任意节点的值</strong></p>
+</li>
+<li>
+<p><strong>每个节点的值小于其右子树的任意节点的值</strong></p>
+</li>
+<li>
+<p>根据上面的特性，我们可以知道如果想要查找最小值，则在左边的最末端</p>
+</li>
+</ul>
+<h3 id="时间复杂度-v7">时间复杂度</h3>
+<ul>
+<li>
+<p>添加数据</p>
+<ul>
+<li>从顶端开始查找添加位置</li>
+<li>如果添加的值大于顶端的值，则往右移；小于它则往左移</li>
+<li>时间复杂度：O(logn)</li>
+</ul>
+</li>
+<li>
+<p>删除数据</p>
+<ul>
+<li>如果删除的节点没有子节点，则直接删除此节点</li>
+<li>如果删除的节点有一个子节点，则删除此节点后把子节点移到当前的节点</li>
+<li>如果删除的节点有两个子节点，则删除此节点后把左边子节点的最右端移到当前节点（也可以把右边子节点的最左端移到当前节点）</li>
+<li>上面的一句可以理解为：把小于被删除的节点的最大值移到删除的节点；或者把大于被删除节点的最小值移到删除节点</li>
+<li>如果移动的节点还有子节点，也按照同样的方式移动</li>
+<li>时间复杂度：O(logn)</li>
+</ul>
+</li>
+<li>
+<p>查找数据</p>
+<ul>
+<li>从顶端开始查找</li>
+<li>如果大于查找节点的值，则向右移；如果小于查找节点的值，则向左移；循环此操作</li>
+<li>时间复杂度：O(logn)</li>
+</ul>
+</li>
+</ul>
+<h3 id="扩展-v2">扩展</h3>
+<h4 id="关于时间复杂度">关于时间复杂度</h4>
+<ul>
+<li>如果数的形状比较均衡，查找的时间复杂度是O(logn)</li>
+<li>如果不均衡极端情况下是一个链表，查找的时间复杂度是O(n)</li>
+</ul>
+<h4 id="以二叉查找树为基础扩展的数据结构">以二叉查找树为基础扩展的数据结构</h4>
+<ul>
+<li>“平衡二叉查找树”：这种数据结构可以修正形状不均衡的树，让其始终保持均衡形态，以提高查找效率</li>
+<li>“B 树”：二叉查找树中一个结点最多有两个子结点，如果我们把子结点数扩展为 m（m 为预先设定好的常数）。像这种子结点数可以自由设定，并且形状均衡的树便是 B 树</li>
+</ul>
+<h1 id="第二章：排序">第二章：排序</h1>
+<h2 id="冒泡排序">冒泡排序</h2>
+<h3 id="算法释义">算法释义</h3>
+<p>冒泡排序就是重复“从序列右边开始比较相邻两个数字的大小，再根据结果交换两个数字 的位置”这一操作的算法。</p>
+<p>在这个过程中，数字会像泡泡一样，慢慢从右往左“浮”到序列的 顶端，所以这个算法才被称为“冒泡排序”。</p>
+<h3 id="时间复杂度：O-n²">时间复杂度：O(n²)</h3>
+<p>在冒泡排序中：</p>
+<ul>
+<li>
+<p>第 1 轮需要比较 n -1 次</p>
+</li>
+<li>
+<p>第 2 轮需要比较 n -2 次</p>
+</li>
+<li>
+<p>第 n -1 轮需 要比较 1 次</p>
+</li>
+</ul>
+<p>因此，总的比较次数为 (n -1) +(n -2) +…+1 ≈ n² /2。这个比较次数恒定为 该数值，和输入数据的排列顺序无关。</p>
+<h3 id="Java代码实现">Java代码实现</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/sort/BubbleSortStartFromLeft.java">冒泡排序</a></p>
+<h2 id="选择排序">选择排序</h2>
+<h3 id="算法释义-v2">算法释义</h3>
+<ul>
+<li>选择排序就是重复“从待排序的数据中寻找最小值，将其与序列最左边的数字进行交换” 这一操作的算法。</li>
+<li>在序列中寻找最小值时使用的是线性查找。</li>
+</ul>
+<h3 id="时间复杂度：O-n²-v2">时间复杂度：O(n²)</h3>
+<p>选择排序使用了线性查找来寻找最小值，因此在</p>
+<ul>
+<li>第 1 轮中需要比较 <em>n</em> - 1 个数字</li>
+<li>第 2 轮需要比较 <em>n</em> - 2 个数字</li>
+<li>到第 <em>n</em> - 1 轮的时候就只需比较 1 个数字</li>
+<li>因此，总的比较次数与冒泡排序的相同，都是(<em>n</em>-1)+(<em>n</em>-2)+…+1 ≈ <em>n</em>2/2 次。</li>
+</ul>
+<h3 id="Java代码实现-v2">Java代码实现</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/sort/SelectSort.java">选择排序</a></p>
+<h2 id="插入排序">插入排序</h2>
+<h3 id="算法释义-v3">算法释义</h3>
+<p>插入排序是一种从序列左端开始依次对数据进行排序的算法。</p>
+<p>在排序过程中，左侧的数据陆续归位，而右侧留下的就是还未被排序的数据。</p>
+<p>插入排序的思路就是从右侧的未排序区域内取出一个数据，然后将它插入到已排序区域内合适的位置上。</p>
+<h3 id="时间复杂度：O-n²-v3">时间复杂度：O(n²)</h3>
+<h3 id="Java代码实现-v3">Java代码实现</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/sort/InsertSort.java">插入排序</a></p>
+<h2 id="堆排序">堆排序</h2>
+<h3 id="算法释义-v4">算法释义</h3>
+<p>堆排序的特点是利用了数据结构中的堆</p>
+<ul>
+<li>首先，在堆中存储所有的数据，并按降序来构建堆</li>
+<li>然后从堆中取出数据，并把取出的数据放在最右边的空位置</li>
+</ul>
+<h3 id="时间复杂度：O-nlogn">时间复杂度：<em>O</em>(<em>n</em>log<em>n</em>)</h3>
+<p>堆排序一开始需要将 <em>n</em> 个数据存进堆里，所需时间为 <em>O</em>(<em>n</em>log<em>n</em>)</p>
+<p>每轮取出最大的数据并重构堆所需要的时间为 <em>O</em>(log<em>n</em>)</p>
+<p>由于总共有 <em>n</em> 轮，所以重构后排序的时间也是 <em>O</em>(<em>n</em>log<em>n</em>)</p>
+<p>因此，整体来看堆排序的时间复杂度为 <em>O</em>(<em>n</em>log<em>n</em>)</p>
+<h3 id="Java代码实现-v4">Java代码实现</h3>
+<p>暂无</p>
+<h2 id="归并排序">归并排序</h2>
+<h3 id="算法释义-v5">算法释义</h3>
+<p>归并排序算法会把序列分成长度相同的两个子序列，当无法继续往下分时(也就是每个子序列中只有一个数据时)，就对子序列进行归并。</p>
+<p>归并指的是把两个排好序的子序列合并成一个有序序列。</p>
+<p>该操作会一直重复执行，直到所有子序列都归并为一个整体为止。</p>
+<h3 id="时间复杂度-O-nlogn">时间复杂度:O(nlogn)</h3>
+<ul>
+<li>把数组拆分成不可分割的最小单元的数组，时间复杂度O(n)</li>
+<li>依次把所有数组进行合并排序，每一轮的比较次数为O(n)；需要进行logn轮</li>
+<li>最终的时间复杂度是O(nlogn)</li>
+</ul>
+<h3 id="Java代码实现-v5">Java代码实现</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/sort/MergeSort.java">归并排序</a></p>
+<h2 id="快速排序">快速排序</h2>
+<h3 id="算法释义-v6">算法释义</h3>
+<ul>
+<li>
+<p>快速排序算法首先会在序列中随机选择一个基准值（pivot）</p>
+</li>
+<li>
+<p>然后将除了基准值以外的数分为“比基准值小的数”和“比基准值大的数”这两个类别，再将其排列成以下形式。</p>
+<ul>
+<li>[ 比基准值小的数 ] 基准值 [ 比基准值大的数 ]</li>
+</ul>
+</li>
+<li>
+<p>接着，对两个“[ ]”中的数据进行排序之后，整体的排序便完成了。对“[ ]”里面的数据进行排序时同样也会使用快速排序。</p>
+</li>
+</ul>
+<h3 id="时间复杂度：O-nlogn-v2">时间复杂度：O(nlogn)</h3>
+<ul>
+<li>每一轮比较的次数为n次，时间复杂度O(n)</li>
+<li>需要进行logn轮的比较</li>
+<li>最终的时间复杂度是O(nlogn)</li>
+</ul>
+<h3 id="Java代码实现-v6">Java代码实现</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/sort/FastSort.java">快速排序</a></p>
+<h3 id="扩展-v3">扩展</h3>
+<p>基准值约接近数组的平均值，排序的速度越快；基准值一般都使用第一个数字</p>
+<h1 id="第三章：数组的查找">第三章：数组的查找</h1>
+<h2 id="线性查找">线性查找</h2>
+<h3 id="特性-v8">特性</h3>
+<ul>
+<li>遍历整个数组，逐个进行比较，直到找到为止</li>
+</ul>
+<h3 id="时间复杂度：O-n">时间复杂度：O(n)</h3>
+<h3 id="Java代码实现-v7">Java代码实现</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/search/LinearSearch.java">线性查找</a></p>
+<h2 id="二分查找">二分查找</h2>
+<h3 id="特性-v9">特性</h3>
+<ul>
+<li>只能查找已经排好序的数组</li>
+<li>每次查找取中间位置的值与需要查找的数字比较，如果中间值大于待查找数据，则继续在中间值左边的数组进行查找；反之亦然</li>
+</ul>
+<h3 id="时间复杂度-O-logn">时间复杂度 O(logn)</h3>
+<ul>
+<li>每一次查找都会把待查找的范围缩小一半，直到结束为止</li>
+<li>查找需要logn轮，每一轮比较1次；所以时间复杂度为O(logn)</li>
+</ul>
+<h3 id="Java代码实现-v8">Java代码实现</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/search/BinarySearch.java">二分查找</a></p>
+<h1 id="第四章：图的搜索">第四章：图的搜索</h1>
+<h2 id="图的定义">图的定义</h2>
+<p>计算机科学或离散数学中说的“图”是下面这样的：</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/null/image-20200822163332465.png" alt="image-20200822163332465"></p>
+<p>上图中的圆圈叫作“顶点”(也叫“结点”)，连接顶点的线叫作“边”。也就是说，<strong>由顶点和连接每对顶点的边所构成的图形就是图</strong>。<em>图可以表示各种关系</em></p>
+<h3 id="加权图">加权图</h3>
+<p>我们可以给边加上一个值，这个值叫作边的“权重”或者“权”，加了权的图被称为“加权图”。</p>
+<p>没有权的边只能表示两个 顶点的连接状态，而有权的边就可以表示顶点之间的“连接程度”。</p>
+<p>所谓“程度”在不同的场景意思也不一样：</p>
+<ul>
+<li>地铁线路图两站之间的权是两站之间的距离</li>
+<li>同样是地铁线路图，两站之前的权也可以是两站之间的时间</li>
+<li>如果是高铁站线路图，两站之间的权也可以表示两站之间的乘车费</li>
+</ul>
+<h3 id="有向图">有向图</h3>
+<p>当我们想在路线图中表示该路线只能单向行驶时，就可以给边加上箭头，而这样的图就叫 作“有向图”。</p>
+<p>和无向图一样，有向图也可以在边上添加权重，而且根据方向的不同，权重也不一样。</p>
+<p>如下图中，如果权重表示花费时间，则B点到C点是下坡路，反过来C到B就是上坡路。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/null/image-20200822164224711.png" alt="image-20200822164224711"></p>
+<h3 id="图能给我们带来哪些便利">图能给我们带来哪些便利</h3>
+<p>假设图中有两个顶点 <em>s</em> 和 <em>t</em>，而我们设计出了一种算法， 可以找到“从 <em>s</em> 到 <em>t</em> 的权重之和最小”的那条路径，如：</p>
+<ul>
+<li>寻找计算机网络中通信时间最短的路径</li>
+<li>寻找路线图中耗时最短的路径</li>
+<li>寻找路线图中最省乘车费的路径</li>
+</ul>
+<h3 id="图在代码中如何实现">图在代码中如何实现</h3>
+<ul>
+<li>图是用来表示节点与节点的关系的，所以可以使用Map来实现图</li>
+<li>有向图，如上面图两个节点A和B、map中key为A的值有B，而key为B的值没有A，就可以表示方向</li>
+<li>加权图，同样适用Map实现，区别是在value中既包含下一个节点的信息，又包含权重信息<a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/map/AssignWeightsNode.java">加权图Java实现</a></li>
+</ul>
+<h2 id="图的搜索">图的搜索</h2>
+<h3 id="广度优先搜索">广度优先搜索</h3>
+<p>假设我们一开始位于某个顶点(即起点)，此时并不知道图的整体结构，而我们的目的是从起点开始顺着边搜索，直到到达指定顶点(即终点)。</p>
+<p>在此过程中每走到一个顶点，就会判断一次它是否为终点。广度优先搜索会优先从离起点近的顶点开始搜索。</p>
+<h4 id="Java代码实现-v9">Java代码实现</h4>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/map/BreadthFirstSearch.java">广度优先搜索</a></p>
+<h3 id="深度优先搜索">深度优先搜索</h3>
+<p>深度优先搜索会沿着一条路径不断往下搜索直到不能再继续为止，然后再折返，开始搜索下一条候补路径。</p>
+<h4 id="Java代码实现-v10">Java代码实现</h4>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/map/DepthFirstSearch.java">深度优先搜索</a></p>
+<h3 id="广度优先搜索和深度优先搜索对比">广度优先搜索和深度优先搜索对比</h3>
+<p>广度优先搜索选择的是最早成为候补的顶点，因为顶点离起点越近就越早成为候补，所以会从离起点近的地方开始按顺序搜索;</p>
+<p>而深度优先搜索选择的则是最新成为候补的顶点，所以会一路往下，沿着新发现的路径不断深入搜索。</p>
+<h3 id="贝尔曼-福特算法">贝尔曼 - 福特算法</h3>
+<h4 id="解决的问题">解决的问题</h4>
+<ul>
+<li>
+<p>贝尔曼 - 福特(Bellman-Ford)算法是一种在图中求解最短路径问题的算法。</p>
+</li>
+<li>
+<p>最短路径问题就是在加权图指定了起点和终点的前提下，寻找从起点到终点的路径中权重总和最小的那条路径。</p>
+</li>
+</ul>
+<h4 id="求解的步骤">求解的步骤</h4>
+<ul>
+<li>首先设置各个顶点的初始权重 :起点为 0，其他顶点为无穷大(∞)；这个权重的意思是从起点到当前节点的最短路径暂定值。</li>
+<li>从起点（A）开始遍历，找到子节点（B），更新子节点的权重：min(A的权重+A到B边的权重,B节点权重)</li>
+<li>循环上面的步骤一直更新所有节点</li>
+</ul>
+<h4 id="时间复杂度O-nm">时间复杂度<em>O</em>(<em>nm</em>)</h4>
+<ul>
+<li>将图的顶点数设为 <em>n</em>、边数设为 <em>m</em>。</li>
+<li>该算法经过 <em>n</em> 轮更新操作后就会停止，而在每轮更新操作中都需要对各个边进行 1 次确认</li>
+<li>因此 1 轮更新所花费的时间就是 <em>O</em>(<em>m</em>)，整体的时间复杂度就是 <em>O</em>(<em>nm</em>)</li>
+</ul>
+<h4 id="Java代码实现-v11">Java代码实现</h4>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/7629245129fcdb4422e45fe37a8c332b1244140f/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/map/BellmanFord.java">贝尔曼-福特算法</a></p>
+<h3 id="狄克斯特拉算法">狄克斯特拉算法</h3>
+<h4 id="解决的问题-v2">解决的问题</h4>
+<p>狄克斯特拉(Dijkstra)算法也是求解最短路径问题 的算法，使用它可以求得从起点到终点的路径中权重总和最小的那条路径。</p>
+<h4 id="求解的步骤-v2">求解的步骤</h4>
+<ul>
+<li>首先设置各个顶点的初始权重 :起点为 0，其他顶点为无穷大(∞)；这个权重的意思是从起点到当前节点的最短路径暂定值。</li>
+<li>从起点出发，寻找可以从目前所在的顶点直达且尚未被搜索过的顶点。</li>
+<li>计算各个候补顶点的权重。计算方法是“目前所在顶点的权重+目前所在顶点到候补顶点的权重”。</li>
+<li>如果计算结果小于候补顶点的值，就更新这个值。</li>
+<li><strong>从候补顶点中选出权重最小的顶点，作为下一个被搜索的点</strong>，这一点与贝尔曼-福特算法不一样</li>
+</ul>
+<h4 id="时间复杂度-v8">时间复杂度</h4>
+<p>将图的顶点数设为 <em>n</em>、边数设为 <em>m</em>，那么如果事先不进行任何处理，该算法的时 间复杂度就是 <em>O</em>(<em>n</em>2)。</p>
+<p>不过，如果对数据结构进行优化，那么时间复杂度就会变为 <em>O</em>(<em>m</em> + <em>n</em>log<em>n</em>)。</p>
+<h4 id="Java代码实现-v12">Java代码实现</h4>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/map/Dijkstra.java">狄克斯特拉(Dijkstra)算法</a></p>
+<h3 id="贝尔曼福特算法和迪克斯特拉算法对比">贝尔曼福特算法和迪克斯特拉算法对比</h3>
+<h4 id="说明">说明</h4>
+<p>如果在一个闭环中边的权重总和是负数，那么只要不断遍历这个闭环，路径的权重就能不断减小，也就是说根本不存在最短路径。</p>
+<p>贝尔曼 - 福特算法可以直接认定不存在最短路径，但在狄克斯特拉算法中，即便不存在最短路径，它也会 算出一个错误的最短路径出来。因此，有负数权重时不能使用狄克斯特拉算法。</p>
+<p>总的来说，就是不存在负数权重时，更适合使用效率较高的狄克斯特拉算法，而存 在负数权重时，即便较为耗时，也应该使用可以得到正确答案的贝尔曼 - 福特算法。</p>
+<h3 id="A-（A-Star）算法">A*（A-Star）算法</h3>
+<h4 id="解决的问题-v3">解决的问题</h4>
+<p>A-Start算法也是解决在图中求解最短路径问题的算法，由狄克斯特拉算法发展而来。</p>
+<p>狄克斯特拉算法会从离起点近的顶点开始，按顺序求出起点到各个顶点的最短路径。</p>
+<p>也就是说，一些离终点较远的顶点的最短路径也会被计算出来，但这部分其实是无用的。</p>
+<p>与之不同，A* 就 会预先估算一个值，并利用这个值来省去一些无用的计算</p>
+<h1 id="第五章-安全算法">第五章 安全算法</h1>
+<h2 id="安全和算法">安全和算法</h2>
+<h3 id="传输数据时的四个问题">传输数据时的四个问题</h3>
+<h4 id="窃听">窃听</h4>
+<p>A 向 B 发送的消息可能会在传输途中被 X 偷看(如下图)。这就是“窃听”。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200918183116803.png" alt="image-20200918183116803"></p>
+<h4 id="假冒">假冒</h4>
+<p>A 以为向 B 发送了消息，然而 B 有可能是 X 冒充的(如下图);反过来，B 以为从 A 那里收到了消息，然而 A 也有可能是 X 冒充的。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200918183227754.png" alt="image-20200918183227754"></p>
+<h4 id="篡改">篡改</h4>
+<p>即便 B 确实收到了 A 发送的消息，但也有可能像右图 这样，该消息的内容在途中就被 X 更改了。</p>
+<p>除了被第三者篡改外，通 信故障导致的数据损坏也可能会使消息内容发生变化。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200918183344985.png" alt="image-20200918183344985"></p>
+<h4 id="事后否认">事后否认</h4>
+<p>B 从 A 那里收到了消息，但作为消息发送者的 A 可 能对 B 抱有恶意，并在事后声称“这不是我发送的消息”。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200918183430948.png" alt="image-20200918183430948"></p>
+<h3 id="解决这些问题的安全技术">解决这些问题的安全技术</h3>
+<ul>
+<li>
+<p>为了应对“窃听”，我们会使用“加密” 技术。</p>
+</li>
+<li>
+<p>为了应对“假冒”，我们会使用“消息认证码”(下图左)或“数字签名”(下图右)技术。</p>
+</li>
+<li>
+<p>为了应对“篡改”，我们同样会使用 “消息认证码”或“数字签名”技术。</p>
+</li>
+<li>
+<p>其中“数字签名”技术还可以用于预防“事后否认”。</p>
+</li>
+</ul>
+<h2 id="哈希函数">哈希函数</h2>
+<ul>
+<li>
+<p>哈希函数可以把给定的数据转换成固定长度的无规律数值。</p>
+</li>
+<li>
+<p>转换后的无规律数值可以作为数据摘要应用于各种各样的场景。</p>
+</li>
+</ul>
+<p>希函数的特征：</p>
+<ul>
+<li>第一个特征是输出的哈希值数据长度不变。（不论输入的参数长短，得到的哈希值是定长的）</li>
+<li>第二个特征是如果输入的数据相同，那么输出 的哈希值也必定相同。</li>
+<li>第三个特征是即使输入的数据相似，但哪怕它们只有一比特的差别，那么输出的哈希值也会有很大的差异。</li>
+<li>第四个特征是即使输入的两个数据完全不同，输 出的哈希值也有可能是相同的；这种情况叫作“哈希冲突”。</li>
+<li>第五个特征是不可能从哈希值反向推算出原本的数据。（输入和输出不可逆）</li>
+</ul>
+<p>哈希函数的算法中具有代表性的是 MD5 1、SHA-1 2和 SHA-2 等。其中 SHA-2 是现 在应用较为广泛的一个，而 MD5 和 SHA-1 存在安全隐患，不推荐使用。</p>
+<h3 id="应用示例">应用示例</h3>
+<p>将用户输入的密码保存到服务器时也需要用到哈希函数。</p>
+<p>如果把密码直接保存到服务器，可能会被第三者窃听，因此需要算出密码的哈希值，并只存储哈希值。</p>
+<p>当用户输入密码时，先算出该输入密码的哈希值，再把它和服务 器中的哈希值进行比对。</p>
+<h2 id="共享密钥加密（对称加密）">共享密钥加密（对称加密）</h2>
+<p>共享密钥加密是加密和解密都<strong>使用相同密钥</strong>的一种加密方式。</p>
+<p>实现共享密钥加密的算法有凯撒密码、AES 1、DES 2、动态口令等，其中 AES 的应用最 为广泛。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200918185110697.png" alt="对称加密"></p>
+<h3 id="存在密钥分配问题">存在密钥分配问题</h3>
+<p>如上图，如果在A给B发送密钥时，被X监听了，则X就能用相同的密钥解密截获的密文。</p>
+<h2 id="公开密钥加密（非对称加密）">公开密钥加密（非对称加密）</h2>
+<ul>
+<li>
+<p>公开密钥加密是加密和解密使用不同密钥的一种加密方法。</p>
+</li>
+<li>
+<p>由于使用的密钥不同，所以这种算法也被称为“非对称加密”。</p>
+</li>
+<li>
+<p>加密用的密钥叫作“公开密钥”，解密用的叫作“私有密钥”。</p>
+</li>
+</ul>
+<p>实现公开密钥加密的算法有 RAS 算法、椭圆曲线加密算法等，其中使用最为广泛的是 RSA 算法。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200918185651314.png" alt="image-20200918185651314"></p>
+<h3 id="不存在密钥分配问题">不存在密钥分配问题</h3>
+<p>公开密钥和密文都是通过互联网传输的，因此可能会被 X 窃听。</p>
+<p>但是，使用公开密钥无法解密密文，因此 X 也无法得到原本的数据。</p>
+<h3 id="密钥数量不会过多">密钥数量不会过多</h3>
+<p>只需要生成一对公私钥，就可以把公钥共享给n个人使用。</p>
+<p>对称加密就的密钥数量会随着人的增多而增多。</p>
+<h3 id="公开密钥加密存在公开密钥可靠性的问题">公开密钥加密存在公开密钥可靠性的问题</h3>
+<p>如下图，加入B在把公钥Pb共享给A的时候，被X截获了；X把自己的公钥Px发送给了A。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919111210334-20200919113122148.png" alt="image-20200919111210334"></p>
+<p>这时A在不知情的情况下使用Px对数据进行加密发送给B时，X截获密文就可以通过私钥Sx进行解密。</p>
+<p>然后X可以截获的通过公钥Pb加密恶意数据发送给B，B能够使用自己的密钥Sb进行解密，以为数据是A发送的。</p>
+<p>如下图所示：</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919113151447.png" alt="image-20200919113151447"></p>
+<h3 id="非对称加密算法的条件">非对称加密算法的条件</h3>
+<ul>
+<li>可以使用某个数值对数据进行加密(计算)。</li>
+<li>使用另一个数值对加密数据进行计算就可以让数据恢复原样。</li>
+<li>无法从一种密钥推算出另一种密钥。</li>
+</ul>
+<h2 id="混合加密">混合加密</h2>
+<p>共享密钥加密存在无法安全传输密钥的密钥分配问题，公开密钥加密又存在加密解密速度较慢的问题。</p>
+<p>在混合加密中，要用处理速度较快的共享密钥加密对数据进行加密。不过，加密时使用的密钥，则需要用没有密钥分配问题的公开密钥加密进行处理。混合加密可以拆分成下面两步操作：</p>
+<p>1、A在给B发送数据之前，先使用非对称的公钥对”对称加密的密钥“进行加密，然后把加密后的密文发送给A，A解密后就得到了”对称加密的密钥“。如下图：</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919113611840.png" alt="image-20200919113611840"></p>
+<p>2、发送数据时，A使用”对称加密的密钥“对数据进行加密，然后发送给B，这样B就能使用之前收到的”对称加密的密钥“对数据进行解密。如下图：</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919114040964.png" alt="image-20200919114040964"></p>
+<h2 id="迪菲-赫尔曼密钥交换">迪菲 - 赫尔曼密钥交换</h2>
+<p>迪菲 - 赫尔曼(Diffie-Hellman)密钥交换是一种可以在通信双方之间安全交换密钥的方法。</p>
+<p>这种方法通过将双方共有的秘密数值隐藏在公开数值相关的运算中，来实现双方之间密钥的安全交换。</p>
+<h3 id="算法的概念">算法的概念</h3>
+<p>假设有一种方法可以合成两个密钥。使用这种方法来合成密钥P和密钥S，就会得到由这两个密钥的成分所构成的密钥 P-S。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919114844473.png" alt="image-20200919114844473"></p>
+<p>这种合成方法有三个特征。</p>
+<ul>
+<li>第一，即使持有密钥 P 和合成的密钥 P-S，也无法把密钥 S 单独取出来。</li>
+<li>第二，不管是怎样合成而来的密钥，都可以把它作为新的元素，继续与别的密钥进行合成。如下图，使用密钥 P 和密钥 P-S，还能合成出新的密钥 P-P-S。
+<ul>
+<li><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919115000979-0487431.png" alt="image-20200919115000979"></li>
+</ul>
+</li>
+<li>第三，密钥的合成结果与合成顺序无关，只与用了哪些密钥有关。比如合成密钥 B 和密钥 C 后，得到的是密 钥 B-C，再将其与密钥 A 合成，得到的就是密钥 A-B-C。而合成密钥 A 和密钥 C 后，得到的是密钥 A-C， 再将其与密钥 B 合成，得到的就是密钥 B-A-C。此处的密钥 A-B-C 和密钥 B-A-C 是一样的。
+<ul>
+<li><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919115117042.png" alt="image-20200919115117042"></li>
+</ul>
+</li>
+</ul>
+<h3 id="密钥的交换">密钥的交换</h3>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919115514893.png" alt="image-20200919115514893"></p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919115535132.png" alt="image-20200919115535132"></p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919115557280.png" alt="image-20200919115557280"></p>
+<h2 id="消息认证码，MAC（Message-Authentication-Code）">消息认证码，MAC（Message Authentication Code）</h2>
+<p>消息认证码可以实现“认证”和“检测篡改”这两个功能。</p>
+<p>举个例子，如下图，假设 A 发送给 B 的密文（abc）在通信过程中被 X 恶意篡改了，而 B 收到密文后没有意识到这个问题。</p>
+<p>B对密文进行解密可能无法解密或者解密后的数据是xyz。如果A在向B进行商品订购，如果B解密出的密文是xyz，就会给A发送xyz商品从而导致问题。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919115921527.png" alt="image-20200919115921527"></p>
+<h3 id="如何使用消息认证码解决篡改问题呢？">如何使用消息认证码解决篡改问题呢？</h3>
+<ol>
+<li>A在发送数据之前，先生成一个用于制作消息验证码的密钥（key），然后用安全的方法（如混合加密）发送给B</li>
+<li>A对数据进行加密，并且使用第一步生成的key和密文生成一个数值，此值就是MAC</li>
+<li>A把MAC和密文一起发送给B</li>
+<li>B接收到密文和MAC后，先使用第一步A发送过来的key和密文使用同样的方法生成一个数值；并且使用此数值和收到的MAC进行比对
+<ol>
+<li>如果比对一致，则说明数据未被篡改</li>
+<li>如果比对不一致，则说明数据被篡改了，直接丢弃数据；然后通知A重发</li>
+</ol>
+</li>
+</ol>
+<h3 id="如果MAC和密文都被X截获了怎么办？">如果MAC和密文都被X截获了怎么办？</h3>
+<ul>
+<li>X可以修改密文，此时B使用被篡改后的密文和key生成的数值不等于MAC，就能确认通信过程中发生了篡改</li>
+<li>X如果篡改了MAC，也与上一步一样，B也能确认通信过程中发生了篡改</li>
+<li>X既篡改了密文也篡改了MAC，因为X没有生成MAC的key，所以B收到被篡改后的数据时同样能确认发生了篡改</li>
+</ul>
+<p><strong>我们可以把 MAC 想象成是由密钥和密文组成的字符串的“哈希值”。</strong></p>
+<p><strong>计算 MAC 的算法有 HMAC 1、OMAC 2、CMAC 3等。目前，HMAC 的应用最为广泛。</strong></p>
+<h3 id="消息验证码无法防止“事后否认”">消息验证码无法防止“事后否认”</h3>
+<p>然而，这种方法也有缺点。在使用消息认证码的过程中，AB 双方都可以对消息进行加密并且算出 MAC。</p>
+<p>也就是说，我们无法证明原本的消息是 A 生成的还是 B 生成的。 因此，假如 A 是坏人，他就可以在自己发出消息后声称“这条消息是 B 捏造的”，而否认自己的行为。如果 B 是坏人，他也可以自己准备一条消息，然后声称“这是 A 发 给我的消息”。</p>
+<h2 id="数字签名">数字签名</h2>
+<p>数字签名不仅可以实现消息认证码的认证和检测篡改功能，还可以预防事后否认问题的发生。</p>
+<p>由于在消息认证码中使用的是共享密钥加密，所以持有密钥的收信人也有可能是消息的发 送者，这样是无法预防事后否认行为的。</p>
+<p>而数字签名是只有发信人才能生成的，因此使用它就可以确定谁是消息的发送者了。</p>
+<h3 id="数字签名的特征">数字签名的特征</h3>
+<p>比如A给B发送消息，那么数字签名必须满足下面两个条件：</p>
+<ul>
+<li>只要发送的消息上有 A 的数字签名，就能确定消息的发送者就是 A。</li>
+<li>B 可以验证数字签名的正确性，但无法生成数字签名。</li>
+</ul>
+<h3 id="如何实现数字签名">如何实现数字签名</h3>
+<p>先回想一下非对称加密的流程，A给B发送消息时使用B提供的公钥进行加密，B使用自己的私钥进行解密。如下图：</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919153334400.png" alt="image-20200919153334400"></p>
+<p>那么我们把这个过程反过来，就可以做到数字签名，如下图：</p>
+<ol>
+<li>A 使用自己的私有密钥加密消息。加密后的消息就是数字签名。</li>
+<li>A把数字签名和原始的数据都发送给B</li>
+<li>B接收到数字签名和数据后，使用A提供的公钥进行解密，并把解密后的数据和发送来的数据做比对</li>
+<li>如果一致，则说明此消息是由A发送的，因为A的公钥只能解密经有A的私钥加密的数据</li>
+</ol>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919153913102.png" alt="image-20200919153913102"></p>
+<p>能够用 A 的公开密钥解密的密文，必定是由 A 生成的。因此，我们可以利用这个结论来确认消息的发送者是否为 A，消息是否被人篡改。</p>
+<p>由于 B 只有公开密钥，无法生成 A 的签名，所以也预防了“事后否认”这一问题的 发生。</p>
+<p><strong>在使用此方式进行加密时，A使用自己的私钥加密的数据最好没有任何意义，只是用来验证发送着是否是A，并且没有被篡改。</strong></p>
+<h2 id="数字证书">数字证书</h2>
+<p>“公开密钥加密”和“数字签名”无法保证公开密钥确实来自信息的发送者。因此，就算公 开密钥被第三者恶意替换，接收方也不会注意到。</p>
+<p>而数字证书，就能保证公开密钥的正确性。</p>
+<h3 id="如何使用数据证书发送公钥">如何使用数据证书发送公钥</h3>
+<p>A持有公开密钥Pa 和 A私有密钥 Sa ，现在想要将公开密钥PA发送给B，如何做呢？</p>
+<ol>
+<li>A首先需要向认证中心 (Certification Authority， CA)申请发行证书，证明公开密钥PA 确实由自己生成</li>
+<li>认证中心里保管着他们自己准备的公开密钥Pc和私有密钥 Sc</li>
+<li>A将公开密钥Pa 和包含邮箱信息的个人资料发送给认证中心</li>
+<li>认证中心对收到的资料进行确认，判断其是否为A本人的资料。确认完毕后，认证中心使用自己的私有密钥 Sc，根据 A 的资料生成数字签名。</li>
+<li>认证中心将生成的数字签名和资料放进同一个文件中，并把这个文件发送给 A。（这个文件就是 A 的数字证书）</li>
+<li>A 将作为公开密钥的数字证书发送给了 B。</li>
+<li>B 收到数字证书后，确认证书里的邮件地址确实是 A 的地址。接着，B 获取了认证中心的公开密钥。</li>
+<li>B 对证书内的签名进行验证，判断它是否为认证中心给出的签名。证书中的签名只能用认证中心的公开密钥 Pc 进行验证。如果验证结果没有异常，就能说明这份证书的确由认证中心发行。</li>
+<li>确认了证书是由认证中心发行的，且邮件地址就是 A的之后，B从证书中取出A的公开密钥PA。这样，公开密钥便从 A 传到 了B。</li>
+</ol>
+<p>经过以上步骤信息的接收者B可以确认公开密钥的制作者是A。</p>
+<h3 id="循环质疑，我们从认证中心获取的公钥Pc真的来自认证中心吗">循环质疑，我们从认证中心获取的公钥Pc真的来自认证中心吗</h3>
+<p>由于公开密钥自身不能表示其制作者，所以有可能是冒充认证中心的 X 所生成的。也就是说，这里同样存在公开密钥问题(请参考下图)。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919165548842.png" alt="image-20200919165548842"></p>
+<p>实际上，认证中心的公开密钥 PC 是以数字证书的形式交付的，会有更高级别的认证 中心对这个认证中心署名(请参考下图)。</p>
+<p>所以我们有所怀疑可以一直验证下去。</p>
+<p>最顶端的认证中心被称为“根认证中心”(root CA)，其自身的正当性由自己证明。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master//image-20200919165633696.png" alt="image-20200919165633696"></p>
+<h1 id="第六章-聚类">第六章 聚类</h1>
+<h2 id="什么是聚类">什么是聚类</h2>
+<h3 id="将相似的对象分为一组">将相似的对象分为一组</h3>
+<p>聚类就是在输入为多个数据时，将“相似”的数据分为一组的操作。1个组就叫作1个 “簇”。</p>
+<p>下面的示例中每个点都代表 1 个数据，在平面上位置较为相近、被圈起来的点就代表一类相似的数据。</p>
+<p>也就是说，这些数据被分为了 3 个簇。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/null/%E6%88%AA%E5%B1%8F2020-09-21%20%E4%B8%8B%E5%8D%8811.05.28.png" alt="截屏2020-09-21 下午11.05.28"></p>
+<h3 id="如何定义“相似”">如何定义“相似”</h3>
+<h4 id="定义数据间的差距">定义数据间的差距</h4>
+<p>根据数据类型不同，定义该数据是否“相似”的标准也不同。具体来说，就是要对两个数 据之间的“差距”进行定义。</p>
+<p>如：假设某所高中的某个年级中共有 400 名学生，现在我们想要将这些学生在考试中取得的语 文、数学、英语成绩数据化，并将他们按照“擅长或不擅长的科目相似”进行聚类。</p>
+<p>把每个学生都转换成“(语文成绩 , 数学成绩 , 英语成绩)”形式的数据后，就可以将两个数据(<em>c</em>1, <em>m</em>1, <em>e</em>1)和(<em>c</em>2, <em>m</em>2, <em>e</em>2)之间的差距定义为 (<em>c</em>1-<em>c</em>2) + (<em>m</em>1-<em>m</em>2) + (<em>e</em>1-<em>e</em>2) ，其中差距小的数据 就互为“相似的数据”。</p>
+<h4 id="符合条件的算法">符合条件的算法</h4>
+<p>即使定义好了数据间的差距，聚类的方法也会有很多种。我们可以设定各种各样的条件， 比如想把数据分为 10 个簇，或者想把 1 个簇内的数据定在 30~50 人之间，再或者想把簇内数据 间的最大距离设为 10，等等。而设定什么样的条件取决于进行聚类的目的。</p>
+<h2 id="k-means-算法">k-means 算法</h2>
+<p><em>k</em>-means 算法是聚类算法中的一种，它可以根据事先给定的簇的数量进行聚类。</p>
+<h3 id="k-means算法步骤">k-means算法步骤</h3>
+<ol>
+<li>首先准备好需要聚类的数据，然后决定簇的数量（比如下面图示簇的数量为3）。</li>
+<li>随机选择 3 个点作为簇的中心点。</li>
+<li>计算各个数据分别和 3 个中心点中的哪一个点距离最近。</li>
+<li>将数据分到相应的簇中。这样，3 个簇的聚类就完成了。</li>
+<li>计算各个簇中数据的重心，然后将簇的中心点移动到这个位置。</li>
+<li>重新计算距离最近的簇的中心点，并将数据分到相应的簇中。</li>
+<li>重复执行“将数据分到相应的簇中”和“将中心点移到重心的位置”这两个操作，直到中心点不 再发生变化为止。</li>
+</ol>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/null/image-20200921231952128.png" alt="image-20200921231952128"></p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/null/image-20200921232008317.png" alt="image-20200921232008317"></p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/null/image-20200921232023522.png" alt="image-20200921232023522"></p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/null/image-20200921232039847.png" alt="image-20200921232039847"></p>
+<h3 id="解说：">解说：</h3>
+<p><em>k</em>-means 算法中，随着操作的不断重复，中心点的位置必定会在某处收敛，这一点 已经在数学层面上得到证明。</p>
+<p>前面的例子中我们将簇的数量定为 3，若现在使用同样的数据，将簇的数量定为 2， 那么聚类将如下图所示。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/null/image-20200921232309104.png" alt="image-20200921232309104"></p>
+<p>位于左边和下边的两个数据块被分到了一个簇中。就像这样，由于 <em>k</em>-means 算法需 要事先确定好簇的数量，所以设定的数量如果不合理，运行的结果就可能会不符合我们的需求。</p>
+<p>如果对簇的数量没有明确要求，那么我们可以事先对数据进行分析，推算出一个合适的数量，或者不断改变簇的数量来试验 <em>k</em>-means 算法。</p>
+<p>另外，如果簇的数量同样为 2，但中心点最初的位置不同，那么也可能会出现下图 这样的聚类结果。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/null/image-20200921232443009.png" alt="image-20200921232443009"></p>
+<p>与之前的情况不同，这次右上和右下的两个数据块被分到了一个簇中。也就是说， 即使簇的数量相同，只要随机设置的中心点最初的位置不同，聚类的结果也会产生变化。 因此，我们可以通过改变随机设定的中心点位置来不断尝试 <em>k</em>-means 算法，再从中选择 最合适的聚类结果。</p>
+<h3 id="补充说明-v2">补充说明</h3>
+<p>除了 <em>k</em>-means 算法以外，聚类算法还有很多，其中“层次聚类算法”较为有名。与 <em>k</em>-means 算法不同，层次聚类算法不需要事先设定簇的数量。</p>
+<p>在层次聚类算法中，一开始每个数据都自成一类。也就是说，有 <em>n</em> 个数据就会形成 <em>n</em> 个簇。然后重复执行“将距离最近的两个簇合并为一个”的操作 <em>n</em>-1 次。每执行 1 次， 簇就会减少 1 个。执行 <em>n</em> - 1 次后，所有数据就都被分到了一个簇中。在这个过程中，每个阶段的簇的数量都不同，对应的聚类结果也不同。只要选择其中最为合理的 1 个结果 就好。</p>
+<p>合并簇的时候，为了找出“距离最近的两个簇”，需要先对簇之间的距离进行定义。 根据定义方法不同，会有“最短距离法”“最长距离法”“中间距离法”等多种算法。</p>
+<h1 id="第七章-其他算法">第七章 其他算法</h1>
+<h2 id="欧几里得算法">欧几里得算法</h2>
+<p>欧几里得算法(又称辗转相除法)用于计算两个数的最大公约数**(GCD:greatest common divisor)**，被称为世界上最古老的算法。</p>
+<h3 id="使用欧几里得算法求1112和695的最大公约数">使用欧几里得算法求1112和695的最大公约数</h3>
+<ol>
+<li>首先用较小的数字去除较大的数字，求出余数。也就是对两个数字进行 mod 运算，除完后的余数为417。
+<ol>
+<li>mod运算即取余运算，<em>A</em> mod <em>B</em> 就是算出<em>A</em>除以<em>B</em>后的余数<em>C</em>。</li>
+</ol>
+</li>
+<li>接下来再用除数695和余数417进行mod运 算。结果为 278。</li>
+<li>继续重复同样的操作，对 417 和 278 进行 mod 运算，结果为139。</li>
+<li>对 278 和 139 进行 mod 运算，结果为 0。也就 是说，278 可以被 139 整除。</li>
+<li>余数为 0 时，最后一次运算中的除数 139 就是 1112 和 695 的最大公约数。</li>
+</ol>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/null/image-20200921233013836.png" alt="image-20200921233013836"></p>
+<h3 id="Java实现">Java实现</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-algorithm/src/main/java/com/nicai/algorithm/other/EuclideanGreatestCommonDivisor.java">欧几里得最大公约数算法</a></p>
+<h2 id="素性测试">素性测试</h2>
+<p>素性测试是判断一个自然数是否为素数的测试。素数(prime number)就是只能被 1 和其自身整除，且大于 1 的自然数。</p>
+<p>素数从小到大有 2、3、5、7、11、13…目前在加密技术中被广泛应用的 RSA 算法就会用到大素数，因此“素性测试”在该算法中起到了重要的作用。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">第一章：数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text">链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">1.1.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98"><span class="toc-number">1.1.2.</span> <span class="toc-text">内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">1.1.3.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95"><span class="toc-number">1.1.4.</span> <span class="toc-text">扩展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-number">1.2.</span> <span class="toc-text">数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v2"><span class="toc-number">1.2.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98-v2"><span class="toc-number">1.2.2.</span> <span class="toc-text">内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v2"><span class="toc-number">1.2.3.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88"><span class="toc-number">1.3.</span> <span class="toc-text">栈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v3"><span class="toc-number">1.3.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v3"><span class="toc-number">1.3.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-number">1.4.</span> <span class="toc-text">队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v4"><span class="toc-number">1.4.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v4"><span class="toc-number">1.4.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="toc-number">1.5.</span> <span class="toc-text">哈希表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v5"><span class="toc-number">1.5.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v5"><span class="toc-number">1.5.2.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E8%AF%B4%E6%98%8E"><span class="toc-number">1.5.3.</span> <span class="toc-text">补充说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86"><span class="toc-number">1.6.</span> <span class="toc-text">堆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v6"><span class="toc-number">1.6.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v6"><span class="toc-number">1.6.2.</span> <span class="toc-text">时间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91"><span class="toc-number">1.7.</span> <span class="toc-text">二叉查找树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v7"><span class="toc-number">1.7.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v7"><span class="toc-number">1.7.2.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95-v2"><span class="toc-number">1.7.3.</span> <span class="toc-text">扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">1.7.3.1.</span> <span class="toc-text">关于时间复杂度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A5%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91%E4%B8%BA%E5%9F%BA%E7%A1%80%E6%89%A9%E5%B1%95%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.7.3.2.</span> <span class="toc-text">以二叉查找树为基础扩展的数据结构</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%9A%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">第二章：排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-number">2.1.</span> <span class="toc-text">冒泡排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89"><span class="toc-number">2.1.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-n%C2%B2"><span class="toc-number">2.1.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.1.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">2.2.</span> <span class="toc-text">选择排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89-v2"><span class="toc-number">2.2.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-n%C2%B2-v2"><span class="toc-number">2.2.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v2"><span class="toc-number">2.2.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">2.3.</span> <span class="toc-text">插入排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89-v3"><span class="toc-number">2.3.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-n%C2%B2-v3"><span class="toc-number">2.3.2.</span> <span class="toc-text">时间复杂度：O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v3"><span class="toc-number">2.3.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-number">2.4.</span> <span class="toc-text">堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89-v4"><span class="toc-number">2.4.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-nlogn"><span class="toc-number">2.4.2.</span> <span class="toc-text">时间复杂度：O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v4"><span class="toc-number">2.4.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">2.5.</span> <span class="toc-text">归并排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89-v5"><span class="toc-number">2.5.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-O-nlogn"><span class="toc-number">2.5.2.</span> <span class="toc-text">时间复杂度:O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v5"><span class="toc-number">2.5.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">2.6.</span> <span class="toc-text">快速排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%87%8A%E4%B9%89-v6"><span class="toc-number">2.6.1.</span> <span class="toc-text">算法释义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-nlogn-v2"><span class="toc-number">2.6.2.</span> <span class="toc-text">时间复杂度：O(nlogn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v6"><span class="toc-number">2.6.3.</span> <span class="toc-text">Java代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95-v3"><span class="toc-number">2.6.4.</span> <span class="toc-text">扩展</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%9A%E6%95%B0%E7%BB%84%E7%9A%84%E6%9F%A5%E6%89%BE"><span class="toc-number">3.</span> <span class="toc-text">第三章：数组的查找</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E6%9F%A5%E6%89%BE"><span class="toc-number">3.1.</span> <span class="toc-text">线性查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v8"><span class="toc-number">3.1.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9AO-n"><span class="toc-number">3.1.2.</span> <span class="toc-text">时间复杂度：O(n)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v7"><span class="toc-number">3.1.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE"><span class="toc-number">3.2.</span> <span class="toc-text">二分查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7-v9"><span class="toc-number">3.2.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-O-logn"><span class="toc-number">3.2.2.</span> <span class="toc-text">时间复杂度 O(logn)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v8"><span class="toc-number">3.2.3.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%9A%E5%9B%BE%E7%9A%84%E6%90%9C%E7%B4%A2"><span class="toc-number">4.</span> <span class="toc-text">第四章：图的搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">4.1.</span> <span class="toc-text">图的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E6%9D%83%E5%9B%BE"><span class="toc-number">4.1.1.</span> <span class="toc-text">加权图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%90%91%E5%9B%BE"><span class="toc-number">4.1.2.</span> <span class="toc-text">有向图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%83%BD%E7%BB%99%E6%88%91%E4%BB%AC%E5%B8%A6%E6%9D%A5%E5%93%AA%E4%BA%9B%E4%BE%BF%E5%88%A9"><span class="toc-number">4.1.3.</span> <span class="toc-text">图能给我们带来哪些便利</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%9C%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.1.4.</span> <span class="toc-text">图在代码中如何实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E6%90%9C%E7%B4%A2"><span class="toc-number">4.2.</span> <span class="toc-text">图的搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">4.2.1.</span> <span class="toc-text">广度优先搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v9"><span class="toc-number">4.2.1.1.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">4.2.2.</span> <span class="toc-text">深度优先搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v10"><span class="toc-number">4.2.2.1.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%92%8C%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%AF%B9%E6%AF%94"><span class="toc-number">4.2.3.</span> <span class="toc-text">广度优先搜索和深度优先搜索对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9D%E5%B0%94%E6%9B%BC-%E7%A6%8F%E7%89%B9%E7%AE%97%E6%B3%95"><span class="toc-number">4.2.4.</span> <span class="toc-text">贝尔曼 - 福特算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">4.2.4.1.</span> <span class="toc-text">解决的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%82%E8%A7%A3%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-number">4.2.4.2.</span> <span class="toc-text">求解的步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6O-nm"><span class="toc-number">4.2.4.3.</span> <span class="toc-text">时间复杂度O(nm)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v11"><span class="toc-number">4.2.4.4.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8B%84%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95"><span class="toc-number">4.2.5.</span> <span class="toc-text">狄克斯特拉算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98-v2"><span class="toc-number">4.2.5.1.</span> <span class="toc-text">解决的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%82%E8%A7%A3%E7%9A%84%E6%AD%A5%E9%AA%A4-v2"><span class="toc-number">4.2.5.2.</span> <span class="toc-text">求解的步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-v8"><span class="toc-number">4.2.5.3.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-v12"><span class="toc-number">4.2.5.4.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9D%E5%B0%94%E6%9B%BC%E7%A6%8F%E7%89%B9%E7%AE%97%E6%B3%95%E5%92%8C%E8%BF%AA%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95%E5%AF%B9%E6%AF%94"><span class="toc-number">4.2.6.</span> <span class="toc-text">贝尔曼福特算法和迪克斯特拉算法对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">4.2.6.1.</span> <span class="toc-text">说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-%EF%BC%88A-Star%EF%BC%89%E7%AE%97%E6%B3%95"><span class="toc-number">4.2.7.</span> <span class="toc-text">A*（A-Star）算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98-v3"><span class="toc-number">4.2.7.1.</span> <span class="toc-text">解决的问题</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E5%AE%89%E5%85%A8%E7%AE%97%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">第五章 安全算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%92%8C%E7%AE%97%E6%B3%95"><span class="toc-number">5.1.</span> <span class="toc-text">安全和算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E6%95%B0%E6%8D%AE%E6%97%B6%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">5.1.1.</span> <span class="toc-text">传输数据时的四个问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AA%83%E5%90%AC"><span class="toc-number">5.1.1.1.</span> <span class="toc-text">窃听</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%87%E5%86%92"><span class="toc-number">5.1.1.2.</span> <span class="toc-text">假冒</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AF%A1%E6%94%B9"><span class="toc-number">5.1.1.3.</span> <span class="toc-text">篡改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E5%90%8E%E5%90%A6%E8%AE%A4"><span class="toc-number">5.1.1.4.</span> <span class="toc-text">事后否认</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E8%BF%99%E4%BA%9B%E9%97%AE%E9%A2%98%E7%9A%84%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF"><span class="toc-number">5.1.2.</span> <span class="toc-text">解决这些问题的安全技术</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0"><span class="toc-number">5.2.</span> <span class="toc-text">哈希函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.2.1.</span> <span class="toc-text">应用示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86%EF%BC%88%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%EF%BC%89"><span class="toc-number">5.3.</span> <span class="toc-text">共享密钥加密（对称加密）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%9C%A8%E5%AF%86%E9%92%A5%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98"><span class="toc-number">5.3.1.</span> <span class="toc-text">存在密钥分配问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%BC%80%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86%EF%BC%88%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%EF%BC%89"><span class="toc-number">5.4.</span> <span class="toc-text">公开密钥加密（非对称加密）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%AD%98%E5%9C%A8%E5%AF%86%E9%92%A5%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98"><span class="toc-number">5.4.1.</span> <span class="toc-text">不存在密钥分配问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E9%92%A5%E6%95%B0%E9%87%8F%E4%B8%8D%E4%BC%9A%E8%BF%87%E5%A4%9A"><span class="toc-number">5.4.2.</span> <span class="toc-text">密钥数量不会过多</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E5%BC%80%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86%E5%AD%98%E5%9C%A8%E5%85%AC%E5%BC%80%E5%AF%86%E9%92%A5%E5%8F%AF%E9%9D%A0%E6%80%A7%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">5.4.3.</span> <span class="toc-text">公开密钥加密存在公开密钥可靠性的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="toc-number">5.4.4.</span> <span class="toc-text">非对称加密算法的条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E5%8A%A0%E5%AF%86"><span class="toc-number">5.5.</span> <span class="toc-text">混合加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AA%E8%8F%B2-%E8%B5%AB%E5%B0%94%E6%9B%BC%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2"><span class="toc-number">5.6.</span> <span class="toc-text">迪菲 - 赫尔曼密钥交换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">5.6.1.</span> <span class="toc-text">算法的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E9%92%A5%E7%9A%84%E4%BA%A4%E6%8D%A2"><span class="toc-number">5.6.2.</span> <span class="toc-text">密钥的交换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E8%AE%A4%E8%AF%81%E7%A0%81%EF%BC%8CMAC%EF%BC%88Message-Authentication-Code%EF%BC%89"><span class="toc-number">5.7.</span> <span class="toc-text">消息认证码，MAC（Message Authentication Code）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%B6%88%E6%81%AF%E8%AE%A4%E8%AF%81%E7%A0%81%E8%A7%A3%E5%86%B3%E7%AF%A1%E6%94%B9%E9%97%AE%E9%A2%98%E5%91%A2%EF%BC%9F"><span class="toc-number">5.7.1.</span> <span class="toc-text">如何使用消息认证码解决篡改问题呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9CMAC%E5%92%8C%E5%AF%86%E6%96%87%E9%83%BD%E8%A2%ABX%E6%88%AA%E8%8E%B7%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-number">5.7.2.</span> <span class="toc-text">如果MAC和密文都被X截获了怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%AA%8C%E8%AF%81%E7%A0%81%E6%97%A0%E6%B3%95%E9%98%B2%E6%AD%A2%E2%80%9C%E4%BA%8B%E5%90%8E%E5%90%A6%E8%AE%A4%E2%80%9D"><span class="toc-number">5.7.3.</span> <span class="toc-text">消息验证码无法防止“事后否认”</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="toc-number">5.8.</span> <span class="toc-text">数字签名</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E7%9A%84%E7%89%B9%E5%BE%81"><span class="toc-number">5.8.1.</span> <span class="toc-text">数字签名的特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="toc-number">5.8.2.</span> <span class="toc-text">如何实现数字签名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="toc-number">5.9.</span> <span class="toc-text">数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E8%AF%81%E4%B9%A6%E5%8F%91%E9%80%81%E5%85%AC%E9%92%A5"><span class="toc-number">5.9.1.</span> <span class="toc-text">如何使用数据证书发送公钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%B4%A8%E7%96%91%EF%BC%8C%E6%88%91%E4%BB%AC%E4%BB%8E%E8%AE%A4%E8%AF%81%E4%B8%AD%E5%BF%83%E8%8E%B7%E5%8F%96%E7%9A%84%E5%85%AC%E9%92%A5Pc%E7%9C%9F%E7%9A%84%E6%9D%A5%E8%87%AA%E8%AE%A4%E8%AF%81%E4%B8%AD%E5%BF%83%E5%90%97"><span class="toc-number">5.9.2.</span> <span class="toc-text">循环质疑，我们从认证中心获取的公钥Pc真的来自认证中心吗</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E8%81%9A%E7%B1%BB"><span class="toc-number">6.</span> <span class="toc-text">第六章 聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%81%9A%E7%B1%BB"><span class="toc-number">6.1.</span> <span class="toc-text">什么是聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E7%9B%B8%E4%BC%BC%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%88%86%E4%B8%BA%E4%B8%80%E7%BB%84"><span class="toc-number">6.1.1.</span> <span class="toc-text">将相似的对象分为一组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E2%80%9C%E7%9B%B8%E4%BC%BC%E2%80%9D"><span class="toc-number">6.1.2.</span> <span class="toc-text">如何定义“相似”</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E9%97%B4%E7%9A%84%E5%B7%AE%E8%B7%9D"><span class="toc-number">6.1.2.1.</span> <span class="toc-text">定义数据间的差距</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84%E7%AE%97%E6%B3%95"><span class="toc-number">6.1.2.2.</span> <span class="toc-text">符合条件的算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k-means-%E7%AE%97%E6%B3%95"><span class="toc-number">6.2.</span> <span class="toc-text">k-means 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#k-means%E7%AE%97%E6%B3%95%E6%AD%A5%E9%AA%A4"><span class="toc-number">6.2.1.</span> <span class="toc-text">k-means算法步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E8%AF%B4%EF%BC%9A"><span class="toc-number">6.2.2.</span> <span class="toc-text">解说：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E8%AF%B4%E6%98%8E-v2"><span class="toc-number">6.2.3.</span> <span class="toc-text">补充说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%85%B6%E4%BB%96%E7%AE%97%E6%B3%95"><span class="toc-number">7.</span> <span class="toc-text">第七章 其他算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95"><span class="toc-number">7.1.</span> <span class="toc-text">欧几里得算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95%E6%B1%821112%E5%92%8C695%E7%9A%84%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0"><span class="toc-number">7.1.1.</span> <span class="toc-text">使用欧几里得算法求1112和695的最大公约数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%AE%9E%E7%8E%B0"><span class="toc-number">7.1.2.</span> <span class="toc-text">Java实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A0%E6%80%A7%E6%B5%8B%E8%AF%95"><span class="toc-number">7.2.</span> <span class="toc-text">素性测试</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&text=读书笔记-《我的第一本算法书》"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=读书笔记-《我的第一本算法书》"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&is_video=false&description=读书笔记-《我的第一本算法书》"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=读书笔记-《我的第一本算法书》&body=Check out this article: https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=读书笔记-《我的第一本算法书》"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=读书笔记-《我的第一本算法书》"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=读书笔记-《我的第一本算法书》"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&title=读书笔记-《我的第一本算法书》"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&name=读书笔记-《我的第一本算法书》&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/algorithms/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B/&t=读书笔记-《我的第一本算法书》"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

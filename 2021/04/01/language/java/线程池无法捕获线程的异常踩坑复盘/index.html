@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="问题描述 需求信息 最近在工作中有个需求，先在A服务页面增加一条数据，然后去B服务查询此数据的详细信息 解决方案 为了使A服务的新增数据接口快速响应，在查询B服务数据详情的地方使用了线程池异步查询与更新。 问题现象 在验证时发现数据库中的数据字段不全，经分析缺少的都是需要从B服务查询并更新的字段 初步定位 猜测应该是查询B服务时出了一些异常，而由于不规范使用线程池导致异常没有抛出，直接打到了控制台">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程池无法捕获线程的异常踩坑复盘">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="问题描述 需求信息 最近在工作中有个需求，先在A服务页面增加一条数据，然后去B服务查询此数据的详细信息 解决方案 为了使A服务的新增数据接口快速响应，在查询B服务数据详情的地方使用了线程池异步查询与更新。 问题现象 在验证时发现数据库中的数据字段不全，经分析缺少的都是需要从B服务查询并更新的字段 初步定位 猜测应该是查询B服务时出了一些异常，而由于不规范使用线程池导致异常没有抛出，直接打到了控制台">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807110851677.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807111728213.png">
+<meta property="og:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807112535447.png">
+<meta property="article:published_time" content="2021-04-01T10:18:21.503Z">
+<meta property="article:modified_time" content="2021-04-01T10:18:21.503Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="线程池">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807110851677.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>线程池无法捕获线程的异常踩坑复盘</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/01/language/java/%E4%BD%BF%E7%94%A8redis%E8%87%AA%E5%A2%9E%E7%89%B9%E6%80%A7%E5%88%9B%E5%BB%BA%E5%94%AF%E4%B8%80id%E7%94%9F%E6%88%90%E5%99%A8/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/01/language/java/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%E8%80%8C%E4%B8%8D%E6%98%AF@Autoware/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&text=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&title=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&is_video=false&description=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=线程池无法捕获线程的异常踩坑复盘&body=Check out this article: https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&title=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&title=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&title=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&title=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&name=线程池无法捕获线程的异常踩坑复盘&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&t=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E4%BF%A1%E6%81%AF"><span class="toc-number">1.1.</span> <span class="toc-text">需求信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.2.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%8E%B0%E8%B1%A1"><span class="toc-number">1.3.</span> <span class="toc-text">问题现象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E5%AE%9A%E4%BD%8D"><span class="toc-number">1.4.</span> <span class="toc-text">初步定位</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="toc-number">2.</span> <span class="toc-text">问题解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%9B%98"><span class="toc-number">3.</span> <span class="toc-text">问题复盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A%E6%9C%8D%E5%8A%A1%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">A服务线程池的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%AD%A4%E4%BD%BF%E7%94%A8%E6%9C%89%E4%BD%95%E9%97%AE%E9%A2%98"><span class="toc-number">3.2.</span> <span class="toc-text">如此使用有何问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E9%97%AE%E9%A2%98"><span class="toc-number">3.3.</span> <span class="toc-text">如何解决线程池的异常捕获问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%951-%E4%BD%BF%E7%94%A8UncaughtExceptionHandler"><span class="toc-number">3.3.1.</span> <span class="toc-text">方法1:使用UncaughtExceptionHandler</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%952-%E4%BD%BF%E7%94%A8guava%E6%89%A9%E5%B1%95%E7%9A%84FutureCallback"><span class="toc-number">3.3.2.</span> <span class="toc-text">方法2:使用guava扩展的FutureCallback</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">问题总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        线程池无法捕获线程的异常踩坑复盘
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-01T10:18:21.503Z" itemprop="datePublished">2021-04-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Java/">Java</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Java/" rel="tag">Java</a>, <a class="tag-link-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="问题描述">问题描述</h2>
+<h3 id="需求信息">需求信息</h3>
+<p>最近在工作中有个需求，先在A服务页面增加一条数据，然后去B服务查询此数据的详细信息</p>
+<h3 id="解决方案">解决方案</h3>
+<p>为了使A服务的新增数据接口快速响应，在查询B服务数据详情的地方使用了线程池异步查询与更新。</p>
+<h3 id="问题现象">问题现象</h3>
+<p>在验证时发现数据库中的数据字段不全，经分析缺少的都是需要从B服务查询并更新的字段</p>
+<h3 id="初步定位">初步定位</h3>
+<p>猜测应该是查询B服务时出了一些异常，而由于不规范使用线程池导致异常没有抛出，直接打到了控制台，故A服务的日志系统并看不到错误日志。</p>
+<h2 id="问题解决">问题解决</h2>
+<ol>
+<li>查询B服务数据详情时暂时去掉使用线程池，改为同步调用</li>
+<li>增加容错定时任务，定时查询需要从B服务获取缺失字段的数据进行更新</li>
+</ol>
+<p>上线后观察，新增的数据不再有部分字段缺失的情况；问题解决。</p>
+<h2 id="问题复盘">问题复盘</h2>
+<h3 id="A服务线程池的使用">A服务线程池的使用</h3>
+<p>线程池定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 查询B服务数据详情的线程池</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService executorService = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">2</span>, <span class="number">2</span>, <span class="number">0L</span>, TimeUnit.MICROSECONDS,</span><br><span class="line">        <span class="keyword">new</span> LinkedBlockingDeque&lt;&gt;(), <span class="keyword">new</span> ThreadFactoryBuilder().setNameFormat(<span class="string">&quot;queryDataDetail-%d&quot;</span>).build());</span><br></pre></td></tr></table></figure>
+<p>线程池使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String contract)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 0、检查合同必须不存在</span></span><br><span class="line">    checkIfExist(contract);</span><br><span class="line">    <span class="comment">// 1、保存合同数据</span></span><br><span class="line">    Entity entity = saveData(contract);</span><br><span class="line">    <span class="comment">// 2、从B服务查询缺失信息</span></span><br><span class="line">    executorService.execute(() -&gt; queryDataDetail(entity));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="如此使用有何问题">如此使用有何问题</h3>
+<p>我重新写了一个测试方法如下：</p>
+<p>1、定义一个会一直抛异常的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 引入SystemOutRule，监听程序日志输出</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Rule</span></span><br><span class="line"><span class="keyword">public</span> SystemOutRule systemOutRule = <span class="keyword">new</span> SystemOutRule().enableLog();</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 引入SystemOutRule，监听程序日志输出</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">runWithException</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread thread = Thread.currentThread();</span><br><span class="line">    log.info(<span class="string">&quot;thread is &#123;&#125;&quot;</span>, thread);</span><br><span class="line">    log.info(<span class="string">&quot;eh=&#123;&#125;&quot;</span>, thread.getUncaughtExceptionHandler());</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> NicaiException(<span class="string">&quot;出错啦！&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、使用线程池调用上面的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">    executorService.execute(<span class="keyword">this</span>::runWithException);</span><br><span class="line">    TimeUnit.MILLISECONDS.sleep(<span class="number">100L</span>);</span><br><span class="line">    <span class="comment">// 断言程序打印的日志不包含“出错啦！”</span></span><br><span class="line">    Assert.assertFalse(systemOutRule.getLog().contains(<span class="string">&quot;出错啦！&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、上面的单测断言是成功的，那么异常跑哪里去了？上面的单测在控制台的输出如下：</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807110851677.png" alt="image-20200807110851677"></p>
+<p>4、可以看出上面的异常信息是直接输出到了控制台，而不是由程序输出到控制台，主要原因是主程序没有捕获到此异常导致的。（具体原因还没有深入）</p>
+<h3 id="如何解决线程池的异常捕获问题">如何解决线程池的异常捕获问题</h3>
+<p>上面的测试可以说明到为什么日志里面查不到错误日志，那么如何捕获线程里的异常呢？</p>
+<h4 id="方法1-使用UncaughtExceptionHandler">方法1:使用UncaughtExceptionHandler</h4>
+<p>1、在创建线程池的时候，设置传入的ThreadFactory的UncaughtExceptionHandler属性，此UncaughtExceptionHandler会处理线程中的异常；下面的例子我直接打印了出来异常原因和异常栈。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">runWithUncaughtExceptionHandler</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    ExecutorService executorService = Executors.newCachedThreadPool(</span><br><span class="line">            <span class="keyword">new</span> ThreadFactoryBuilder()</span><br><span class="line">                    .setUncaughtExceptionHandler((t, e) -&gt; log.info(<span class="string">&quot;UncaughtExceptionHandler caught, error_message=&#123;&#125;&quot;</span>, e.getMessage(), e))</span><br><span class="line">                    .build());</span><br><span class="line">    executorService.execute(<span class="keyword">this</span>::runWithException);</span><br><span class="line">    TimeUnit.MILLISECONDS.sleep(<span class="number">100L</span>);</span><br><span class="line">    Assert.assertTrue(systemOutRule.getLog().contains(<span class="string">&quot;出错啦！&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、上面的单测运行结果如下：（可以和上面的运行结果进行比对）</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807111728213.png" alt="image-20200807111728213"></p>
+<p>3、从上面的运行结果可以看出异常信息是由程序捕获后再输出出来，这样就不会导致查不到异常日志了。</p>
+<h4 id="方法2-使用guava扩展的FutureCallback">方法2:使用guava扩展的FutureCallback</h4>
+<p>1、guava对jdk的线程做了一些扩展，其中一个就是FutureCallback，使用方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">runWithGuavaThreadPool</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());</span><br><span class="line">    ListenableFuture&lt;String&gt; listenableFuture = executorService.submit(<span class="keyword">this</span>::runWithException);</span><br><span class="line">    Futures.addCallback(listenableFuture, <span class="keyword">new</span> FutureCallback&lt;String&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(String result)</span> </span>&#123;</span><br><span class="line">            log.info(<span class="string">&quot;success! result = &#123;&#125;&quot;</span>, result);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Throwable t)</span> </span>&#123;</span><br><span class="line">            log.error(<span class="string">&quot;guava FutureCallback caught, error_message=&#123;&#125;&quot;</span>, t.getMessage(), t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, executorService);</span><br><span class="line">    TimeUnit.MILLISECONDS.sleep(<span class="number">100L</span>);</span><br><span class="line">    Assert.assertTrue(systemOutRule.getLog().contains(<span class="string">&quot;出错啦！&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、上面的单测运行结果如下：</p>
+<p><img src="https://gitee.com/zheshiyigegexingwangzhan/images/raw/master//image-20200807112535447.png" alt="image-20200807112535447"></p>
+<h2 id="问题总结">问题总结</h2>
+<p>1、通过上面的测试，优化A服务的线程池定义，使之在遇到异常时能够正常被捕获，能输出，方便问题定位；补偿定时任务也能对第一次查询异常进行容错，保证数据能够同步过来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 查询B服务数据详情的线程池</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService executorService = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">2</span>, <span class="number">2</span>, <span class="number">0L</span>, TimeUnit.MICROSECONDS,</span><br><span class="line">        <span class="keyword">new</span> LinkedBlockingDeque&lt;&gt;(), <span class="keyword">new</span> ThreadFactoryBuilder()</span><br><span class="line">        .setUncaughtExceptionHandler((t, e) -&gt; log.error(<span class="string">&quot;查询数据详情的线程池异常,error_message=&#123;&#125;&quot;</span>, e.getMessage(), e))</span><br><span class="line">        .setNameFormat(<span class="string">&quot;queryDataDetail-%d&quot;</span>).build());</span><br></pre></td></tr></table></figure>
+<p>2、当然此问题更深层的问题还没有完全解答</p>
+<ul>
+<li>为什么线程里的异常不会被捕获？</li>
+<li>UncaughtExceptionHandler的运行原理是什么？</li>
+<li>Guava的FutureCallback是如何运行的？</li>
+</ul>
+<p>3、<a target="_blank" rel="noopener" href="https://github.com/guozhe001/my-tools/blob/master/my-learn/my-experience/src/test/java/com/nicai/experience/concurrency/ExceptionThreadTest.java">测试代码源码地址</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E4%BF%A1%E6%81%AF"><span class="toc-number">1.1.</span> <span class="toc-text">需求信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.2.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%8E%B0%E8%B1%A1"><span class="toc-number">1.3.</span> <span class="toc-text">问题现象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E5%AE%9A%E4%BD%8D"><span class="toc-number">1.4.</span> <span class="toc-text">初步定位</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="toc-number">2.</span> <span class="toc-text">问题解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%9B%98"><span class="toc-number">3.</span> <span class="toc-text">问题复盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A%E6%9C%8D%E5%8A%A1%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">A服务线程池的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%AD%A4%E4%BD%BF%E7%94%A8%E6%9C%89%E4%BD%95%E9%97%AE%E9%A2%98"><span class="toc-number">3.2.</span> <span class="toc-text">如此使用有何问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E9%97%AE%E9%A2%98"><span class="toc-number">3.3.</span> <span class="toc-text">如何解决线程池的异常捕获问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%951-%E4%BD%BF%E7%94%A8UncaughtExceptionHandler"><span class="toc-number">3.3.1.</span> <span class="toc-text">方法1:使用UncaughtExceptionHandler</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%952-%E4%BD%BF%E7%94%A8guava%E6%89%A9%E5%B1%95%E7%9A%84FutureCallback"><span class="toc-number">3.3.2.</span> <span class="toc-text">方法2:使用guava扩展的FutureCallback</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">问题总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&text=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&title=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&is_video=false&description=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=线程池无法捕获线程的异常踩坑复盘&body=Check out this article: https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&title=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&title=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&title=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&title=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&name=线程池无法捕获线程的异常踩坑复盘&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/language/java/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%97%A0%E6%B3%95%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%B8%B8%E8%B8%A9%E5%9D%91%E5%A4%8D%E7%9B%98/&t=线程池无法捕获线程的异常踩坑复盘"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

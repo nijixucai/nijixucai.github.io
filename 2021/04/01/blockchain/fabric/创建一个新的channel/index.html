@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="创建一个新的channel 官方文档 You can use this tutorial to learn how to create new channels using the configtxgen CLI tool and then use the peer channel commands to join a channel with your peers. While this tut">
+<meta property="og:type" content="article">
+<meta property="og:title" content="创建一个新的channel">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="创建一个新的channel 官方文档 You can use this tutorial to learn how to create new channels using the configtxgen CLI tool and then use the peer channel commands to join a channel with your peers. While this tut">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-01T10:18:21.484Z">
+<meta property="article:modified_time" content="2021-04-01T10:18:21.485Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="channel">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>创建一个新的channel</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/fabric/%E5%9C%A8Fabric%E4%B8%AD%E4%BA%A4%E6%98%93%E5%8F%97%E4%BF%9D%E6%8A%A4%E7%9A%84%E8%B5%84%E4%BA%A7/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/%E8%BA%AB%E5%88%86%E8%AF%86%E5%88%AB/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&text=创建一个新的channel"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&title=创建一个新的channel"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&is_video=false&description=创建一个新的channel"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=创建一个新的channel&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&title=创建一个新的channel"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&title=创建一个新的channel"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&title=创建一个新的channel"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&title=创建一个新的channel"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&name=创建一个新的channel&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&t=创建一个新的channel"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel"><span class="toc-number">1.</span> <span class="toc-text">创建一个新的channel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Setting-up-the-configtxgen-tool%EF%BC%88%E8%AE%BE%E7%BD%AEconfigtxgen%E5%B7%A5%E5%85%B7%EF%BC%89"><span class="toc-number">1.0.1.</span> <span class="toc-text">Setting up the configtxgen tool（设置configtxgen工具）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-configtx-yaml-file%EF%BC%88configtx-yaml%E6%96%87%E4%BB%B6%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">The configtx.yaml file（configtx.yaml文件）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Start-the-network%EF%BC%88%E5%90%AF%E5%8A%A8%E7%BD%91%E7%BB%9C%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">Start the network（启动网络）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-orderer-system-channel%EF%BC%88%E6%8E%92%E5%BA%8F%E7%B3%BB%E7%BB%9F%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">The orderer system channel（排序系统通道）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Creating-an-application-channel%EF%BC%88%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">Creating an application channel（创建一个应用通道）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Join-peers-to-the-channel%EF%BC%88%E6%8A%8A%E8%8A%82%E7%82%B9%E5%8A%A0%E5%85%A5%E9%80%9A%E9%81%93%E4%B8%AD%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">Join peers to the channel（把节点加入通道中）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-anchor-peers%EF%BC%88%E8%AE%BE%E7%BD%AE%E9%94%9A%E8%8A%82%E7%82%B9%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">Set anchor peers（设置锚节点）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deploy-a-chaincode-to-the-new-channel%EF%BC%88%E9%83%A8%E7%BD%B2%E9%93%BE%E7%A0%81%E5%88%B0%E6%96%B0%E9%80%9A%E9%81%93%E4%B8%8A%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">Deploy a chaincode to the new channel（部署链码到新通道上）</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        创建一个新的channel
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-01T10:18:21.484Z" itemprop="datePublished">2021-04-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/channel/">channel</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link-link" href="/tags/channel/" rel="tag">channel</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="创建一个新的channel">创建一个新的channel</h1>
+<p><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/create_channel/create_channel.html">官方文档</a></p>
+<p>You can use this tutorial to learn how to create new channels using the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/configtxgen.html">configtxgen</a> CLI tool and then use the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerchannel.html">peer channel</a> commands to join a channel with your peers. While this tutorial will leverage the Fabric test network to create the new channel, the steps in this tutorial can also be used by network operators in a production environment.</p>
+<p>你可以通过这个教程来学习通过 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/configtxgen.html">configtxgen</a>CLI工具来创建新的通道，然后通过 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerchannel.html">peer channel</a> 命令将peer节点加入通道。尽管本教程将利用Fabric测试网络来创建新渠道，网络操作人员也可以在生产环境中使用本教程中的步骤。</p>
+<p>In the process of creating the channel, this tutorial will take you through the following steps and concepts:</p>
+<p>在创建频道的过程中，本教程将带您完成以下步骤和概念：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/create_channel/create_channel.html#setting-up-the-configtxgen-tool">Setting up the configtxgen tool</a>：设置configtxgen工具</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/create_channel/create_channel.html#the-configtx-yaml-file">Using the configtx.yaml file</a>：使用configtx.yaml配置文件</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/create_channel/create_channel.html#the-orderer-system-channel">The orderer system channel</a>：排序的系统通道介绍</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/create_channel/create_channel.html#creating-an-application-channel">Creating an application channel</a>：创建一个应用通道</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/create_channel/create_channel.html#join-peers-to-the-channel">Joining peers to the channel</a>：将peer节点加入通道</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/create_channel/create_channel.html#set-anchor-peers">Setting anchor peers</a>：设置锚节点</li>
+</ul>
+<h3 id="Setting-up-the-configtxgen-tool（设置configtxgen工具）">Setting up the configtxgen tool（设置configtxgen工具）</h3>
+<p>Channels are created by building a channel creation transaction and submitting the transaction to the ordering service. The channel creation transaction specifies the initial configuration of the channel and is used by the ordering service to write the channel genesis block. While it is possible to build the channel creation transaction file manually, it is easier to use the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/configtxgen.html">configtxgen</a> tool. The tool works by reading a <code>configtx.yaml</code> file that defines the configuration of your channel, and then writing the relevant information into the channel creation transaction. Before we discuss the <code>configtx.yaml</code> file in the next section, we can get started by downloading and setting up the <code>configtxgen</code> tool.</p>
+<p>通道的创建是通过构建一个创建通道的交易然后将此交易提交给排序服务来完成的。“创建通道的交易”指明了此通道的初始化配置并且由排序服务写入通道的创世纪区块中。尽管可以手动构建“创建通道的交易”，但使用configtxgen工具更容易。configtxgen工具读取定义了channle配置的<code>configtx.yaml</code>文件，然后将相关信息写入“创建通道的交易”中。在我们讨论 <code>configtx.yaml</code> 文件之前，我们先开始下载并设置<code>configtxgen</code> 工具。</p>
+<p>You can download the <code>configtxgen</code> binaries by following the steps to <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/install.html">install the samples, binaries and Docker images</a>. <code>configtxgen</code> will be downloaded to the <code>bin</code> folder of your local clone of the <code>fabric-samples</code> repository along with other Fabric tools.</p>
+<p>你可以跟着 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/install.html">install the samples, binaries and Docker images</a>的步骤来下载 <code>configtxgen</code> 。 <code>configtxgen</code> 会下载到<code>fabric-samples</code>仓库的<code>bin</code>目录下。</p>
+<p>For the purposes of this tutorial, we will want to operate from the <code>test-network</code> directory inside <code>fabric-samples</code>. Navigate to that directory using the following command:</p>
+<p>为了本教程的目的，我们会想要在<code>fabric-samples</code>下面的 <code>test-network</code> 目录下进行操作，使用下面的命令切换到此目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd fabric-samples/test-network</span><br></pre></td></tr></table></figure>
+<p>We will operate from the <code>test-network</code> directory for the remainder of the tutorial. Use the following command to add the configtxgen tool to your CLI path:</p>
+<p>在本教程的其余部分中，我们将从test-network目录进行操作。使用以下命令将configtxgen工具添加到您的CLI路径：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$&#123;PWD&#125;/../bin:$PATH</span><br></pre></td></tr></table></figure>
+<p>In order to use <code>configtxgen</code>, you need to the set the <code>FABRIC_CFG_PATH</code> environment variable to the path of the directory that contains your local copy of the <code>configtx.yaml</code> file. For this tutorial, we will reference the <code>configtx.yaml</code> used to setup the Fabric test network in the <code>configtx</code> folder:</p>
+<p>为了使用<code>configtxgen</code>，您需要将<code>FABRIC_CFG_PATH</code>环境变量设置为包含<code>configtx.yaml</code>的本地目录。对于本教程，我们将在此环境变量设置为在Fabric test network目录下的包含<code>configtx.yaml</code>的<code>configtx</code> 目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export FABRIC_CFG_PATH=$&#123;PWD&#125;/configtx</span><br></pre></td></tr></table></figure>
+<p>You can check that you can are able to use the tool by printing the <code>configtxgen</code> help text:</p>
+<p>你可以通过打印 <code>configtxgen</code>工具的help来检查是否已经设置好:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configtxgen --help</span><br></pre></td></tr></table></figure>
+<h2 id="The-configtx-yaml-file（configtx-yaml文件）">The configtx.yaml file（configtx.yaml文件）</h2>
+<p>The <code>configtx.yaml</code> file specifies the <strong>channel configuration</strong> of new channels. The information that is required to build the channel configuration is specified in a readable and editable form in the <code>configtx.yaml</code> file. The <code>configtxgen</code> tool uses the channel profiles defined in the <code>configtx.yaml</code> file to create the channel configuration and write it to the <a target="_blank" rel="noopener" href="https://developers.google.com/protocol-buffers">protobuf format</a> that can be read by Fabric.</p>
+<p><code>configtx.yaml</code> 文件指明了一个新的通道的通道配置。在<code>configtx.yaml</code>文件中可以读取和编辑构建通道配置所需的信息。 <code>configtxgen</code> 工具通过使用 <code>configtx.yaml</code>文件中的通道属性的定义来创建通道配置，并将其写入可由Fabric读取的 <a target="_blank" rel="noopener" href="https://developers.google.com/protocol-buffers">protobuf格式</a>。</p>
+<p>You can find the <code>configtx.yaml</code> file that is used to deploy the test network in the <code>configtx</code> folder in the <code>test-network</code> directory. The file contains the following information that we will use to create our new channel:</p>
+<p>你可以在<code>test-network</code>目录的<code>configtx</code> 文件夹下面看到 <code>configtx.yaml</code> 文件，这个文件包含在创建新通道时会用到的下面的信息：</p>
+<ul>
+<li>
+<p><strong>Organizations:</strong> The organizations that can become members of your channel. Each organization has a reference to the cryptographic material that is used to build the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/membership/membership.html">channel MSP</a>.</p>
+<ul>
+<li>可以成为你的通道成员的组织信息，每一个组织都有对用于构建<a href="%5D(https://hyperledger-fabric.readthedocs.io/en/release-2.2/membership/membership.html)">通道MSP</a>的加密材料的引用。</li>
+</ul>
+</li>
+<li>
+<p><strong>Ordering service:</strong> Which ordering nodes will form the ordering service of the network, and consensus method they will use to agree to a common order of transactions. The file also contains the organizations that will become the ordering service administrators.</p>
+<ul>
+<li>哪些排序节点将形成网络中的排序服务，以及它们用于同意交易顺序的共识方法。此文件还包含了会成为排序服务管理员的组织的信息。</li>
+</ul>
+</li>
+<li>
+<p><strong>Channel policies：</strong> Different sections of the file work together to define the policies that will govern how organizations interact with the channel and which organizations need to approve channel updates. For the purposes of this tutorial, we will use the default policies used by Fabric.</p>
+<ul>
+<li>文件的不同部分一起定义通道策略，这些策略将控制组织与通道的交互方式以及哪些组织需要批准渠道更新。就本教程而言，我们将使用Fabric使用的默认策略。</li>
+</ul>
+</li>
+<li>
+<p><strong>Channel profiles</strong> Each channel profile references information from other sections of the <code>configtx.yaml</code> file to build a channel configuration. The profiles are used the create the genesis block of the orderer system channel and the channels that will be used by peer organizations. To distinguish them from the system channel, the channels used by peer organizations are often referred to as application channels.</p>
+<ul>
+<li>每个通道的配置信息都引用<code>configtx.yaml</code>文件的其他部分来构建通道配置。这些配置信息是用来创建<strong>orderer system channel</strong> 的创世纪区块的，然后通道会被同等的其他组织所使用。为了将它们（<strong>orderer system channel</strong>）与系统通道区分开来，组织使用的通道通常称为应用程序通道。</li>
+</ul>
+<p>The <code>configtxgen</code> tool uses <code>configtx.yaml</code> file to create a complete genesis block for the system channel. As a result, the system channel profile needs to specify the full system channel configuration. The channel profile used to create the channel creation transaction only needs to contain the additional configuration information required to create an application channel.</p>
+</li>
+</ul>
+<p><code>configtxgen</code>工具使用<code>configtx.yaml</code>文件为系统通道创建完整的创世块。结果，系统通道配置文件需要指定完整的系统通道配置。用于创建“创建通道的交易”使用的通道配置仅需要包含创建应用程序通道所需的其他配置信息。</p>
+<p>You can visit the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/create_channel/create_channel_genesis.html">Using configtx.yaml to create a channel genesis block</a> tutorial to learn more about this file. For now, we will return to the operational aspects of creating the channel, though we will reference parts of this file in future steps.</p>
+<p>你可以访问 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/create_channel/create_channel_genesis.html">Using configtx.yaml to create a channel genesis block</a> 教程来学习此文件的更多信息。现在我们回到创建通道的操作方面。</p>
+<h2 id="Start-the-network（启动网络）">Start the network（启动网络）</h2>
+<p>参考<a href="Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8.md">Fabric测试网络使用</a></p>
+<p>Our instance of the test network was deployed without creating an application channel. However, the test network script creates the system channel when you issue the <code>./network.sh up</code> command. Under the covers, the script uses the <code>configtxgen</code> tool and the <code>configtx.yaml</code> file to build the genesis block of the system channel. Because the system channel is used to create other channels, we need to take some time to understand the orderer system channel before we can create an application channel.</p>
+<p>我们部署的测试网络实例未创建应用程序通道。但是测试网络脚本在你运行<code>./network.sh up</code> 命令时创建了系统通道。在幕后，脚本使用<code>configtxgen</code>工具和<code>configtx.yaml</code>文件来构建系统通道的创世纪块。因为系统通道是用来创建其他通道的，所以我们在创建一个应用通道之前需要花一些时间去了解排序系统通道（ <strong>orderer system channel</strong> ）</p>
+<h2 id="The-orderer-system-channel（排序系统通道）">The orderer system channel（排序系统通道）</h2>
+<p>略</p>
+<h2 id="Creating-an-application-channel（创建一个应用通道）">Creating an application channel（创建一个应用通道）</h2>
+<p>Now that we have deployed the nodes of the network and created the orderer system channel using the <code>network.sh</code> script, we can start the process of creating a new channel for our peer organizations. We have already set the environment variables that are required to use the <code>configtxgen</code> tool. Run the following command to create a channel creation transaction for <code>channel1</code>:</p>
+<p>现在我们已经使用<code>network.sh</code>脚本在测试网络中部署了节点，并且创建了排序系统通道。我们现在可以开始为我们的组织创建一个新通道的程序了。我们已经设置了使用<code>configtxgen</code>工具所需的环境变量。运行下面的程序来为<code>channel1</code>通道创建一个“创建通道的交易”：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel1.tx -channelID channel1</span><br></pre></td></tr></table></figure>
+<p>The <code>-channelID</code> will be the name of the future channel. Channel names must be all lower case, less than 250 characters long and match the regular expression <code>[a-z][a-z0-9.-]*</code>. The command uses the uses the <code>-profile</code> flag to reference the <code>TwoOrgsChannel:</code> profile from <code>configtx.yaml</code> that is used by the test network to create application channels:</p>
+<p><code>-channelID</code>标志制定了创建的通道的名称，通道的名称必须全是小写，不超过250个字符并且符合正则表达式<code>[a-z][a-z0-9.-]*</code>。该命令使用<code>-profile</code>标志来引用<code>configtx.yaml</code>文件中的<code>TwoOrgsChannel：</code>配置，测试网络使用它来创建应用程序通道：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">TwoOrgsChannel:</span></span><br><span class="line">    <span class="attr">Consortium:</span> <span class="string">SampleConsortium</span></span><br><span class="line">    <span class="string">&lt;&lt;:</span> <span class="meta">*ChannelDefaults</span></span><br><span class="line">    <span class="attr">Application:</span></span><br><span class="line">        <span class="string">&lt;&lt;:</span> <span class="meta">*ApplicationDefaults</span></span><br><span class="line">        <span class="attr">Organizations:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="meta">*Org1</span></span><br><span class="line">            <span class="bullet">-</span> <span class="meta">*Org2</span></span><br><span class="line">        <span class="attr">Capabilities:</span></span><br><span class="line">            <span class="string">&lt;&lt;:</span> <span class="meta">*ApplicationCapabilities</span></span><br></pre></td></tr></table></figure>
+<p>The profile references the name of the <code>SampleConsortium</code> from the system channel, and includes both peer organizations from the consortium as channel members. Because the system channel is used as a template to create the application channel, the ordering nodes defined in the system channel become the default <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#consenter-set">consenter set</a> of the new channel, while the administrators of the ordering service become the orderer administrators of the channel. Ordering nodes and ordering organizations can be added or removed from the consenter set using channel updates.</p>
+<p>该配置文件从系统通道引用<code>SampleConsortium</code>的名称，并且包含来自该联盟的两个组织作为通道成员。因为系统通道被用作模版来创建应用通道，系统通道中定义的排序节点成为新渠道的默认<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#consenter-set">consenter set</a>，而排序服务的管理员将成为新渠道的排序管理员。可以使用通道更新在<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#consenter-set">consenter set</a>中添加或删除排序节点和排序组织。</p>
+<p>If the command successful, you will see logs of <code>configtxgen</code> loading the <code>configtx.yaml</code> file and printing a channel creation transaction:</p>
+<p>如果上面的命令执行成功，你会看到<code>configtxgen</code> 工具加载 <code>configtx.yaml</code> 文件并且打印了一个创建通道的交易：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2020-12-23 14:25:49.175 CST [common.tools.configtxgen] main -&gt; INFO 001 Loading configuration</span><br><span class="line">2020-12-23 14:25:49.185 CST [common.tools.configtxgen.localconfig] Load -&gt; INFO 002 Loaded configuration: /Users/apple/code/open-source/blockchain/hyperledger/fabric-samples/test-network/configtx/configtx.yaml</span><br><span class="line">2020-12-23 14:25:49.185 CST [common.tools.configtxgen] doOutputChannelCreateTx -&gt; INFO 003 Generating new channel configtx</span><br><span class="line">2020-12-23 14:25:49.188 CST [common.tools.configtxgen] doOutputChannelCreateTx -&gt; INFO 004 Writing new channel tx</span><br></pre></td></tr></table></figure>
+<p>We can use the <code>peer</code> CLI to submit the channel creation transaction to the ordering service. To use the <code>peer</code> CLI, we need to set the <code>FABRIC_CFG_PATH</code> to the <code>core.yaml</code> file located in the <code>fabric-samples/config</code> directory. Set the <code>FABRIC_CFG_PATH</code> environment variable by running the following command:</p>
+<p>你可以使用 <code>peer</code>CLI来把这个“创建通道的交易”提交到排序服务。为了使用<code>peer</code> CLI，我们需要设置环境变量<code>FABRIC_CFG_PATH</code>为 <code>fabric-samples/config</code> 目录下的<code>core.yaml</code>文件，运行下面的命令来设置<code>FABRIC_CFG_PATH</code>环境变量：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export FABRIC_CFG_PATH=$PWD/../config/</span><br></pre></td></tr></table></figure>
+<p>Before the ordering service creates the channel, the ordering service will check the permission of the identity that submitted the request. By default, only admin identities of organizations that belong to the system channel consortium can create a new channel. Issue the commands below to operate the <code>peer</code> CLI as the admin user from Org1:</p>
+<p>在排序服务创建通道时，排序服务会检查提交请求的身份的权限。默认情况下，只有属于系统通道联盟的组织的管理员身份才能创建新的通道。运行下面的命令来以Org1的管理员身份操作 <code>peer</code> CLI:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export CORE_PEER_TLS_ENABLED=true</span><br><span class="line">export CORE_PEER_LOCALMSPID=&quot;Org1MSP&quot;</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:7051</span><br></pre></td></tr></table></figure>
+<p>You can now create the channel by using the following command:</p>
+<p>你现在可以使用下面的命令来创建通道了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel create -o localhost:7050  --ordererTLSHostnameOverride orderer.example.com -c channel1 -f ./channel-artifacts/channel1.tx --outputBlock ./channel-artifacts/channel1.block --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>The command above provides the path to the channel creation transaction file using the <code>-f</code> flag and uses the <code>-c</code> flag to specify the channel name. The <code>-o</code> flag is used to select the ordering node that will be used to create the channel. The <code>--cafile</code> is the path to the TLS certificate of the ordering node. When you run the <code>peer channel create</code> command, the <code>peer</code> CLI will generate the following response:</p>
+<p>上面的命令使用 <code>-f</code>标志来指定“创建通道的交易”的文件，并且使用 <code>-c</code> 标志来指定通道名称。<code>-o</code>标志是用来选择用来创建通道的排序节点的。<code>--cafile</code> 标志是排序节点的TLS证书路径。当你运行 <code>peer channel create</code>命令时， <code>peer</code> CLI会生成下面的响应：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-12-23 14:36:09.386 CST [channelCmd] InitCmdFactory -&gt; INFO 00b Endorser and orderer connections initialized</span><br><span class="line">2020-12-23 14:36:09.595 CST [cli.common] readBlock -&gt; INFO 00c Received block: 0</span><br></pre></td></tr></table></figure>
+<p>Because we are using a Raft ordering service, you may get some status unavailable messages that you can safely ignore. The command will return the genesis block of the new channel to the location specified by the <code>--outputBlock</code> flag.</p>
+<p>因为我们使用一个Raft策略的排序服务，你可能会收到一些状态不可用的信息你可以放心的忽略他们。该命令会将新通道的创世纪区块输出到<code>--outputBlock</code>标志指定的位置。</p>
+<h2 id="Join-peers-to-the-channel（把节点加入通道中）">Join peers to the channel（把节点加入通道中）</h2>
+<p>After the channel has been created, we can join the channel with our peers. Organizations that are members of the channel can fetch the channel genesis block from the ordering service using the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerchannel.html#peer-channel-fetch">peer channel fetch</a> command. The organization can then use the genesis block to join the peer to the channel using the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerchannel.html#peer-channel-join">peer channel join</a> command. Once the peer is joined to the channel, the peer will build the blockchain ledger by retrieving the other blocks on the channel from the ordering service.</p>
+<p>在通道创建之后，我们可以把我们的peer节点加入到通道。属于通道成员的组织可以使用 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerchannel.html#peer-channel-fetch">peer channel fetch</a>命令从排序服务那里获取通道的创世纪区块。然后这个组织就可以使用这个创世纪区块来通过 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerchannel.html#peer-channel-join">peer channel join</a> 命令将peer节点加入到通道了。一旦peer节点加入了通道，peer节点将通过从排序服务中检索其他区块来构建区块链账本了。</p>
+<p>Since we are already operating the <code>peer</code> CLI as the Org1 admin, let’s join the Org1 peer to the channel. Since Org1 submitted the channel creation transaction, we already have the channel genesis block on our file system. Join the Org1 peer to the channel using the command below.</p>
+<p>因为我们已经通过Org1的管理员操作了 <code>peer</code> CLI ，让我们把Org1的peer节点加入到通道。因为是Org1组织提交的“创建通道的交易”，我们已经在我们本地的文件系统中拥有了通道的创世纪区块。使用下面的命令将组织Org1的peer节点加入到通道中：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel join -b ./channel-artifacts/channel1.block</span><br></pre></td></tr></table></figure>
+<p>The <code>CORE_PEER_ADDRESS</code> environment variable has been set to target <code>peer0.org1.example.com</code>. A successful command will generate a response from <code>peer0.org1.example.com</code> joining the channel:</p>
+<p>环境变量<code>CORE_PEER_ADDRESS</code>已经设置为指向了<code>peer0.org1.example.com</code>，如果命令成功的话会获取 <code>peer0.org1.example.com</code> 加入通道的响应：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-03-06 17:49:09.903 EST [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized</span><br><span class="line">2020-03-06 17:49:10.060 EST [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel</span><br></pre></td></tr></table></figure>
+<p>我本地的运行报错如下，记录TODO，最终使用最新2.3.0的版本就没有这个问题。2.2.0版本没有成功启动org1的peer。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(base) apple@WHOAMIdeMacBook-Pro:~/code/open-source/blockchain/hyperledger/fabric-samples/test-network$     peer channel join -b ./channel-artifacts/channel1.block</span><br><span class="line">2020-12-23 14:59:02.760 CST [comm.tls] ClientHandshake -&gt; ERRO 001 Client TLS handshake failed after 2.782623ms with error: EOF remoteaddress=[::1]:7051</span><br><span class="line">2020-12-23 14:59:03.768 CST [comm.tls] ClientHandshake -&gt; ERRO 002 Client TLS handshake failed after 2.438885ms with error: EOF remoteaddress=[::1]:7051</span><br><span class="line">2020-12-23 14:59:05.075 CST [comm.tls] ClientHandshake -&gt; ERRO 003 Client TLS handshake failed after 1.857716ms with error: EOF remoteaddress=[::1]:7051</span><br><span class="line">Error: error getting endorser client for channel: endorser client failed to connect to localhost:7051: failed to create new connection: context deadline exceeded</span><br></pre></td></tr></table></figure>
+<p>You can verify that the peer has joined the channel using the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerchannel.html#peer-channel-getinfo">peer channel getinfo</a> command:</p>
+<p>你可以使用 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerchannel.html#peer-channel-getinfo">peer channel getinfo</a> 命令来验证peer节点已经加入了通道：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel getinfo -c channel1</span><br></pre></td></tr></table></figure>
+<p>The command will list the block height of the channel and the hash of the most recent block. Because the genesis block is the only block on the channel, the height of the channel will be 1:</p>
+<p>这个命令会列出通道区块的高度和最新的区块的hash值，因为这个通道上只有一个创世纪区块，所以这个通道上的区块高度是1:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-03-13 10:50:06.978 EDT [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized</span><br><span class="line">Blockchain info: &#123;&quot;height&quot;:1,&quot;currentBlockHash&quot;:&quot;kvtQYYEL2tz0kDCNttPFNC4e6HVUFOGMTIDxZ+DeNQM=&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>We can now join the Org2 peer to the channel. Set the following environment variables to operate the <code>peer</code> CLI as the Org2 admin. The environment variables will also set the Org2 peer, <code>peer0.org1.example.com</code>, as the target peer.</p>
+<p>我们现在可以把组织Org2的peer节点加入通道了。设置下面的环境变量来使用Org2的管理员操作<code>peer</code> CLI。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export CORE_PEER_TLS_ENABLED=true</span><br><span class="line">export CORE_PEER_LOCALMSPID=&quot;Org2MSP&quot;</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:9051</span><br></pre></td></tr></table></figure>
+<p>While we still have the channel genesis block on our file system, in a more realistic scenario, Org2 would have the fetch the block from the ordering service. As an example, we will use the <code>peer channel fetch</code> command to get the genesis block for Org2:</p>
+<p>然而在我们本地系统中仍然存在通道的创世纪区块，在一个更真实的情形中，组织Org2应该从排序服务获取这个区块。例如，我们将使用 <code>peer channel fetch</code>命令来为组织Org2获取创世纪区块：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel fetch 0 ./channel-artifacts/channel_org2.block -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com -c channel1 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>The command uses <code>0</code> to specify that it needs to fetch the genesis block that is required to join the channel. If the command is successful, you should see the following output:</p>
+<p>该命令使用<code>0</code>来指明它需要获取创世纪块，该创世纪区块用于加入通道。如果命令执行成功，你会看到下面的输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-03-13 11:32:06.309 EDT [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized</span><br><span class="line">2020-03-13 11:32:06.336 EDT [cli.common] readBlock -&gt; INFO 002 Received block: 0</span><br></pre></td></tr></table></figure>
+<p>The command returns the channel genesis block and names it <code>channel_org2.block</code> to distinguish it from the block pulled by org1. You can now use the block to join the Org2 peer to the channel:</p>
+<p>这个命令会获取到名为 <code>channel_org2.block</code> 的通道创世纪区块，以与Org1的区块作区分。你现在可以使用这个区块把Org2的peer节点加入到通道：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel join -b ./channel-artifacts/channel_org2.block</span><br></pre></td></tr></table></figure>
+<h2 id="Set-anchor-peers（设置锚节点）">Set anchor peers（设置锚节点）</h2>
+<p>After an organizations has joined their peers to the channel, they should select at least one of their peers to become an anchor peer. <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/gossip.html#anchor-peers">Anchor peers</a> are required in order to take advantage of features such as private data and service discovery. Each organization should set multiple anchor peers on a channel for redundancy. For more information about gossip and anchor peers, see the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/gossip.html">Gossip data dissemination protocol</a>.</p>
+<p>在一个组织将他们的peer节点加入到通道之后，他们还需要在他们的组织内部选择至少一个peer节点作为锚节点。<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/gossip.html#anchor-peers">Anchor peers</a> 需要锚节点的好处是他能够利用私有数据以及做服务发现。每个组织都应在一个通道上设置多个锚节点以实现冗余。</p>
+<p>The endpoint information of the anchor peers of each organization is included in the channel configuration. Each channel member can specify their anchor peers by updating the channel. We will use the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/configtxlator.html">configtxlator</a> tool to update the channel configuration and select an anchor peer for Org1 and Org2. The process for setting an anchor peer is similar to the steps that are required to make other channel updates and provides an introduction to how to use <code>configtxlator</code> to <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/config_update.html">update a channel configuration</a>. You will also need to install the <a target="_blank" rel="noopener" href="https://stedolan.github.io/jq/">jq tool</a> on your local machine.</p>
+<p>通道配置中包含每个组织的锚节点的终点信息。每个组织都可以通过更新通道配置来知名他们的锚节点。我们会使用 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/configtxlator.html">configtxlator</a>工具来更新通道配置并且为组织Org1和Org2各选择一个锚节点。设置锚节点的流程与教程<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/config_update.html">update a channel configuration</a>的步骤很类似。你还需要在你的本地安装<a target="_blank" rel="noopener" href="https://stedolan.github.io/jq/">jq</a> 工具。</p>
+<p>We will start by selecting an anchor peer as Org1. The first step is to pull the most recent channel configuration block using the <code>peer channel fetch</code> command. Set the following environment variables to operate the <code>peer</code> CLI as the Org1 admin:</p>
+<p>我们先以Org1的身份来选择一个锚节点。第一步是使用<code>peer channel fetch</code> 命令拉去最新的通道配置区块。设置环境变量以Org1管理员的身份操作 <code>peer</code> CLI ：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export FABRIC_CFG_PATH=$PWD/../config/</span><br><span class="line">export CORE_PEER_TLS_ENABLED=true</span><br><span class="line">export CORE_PEER_LOCALMSPID=&quot;Org1MSP&quot;</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:7051</span><br></pre></td></tr></table></figure>
+<p>You can use the following command to fetch the channel configuration:</p>
+<p>你可以通过下面的命令来获取通道配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel fetch config channel-artifacts/config_block.pb -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com -c channel1 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>Because the most recent channel configuration block is the channel genesis block, you will see the command return block 0 from the channel.</p>
+<p>因为最新的通道配置区块是通道的创世纪区块，你会看到该命令会返回通道上的0区块。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2020-12-23 16:37:33.686 CST [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized</span><br><span class="line">2020-12-23 16:37:33.689 CST [cli.common] readBlock -&gt; INFO 002 Received block: 0</span><br><span class="line">2020-12-23 16:37:33.689 CST [channelCmd] fetch -&gt; INFO 003 Retrieving last config block: 0</span><br><span class="line">2020-12-23 16:37:33.693 CST [cli.common] readBlock -&gt; INFO 004 Received block: 0</span><br></pre></td></tr></table></figure>
+<p>The channel configuration block was stored in the <code>channel-artifacts</code> folder to keep the update process separate from other artifacts. Change into the <code>channel-artifacts</code> folder to complete the next steps:</p>
+<p>通道配置区块被存储在channel-artifacts目录下，以使更新流程与其他的组件区分开。进入 <code>channel-artifacts</code> 目录下来完成接下来的步骤：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd channel-artifacts</span><br></pre></td></tr></table></figure>
+<p>We can now start using the <code>configtxlator</code> tool to start working with the channel configuration. The first step is to decode the block from protobuf into a JSON object that can be read and edited. We also strip away the unnecessary block data, leaving only the channel configuration.</p>
+<p>我们现在开始使用 <code>configtxlator</code> 工具和通道配置一起工作。第一步是将来自区块的protobuf格式解码为可以读取和编辑的JSON格式。我们还将去除不必要的块数据，仅保留通道配置。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">configtxlator proto_decode --input config_block.pb --type common.Block --output config_block.json</span><br><span class="line">jq .data.data[0].payload.data.config config_block.json &gt; config.json</span><br></pre></td></tr></table></figure>
+<p>These commands convert the channel configuration block into a streamlined JSON, <code>config.json</code>, that will serve as the baseline for our update. Because we don’t want to edit this file directly, we will make a copy that we can edit. We will use the original channel config in a future step.</p>
+<p>这些命令将通道配置区块转换为简化的JSON格式的文件<code>config.json</code>，它将作为我们更新的基准。因为我们不想直接编辑这个文件，我们会先创建一个可以编辑的副本。我们将在以后的步骤中使用原始的通道配置。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp config.json config_copy.json</span><br></pre></td></tr></table></figure>
+<p>You can use the <code>jq</code> tool to add the Org1 anchor peer to the channel configuration.</p>
+<p>你可以使用<code>jq</code> 工具来添加Org1组织的锚节点到通道配置。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jq &#x27;.channel_group.groups.Application.groups.Org1MSP.values += &#123;&quot;AnchorPeers&quot;:&#123;&quot;mod_policy&quot;: &quot;Admins&quot;,&quot;value&quot;:&#123;&quot;anchor_peers&quot;: [&#123;&quot;host&quot;: &quot;peer0.org1.example.com&quot;,&quot;port&quot;: 7051&#125;]&#125;,&quot;version&quot;: &quot;0&quot;&#125;&#125;&#x27; config_copy.json &gt; modified_config.json</span><br></pre></td></tr></table></figure>
+<p>After this step, we have an updated version of channel configuration in JSON format in the <code>modified_config.json</code> file. We can now convert both the original and modified channel configurations back into protobuf format and calculate the difference between them.</p>
+<p>完成此步骤后，我们在<code>modified_config.json</code>文件中以JSON格式获取了通道配置的更新版本。现在，我们可以将原始的和修改后的通道配置都转换回protobuf格式，并计算它们之间的差异。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">configtxlator proto_encode --input config.json --type common.Config --output config.pb</span><br><span class="line">configtxlator proto_encode --input modified_config.json --type common.Config --output modified_config.pb</span><br><span class="line">configtxlator compute_update --channel_id channel1 --original config.pb --updated modified_config.pb --output config_update.pb</span><br></pre></td></tr></table></figure>
+<p>The new protobuf named <code>channel_update.pb</code> contains the anchor peer update that we need to apply to the channel configuration. We can wrap the configuration update in a transaction envelope to create the channel configuration update transaction.</p>
+<p>格式为protobuf的新的<code>channel_update.pb</code>文件包含我们需要应用于通道配置上的锚节点更新。我们可以将配置更新包装在交易信封中以创建通道配置更新交易。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">configtxlator proto_decode --input config_update.pb --type common.ConfigUpdate --output config_update.json</span><br><span class="line">echo &#x27;&#123;&quot;payload&quot;:&#123;&quot;header&quot;:&#123;&quot;channel_header&quot;:&#123;&quot;channel_id&quot;:&quot;channel1&quot;, &quot;type&quot;:2&#125;&#125;,&quot;data&quot;:&#123;&quot;config_update&quot;:&#x27;$(cat config_update.json)&#x27;&#125;&#125;&#125;&#x27; | jq . &gt; config_update_in_envelope.json</span><br><span class="line">configtxlator proto_encode --input config_update_in_envelope.json --type common.Envelope --output config_update_in_envelope.pb</span><br></pre></td></tr></table></figure>
+<p>We can now use the final artifact, <code>config_update_in_envelope.pb</code>, that can be used to update the channel. Navigate back to the <code>test-network</code> directory:</p>
+<p>现在，我们可以使用最终工件<code>config_update_in_envelope.pb</code>，该工件可以用于更新通道。回到<code>test-network</code> 目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br></pre></td></tr></table></figure>
+<p>We can add the anchor peer by providing the new channel configuration to the <code>peer channel update</code> command. Because we are updating a section of the channel configuration that only affects Org1, other channel members do not need to approve the channel update.</p>
+<p>我们可以通过向<code>peer channel update</code>命令提供新的通道配置来添加锚节点。因为我们正在更新仅影响Org1的部分通道配置，所以其他通道成员不需要批准通道更新。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel update -f channel-artifacts/config_update_in_envelope.pb -c channel1 -o localhost:7050  --ordererTLSHostnameOverride orderer.example.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>When the channel update is successful, you should see the following response:</p>
+<p>当渠道更新成功后，你会看到下面的响应：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-12-23 17:05:48.187 CST [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized</span><br><span class="line">2020-12-23 17:05:48.222 CST [channelCmd] update -&gt; INFO 002 Successfully submitted channel update</span><br></pre></td></tr></table></figure>
+<p>We can set the anchor peers for Org2. Because we are going through the process a second time, we will go through the steps more quickly. Set the environment variables to operate the <code>peer</code> CLI as the Org2 admin:</p>
+<p>我们可以为Org2设置锚节点。因为我们是第二次进行该过程，所以我们将更快地完成这些步骤。设置环境变量以Org2管理员的身份操作 <code>peer</code> CLI ：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export CORE_PEER_TLS_ENABLED=true</span><br><span class="line">export CORE_PEER_LOCALMSPID=&quot;Org2MSP&quot;</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:9051</span><br></pre></td></tr></table></figure>
+<p>Pull the latest channel configuration block, which is now the second block on the channel:</p>
+<p>拉去最新的通道配置区块，即目前通道上的第二个区块：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel fetch config channel-artifacts/config_block.pb -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com -c channel1 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>Navigate back to the <code>channel-artifacts</code> directory（切换回 <code>channel-artifacts</code> 目录）:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd channel-artifacts</span><br></pre></td></tr></table></figure>
+<p>You can then decode and copy the configuration block.（你可以解码并复制配置区块）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">configtxlator proto_decode --input config_block.pb --type common.Block --output config_block.json</span><br><span class="line">jq .data.data[0].payload.data.config config_block.json &gt; config.json</span><br><span class="line">cp config.json config_copy.json</span><br></pre></td></tr></table></figure>
+<p>Add the Org2 peer that is joined to the channel as the anchor peer in the channel configuration:</p>
+<p>在通道配置中添加Org2的已经加入通道的节点作为锚节点:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jq &#x27;.channel_group.groups.Application.groups.Org2MSP.values += &#123;&quot;AnchorPeers&quot;:&#123;&quot;mod_policy&quot;: &quot;Admins&quot;,&quot;value&quot;:&#123;&quot;anchor_peers&quot;: [&#123;&quot;host&quot;: &quot;peer0.org2.example.com&quot;,&quot;port&quot;: 9051&#125;]&#125;,&quot;version&quot;: &quot;0&quot;&#125;&#125;&#x27; config_copy.json &gt; modified_config.json</span><br></pre></td></tr></table></figure>
+<p>We can now convert both the original and updated channel configurations back into protobuf format and calculate the difference between them.</p>
+<p>我们可以将原始的和修改后的通道配置都转换回protobuf格式，并计算它们之间的差异。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">configtxlator proto_encode --input config.json --type common.Config --output config.pb</span><br><span class="line">configtxlator proto_encode --input modified_config.json --type common.Config --output modified_config.pb</span><br><span class="line">configtxlator compute_update --channel_id channel1 --original config.pb --updated modified_config.pb --output config_update.pb</span><br></pre></td></tr></table></figure>
+<p>Wrap the configuration update in a transaction envelope to create the channel configuration update transaction:</p>
+<p>将配置更新包装在交易信封中以创建通道配置更新交易：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">configtxlator proto_decode --input config_update.pb --type common.ConfigUpdate --output config_update.json</span><br><span class="line">echo &#x27;&#123;&quot;payload&quot;:&#123;&quot;header&quot;:&#123;&quot;channel_header&quot;:&#123;&quot;channel_id&quot;:&quot;channel1&quot;, &quot;type&quot;:2&#125;&#125;,&quot;data&quot;:&#123;&quot;config_update&quot;:&#x27;$(cat config_update.json)&#x27;&#125;&#125;&#125;&#x27; | jq . &gt; config_update_in_envelope.json</span><br><span class="line">configtxlator proto_encode --input config_update_in_envelope.json --type common.Envelope --output config_update_in_envelope.pb</span><br></pre></td></tr></table></figure>
+<p>Navigate back to the <code>test-network</code> directory.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br></pre></td></tr></table></figure>
+<p>Update the channel and set the Org2 anchor peer by issuing the following command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel update -f channel-artifacts/config_update_in_envelope.pb -c channel1 -o localhost:7050  --ordererTLSHostnameOverride orderer.example.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>You can confirm that the channel has been updated successfully by running the <code>peer channel info</code> command:</p>
+<p>你可以使用 <code>peer channel info</code>命令来确认通道已经成功更新。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel getinfo -c channel1</span><br></pre></td></tr></table></figure>
+<p>Now that the channel has been updated by adding two channel configuration blocks to the channel genesis block, the height of the channel will have grown to three:</p>
+<p>现在已经通过在创世纪区块上添加两个通道配置区块更新了通道，通道的区块高度会增长到3:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-12-23 17:19:08.620 CST [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized</span><br><span class="line">Blockchain info: &#123;&quot;height&quot;:3,&quot;currentBlockHash&quot;:&quot;0xMLgGnvbUE+gfDpxjbfB1OsxROF3djLzPX9S76ai2I=&quot;,&quot;previousBlockHash&quot;:&quot;6oIrHH8zjeOuhlj2/rrpzxh0pNmGOdPTDjiphJwCXcQ=&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Deploy-a-chaincode-to-the-new-channel（部署链码到新通道上）">Deploy a chaincode to the new channel（部署链码到新通道上）</h2>
+<p>We can confirm that the channel was created successfully by deploying a chaincode to the channel. We can use the <code>network.sh</code> script to deploy the Basic asset transfer chaincode to any test network channel. Deploy a chaincode to our new channel using the following command:</p>
+<p>我们可以通过在通道上部署链码来确认通道已经创建成功。我们可以使用 <code>network.sh</code> 脚本部署Basic asset transfer 链码到任何测试通道，使用下面的命令将链码部署到新通道上：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./network.sh deployCC -ccn basic -ccp ../asset-transfer-basic/chaincode-go/ -ccl go -c channel1 -cci InitLedger</span><br></pre></td></tr></table></figure>
+<p>After you run the command, you should see the chaincode being deployed to the channel in your logs. The chaincode is invoked to add data to the channel ledger.</p>
+<p>运行命令后，您应该在日志中看到链码已部署到通道。调用链码将数据添加到通道账本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -C channel1 -n basic -c &#x27;&#123;&quot;Args&quot;:[&quot;getAllAssets&quot;]&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>After you run the query, you should see the assets that were added to the channel ledger.</p>
+<p>在运行查询之后，你会看到已经添加到通道账本上的资产列表。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#123;&quot;ID&quot;:&quot;asset1&quot;,&quot;color&quot;:&quot;blue&quot;,&quot;size&quot;:5,&quot;owner&quot;:&quot;Tomoko&quot;,&quot;appraisedValue&quot;:300&#125;,&#123;&quot;ID&quot;:&quot;asset2&quot;,&quot;color&quot;:&quot;red&quot;,&quot;size&quot;:5,&quot;owner&quot;:&quot;Brad&quot;,&quot;appraisedValue&quot;:400&#125;,&#123;&quot;ID&quot;:&quot;asset3&quot;,&quot;color&quot;:&quot;green&quot;,&quot;size&quot;:10,&quot;owner&quot;:&quot;Jin Soo&quot;,&quot;appraisedValue&quot;:500&#125;,&#123;&quot;ID&quot;:&quot;asset4&quot;,&quot;color&quot;:&quot;yellow&quot;,&quot;size&quot;:10,&quot;owner&quot;:&quot;Max&quot;,&quot;appraisedValue&quot;:600&#125;,&#123;&quot;ID&quot;:&quot;asset5&quot;,&quot;color&quot;:&quot;black&quot;,&quot;size&quot;:15,&quot;owner&quot;:&quot;Adriana&quot;,&quot;appraisedValue&quot;:700&#125;,&#123;&quot;ID&quot;:&quot;asset6&quot;,&quot;color&quot;:&quot;white&quot;,&quot;size&quot;:15,&quot;owner&quot;:&quot;Michel&quot;,&quot;appraisedValue&quot;:800&#125;]</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel"><span class="toc-number">1.</span> <span class="toc-text">创建一个新的channel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Setting-up-the-configtxgen-tool%EF%BC%88%E8%AE%BE%E7%BD%AEconfigtxgen%E5%B7%A5%E5%85%B7%EF%BC%89"><span class="toc-number">1.0.1.</span> <span class="toc-text">Setting up the configtxgen tool（设置configtxgen工具）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-configtx-yaml-file%EF%BC%88configtx-yaml%E6%96%87%E4%BB%B6%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">The configtx.yaml file（configtx.yaml文件）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Start-the-network%EF%BC%88%E5%90%AF%E5%8A%A8%E7%BD%91%E7%BB%9C%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">Start the network（启动网络）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-orderer-system-channel%EF%BC%88%E6%8E%92%E5%BA%8F%E7%B3%BB%E7%BB%9F%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">The orderer system channel（排序系统通道）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Creating-an-application-channel%EF%BC%88%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">Creating an application channel（创建一个应用通道）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Join-peers-to-the-channel%EF%BC%88%E6%8A%8A%E8%8A%82%E7%82%B9%E5%8A%A0%E5%85%A5%E9%80%9A%E9%81%93%E4%B8%AD%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">Join peers to the channel（把节点加入通道中）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-anchor-peers%EF%BC%88%E8%AE%BE%E7%BD%AE%E9%94%9A%E8%8A%82%E7%82%B9%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">Set anchor peers（设置锚节点）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deploy-a-chaincode-to-the-new-channel%EF%BC%88%E9%83%A8%E7%BD%B2%E9%93%BE%E7%A0%81%E5%88%B0%E6%96%B0%E9%80%9A%E9%81%93%E4%B8%8A%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">Deploy a chaincode to the new channel（部署链码到新通道上）</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&text=创建一个新的channel"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&title=创建一个新的channel"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&is_video=false&description=创建一个新的channel"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=创建一个新的channel&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&title=创建一个新的channel"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&title=创建一个新的channel"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&title=创建一个新的channel"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&title=创建一个新的channel"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&name=创建一个新的channel&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84channel/&t=创建一个新的channel"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

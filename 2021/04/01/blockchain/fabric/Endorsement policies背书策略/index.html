@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="背书策略 官方文档：Endorsement policies 。。。省略部分 Setting chaincode-level endorsement policies(设置链码级别的背书策略) Chaincode-level endorsement policies are agreed to by channel members when they approve a chaincode def">
+<meta property="og:type" content="article">
+<meta property="og:title" content="背书策略（Endorsement policies）">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="背书策略 官方文档：Endorsement policies 。。。省略部分 Setting chaincode-level endorsement policies(设置链码级别的背书策略) Chaincode-level endorsement policies are agreed to by channel members when they approve a chaincode def">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-01T10:18:21.466Z">
+<meta property="article:modified_time" content="2021-04-01T10:18:21.467Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="Endorsement policies">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>背书策略（Endorsement policies）</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/fabric/Application/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%AE%9E%E8%B7%B5/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&text=背书策略（Endorsement policies）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&title=背书策略（Endorsement policies）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&is_video=false&description=背书策略（Endorsement policies）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=背书策略（Endorsement policies）&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&title=背书策略（Endorsement policies）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&title=背书策略（Endorsement policies）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&title=背书策略（Endorsement policies）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&title=背书策略（Endorsement policies）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&name=背书策略（Endorsement policies）&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&t=背书策略（Endorsement policies）"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5"><span class="toc-number">1.</span> <span class="toc-text">背书策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Setting-chaincode-level-endorsement-policies-%E8%AE%BE%E7%BD%AE%E9%93%BE%E7%A0%81%E7%BA%A7%E5%88%AB%E7%9A%84%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5"><span class="toc-number">1.1.</span> <span class="toc-text">Setting chaincode-level endorsement policies(设置链码级别的背书策略)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AA%E4%BA%BA%E9%AA%8C%E8%AF%81"><span class="toc-number">1.1.1.</span> <span class="toc-text">个人验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Endorsement-policy-syntax%EF%BC%88%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5%E7%9A%84%E8%AF%AD%E6%B3%95%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">Endorsement policy syntax（背书策略的语法）</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        背书策略（Endorsement policies）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-01T10:18:21.466Z" itemprop="datePublished">2021-04-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Endorsement-policies/" rel="tag">Endorsement policies</a>, <a class="tag-link-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="背书策略">背书策略</h1>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/latest/endorsement-policies.html#endorsement-policy-syntax">Endorsement policies</a></p>
+<p>。。。省略部分</p>
+<h2 id="Setting-chaincode-level-endorsement-policies-设置链码级别的背书策略">Setting chaincode-level endorsement policies(设置链码级别的背书策略)</h2>
+<p>Chaincode-level endorsement policies are agreed to by channel members when they approve a chaincode definition for their organization. A sufficient number of channel members need to approve a chaincode definition to meet the <code>Channel/Application/LifecycleEndorsement</code> policy, which by default is set to a majority of channel members, before the definition can be committed to the channel. Once the definition has been committed, the chaincode is ready to use. Any invoke of the chaincode that writes data to the ledger will need to be validated by enough channel members to meet the endorsement policy.</p>
+<p>通道成员在为其组织批准链码定义时，会同意链码级认可策略。需要足够数量的通道成员批准链码定义才能满足Channel / Application / LifecycleEndorsement策略，该策略默认情况下设置为大多数通道成员，然后才能将链码定义提交给通道。提交定义后，便可以使用链码了。任何将数据写入账本的链码的调用都需要由足够的通道成员来验证，以满足背书策略。</p>
+<p>You can specify an endorsement policy for a chaincode using the Fabric SDKs. For an example, visit the <a target="_blank" rel="noopener" href="https://hyperledger.github.io/fabric-sdk-node/master/tutorial-chaincode-lifecycle.html">How to install and start your chaincode</a> in the Node.js SDK documentation. You can also create an endorsement policy from your CLI when you approve and commit a chaincode definition with the Fabric peer binaries by using the <code>--signature-policy</code> flag.</p>
+<p>你可以使用Fabric SDKs来为链码指定背书策略，访问<a target="_blank" rel="noopener" href="https://hyperledger.github.io/fabric-sdk-node/master/tutorial-chaincode-lifecycle.html">How to install and start your chaincode</a>来查看使用Node.js SDK的文档。你也可以通过CLI在批准和提交链码定义时来创建背书策略，使用Fabric的peer可执行程序时使用 <code>--signature-policy</code> 标志来实现这个功能。</p>
+<p>For example：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode approveformyorg --channelID mychannel --signature-policy &quot;AND(&#x27;Org1.member&#x27;, &#x27;Org2.member&#x27;)&quot; --name mycc --version 1.0 --package-id mycc_1:3a8c52d70c36313cfebbaf09d8616e7a6318ababa01c7cbe40603c373bcfe173 --sequence 1 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem --waitForEvent</span><br></pre></td></tr></table></figure>
+<p>The above command approves the chaincode definition of <code>mycc</code> with the policy <code>AND('Org1.member', 'Org2.member')</code> which would require that a member of both Org1 and Org2 sign the transaction. After a sufficient number of channel members approve a chaincode definition for <code>mycc</code>, the definition and endorsement policy can be committed to the channel using the command below:</p>
+<p>上面的命令使用 <code>AND('Org1.member', 'Org2.member')</code> 策略来批准<code>mycc</code>的链码定义，这个策略要求Org1和Org2的成员都需要对一笔交易进行签名。在有足够的通道成员批准了<code>mycc</code>的链码定义之后，这个定义和背书策略就可以使用下面的命令被提交到通道了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode commit -o orderer.example.com:7050 --channelID mychannel --signature-policy &quot;AND(&#x27;Org1.member&#x27;, &#x27;Org2.member&#x27;)&quot; --name mycc --version 1.0 --sequence 1 --init-required --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem --waitForEvent --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br></pre></td></tr></table></figure>
+<p>Notice that, if the identity classification is enabled (see <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/latest/msp.html">Membership Service Providers (MSP)</a>), one can use the <code>PEER</code> role to restrict endorsement to only peers.</p>
+<p>请注意，如果启用了身份分类（请参阅 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/latest/msp.html">Membership Service Providers (MSP)</a>），则可以使用<code>PEER</code>角色将背书限制为仅peer节点。</p>
+<p>For example:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode approveformyorg --channelID mychannel --signature-policy &quot;AND(&#x27;Org1.peer&#x27;, &#x27;Org2.peer&#x27;)&quot; --name mycc --version 1.0 --package-id mycc_1:3a8c52d70c36313cfebbaf09d8616e7a6318ababa01c7cbe40603c373bcfe173 --sequence 1 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem --waitForEvent</span><br></pre></td></tr></table></figure>
+<p>In addition to the specifying an endorsement policy from the CLI or SDK, a chaincode can also use policies in the channel configuration as endorsement policies. You can use the <code>--channel-config-policy</code> flag to select a channel policy with format used by the channel configuration and by ACLs.</p>
+<p>除了从CLI或SDK中指定背书策略以外，链码还可以使用通道配置中的策略作为背书策略。你可以使用<code>--channel-config-policy</code>标志来选择一个通道策略，其格式由通道配置和ACL使用。</p>
+<p>For example:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode approveformyorg --channelID mychannel --channel-config-policy Channel/Application/Admins --name mycc --version 1.0 --package-id mycc_1:3a8c52d70c36313cfebbaf09d8616e7a6318ababa01c7cbe40603c373bcfe173 --sequence 1 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem --waitForEvent</span><br></pre></td></tr></table></figure>
+<p>If you do not specify a policy, the chaincode definition will use the <code>Channel/Application/Endorsement</code> policy by default, which requires that a transaction be validated by a majority of channel members. This policy depends on the membership of the channel, so it will be updated automatically when organizations are added or removed from a channel. One advantage of using channel policies is that they can be written to be updated automatically with channel membership.</p>
+<p>如果你不指定背书策略，链码定义会使用默认的 <code>Channel/Application/Endorsement</code>策略，这个策略要求交易必须经过大多数通道成员的验证。该策略取决于通道成员，因此从通道中添加或删除组织时，它将自动更新。使用通道策略的一个优势是，可以将其编写为根据通道成员数量自动更新。</p>
+<p>If you specify an endorsement policy using the <code>--signature-policy</code> flag or the SDK, you will need to update the policy when organizations join or leave the channel. A new organization added to the channel after the chaincode has been defined will be able to query a chaincode (provided the query has appropriate authorization as defined by channel policies and any application level checks enforced by the chaincode) but will not be able to execute or endorse the chaincode. Only organizations listed in the endorsement policy syntax will be able sign transactions.</p>
+<p>如果你使用 <code>--signature-policy</code> 标志或者SDK指定了背书策略，你需要在组织加入或者离开通道时更新这个策略。一个新的组织在链码被定义好之后加入这个通道，这个组织可以查询这个链码（提供查询具有通道策略和链码强制执行的任何应用程序级别检查所定义的适当授权），但是不能够执行或认可链码。只有组织在认可策略语法的列表中之后，组织才能签署交易。</p>
+<h3 id="个人验证">个人验证</h3>
+<p>chaincode如果不设置背书策略，则默认的背书策略是：<code> /Channel/Application/Endorsement</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">apple$</span><span class="bash"> peer lifecycle chaincode querycommitted --channelID alljoinchannel --name secured_supply --output json</span></span><br><span class="line">&#123;</span><br><span class="line">	&quot;sequence&quot;: 6,</span><br><span class="line">	&quot;version&quot;: &quot;3.0&quot;,</span><br><span class="line">	&quot;endorsement_plugin&quot;: &quot;escc&quot;,</span><br><span class="line">	&quot;validation_plugin&quot;: &quot;vscc&quot;,</span><br><span class="line">	&quot;validation_parameter&quot;: &quot;EiAvQ2hhbm5lbC9BcHBsaWNhdGlvbi9FbmRvcnNlbWVudA==&quot;,</span><br><span class="line">	&quot;collections&quot;: &#123;&#125;,</span><br><span class="line">	&quot;approvals&quot;: &#123;</span><br><span class="line">		&quot;GylCoreOrg1MSP&quot;: true,</span><br><span class="line">		&quot;GylFOrg1MSP&quot;: true,</span><br><span class="line">		&quot;GylSOrg1MSP&quot;: true,</span><br><span class="line">		&quot;GylSOrg2MSP&quot;: true</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置背书策略为<code>--signature-policy &quot;OR('GylCoreOrg1MSP.peer','GylFOrg1MSP.peer','GylSOrg1MSP.peer','GylSOrg2MSP.peer')&quot;</code>，再次查询链码定义：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">apple$</span><span class="bash"> peer lifecycle chaincode querycommitted --channelID alljoinchannel --name secured_supply --output json</span></span><br><span class="line">&#123;</span><br><span class="line">	&quot;sequence&quot;: 7,</span><br><span class="line">	&quot;version&quot;: &quot;3.0&quot;,</span><br><span class="line">	&quot;endorsement_plugin&quot;: &quot;escc&quot;,</span><br><span class="line">	&quot;validation_plugin&quot;: &quot;vscc&quot;,</span><br><span class="line">	&quot;validation_parameter&quot;: &quot;CmUSFBISCAESAggAEgIIARICCAISAggDGhQSEgoOR3lsQ29yZU9yZzFNU1AQAxoREg8KC0d5bEZPcmcxTVNQEAMaERIPCgtHeWxTT3JnMU1TUBADGhESDwoLR3lsU09yZzJNU1AQAw==&quot;,</span><br><span class="line">	&quot;collections&quot;: &#123;&#125;,</span><br><span class="line">	&quot;approvals&quot;: &#123;</span><br><span class="line">		&quot;GylCoreOrg1MSP&quot;: true,</span><br><span class="line">		&quot;GylFOrg1MSP&quot;: true,</span><br><span class="line">		&quot;GylSOrg1MSP&quot;: true,</span><br><span class="line">		&quot;GylSOrg2MSP&quot;: true</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解码之后：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">e</span><br><span class="line">GylCoreOrg1MSP</span><br><span class="line">GylFOrg1MSP</span><br><span class="line">GylSOrg1MSP</span><br><span class="line">GylSOrg2MSP</span><br></pre></td></tr></table></figure>
+<h3 id="Endorsement-policy-syntax（背书策略的语法）">Endorsement policy syntax（背书策略的语法）</h3>
+<p>As you can see above, policies are expressed in terms of principals (“principals” are identities matched to a role). Principals are described as <code>'MSP.ROLE'</code>, where <code>MSP</code> represents the required MSP ID and <code>ROLE</code> represents one of the four accepted roles: <code>member</code>, <code>admin</code>, <code>client</code>, and <code>peer</code>.</p>
+<p>正如您在上面看到的那样，策略是根据主体表达的（“主体”是与角色匹配的身份）。主体被描述为<code>'MSP.ROLE'</code>，其中<code>MSP</code>代表所需的MSP ID,<code>ROLE</code> 代表四个公认的角色之一：<code>member</code>, <code>admin</code>, <code>client</code>，和 <code>peer</code>。</p>
+<p>Here are a few examples of valid principals:</p>
+<ul>
+<li><code>'Org0.admin'</code>: any administrator of the <code>Org0</code> MSP</li>
+<li><code>'Org1.member'</code>: any member of the <code>Org1</code> MSP</li>
+<li><code>'Org1.client'</code>: any client of the <code>Org1</code> MSP</li>
+<li><code>'Org1.peer'</code>: any peer of the <code>Org1</code> MSP</li>
+</ul>
+<p>The syntax of the language is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPR(E[, E...])</span><br></pre></td></tr></table></figure>
+<p>Where <code>EXPR</code> is either <code>AND</code>, <code>OR</code>, or <code>OutOf</code>, and <code>E</code> is either a principal (with the syntax described above) or another nested call to <code>EXPR</code>.</p>
+<p><code>EXPR</code> 可以为<code>AND</code>, <code>OR</code>, or <code>OutOf</code>，<code>E</code>可以是一个具有上面语法的主体，也可以是对另一个<code>EXPR</code>的嵌套调用。</p>
+<p>For example:</p>
+<ul>
+<li>
+<p><code>AND('Org1.member', 'Org2.member', 'Org3.member')</code> requests one signature from each of the three principals.</p>
+</li>
+<li>
+<p><code>OR('Org1.member', 'Org2.member')</code> requests one signature from either one of the two principals.</p>
+</li>
+<li>
+<p><code>OR('Org1.member', AND('Org2.member', 'Org3.member'))</code> requests either one signature from a member of the <code>Org1</code> MSP or one signature from a member of the <code>Org2</code> MSP and one signature from a member of the <code>Org3</code> MSP.</p>
+</li>
+<li>
+<p><code>OutOf(1, 'Org1.member', 'Org2.member')</code>, which resolves to the same thing as <code>OR('Org1.member', 'Org2.member')</code>.</p>
+</li>
+<li>
+<p>Similarly, <code>OutOf(2, 'Org1.member', 'Org2.member')</code> is equivalent to <code>AND('Org1.member', 'Org2.member')</code>, and <code>OutOf(2, 'Org1.member', 'Org2.member', 'Org3.member')</code> is equivalent to <code>OR(AND('Org1.member', 'Org2.member'), AND('Org1.member', 'Org3.member'), AND('Org2.member', 'Org3.member'))</code>.</p>
+</li>
+</ul>
+<p>例如：</p>
+<ul>
+<li>
+<p><code>AND('Org1.member', 'Org2.member', 'Org3.member')</code> 三个主体都需要进行签名。</p>
+</li>
+<li>
+<p><code>OR('Org1.member', 'Org2.member')</code> 只需要两个主体的其中一个提供签名。</p>
+</li>
+<li>
+<p><code>OR('Org1.member', AND('Org2.member', 'Org3.member'))</code> 需要Org1提供签名，或者需要Org2和Org3同时提供签名。</p>
+</li>
+<li>
+<p><code>OutOf(1, 'Org1.member', 'Org2.member')</code>, 和 <code>OR('Org1.member', 'Org2.member')</code>做的事情一样。</p>
+</li>
+<li>
+<p>相似的, <code>OutOf(2, 'Org1.member', 'Org2.member')</code> 与 <code>AND('Org1.member', 'Org2.member')</code>相同</p>
+</li>
+<li>
+<p><code>OutOf(2, 'Org1.member', 'Org2.member', 'Org3.member')</code> 与 <code>OR(AND('Org1.member', 'Org2.member'), AND('Org1.member', 'Org3.member'), AND('Org2.member', 'Org3.member'))</code>相同。</p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5"><span class="toc-number">1.</span> <span class="toc-text">背书策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Setting-chaincode-level-endorsement-policies-%E8%AE%BE%E7%BD%AE%E9%93%BE%E7%A0%81%E7%BA%A7%E5%88%AB%E7%9A%84%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5"><span class="toc-number">1.1.</span> <span class="toc-text">Setting chaincode-level endorsement policies(设置链码级别的背书策略)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AA%E4%BA%BA%E9%AA%8C%E8%AF%81"><span class="toc-number">1.1.1.</span> <span class="toc-text">个人验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Endorsement-policy-syntax%EF%BC%88%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5%E7%9A%84%E8%AF%AD%E6%B3%95%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">Endorsement policy syntax（背书策略的语法）</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&text=背书策略（Endorsement policies）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&title=背书策略（Endorsement policies）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&is_video=false&description=背书策略（Endorsement policies）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=背书策略（Endorsement policies）&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&title=背书策略（Endorsement policies）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&title=背书策略（Endorsement policies）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&title=背书策略（Endorsement policies）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&title=背书策略（Endorsement policies）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&name=背书策略（Endorsement policies）&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/&t=背书策略（Endorsement policies）"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

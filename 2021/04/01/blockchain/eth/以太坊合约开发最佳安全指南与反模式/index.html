@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="安全 以太坊智能合约 —— 最佳安全开发指南： 最佳实践中所体现出的这些特性，其实是所有软件开发中都需要的；而在智能合约代码中尤其重要是因为合约一旦部署无法再做任何更改。  最小化&#x2F;简单化 代码重用 代码质量 可读性和可审计性 测试覆盖率  安全风险和反模式 有漏洞合约的例子 重入 最有名的例子就是The DAO，code： 12345678910111213function getBalance">
+<meta property="og:type" content="article">
+<meta property="og:title" content="以太坊合约开发最佳安全指南与反模式">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="安全 以太坊智能合约 —— 最佳安全开发指南： 最佳实践中所体现出的这些特性，其实是所有软件开发中都需要的；而在智能合约代码中尤其重要是因为合约一旦部署无法再做任何更改。  最小化&#x2F;简单化 代码重用 代码质量 可读性和可审计性 测试覆盖率  安全风险和反模式 有漏洞合约的例子 重入 最有名的例子就是The DAO，code： 12345678910111213function getBalance">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-01T10:18:21.461Z">
+<meta property="article:modified_time" content="2021-04-01T10:18:21.461Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="ethereum">
+<meta property="article:tag" content="智能合约">
+<meta property="article:tag" content="solidity">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>以太坊合约开发最佳安全指南与反模式</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BD%BF%E7%94%A8MetaMask%E9%92%B1%E5%8C%85%E5%8F%91%E8%B5%B7%E4%BA%A4%E6%98%93/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&text=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&title=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&is_video=false&description=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=以太坊合约开发最佳安全指南与反模式&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&title=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&title=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&title=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&title=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&name=以太坊合约开发最佳安全指南与反模式&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&t=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8"><span class="toc-number">1.</span> <span class="toc-text">安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-%E2%80%94%E2%80%94-%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">以太坊智能合约 —— 最佳安全开发指南：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E5%92%8C%E5%8F%8D%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">安全风险和反模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E6%BC%8F%E6%B4%9E%E5%90%88%E7%BA%A6%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-number">1.2.1.</span> <span class="toc-text">有漏洞合约的例子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%85%A5"><span class="toc-number">1.2.2.</span> <span class="toc-text">重入</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%95%B0%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.</span> <span class="toc-text">算数溢出</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v2"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%84%8F%E5%A4%96%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%B8%81"><span class="toc-number">1.3.1.</span> <span class="toc-text">意外的以太币</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%99%E4%BC%9A%E5%AF%BC%E8%87%B4%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%E5%91%A2%EF%BC%9F"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">这会导致什么问题呢？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v3"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DELEGATECALL"><span class="toc-number">1.3.2.</span> <span class="toc-text">DELEGATECALL</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v4"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%9A%84%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="toc-number">1.3.3.</span> <span class="toc-text">默认的可见性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v5"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E5%BA%8F%E9%94%99%E8%A7%89"><span class="toc-number">1.3.4.</span> <span class="toc-text">无序错觉</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v6"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E5%90%88%E7%BA%A6%E5%BC%95%E7%94%A8"><span class="toc-number">1.3.5.</span> <span class="toc-text">外部合约引用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v7"><span class="toc-number">1.3.5.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9F%AD%E5%9C%B0%E5%9D%80-%E5%8F%82%E6%95%B0%E6%94%BB%E5%87%BB"><span class="toc-number">1.3.6.</span> <span class="toc-text">短地址&#x2F;参数攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E7%9A%84%E7%BB%86%E8%8A%82"><span class="toc-number">1.3.6.1.</span> <span class="toc-text">漏洞的细节</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v8"><span class="toc-number">1.3.6.2.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AA%E6%A3%80%E6%9F%A5%E7%9A%84%E8%B0%83%E7%94%A8%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">1.3.7.</span> <span class="toc-text">未检查的调用返回值</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v9"><span class="toc-number">1.3.7.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%9E%E4%BA%89%E6%9D%A1%E4%BB%B6-%E9%A2%84%E5%85%88%E4%BA%A4%E6%98%93"><span class="toc-number">1.3.8.</span> <span class="toc-text">竞争条件&#x2F;预先交易</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v10"><span class="toc-number">1.3.8.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.3.9.</span> <span class="toc-text">拒绝服务</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%8F%AF%E8%A2%AB%E5%A4%96%E9%83%A8%E6%93%8D%E7%BA%B5%E7%9A%84%E6%98%A0%E5%B0%84%E6%88%96%E6%95%B0%E7%BB%84%E7%9A%84%E5%BE%AA%E7%8E%AF"><span class="toc-number">1.3.9.1.</span> <span class="toc-text">基于可被外部操纵的映射或数组的循环</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BB%E4%BA%BA%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.9.2.</span> <span class="toc-text">主人的操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E6%9D%A5%E4%BF%AE%E6%94%B9%E7%8A%B6%E6%80%81"><span class="toc-number">1.3.9.3.</span> <span class="toc-text">基于外部调用来修改状态</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v11"><span class="toc-number">1.3.9.4.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%BA%E5%9D%97%E6%97%B6%E9%97%B4%E6%88%B3%E6%93%8D%E7%BA%B5"><span class="toc-number">1.3.10.</span> <span class="toc-text">区块时间戳操纵</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v12"><span class="toc-number">1.3.10.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%8F%E5%BF%83%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.11.</span> <span class="toc-text">小心使用构造函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v13"><span class="toc-number">1.3.11.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%AD%98%E5%82%A8%E6%8C%87%E9%92%88"><span class="toc-number">1.3.12.</span> <span class="toc-text">未初始化的存储指针</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E5%92%8C%E7%B2%BE%E5%BA%A6"><span class="toc-number">1.3.13.</span> <span class="toc-text">浮点数和精度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Tx-Origin"><span class="toc-number">1.3.14.</span> <span class="toc-text">Tx.Origin</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v14"><span class="toc-number">1.3.14.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        以太坊合约开发最佳安全指南与反模式
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-01T10:18:21.461Z" itemprop="datePublished">2021-04-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/ethereum/">ethereum</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link-link" href="/tags/ethereum/" rel="tag">ethereum</a>, <a class="tag-link-link" href="/tags/solidity/" rel="tag">solidity</a>, <a class="tag-link-link" href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" rel="tag">智能合约</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="安全">安全</h2>
+<h3 id="以太坊智能合约-——-最佳安全开发指南："><a target="_blank" rel="noopener" href="https://github.com/ConsenSys/smart-contract-best-practices/blob/master/README-zh.md">以太坊智能合约 —— 最佳安全开发指南</a>：</h3>
+<p>最佳实践中所体现出的这些特性，其实是所有软件开发中都需要的；而在智能合约代码中尤其重要是因为合约一旦部署无法再做任何更改。</p>
+<ul>
+<li>最小化/简单化</li>
+<li>代码重用</li>
+<li>代码质量</li>
+<li>可读性和可审计性</li>
+<li>测试覆盖率</li>
+</ul>
+<h3 id="安全风险和反模式">安全风险和反模式</h3>
+<h4 id="有漏洞合约的例子"><a target="_blank" rel="noopener" href="https://github.com/Arachnid/uscc">有漏洞合约的例子</a></h4>
+<h4 id="重入">重入</h4>
+<p>最有名的例子就是The DAO，code：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function getBalance(address user) constant returns(uint) &#123;</span><br><span class="line">  return userBalances[user];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function addToBalance() &#123;</span><br><span class="line">  userBalances[msg.sender] +&#x3D; msg.amount;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function withdrawBalance() &#123;</span><br><span class="line">  amountToWithdraw &#x3D; userBalances[msg.sender];</span><br><span class="line">  if (!(msg.sender.call.value(amountToWithdraw)())) &#123; throw; &#125;</span><br><span class="line">  userBalances[msg.sender] &#x3D; 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="防范技术">防范技术</h5>
+<ol>
+<li>使用transfer方法转账，因为transfer方法转账时只会带2300gas，这些gas不足以让其他合约再做其他的操作</li>
+<li>在转账之前先修改状态（检查-修改-交互）</li>
+</ol>
+<h3 id="算数溢出">算数溢出</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">pragma solidity&#x3D;0.8.0;</span><br><span class="line"></span><br><span class="line">contract TimeLock &#123;</span><br><span class="line">    mapping(address &#x3D;&gt; uint) public balances;</span><br><span class="line">    </span><br><span class="line">    mapping(address &#x3D;&gt; uint) public lockTime;</span><br><span class="line">    </span><br><span class="line">    function deposit() public payable &#123;</span><br><span class="line">        balances[msg.sender] +&#x3D; msg.value;</span><br><span class="line">        lockTime[msg.sender] &#x3D; block.timestamp + 1 weeks;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function increaseLockTime(uint _secondsToIncrease) public &#123;</span><br><span class="line">        lockTime[msg.sender] +&#x3D; _secondsToIncrease; </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function withdraw() public &#123;</span><br><span class="line">        require(lockTime[msg.sender] &lt; block.timestamp);</span><br><span class="line">        require(balances[msg.sender] &gt; 0);</span><br><span class="line">        balances[msg.sender] &#x3D; 0;</span><br><span class="line">        payable(msg.sender).transfer(balances[msg.sender]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="防范技术-v2">防范技术</h5>
+<p>使用SafeMath库</p>
+<h4 id="意外的以太币">意外的以太币</h4>
+<p>有两种方式在合约没有payable方法时也能够强制给合约转入以太币：</p>
+<ul>
+<li>self-destruct：在一个合约使用selfdestruct函数将代码清除时，可以把需要自毁的合约中的以太币转入到指定的地址</li>
+<li>预先发送的以太币：合约的地址是根据创建这个合约的账户地址和交易nonce通过Keccak256计算出来的，所以其实是可以预先给一个合约发送以太币的</li>
+</ul>
+<h5 id="这会导致什么问题呢？">这会导致什么问题呢？</h5>
+<p>好像有人给我的合约发送以太币并不是什么坏事，不是吗？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">pragma solidity&#x3D;0.8.0;</span><br><span class="line"></span><br><span class="line">contract EtherGame &#123;</span><br><span class="line">    uint public constant three &#x3D; 3;</span><br><span class="line">    uint public constant six &#x3D; 6;</span><br><span class="line">    uint public constant nine &#x3D; 9;</span><br><span class="line">    </span><br><span class="line">    uint public constant finalAmount &#x3D; 10;</span><br><span class="line">    </span><br><span class="line">    mapping(address &#x3D;&gt; uint) public redeemableEther;</span><br><span class="line">    </span><br><span class="line">    function play() public payable &#123;</span><br><span class="line">        require(msg.value &#x3D;&#x3D; 0.5 ether);</span><br><span class="line">        uint currentBalance &#x3D; address(this).balance + msg.value;</span><br><span class="line">        require(currentBalance &lt;&#x3D; finalAmount);</span><br><span class="line">        if (currentBalance &#x3D;&#x3D; three || currentBalance &#x3D;&#x3D; six || currentBalance &#x3D;&#x3D; nine) &#123;</span><br><span class="line">            redeemableEther[msg.sender] +&#x3D; currentBalance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function getRedeem() public &#123;</span><br><span class="line">    </span><br><span class="line">        require(address(this).balance &#x3D;&#x3D; finalAmount);</span><br><span class="line">        uint transferValue &#x3D; redeemableEther[msg.sender];</span><br><span class="line">        require(transferValue &gt; 0);</span><br><span class="line">        redeemableEther[msg.sender] &#x3D; 0;</span><br><span class="line">        payable(msg.sender).transfer(transferValue);</span><br><span class="line">    &#125;</span><br><span class="line">       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="防范技术-v3">防范技术</h5>
+<p>慎用<code>this.balance</code>;如上面的合约可以改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">pragma solidity&#x3D;0.8.0;</span><br><span class="line"></span><br><span class="line">contract EtherGame &#123;</span><br><span class="line">    uint public constant three &#x3D; 3;</span><br><span class="line">    uint public constant six &#x3D; 6;</span><br><span class="line">    uint public constant nine &#x3D; 9;</span><br><span class="line">    </span><br><span class="line">    uint public constant finalAmount &#x3D; 10;</span><br><span class="line">    </span><br><span class="line">    uint public depositedWei;</span><br><span class="line">    </span><br><span class="line">    mapping(address &#x3D;&gt; uint) public redeemableEther;</span><br><span class="line">    </span><br><span class="line">    function play() public payable &#123;</span><br><span class="line">        require(msg.value &#x3D;&#x3D; 0.5 ether);</span><br><span class="line">        uint currentBalance &#x3D; depositedWei + msg.value;</span><br><span class="line">        require(currentBalance &lt;&#x3D; finalAmount);</span><br><span class="line">        if (currentBalance &#x3D;&#x3D; three || currentBalance &#x3D;&#x3D; six || currentBalance &#x3D;&#x3D; nine) &#123;</span><br><span class="line">            redeemableEther[msg.sender] +&#x3D; currentBalance;</span><br><span class="line">        &#125;</span><br><span class="line">        depositedWei +&#x3D; msg.value;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function getRedeem() public &#123;</span><br><span class="line">        require(depositedWei &#x3D;&#x3D; finalAmount);</span><br><span class="line">        uint transferValue &#x3D; redeemableEther[msg.sender];</span><br><span class="line">        require(transferValue &gt; 0);</span><br><span class="line">        redeemableEther[msg.sender] &#x3D; 0;</span><br><span class="line">        payable(msg.sender).transfer(transferValue);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="DELEGATECALL">DELEGATECALL</h4>
+<p>DELEGATECALL调用是使用当前的上下文调用目标合约，并且会以主调用合约的状态来运行。也就是目标合约的状态存储槽的数据会变成主调用合约的状态存储槽的数据。</p>
+<h5 id="防范技术-v4">防范技术</h5>
+<p>DELEGATECALL调用时要非常仔细的注意调用的上下文，并且尽可能的构建无状态的库合约</p>
+<h4 id="默认的可见性">默认的可见性</h4>
+<ul>
+<li>函数的默认可见性是<code>public</code></li>
+<li>状态变量默认可见性是<code>internal</code></li>
+</ul>
+<p>所以如果一个函数忘记了写可见性关键字，则所有人（包括外部账户和合约账户）都可以调用这个函数。</p>
+<h5 id="防范技术-v5">防范技术</h5>
+<p>为合约中的所有函数都明确指定可见性时最佳实践。</p>
+<h4 id="无序错觉">无序错觉</h4>
+<p>以太坊内部几乎没有随机性，如果合约通过判断未来的区块大小、hash、gas上限、时间戳等来进行状态的变更；这些变量都可能被矿工所控制。</p>
+<h5 id="防范技术-v6">防范技术</h5>
+<p>使用外部的oracle最为随机源来保证随机性。如<a target="_blank" rel="noopener" href="https://github.com/randao/randao">RANDAO</a></p>
+<h4 id="外部合约引用">外部合约引用</h4>
+<p>如果一个合约要引用其他的外部合约，如何引用是一个问题；如果在构造方法中通过输入地址来引用，则会有可能因为输错地址而导致引用错误。</p>
+<p>蜜罐合约：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> *Submitted for verification at Etherscan.io on 2018-02-09</span><br><span class="line">*&#x2F;</span><br><span class="line"></span><br><span class="line">pragma solidity ^0.4.19;</span><br><span class="line"></span><br><span class="line">contract Private_Bank</span><br><span class="line">&#123;</span><br><span class="line">    mapping (address &#x3D;&gt; uint) public balances;</span><br><span class="line">    </span><br><span class="line">    uint public MinDeposit &#x3D; 1 ether;</span><br><span class="line">    </span><br><span class="line">    Log TransferLog;</span><br><span class="line">    </span><br><span class="line">    function Private_Bank(address _log)</span><br><span class="line">    &#123;</span><br><span class="line">        TransferLog &#x3D; Log(_log);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function Deposit()</span><br><span class="line">    public</span><br><span class="line">    payable</span><br><span class="line">    &#123;</span><br><span class="line">        if(msg.value &gt;&#x3D; MinDeposit)</span><br><span class="line">        &#123;</span><br><span class="line">            balances[msg.sender]+&#x3D;msg.value;</span><br><span class="line">            TransferLog.AddMessage(msg.sender,msg.value,&quot;Deposit&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function CashOut(uint _am)</span><br><span class="line">    &#123;</span><br><span class="line">        if(_am&lt;&#x3D;balances[msg.sender])</span><br><span class="line">        &#123;</span><br><span class="line">            </span><br><span class="line">            if(msg.sender.call.value(_am)())</span><br><span class="line">            &#123;</span><br><span class="line">                balances[msg.sender]-&#x3D;_am;</span><br><span class="line">                TransferLog.AddMessage(msg.sender,_am,&quot;CashOut&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function() public payable&#123;&#125;    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Log </span><br><span class="line">&#123;</span><br><span class="line">   </span><br><span class="line">    struct Message</span><br><span class="line">    &#123;</span><br><span class="line">        address Sender;</span><br><span class="line">        string  Data;</span><br><span class="line">        uint Val;</span><br><span class="line">        uint  Time;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    Message[] public History;</span><br><span class="line">    </span><br><span class="line">    Message LastMsg;</span><br><span class="line">    </span><br><span class="line">    function AddMessage(address _adr,uint _val,string _data)</span><br><span class="line">    public</span><br><span class="line">    &#123;</span><br><span class="line">        LastMsg.Sender &#x3D; _adr;</span><br><span class="line">        LastMsg.Time &#x3D; now;</span><br><span class="line">        LastMsg.Val &#x3D; _val;</span><br><span class="line">        LastMsg.Data &#x3D; _data;</span><br><span class="line">        History.push(LastMsg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="防范技术-v7">防范技术</h5>
+<ol>
+<li>在构造函数中使用new的方法来引用其他合约</li>
+<li>在引用其他合约时对外部合约地址进行硬编码（就算硬编码也不能100%完全的不输错，但是这很容易审查）</li>
+</ol>
+<h4 id="短地址-参数攻击">短地址/参数攻击</h4>
+<h5 id="漏洞的细节">漏洞的细节</h5>
+<p>当我们向智能合约传递参数时，这些参数需要依照ABI规范进行编码。不过发送的实际数据长度小于标准的参数编码长度也是可以的。在这种情况下，EVM会在数据的末尾补0来使数据长度达到要求。</p>
+<h5 id="防范技术-v8">防范技术</h5>
+<p>所有的外部应用在把输入参数发送到区块链之前都应该对他们进行校验。</p>
+<h4 id="未检查的调用返回值">未检查的调用返回值</h4>
+<p>在使用<code>call</code>或者<code>send</code>进行外部调用时，这两个方法会返回一个<code>bool</code>类型的结果，如果不检查这个结果就继续往下进行，有可能导致<code>call</code>或<code>send</code>的调用失败，而之后的代码执行成功。（很像本应该在同一个事物中执行的两个操作，第一个操作失败了，第二个操作却成功了，最终导致有问题。）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">pragma solidity&#x3D;0.8.0;</span><br><span class="line"></span><br><span class="line">contract Lotto &#123;</span><br><span class="line">    </span><br><span class="line">    address public winner;</span><br><span class="line">    </span><br><span class="line">    bool public payedOut &#x3D; false;</span><br><span class="line">    </span><br><span class="line">    uint public winAmount;</span><br><span class="line">    </span><br><span class="line">    function play() public payable &#123;</span><br><span class="line">        winAmount +&#x3D; msg.value;</span><br><span class="line">        if(msg.sender &#x3D;&#x3D; address(0x2560be5793F9AA00963e163A1287807Feb897e2F)) &#123;</span><br><span class="line">            winner &#x3D; msg.sender;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function sendToWinner() public &#123;</span><br><span class="line">        require(!payedOut);</span><br><span class="line">        payable(winner).send(winAmount);</span><br><span class="line">        payedOut &#x3D; true;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function withdrawLeftOver() public &#123;</span><br><span class="line">        require(payedOut);</span><br><span class="line">        payable(msg.sender).transfer(winAmount);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="防范技术-v9">防范技术</h5>
+<p>尽可能的使用<code>transfer</code>函数而不是<code>send</code>，因为<code>transfer</code>函数会在外部调用失败时revert。</p>
+<h4 id="竞争条件-预先交易">竞争条件/预先交易</h4>
+<p>在目前Pow的共识方式下，以太坊网络上的所有的交易都是由矿工从交易池中选择部分交易打包成区块的，而矿工在打包区块的时候会优先打包gas费多的交易。因此如果一个人监听了交易池中某个合约（如猜谜语）的交易，那么他在看到别人猜中的答案时马上发布一个gas费更高的同样答案的交易就很有可能会提前被确认。</p>
+<h5 id="防范技术-v10">防范技术</h5>
+<p>能够发起这种攻击的人有两种：</p>
+<ol>
+<li>普通用户通过提高交易费的方式进行攻击</li>
+<li>矿工自己对交易进行攻击</li>
+</ol>
+<p>第一种防范方法是设置gas费的上限，这样就能一定程度的避免用户通过提交交易费来进行提前确认。但是这种方式无法防范矿工。</p>
+<p>第二种防范方法是（提交-揭示），即先提交一个答案的hash，然后再提交答案。</p>
+<h4 id="拒绝服务">拒绝服务</h4>
+<h5 id="基于可被外部操纵的映射或数组的循环">基于可被外部操纵的映射或数组的循环</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">contract DistributeTokens &#123;</span><br><span class="line">    </span><br><span class="line">    address public owner;</span><br><span class="line">    </span><br><span class="line">    address[] investors;</span><br><span class="line">    </span><br><span class="line">    uint[] investorTokens;</span><br><span class="line">    </span><br><span class="line">    function inverst() public payable &#123;</span><br><span class="line">        investors.push(msg.sender);</span><br><span class="line">        investorTokens.push(msg.value * 5);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    modifier onlyOwner() &#123;</span><br><span class="line">        require(address(msg.sender) &#x3D;&#x3D; owner);</span><br><span class="line">        _;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function distribute() public onlyOwner &#123;</span><br><span class="line">        for (uint i &#x3D; 0; i &lt; investors.length; i++) &#123;</span><br><span class="line">            transferToken(investors[i], investorTokens[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="主人的操作">主人的操作</h5>
+<p>如果一个合约只能由合约的主人做一些操作才能进入下一个状态，那么如果合约的主人失去了行为能力或者丢失了私钥那么这个合约就永远无法进入下一个状态了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">pragma solidity&#x3D;0.8.0;</span><br><span class="line"></span><br><span class="line">contract ICO &#123;</span><br><span class="line">    </span><br><span class="line">    bool public isFinalized &#x3D; false;</span><br><span class="line">    </span><br><span class="line">    address public owner;</span><br><span class="line">    </span><br><span class="line">    constructor () &#123;</span><br><span class="line">        owner&#x3D; msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    mapping(address &#x3D;&gt; uint) public monery;</span><br><span class="line">    </span><br><span class="line">    function giveMe() public payable &#123;</span><br><span class="line">        monery[msg.sender] +&#x3D; msg.value;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function finalize() public &#123;</span><br><span class="line">        require(msg.sender &#x3D;&#x3D; owner);</span><br><span class="line">        isFinalized &#x3D; true;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function withdraw() public &#123;</span><br><span class="line">        require(isFinalized);</span><br><span class="line">        payable(msg.sender).transfer(monery[msg.sender]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="基于外部调用来修改状态">基于外部调用来修改状态</h5>
+<p>如果一个合约只有把余额转移到外部的某个账户时才能够更改状态，那么外部的那个账户如果没有fallback之类的用于接收以太币的函数的话，当前的函数永远都无法进入下一个状态。</p>
+<h5 id="防范技术-v11">防范技术</h5>
+<p>第一个例子，合约不应该基于一个可以被外部用户人为操纵的数据结构来执行循环。推荐使用取回模式，让每个取款人单独的调用withdraw函数来取回他们各自的代币。</p>
+<p>第二个例子，将主人设定为多重签名合约；或者是使用时间锁（require(msg.sender ==owner || block.timestamp &gt; unlockTime)）。</p>
+<h4 id="区块时间戳操纵">区块时间戳操纵</h4>
+<p>下面的代码，如果时间戳是15的倍数则能取走当前合约的所有余额。但是时间戳是可以被矿工轻微的调整的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">pragma solidity&#x3D;0.8.0;</span><br><span class="line"></span><br><span class="line">contract Roulette &#123;</span><br><span class="line">    uint public pastBlockTime;</span><br><span class="line">    </span><br><span class="line">    constructor() payable &#123;</span><br><span class="line">        </span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    fallback() external payable &#123;</span><br><span class="line">        require(msg.value &#x3D;&#x3D; 10 ether);</span><br><span class="line">        require(block.timestamp !&#x3D; pastBlockTime);</span><br><span class="line">        pastBlockTime &#x3D; block.timestamp;</span><br><span class="line">        if (pastBlockTime % 15 &#x3D;&#x3D; 0) &#123;</span><br><span class="line">            payable(msg.sender).transfer(address(this).balance);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="防范技术-v12">防范技术</h5>
+<p>区块的时间戳不应该被用来作为无序数据或生成随机数，也就是说，他们不应该用来作为游戏的获胜条件或者用来判断一个重要的状态变动。</p>
+<p>如果合约需要感知时间的逻辑，如解锁合约（基于时间锁），在ICO开始几周之后来结束它或者强制指定一个过期时间。有些情况推荐使用block.number和平均区块时间来估算时间条件。</p>
+<h4 id="小心使用构造函数">小心使用构造函数</h4>
+<p>在Solidity v0.4.22之前，和合约名称相同的函数就是构造函数。如果合约修改了名称但是忘了改构造函数的名称，那么这个函数就变成了一个普通的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">pragma solidity&#x3D;0.4.1;</span><br><span class="line"></span><br><span class="line">contract OwnerWallet &#123;</span><br><span class="line">    address public owner;</span><br><span class="line">    </span><br><span class="line">    function ownerWallet() &#123;</span><br><span class="line">        owner &#x3D; msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function () public payable &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function withdraw() public &#123;</span><br><span class="line">        require(msg.sender &#x3D;&#x3D; owner);</span><br><span class="line">        msg.sender.transfer(this.balance);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="防范技术-v13">防范技术</h5>
+<p>Solidity v0.4.22之后的版本的构造函数是通过<code>constructor</code>关键字生命，Solidity的版本变化较快，尽量选择较新的稳定版本。</p>
+<h4 id="未初始化的存储指针">未初始化的存储指针</h4>
+<p>EVM是用存储（storaege）或内存（memory）来保存数据的。函数中轭局部变量默认在存储中还是在内存中，取决于他们的类型。</p>
+<p>// TODO 存储指针这一块还没有搞懂，后续再补充。</p>
+<h4 id="浮点数和精度">浮点数和精度</h4>
+<p>下面的合约<code>buyTokens</code>方法在支付的以太币小于1ether时，得到的token会是0；或者说会把小于1ether的部分全部舍去导致出错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">pragma solidity&#x3D;0.8.0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">contract FunWithNumbers &#123;</span><br><span class="line">    </span><br><span class="line">    uint constant public tokensPerEth &#x3D; 10;</span><br><span class="line">    </span><br><span class="line">    uint constant public weiPerEth &#x3D; 1e18;</span><br><span class="line">    </span><br><span class="line">    mapping(address &#x3D;&gt; uint) public balances;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    function buyTokens() public payable &#123;</span><br><span class="line">        uint tokens &#x3D; msg.value &#x2F; weiPerEth * tokensPerEth;</span><br><span class="line">        balances[msg.sender] &#x3D; tokens;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function sellTokens(uint tokens) public &#123;</span><br><span class="line">        require(tokens &lt; balances[msg.sender]);</span><br><span class="line">        balances[msg.sender] -&#x3D;  tokens;</span><br><span class="line">        payable(msg.sender).transfer(tokens &#x2F; tokensPerEth * weiPerEth);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Tx-Origin">Tx.Origin</h4>
+<p>通过<code>tx.origin</code>变量来判断用户授权的合约一般是易受钓鱼攻击的，这种攻击是通过欺骗用户向有漏洞的合约发送需要授权的操作来实现的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">pragma solidity &#x3D; 0.8.0;</span><br><span class="line"></span><br><span class="line">contract Phishable &#123;</span><br><span class="line">    </span><br><span class="line">    address public owner;</span><br><span class="line">    </span><br><span class="line">    constructor () &#123;</span><br><span class="line">        owner &#x3D; msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    receive() external payable&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function withdrawAll(address _recipient) public &#123;</span><br><span class="line">        require(tx.origin &#x3D;&#x3D; owner);</span><br><span class="line">        payable(_recipient).transfer(address(this).balance);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>攻击合约如下,如果有人通过做游戏等方式让<code>Phishable</code>合约的owner给<code>AccackContract</code>合约转一小部分以太币，那么这个owner会损失<code>Phishable</code>合约中的所有以太币。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0</span><br><span class="line"></span><br><span class="line">pragma solidity &#x3D; 0.8.0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import &quot;Phishable.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract AccackContract &#123;</span><br><span class="line"></span><br><span class="line">    Phishable phishableContract;</span><br><span class="line">    </span><br><span class="line">    address attacker;</span><br><span class="line">    </span><br><span class="line">    constructor(Phishable _phishableContract, address _attackerAddress) &#123;</span><br><span class="line">        phishableContract &#x3D; _phishableContract;</span><br><span class="line">        attacker &#x3D; _attackerAddress;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    fallback() external payable &#123;</span><br><span class="line">        phishableContract.withdrawAll(_attackerAddress);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="防范技术-v14">防范技术</h5>
+<p>智能合约中不应该使用<code>tx.origin</code>来进行验证授权。</p>
+<p><code>tx.origin</code>的使用场景：如果某人想要拒绝外部合约调用当前合约，他们可以实现一个类似<code>require(tx.origin == msg.sender);</code>这样的检查；这样可以防止当前合约被其他中间合约调用，也就是仅允许外部账户调用当前合约。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8"><span class="toc-number">1.</span> <span class="toc-text">安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-%E2%80%94%E2%80%94-%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">以太坊智能合约 —— 最佳安全开发指南：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E5%92%8C%E5%8F%8D%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">安全风险和反模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E6%BC%8F%E6%B4%9E%E5%90%88%E7%BA%A6%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-number">1.2.1.</span> <span class="toc-text">有漏洞合约的例子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%85%A5"><span class="toc-number">1.2.2.</span> <span class="toc-text">重入</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%95%B0%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.</span> <span class="toc-text">算数溢出</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v2"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%84%8F%E5%A4%96%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%B8%81"><span class="toc-number">1.3.1.</span> <span class="toc-text">意外的以太币</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%99%E4%BC%9A%E5%AF%BC%E8%87%B4%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%E5%91%A2%EF%BC%9F"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">这会导致什么问题呢？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v3"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DELEGATECALL"><span class="toc-number">1.3.2.</span> <span class="toc-text">DELEGATECALL</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v4"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%9A%84%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="toc-number">1.3.3.</span> <span class="toc-text">默认的可见性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v5"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E5%BA%8F%E9%94%99%E8%A7%89"><span class="toc-number">1.3.4.</span> <span class="toc-text">无序错觉</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v6"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E5%90%88%E7%BA%A6%E5%BC%95%E7%94%A8"><span class="toc-number">1.3.5.</span> <span class="toc-text">外部合约引用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v7"><span class="toc-number">1.3.5.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9F%AD%E5%9C%B0%E5%9D%80-%E5%8F%82%E6%95%B0%E6%94%BB%E5%87%BB"><span class="toc-number">1.3.6.</span> <span class="toc-text">短地址&#x2F;参数攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E7%9A%84%E7%BB%86%E8%8A%82"><span class="toc-number">1.3.6.1.</span> <span class="toc-text">漏洞的细节</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v8"><span class="toc-number">1.3.6.2.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AA%E6%A3%80%E6%9F%A5%E7%9A%84%E8%B0%83%E7%94%A8%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">1.3.7.</span> <span class="toc-text">未检查的调用返回值</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v9"><span class="toc-number">1.3.7.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%9E%E4%BA%89%E6%9D%A1%E4%BB%B6-%E9%A2%84%E5%85%88%E4%BA%A4%E6%98%93"><span class="toc-number">1.3.8.</span> <span class="toc-text">竞争条件&#x2F;预先交易</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v10"><span class="toc-number">1.3.8.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.3.9.</span> <span class="toc-text">拒绝服务</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%8F%AF%E8%A2%AB%E5%A4%96%E9%83%A8%E6%93%8D%E7%BA%B5%E7%9A%84%E6%98%A0%E5%B0%84%E6%88%96%E6%95%B0%E7%BB%84%E7%9A%84%E5%BE%AA%E7%8E%AF"><span class="toc-number">1.3.9.1.</span> <span class="toc-text">基于可被外部操纵的映射或数组的循环</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BB%E4%BA%BA%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.9.2.</span> <span class="toc-text">主人的操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E6%9D%A5%E4%BF%AE%E6%94%B9%E7%8A%B6%E6%80%81"><span class="toc-number">1.3.9.3.</span> <span class="toc-text">基于外部调用来修改状态</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v11"><span class="toc-number">1.3.9.4.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%BA%E5%9D%97%E6%97%B6%E9%97%B4%E6%88%B3%E6%93%8D%E7%BA%B5"><span class="toc-number">1.3.10.</span> <span class="toc-text">区块时间戳操纵</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v12"><span class="toc-number">1.3.10.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%8F%E5%BF%83%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.11.</span> <span class="toc-text">小心使用构造函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v13"><span class="toc-number">1.3.11.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%AD%98%E5%82%A8%E6%8C%87%E9%92%88"><span class="toc-number">1.3.12.</span> <span class="toc-text">未初始化的存储指针</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E5%92%8C%E7%B2%BE%E5%BA%A6"><span class="toc-number">1.3.13.</span> <span class="toc-text">浮点数和精度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Tx-Origin"><span class="toc-number">1.3.14.</span> <span class="toc-text">Tx.Origin</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF-v14"><span class="toc-number">1.3.14.1.</span> <span class="toc-text">防范技术</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&text=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&title=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&is_video=false&description=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=以太坊合约开发最佳安全指南与反模式&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&title=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&title=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&title=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&title=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&name=以太坊合约开发最佳安全指南与反模式&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/&t=以太坊合约开发最佳安全指南与反模式"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

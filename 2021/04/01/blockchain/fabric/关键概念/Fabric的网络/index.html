@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Blockchain network(Fabric的网络) 原始官方文档：https:&#x2F;&#x2F;hyperledger-fabric.readthedocs.io&#x2F;en&#x2F;release-2.2&#x2F;network&#x2F;network.html Creating the Network 从创建基础网络开始：  在orderer启动之后网络就形成了，在我们的示例网络N中，包括单个节点O4的ordered servi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fabric的网络">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="Blockchain network(Fabric的网络) 原始官方文档：https:&#x2F;&#x2F;hyperledger-fabric.readthedocs.io&#x2F;en&#x2F;release-2.2&#x2F;network&#x2F;network.html Creating the Network 从创建基础网络开始：  在orderer启动之后网络就形成了，在我们的示例网络N中，包括单个节点O4的ordered servi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.2.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.2.1.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.3.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.4.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.5.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/network.diagram.6.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.7.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.8.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.9.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.10.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.11.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.12.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.15.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.14.png">
+<meta property="article:published_time" content="2021-04-01T10:18:21.473Z">
+<meta property="article:modified_time" content="2021-04-01T10:18:21.476Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="network">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.2.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Fabric的网络</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Hyperledger-Fabric%E6%A8%A1%E5%9E%8B/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/fabric/Hyperledger-Fabric%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&text=Fabric的网络"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&title=Fabric的网络"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&is_video=false&description=Fabric的网络"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Fabric的网络&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&title=Fabric的网络"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&title=Fabric的网络"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&title=Fabric的网络"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&title=Fabric的网络"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&name=Fabric的网络&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&t=Fabric的网络"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Blockchain-network-Fabric%E7%9A%84%E7%BD%91%E7%BB%9C"><span class="toc-number">1.</span> <span class="toc-text">Blockchain network(Fabric的网络)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Creating-the-Network"><span class="toc-number">1.1.</span> <span class="toc-text">Creating the Network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Certificate-Authorities%EF%BC%88%E8%AF%81%E4%B9%A6%E9%A2%81%E5%8F%91%E6%9C%BA%E6%9E%84%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">Certificate Authorities（证书颁发机构）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adding-Network-Administrators%EF%BC%88%E6%B7%BB%E5%8A%A0%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%91%98%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">Adding Network Administrators（添加网络管理员）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Defining-a-Consortium-%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E8%81%94%E7%9B%9F"><span class="toc-number">1.4.</span> <span class="toc-text">Defining a Consortium(定义一个联盟)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Creating-a-channel-for-a-consortium-%E4%B8%BA%E8%81%94%E7%9B%9F%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%80%9A%E9%81%93"><span class="toc-number">1.5.</span> <span class="toc-text">Creating a channel for a consortium(为联盟创建一个通道)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Peers-and-Ledgers%EF%BC%88%E8%8A%82%E7%82%B9%E4%B8%8E%E8%B4%A6%E5%8D%95%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">Peers and Ledgers（节点与账单）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Applications-and-Smart-Contract-chaincode%EF%BC%88%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E8%81%94%E9%93%BE%E7%A0%81%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">Applications and Smart Contract chaincode（应用程序和智能合约联链码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Installing-a-chaincode-package%EF%BC%88%E5%AE%89%E8%A3%85%E9%93%BE%E7%A0%81%E5%8C%85%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">Installing a chaincode package（安装链码包）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Defining-a-chaincode%EF%BC%88%E5%AE%9A%E4%B9%89%E9%93%BE%E7%A0%81%EF%BC%89"><span class="toc-number">1.9.</span> <span class="toc-text">Defining a chaincode（定义链码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Endorsement-policy%EF%BC%88%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5%EF%BC%89"><span class="toc-number">1.10.</span> <span class="toc-text">Endorsement policy（背书策略）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Invoking-a-smart-contract%EF%BC%88%E8%B0%83%E7%94%A8%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%EF%BC%89"><span class="toc-number">1.11.</span> <span class="toc-text">Invoking a smart contract（调用智能合约）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Network-completed%EF%BC%88%E7%BD%91%E7%BB%9C%E5%AE%8C%E6%88%90%EF%BC%89"><span class="toc-number">1.12.</span> <span class="toc-text">Network completed（网络完成）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generating-and-accepting-transactions%EF%BC%88%E7%94%9F%E6%88%90%E5%92%8C%E6%8E%A5%E5%8F%97%E4%BA%A4%E6%98%93%EF%BC%89"><span class="toc-number">1.13.</span> <span class="toc-text">Generating and accepting transactions（生成和接受交易）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Types-of-peers%EF%BC%88peer%E8%8A%82%E7%82%B9%E7%9A%84%E7%B1%BB%E5%9E%8B%EF%BC%89"><span class="toc-number">1.14.</span> <span class="toc-text">Types of peers（peer节点的类型）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adding-organizations-and-peers-to-the-channel%EF%BC%88%E5%B0%86%E7%BB%84%E7%BB%87%E5%92%8C%E8%8A%82%E7%82%B9%E6%B7%BB%E5%8A%A0%E5%88%B0%E6%B8%A0%E9%81%93%EF%BC%89"><span class="toc-number">1.15.</span> <span class="toc-text">Adding organizations and peers to the channel（将组织和节点添加到渠道）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Simplifying-the-visual-vocabulary%EF%BC%88%E7%AE%80%E5%8C%96%E8%A7%86%E8%A7%89%E8%AF%8D%E6%B1%87%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">Simplifying the visual vocabulary（简化视觉词汇）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adding-another-consortium-definition%EF%BC%88%E6%B7%BB%E5%8A%A0%E5%8F%A6%E4%B8%80%E4%B8%AA%E8%81%94%E7%9B%9F%E5%AE%9A%E4%B9%89%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">Adding another consortium definition（添加另一个联盟定义）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adding-a-new-channel%EF%BC%88%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">Adding a new channel（添加一个新的通道）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Network-and-channel-configurations%EF%BC%88%E7%BD%91%E7%BB%9C%E4%B8%8E%E9%80%9A%E9%81%93%E9%85%8D%E7%BD%AE%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">Network and channel configurations（网络与通道配置）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adding-another-peer%EF%BC%88%E6%B7%BB%E5%8A%A0%E5%8F%A6%E4%B8%80%E4%B8%AApeer%E8%8A%82%E7%82%B9%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">Adding another peer（添加另一个peer节点）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Joining-a-peer-to-multiple-channels%EF%BC%88%E6%8A%8A%E4%B8%80%E4%B8%AApeer%E8%8A%82%E7%82%B9%E5%8A%A0%E5%85%A5%E5%88%B0%E4%B8%8D%E5%90%8C%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">Joining a peer to multiple channels（把一个peer节点加入到不同通道）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-ordering-service%EF%BC%88%E6%8E%92%E5%BA%8F%E6%9C%8D%E5%8A%A1%EF%BC%89"><span class="toc-number">6.1.</span> <span class="toc-text">The ordering service（排序服务）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#De-centralized-transaction-distribution%EF%BC%88%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%E7%9A%84%E4%BA%A4%E6%98%93%E5%88%86%E5%8F%91%EF%BC%89"><span class="toc-number">6.2.</span> <span class="toc-text">De-centralized transaction distribution（去中心化的交易分发）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Changing-policy%EF%BC%88%E4%BF%AE%E6%94%B9%E7%AD%96%E7%95%A5%EF%BC%89"><span class="toc-number">6.3.</span> <span class="toc-text">Changing policy（修改策略）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-fully-formed%EF%BC%88%E7%BD%91%E7%BB%9C%E5%85%A8%E9%9D%A2%E5%BD%A2%E6%88%90%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">Network fully formed（网络全面形成）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary-of-network-components%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BB%84%E4%BB%B6%E7%9A%84%E6%91%98%E8%A6%81%EF%BC%89"><span class="toc-number">7.1.</span> <span class="toc-text">Summary of network components（网络组件的摘要）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-summary%EF%BC%88%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">Network summary（网络总结）</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Fabric的网络
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-01T10:18:21.473Z" itemprop="datePublished">2021-04-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/Key-Concepts/">Key Concepts</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link-link" href="/tags/network/" rel="tag">network</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Blockchain-network-Fabric的网络">Blockchain network(Fabric的网络)</h2>
+<p>原始官方文档：<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/network/network.html">https://hyperledger-fabric.readthedocs.io/en/release-2.2/network/network.html</a></p>
+<h3 id="Creating-the-Network">Creating the Network</h3>
+<p>从创建基础网络开始：<br>
+<img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.2.png" alt="network.diagram.2."><br>
+<em>在orderer启动之后网络就形成了，在我们的示例网络N中，包括单个节点O4的ordered service是根据网络配置NC4配置的，该网络配置向组织R4提供管理权限。在网络级别，证书颁发机构CA4用于向R4组织的管理员和网络节点分配身份。</em></p>
+<p>我们可以看到定义网络N的第一件事就是ordering service ，O4。将订购服务视为网络的初始管理点很有帮助。将ordering service视为网络的初始管理点很有帮助。按照事先约定，O4最初由组织R4中的管理员配置和启动，并托管在R4中。配置NC4包含描述网络管理功能的初始的策略集合。最初，将其设置为仅通过网络授予R4权限。这将改变，我们将在后面看到，但目前R4是网络的唯一成员。</p>
+<h3 id="Certificate-Authorities（证书颁发机构）">Certificate Authorities（证书颁发机构）</h3>
+<p>您还可以看到证书颁发机构CA4，用于向管理员和网络节点颁发证书。CA4在我们的网络中起着关键作用，因为它颁发X.509证书，该证书可用于将组件标识为属于组织R4。由CA颁发的证书也可以用于签署交易，以表明组织认可交易结果–这是允许交易提交到分类帐的前提。让我们更详细地研究CA的这两个方面。</p>
+<p>首先，区块链网络的不同组件使用证书将自己标识为来自特定组织。这就是为什么通常有不止一个CA支持一个区块链网络-不同的组织经常使用不同的CA。<br>
+证书到成员组织的映射是通过称为Membership Services Provider (MSP)的结构实现的。网络配置NC4使用MSP来标识由CA4分配的证书的属性，该证书将证书持有者与组织R4相关联。然后，NC4可以在策略中使用此MSP向R4的参与者授予对网络资源的特定权限。这种策略的一个示例是R4中的管理员可以向网络添加的新成员。</p>
+<p>其次，稍后我们将看到CA颁发的证书如何成为交易生成和验证过程的核心。具体来说，X.509证书用于客户端应用程序交易建议和智能合约交易响应中以进行数字签名交易。随后，托管账本的网络节点在接受交易记录到账本之前会验证交易的签名是否有效。</p>
+<p>让我们回顾一下示例区块链网络的基本结构：证书颁发机构CA4定义了一组用户，可以访问网络N；这些用户对网络N中资源的权限被网络配置NC4中包含的策略所描述。在我们配置并启动ordering service节点O4时，所有这些都变为现实。</p>
+<h3 id="Adding-Network-Administrators（添加网络管理员）">Adding Network Administrators（添加网络管理员）</h3>
+<p>NC4只配置了R4的用户在网络上的权限。在下一个阶段，我们将允许组织R1用户管理网络。让我们看看网络如何发展：<br>
+<img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.2.1.png" alt="network.diagram.2.1"><br>
+<em>组织R4更新网络配置以使组织R1也成为管理员。此后，R1和R4在网络配置上享有同等的权利。</em></p>
+<p>尽管订购者节点O4在R4的基础结构上运行，但R1拥有共享的管理权限，只要它可以访问网络即可。这意味着R1或R4可以更新网络配置NC4，以允许R2组织进行网络操作的子集。这样，即使R4在运行订购服务，R1也对其拥有完全的管理权限，并且R2具有创建新联合体的部分权限。</p>
+<p>你在示例中看到的ordering service是网络中的单个节点，这是最简单的形式。ordering service通常是多节点的，可以配置为在不同组织的不同节点。例如，我们可能在R4中运行O4并将其连接到组织R1中单独的订购者节点O2。这样，我们将拥有一个多站点，多组织的管理结构。</p>
+<p>我们将在本主题的稍后部分讨论ordering service，但是现在，仅将ordering service视为一个可为不同组织提供对网络受控访问的管理点。</p>
+<h3 id="Defining-a-Consortium-定义一个联盟">Defining a Consortium(定义一个联盟)</h3>
+<p>尽管现在可以通过R1和R4管理网络，但是几乎没有什么事情可做。我们需要做的第一件事是定义一个联盟。这个词的字面意思是“拥有共同命运的团体”，因此对于区块链网络中的一组组织来说是一个合适的选择。</p>
+<p>让我们看看联盟的定义：<br>
+<img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.3.png" alt="network.diagram.3"><br>
+<em>网络管理员定义了一个联盟X1，该联盟包含两个成员，组织R1和R2。该联盟的定义存储在网络配置NC4中，并将在网络开发的下一阶段使用。CA1和CA2是这些组织的各自的证书颁发机构。</em></p>
+<p>因为NC4配置的是只允许R1或R4可以创建新的联盟。该图显示了添加的新联盟X1，该联盟将R1和R2定义为其组成组织。我们还可以看到已经添加了CA2用以认证R2的用户。请注意，一个联盟可以有任意数量的组织成员–我们刚刚显示了两个，因为它是最简单的配置。</p>
+<p>为什么联盟如此重要？我们可以看到一个联盟定义了网络中彼此需要共享交易的组织集合，在本例中R1和 R2。如果组织有共同的目标，将它们组合在一起真的很有意义，而这正上面的联盟定义。</p>
+<p>该网络虽然由单个组织启动，但现在由较大的一组组织控制。现在，我们将使用联盟X1创建Hyperledger Fabric区块链的一个非常重要的部分-一个通道。</p>
+<h3 id="Creating-a-channel-for-a-consortium-为联盟创建一个通道">Creating a channel for a consortium(为联盟创建一个通道)</h3>
+<p>channel是主要的通信机制，联盟的成员可以通过channel相互通信。网络中可以有多个通道，我们先从一个渠道开始。<br>
+让我们看看如何将第一个channel添加到网络中：<br>
+<img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.4.png" alt="network.diagram.4"><br>
+<em>使用联盟定义X1为R1和R2创建了通道C1。通道由通道配置CC1进行治理，完全独立于网络配置。CC1由对C1拥有同等权利的R1和R2管理。 R4在CC1中没有任何权利。</em></p>
+<p>通道C1为财团X1提供了专用的通信机制。我们可以看到通道C1已连接到ordersing service(O4)，但没有附加任何内容。在网络开发的下一阶段，我们将连接组件，例如客户端应用程序和peer节点。但是，渠道代表着未来连接的潜力。</p>
+<p>即使通道C1是网络N的一部分，但也可以与它完全区分开。注意组织R3和R4不在此通道中，C1只用于R1和R2之间的交易处理。在上一步中，我们了解了R4如何授予R1创建新联盟的权限。值得一提的是R4还允许R1创建channel！在此图中，可能是组织R1或R4创建了通道C1。</p>
+<p>再次注意通道C1对于网络配置NC4如何具有完全独立的配置CC1。CC1包含用于控制R1和R2在通道C1上的权限的策略-正如我们所看到的，R3和R4在此通道上没有权限。R3和R4只能在R1或R2将其添加适当策略到通道配置CC1中，才可以与C1交互。一个示例是定义谁可以向channel添加新组织。特别要注意的是，R4不能将自身添加到通道C1中-它必须并且只能由R1或R2授权。</p>
+<p>为什么channel如此重要？channels之所以有用，是因为它们为联盟成员之间的私有通信和私有数据提供了一种机制。channel提供了隐私性保护，对于其他的channels和整个网络。Hyperledger Fabric在这方面很强大，因为它允许组织共享基础结构并同时保持私有状态。这里没有矛盾-网络中的不同联盟需要适当共享不同的信息和流程，而渠道则提供了一种有效的机制来做到这一点。通道可有效共享基础架构，同时保持数据和通信的隐私。</p>
+<p>我们还可以看到，一旦创建了一个channel，它实际上就是“脱离网络”。从创建开始到未来，只有在channel配置中明确指定的组织才能对其进行控制。同样，从此时开始对网络配置NC4的任何更新都不会直接影响channel配置CC1；例如，如果联盟定义X1更改，它将不会影响通道C1的成员。通道之所以有用，是因为它们允许构成通道的组织之间进行私人通信。此外，通道中的数据与网络的其余部分（包括其他通道）完全隔离。</p>
+<p>顺便说一句，还有一个特殊的系统通道（<strong>system channel</strong>）的定义，是为了给排序服务（ordering service）使用的。它的行为与常规channel完全相同，因此，有时也称为应用程序通道（<strong>application channels</strong>）。</p>
+<h3 id="Peers-and-Ledgers（节点与账单）">Peers and Ledgers（节点与账单）</h3>
+<p>现在开始使用渠道将区块链网络和组织组件连接在一起。在网络开发的下一阶段，我们可以看到我们的网络N刚刚获得了两个新组件，即peer节点P1和账本实例L1。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.5.png" alt="network.diagram.5"><br>
+<em>peer节点P1已加入通道C1。 P1物理上存储账本L1的副本。 P1和O4可以使用通道C1相互通信。</em></p>
+<p>peer节点是托管区块链账本副本的网络组件，最后，我们开始看到一些可识别的区块链组件。P1在网络中的目的纯粹是托管账本L1的副本，以供其他人访问。我们可以认为L1物理上托管在P1上，但逻辑上托管在通道C1上。当我们向channel添加更多peer时，我们会更清楚地看到这个想法。</p>
+<p>P1配置的关键部分是CA1发出的X.509身份，该身份将P1与组织R1相关联。当R1组织的管理员将peer节点P1加入通道C1并且P1开始从排序节点O4拉取数据块的时候，O4使用通道配置CC1来确定P1在该通道上的权限。例如，CC1中的策略确定P1（或组织R1）是否可以在通道C1上读取（和/或）写入。</p>
+<p>注意拥有peer的组织是如何将peer加入渠道的，尽管我们仅添加了一个peer，但我们将看到网络中的多个渠道上如何有多个peer节点。稍后我们将看到peer可以扮演的不同角色。</p>
+<h3 id="Applications-and-Smart-Contract-chaincode（应用程序和智能合约联链码）">Applications and Smart Contract chaincode（应用程序和智能合约联链码）</h3>
+<p>现在，通道C1上有一个账本L1，我们可以开始连接客户端应用程序，以使用为操作账本提供服务的peer。</p>
+<p>请注意网络已经增长了：<br>
+<img src="https://gitee.com/guozhe001/images/raw/master/network.diagram.6.png" alt="network.diagram.6"><br>
+<em>已经智能合约S5已经被部署到了P1，属于组织R1的客户端应用程序A1可以使用S5通过P1来访问账本L1。A1、P1和O4都加入了通道C1，如图所示，A1、P1和O4都加入了通道C1，即它们都可以利用该通道提供的通信设施。</em></p>
+<p>在网络开发的下一阶段，我们可以看到客户端应用程序A1可以使用通道C1连接到特定的网络资源–在这种情况下，A1可以同时连接到peer节点P1和ordered节点O4。让我们在此之前查看渠道是如何成为网络和组织组件之间通信核心的。就像对peer节点和ordered节点一样，客户端应用程序也具有一个可以将其与组织关联起来的身份。在我们的例子中，客户端应用程序A1与组织R1关联，尽管它在Fabric区块链网络之外，但仍然可以通过渠道C1访问到区块链。</p>
+<p>现在看来，A1可以直接通过P1访问分类帐L1，但实际上，所有访问都是通过称为智能合约链码S5的特殊程序进行管理的。将S5定义为账本的所有常见访问模式； S5提供了一套明确定义的方式，可用来查询或更新账本L1。</p>
+<p>每个组织的开发人员都可以创建智能合约，然后发起在联盟之间共享的业务流程。智能合约用于生成可以分配到网络中每个节点的交易。我们稍后再讨论这个想法；当网络更大时，将更容易理解。现在，需要了解的重要一点是，到此为止，必须在智能合约上执行两次操作。目前为止，需要了解的重要一点是必须在智能合约上执行两次操作：</p>
+<ol>
+<li>它必须已经安装（<strong>installed</strong>）在peer上</li>
+<li>然后已经在通道上定义（<strong>defined</strong>）</li>
+</ol>
+<p>Hyperledger Fabric用户经常把术<strong>语智能合约（smart contract）<strong>和</strong>链码（chaincode）<strong>进行互换使用。通常，智能合约定义了</strong>交易逻辑（ transaction logic ）</strong>，这个交易逻辑控制了现实世界状态中包含业务对象的生命周期。然后将其打包成链码，然后将其部署到区块链网络。可以将智能合约视为支配交易，而链码则是控制如何打包智能合约以进行部署。</p>
+<h3 id="Installing-a-chaincode-package（安装链码包）">Installing a chaincode package（安装链码包）</h3>
+<p>开发了智能合约S5之后，组织R1中的管理员必须创建一个链码包并将其安装到peer节点P1上。这是一个简单的操作；一旦完成，P1就完全了解S5。具体来说，P1可以看到S5的**实现（implementation）<strong>逻辑-就是用于访问账本L1的代码。我们将此与S5的</strong>接口（interface）**进行对比，后者仅描述S5的输入和输出，而与它的实现无关。</p>
+<p>当一个组织在一个渠道中有多个peer时，它可以选择在哪些peer节点安装智能合约。它不需要在每个peer节点上安装智能合约。</p>
+<h3 id="Defining-a-chaincode（定义链码）">Defining a chaincode（定义链码）</h3>
+<p>尽管链码已安装在各个组织的peer上，但它是在channel范围内管理和操作的。每个组织都需要批准<strong>链码定义（chaincode definition）</strong>，这是一组参数，用于确定如何在渠道上使用链码。组织必须批准链码定义，才能使用已安装的智能合约来查询账本并认可交易。在我们的只有一个peer节点P1的例子中，组织R1中的管理员必须批准S5的<strong>链码定义（chaincode definition）</strong>。</p>
+<p>需要足够数量的组织批准<strong>链码定义（chaincode definition）</strong>（默认情况下，大多数情况下为批准），然后才能将<strong>链码定义</strong>提交给渠道并用于与渠道账本进行交互。由于例子中的通道C1只有一个成员，因此R1的管理员可以将S5的<strong>链码定义</strong>提交给通道C1。提交链码的定义后，便可以由客户端应用程序A1调用S5！</p>
+<p>请注意，尽管通道上的每个组件现在都可以访问S5，但它们无法看到其程序逻辑。对于安装它的那些节点（我们的示例中是P1），它仍然是私有的。从概念上讲，这意味着已定义并提交给渠道的智能合约接口与已安装的智能合约实现相反。加强这个想法；安装智能合约我们可以将其视为物理托管（<strong>physically hosted</strong>）在peer上，而已在通道上定义的智能合约我们可以将其视为逻辑托管（ <strong>logically hosted</strong>）在通道上。</p>
+<h3 id="Endorsement-policy（背书策略）">Endorsement policy（背书策略）</h3>
+<p>链码定义中提供的最重要的信息是背书策略。它描述了哪些组织必须批准交易然后其他组织才能将其接受到其账本副本上。在我们的示例网络中，只有R1或R2认可交易，才能将交易接受到账本L1上。</p>
+<p>将链码定义提交给渠道会将背书策略放在渠道的账本上；它使通道的任何成员都可以访问它。您可以在<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/txflow.html">交易流</a>主题中阅读有关背书策略的更多信息。</p>
+<h3 id="Invoking-a-smart-contract（调用智能合约）">Invoking a smart contract（调用智能合约）</h3>
+<p>将智能合约安装在peer节点上并在channel上定义后，即可由客户端应用程序调用。</p>
+<p>客户端应用程序通过向由智能合约背书策略指定的组织所拥有的节点发起交易提案；智能合约使用交易提案作为它的输入来生成认可的交易响应，该响应由peer节点返回到客户端应用程序。</p>
+<p>这些交易响应与交易提议打包在一起，形成一个完全认可的交易，可以分散到整个网络。现在了解应用程序如何调用智能合约以生成认可的交易即可，稍后我们将对其进行更详细的介绍。</p>
+<p>在网络开发的这一阶段，我们可以看到组织R1正在完全参与网络。它的应用程序-从A1开始-可以通过智能合约S5访问账本L1，以生成将由R1认可的交易，由于它们符合认可策略因此被接受到账本中。</p>
+<h3 id="Network-completed（网络完成）">Network completed（网络完成）</h3>
+<p>回想一下，我们的目标是为联盟X1（组织R1和R2）创建渠道。网络开发的下一阶段将看到组织R2将其基础结构添加到网络中。</p>
+<p>让我们来看看网络进化成什么样了：<br>
+<img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.7.png" alt="network.diagram.7"><br>
+<em>通过增加组织R2的基础结构，网络得到了发展。具体来说，R2添加了peer节点P2，该peer节点托管账本L1的副本和链码S5。R2批准与R1相同的链码定义。P2也与应用程序A2一样加入了通道C1，A2和P2通过CA2进行身份认证。所有这些意味着应用程序A1和A2都可以使用peer节点P1或P2在C1上调用S5。</em></p>
+<p>我们可以看到组织R2在通道C1上添加了一个peer节点P2。 P2还托管账本L1的副本和智能合约S5。我们可以看到R2还添加了可以通过通道C1连接到网络的客户端应用程序A2。为此，组织R2中的管理员已创建peer节点P2，并将其用与R1中的管理员相同的方式加入到通道C1。管理员还必须批准与R1相同的链码定义。</p>
+<p>我们已经建立了第一个运营网络！在网络开发的现阶段，我们拥有一个渠道，在此通道上组织R1和R2可以彼此进行交易。具体来说，这意味着应用程序A1和A2可以使用智能合约S5和通道C1上的账本L1生成交易。</p>
+<h3 id="Generating-and-accepting-transactions（生成和接受交易）">Generating and accepting transactions（生成和接受交易）</h3>
+<p>与始终托管着账本副本的peer节点相反，我们看到有两种不同的peer节点：拥有智能合约的peer和没有智能合约的peer。在我们的网络中，每个peer都托管着智能合约的副本，但是在较大的网络中，将有更多的peer节点不托管智能合约的副本。peer节点只能运行安装在其上的智能合约，但是它可以通过连接到通道来知道智能合约的接口。</p>
+<p>您不应该将没有安装智能合约的peer节点视为劣等节点。具有智能合约的peer节点更具有特殊的功能-有助于**生成（generate ）<strong>交易。请注意，所有peer节点都可以</strong>验证（validate）<strong>并随后</strong>接受（accept）<strong>或</strong>拒绝（reject）<strong>交易到其账本L1的副本上。但是，只有安装了智能合约的peer节点才能参与交易</strong>认可（endorsement）**的过程，这对生成合法交易至关重要。</p>
+<p>我们无需担心本主题中如何生成，分配和接受交易的确切细节–能够理解我们拥有一个区块链网络，组织R1和R2可以共享信息和流程作为账本接受（ledger-captured）的交易。我们将在其他主题中学习有关交易，账本，智能合约的更多信息。</p>
+<h3 id="Types-of-peers（peer节点的类型）">Types of peers（peer节点的类型）</h3>
+<p>在Hyperledger Fabric中，尽管所有peer都相同，但它们可以根据网络的配置方式承担多个角色。现在，我们对典型的网络拓扑有了足够的了解，可以描述这些角色。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#commitment">Committing peer</a>：提交peer节点，通道中的每个peer节点都是提交peer节点。它接收包含已经生成的交易的块，随后将其验证，然后再将它们以追加的方式提交到peer节点的账本副本中。</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#endorsement">Endorsing peer</a>：背书节点，每一个安装了智能合约的peer节点都可以成为背书节点。但是要真正成为背书节点，客户端应用程序必须使用peer的智能合约来生成数字签名的事务响应。背书对等方一词是对此事实的明确引用。<br>
+智能合约的背书策略确定组织的peer应先对生成的交易进行数字签名，然后才能将其接受到提交peer的账本副本中。</li>
+</ul>
+<p>上面是peer节点的的两种主要类型。peer还可以采用其他两种角色：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#leading-peer">Leader peer</a>：领导节点，当一个组织在同一个channel中有多个peer节点时，领导节点负责将交易从排序节点分发到组织内的其他提交节点。一个peer可以选择参与静态或动态领导选择。</li>
+</ul>
+<p>因此，从领导者的角度考虑两组peer是有帮助的-那些具有静态领导者选择的peer和那些具有动态领导者选择的peer。对于静态节点，可以将零个或多个peer配置为领导节点。对于动态节点集合，将由该集合选出一个peer作为领导者。此外，在动态集合中，如果领导节点失败了，则其余peer将重新选举领导节点。</p>
+<p>这意味着同一个组织的peers可以让一个或多个领导节点连接到排序服务。这可以帮助提高处理大量事务的大型网络的弹性和可伸缩性。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#anchor-peer">Anchor peer</a>:锚节点，如果peer需要与另一个组织中的peer进行通信，则可以使用该组织在通道配置中定义的锚节点。一个组织可以为其定义零个或多个锚节点，并且锚节点可以帮助处理许多不同的跨组织通信场景。</li>
+</ul>
+<p>注意，一个peer可以同时是一个提交节点、背书节点、领导节点和锚节点！在一个组织中出于所有实际目的，仅锚节点是可选的，领导节点，背书节点和提交节点都至少有一个。</p>
+<h3 id="Adding-organizations-and-peers-to-the-channel（将组织和节点添加到渠道）">Adding organizations and peers to the channel（将组织和节点添加到渠道）</h3>
+<p>当组织R2加入通道时，它必须在其peer节点P2上安装智能合约S5。这很明显–如果应用程序A1或A2希望在peer节点P2上使用S5来生成交易，首先S5必须存在，安装智能合约可以做到让其存在。此时，peer节点P2具有智能合约和账本的物理副本；像P1一样，它可以在其账本L1的副本上生成和接受交易。</p>
+<p>为了使用智能合约S5，R2必须批准与R1批准的相同的链码定义。由于链码定义已由组织R1提交给通道，因此R2组织批准链码定义并安装链码软件包后便可以使用链码了。提交交易只需发生一次。一个新的组织认可链码参数的行为被通道内的其他组织统一后便可以使用链码。由于链码定义的认可是在组织级别进行的，因此R2认可链码定义一次，然后将多个peer节点加入安装了链码包的渠道。然而，如果R2想要对链码定义进行修改的话，则R1和R2都需要在组织层面认可这个新的链码定义，然后需要其中一个组织将定义提交给渠道。</p>
+<p>在我们的网络中，我们可以看到通道C1链接了两个客户端应用程序，两个peer节点和一个排序服务。由于只有一个通道，因此也只有一个逻辑账本可以与这些组件进行交互。节点P1和P2有相同的账本L1的副本。智能合约S5的副本通常使用相同的编程语言来实现，但如果不同，则他们在语义上必须等效。</p>
+<p>我们可以看到，将对peer小心地添加到网络可以帮助支持增加的吞吐量，稳定性和弹性。例如，网络中更多的peer节点将允许更多的应用程序连接到它；在遇到计划内或计划外的停机时组织中的多个peer将提供额外的弹性。</p>
+<p>这一切都意味着可以配置支持各种操作目标的复杂的拓扑网络，网络可以达到的规模不存在理论上的限制。此外，单个组织中的peer可以有效地发现并彼此通信的技术机制-<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/gossip.html#gossip-protocol">gossip protocol</a>-将容纳大量peer节点以支持此类拓扑。</p>
+<p>仔细使用网络和通道策略可以使大型网络得到良好管理。组织可以自由地将peer节点添加到网络，只要它们符合网络约定的策略即可。网络和渠道策略在自治和控制之间建立了平衡，这是去中心化网络的特征。</p>
+<h2 id="Simplifying-the-visual-vocabulary（简化视觉词汇）">Simplifying the visual vocabulary（简化视觉词汇）</h2>
+<p>We’re now going to simplify the visual vocabulary used to represent our sample blockchain network. As the size of the network grows, the lines initially used to help us understand channels will become cumbersome. Imagine how complicated our diagram would be if we added another peer or client application, or another channel?</p>
+<p>现在，我们将简化用于表示示例区块链网络的视觉词汇。随着网络规模的扩大，最初用于帮助我们了解渠道的线路将变得很繁琐。想想一些如果我们添加另一个peer节点或者一个客户端或者另一个channel我们的图片有多复杂？</p>
+<p>That’s what we’re going to do in a minute, so before we do, let’s simplify the visual vocabulary. Here’s a simplified representation of the network we’ve developed so far:</p>
+<p>这就是我们紧接着要做的事情，因此在我们这样做之前，让我们简化视觉词汇。这是到目前为止我们开发的网络的简化表示：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.8.png" alt="network.diagram.8"></p>
+<p><em>The diagram shows the facts relating to channel C1 in the network N as follows: Client applications A1 and A2 can use channel C1 for communication with peers P1 and P2, and orderer O4. Peer nodes P1 and P2 can use the communication services of channel C1. Ordering service O4 can make use of the communication services of channel C1. Channel configuration CC1 applies to channel C1.</em></p>
+<p><em>该图显示了与网络N中的通道C1有关的事实，如下所示：客户端程序A1和A2可以使用通道C1来与peer节点P1和P2和排序节点O4进行通信。peer节点P1和P2可以使用通道C1的通信服务。排序服务O4可以利用通道C1的通信服务。通道配置CC1适用于通道C1。</em></p>
+<p>Note that the network diagram has been simplified by replacing channel lines with connection points, shown as blue circles which include the channel number. No information has been lost. This representation is more scalable because it eliminates crossing lines. This allows us to more clearly represent larger networks. We’ve achieved this simplification by focusing on the connection points between components and a channel, rather than the channel itself.</p>
+<p>请注意，这个网络图已经通过用连接点替换通道线来简化了，显示为带有通道编号的蓝色圆圈。没有信息丢失。此表示形式更具伸缩性，因为它消除了交叉线。这使我们可以更清楚地表示更大的网络。通过专注于组件和通道之间的连接点，而不是通道本身，我们实现了这种简化。</p>
+<h2 id="Adding-another-consortium-definition（添加另一个联盟定义）">Adding another consortium definition（添加另一个联盟定义）</h2>
+<p>In this next phase of network development, we introduce organization R3. We’re going to give organizations R2 and R3 a separate application channel which allows them to transact with each other. This application channel will be completely separate to that previously defined, so that R2 and R3 transactions can be kept private to them.</p>
+<p>在网络开发的下一阶段，我们介绍组织R3。我们将为组织R2和R3提供一个单独的应用程序渠道，使他们可以彼此进行交易。该应用程序通道将与先前定义的通道完全分开，因此可以使R2和R3的交易保持私有。</p>
+<p>Let’s return to the network level and define a new consortium, X2, for R2 and R3:</p>
+<p>让我们回到网络级别并且为R2和R3定义一个新的联盟X2：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.9.png" alt="network.diagram.9"></p>
+<p><em>A network administrator from organization R1 or R4 has added a new consortium definition, X2, which includes organizations R2 and R3. This will be used to define a new channel for X2.</em></p>
+<p><em>R1或者R4的网络管理员已经添加了一个新的联盟定义X2，这个联盟定义包含了R2和R3两个组织。这将被用于为X2定义一个新的通道。</em></p>
+<p>Notice that the network now has two consortia defined: X1 for organizations R1 and R2 and X2 for organizations R2 and R3. Consortium X2 has been introduced in order to be able to create a new channel for R2 and R3.</p>
+<p>注意网络中现在已经有两个联盟定义，组织R1与R2的联盟X1和组织R2与R3的联盟X2。联盟X2已经被引进以便为R2和R3创建新的通道。</p>
+<p>A new channel can only be created by those organizations specifically identified in the network configuration policy, NC4, as having the appropriate rights to do so, i.e. R1 or R4. This is an example of a policy which separates organizations that can manage resources at the network level versus those who can manage resources at the channel level. Seeing these policies at work helps us understand why Hyperledger Fabric has a sophisticated <strong>tiered</strong> policy structure.</p>
+<p>新渠道只能由网络配置策略中明确标识的组织创建，网络中NC4具有适当权限的，即R1或R4。这是策略的示例，该策略将可以在网络级别管理资源的组织与可以在通道级别管理资源的组织区分开来。看到这些策略在起作用，有助于我们理解为什么Hyperledger Fabric具有复杂的分层策略结构。</p>
+<p>In practice, consortium definition X2 has been added to the network configuration NC4. We discuss the exact mechanics of this operation elsewhere in the documentation.</p>
+<p>实际上，联盟定义X2已添加到网络配置NC4。我们将在文档的其他地方讨论此操作的确切机制。</p>
+<h2 id="Adding-a-new-channel（添加一个新的通道）">Adding a new channel（添加一个新的通道）</h2>
+<p>Let’s now use this new consortium definition, X2, to create a new channel, C2. To help reinforce your understanding of the simpler channel notation, we’ve used both visual styles – channel C1 is represented with blue circular end points, whereas channel C2 is represented with red connecting lines:</p>
+<p>让我们使用新的X2联盟定义来创建一个新的通道C2。为了帮助您进一步理解更简单的通道符号，我们使用了两种视觉样式-通道C1用蓝色圆形端点表示，而通道C2用红色连接线表示：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.10.png" alt="network.diagram.10"></p>
+<p><em>A new channel C2 has been created for R2 and R3 using consortium definition X2. The channel has a channel configuration CC2, completely separate to the network configuration NC4, and the channel configuration CC1. Channel C2 is managed by R2 and R3 who have equal rights over C2 as defined by a policy in CC2. R1 and R4 have no rights defined in CC2 whatsoever.</em></p>
+<p><em>使用联盟定义X2为R2和R3创建了一个新的通道C2。这个通道有一个通道配置CC2，完全独立于网络配置NC4和通道配置CC1。通道C2由R2和R3管理，它们具有CC2中的策略所定义的对C2相同的权限。 R1和R4在CC2中均未定义任何权限。</em></p>
+<p>The channel C2 provides a private communications mechanism for the consortium X2. Again, notice how organizations united in a consortium are what form channels. The channel configuration CC2 now contains the policies that govern channel resources, assigning management rights to organizations R2 and R3 over channel C2. It is managed exclusively by R2 and R3; R1 and R4 have no power in channel C2. For example, channel configuration CC2 can subsequently be updated to add organizations to support network growth, but this can only be done by R2 or R3.</p>
+<p>通道C2为联盟X2提供了专用通信机制。再次注意，组织是如何通过通道被联合起来的。通道配置CC2现在包含控制通道资源的策略，通过通道C2向组织R2和R3分配管理权限。它仅由R2和R3管理； R1和R4在通道C2中没有权限。例如，通道配置CC2随后可以更新以添加组织来支持网络增长，但这只能由R2或R3完成。</p>
+<p>Note how the channel configurations CC1 and CC2 remain completely separate from each other, and completely separate from the network configuration, NC4. Again we’re seeing the de-centralized nature of a Hyperledger Fabric network; once channel C2 has been created, it is managed by organizations R2 and R3 independently to other network elements. Channel policies always remain separate from each other and can only be changed by the organizations authorized to do so in the channel.</p>
+<p>请注意，通道配置CC1和CC2如何保持彼此完全独立，并与网络配置NC4完全独立。再次，我们看到了Hyperledger Fabric网络的去中心化性质；创建通道C2后，组织R2和R3会独立于其他网络元素来管理它。渠道策略始终保持彼此独立，并且只能由有权在通道中更改的组织进行更改。</p>
+<p>As the network and channels evolve, so will the network and channel configurations. There is a process by which this is accomplished in a controlled manner – involving configuration transactions which capture the change to these configurations. Every configuration change results in a new configuration block transaction being generated, and <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/network/network.html#the-ordering-serivce">later in this topic</a>, we’ll see how these blocks are validated and accepted to create updated network and channel configurations respectively.</p>
+<p>随着网络和通道的发展，网络和通道的配置也将随之发展。有一个过程可以通过受控的方式完成此过程-涉及配置事务，这些事务捕获对这些配置的更改。每次配置更改都会导致生成新的配置块事务，本主题后面的内容，我们将看到如何验证和接受这些区块，以分别创建更新的网络和通道配置。</p>
+<h3 id="Network-and-channel-configurations（网络与通道配置）">Network and channel configurations（网络与通道配置）</h3>
+<p>Throughout our sample network, we see the importance of network and channel configurations. These configurations are important because they encapsulate the <strong>policies</strong> agreed by the network members, which provide a shared reference for controlling access to network resources. Network and channel configurations also contain <strong>facts</strong> about the network and channel composition, such as the name of consortia and its organizations.</p>
+<p>通过我们简单的网络，我们看到了网络和通道配置的重要性。这些配置之所以如此重要是因为他们封装了网络成员的认可策略，这些策略提供了对网络资源的共享的控制。网络和通道配置还包含有关网络和通道组成的事实，比如联盟以及组成联盟的组织。</p>
+<p>For example, when the network is first formed using the ordering service node O4, its behaviour is governed by the network configuration NC4. The initial configuration of NC4 only contains policies that permit organization R4 to manage network resources. NC4 is subsequently updated to also allow R1 to manage network resources. Once this change is made, any administrator from organization R1 or R4 that connects to O4 will have network management rights because that is what the policy in the network configuration NC4 permits. Internally, each node in the ordering service records each channel in the network configuration, so that there is a record of each channel created, at the network level.</p>
+<p>例如，当首先使用排序服务节点O4形成网络时，其行为由网络配置NC4控制。NC4的初始配置仅包含允许组织R4管理网络资源的策略。随后将NC4更新为还允许R1管理网络资源。一旦做了这个更新，组织R1和R4的管理员都拥有了网络管理权限了，因为这是在网络配置NC2的策略中指定的。在内部，排序服务中的每个节点都会记录网络配置中的每个通道，以便在网络级别上记录每个创建的通道。</p>
+<p>It means that although ordering service node O4 is the actor that created consortia X1 and X2 and channels C1 and C2, the <strong>intelligence</strong> of the network is contained in the network configuration NC4 that O4 is obeying. As long as O4 behaves as a good actor, and correctly implements the policies defined in NC4 whenever it is dealing with network resources, our network will behave as all organizations have agreed. In many ways NC4 can be considered more important than O4 because, ultimately, it controls network access.</p>
+<p>这意味着尽管排序服务节点O4是创建联盟X1和X2以及渠道C1和C2的参与者，网络的智能包含在O4遵循的网络配置NC4中。只要O4表现出色，并且在处理网络资源时正确执行NC4中定义的策略，我们的网络将按照所有组织的同意行事。在许多方面，NC4比O4更重要，因为它最终控制了网络访问。</p>
+<p>The same principles apply for channel configurations with respect to peers. In our network, P1 and P2 are likewise good actors. When peer nodes P1 and P2 are interacting with client applications A1 or A2 they are each using the policies defined within channel configuration CC1 to control access to the channel C1 resources.</p>
+<p>相同的原则适用于有关peer节点的通道配置。在我们的网络中，P1和P2同样是好角色。当peer节点P1和P2与客户端应用程序A1或A2交互时，它们每个都使用在通道配置CC1中定义的策略来控制对通道C1资源的访问。</p>
+<p>For example, if A1 wants to access the smart contract chaincode S5 on peer nodes P1 or P2, each peer node uses its copy of CC1 to determine the operations that A1 can perform. For example, A1 may be permitted to read or write data from the ledger L1 according to policies defined in CC1. We’ll see later the same pattern for actors in channel and its channel configuration CC2. Again, we can see that while the peers and applications are critical actors in the network, their behaviour in a channel is dictated more by the channel configuration policy than any other factor.</p>
+<p>例如，如果A1想要在peer节点P1或P2上访问智能合约S5，每个对等节点使用其CC1副本确定A1可以执行的操作。比如，根据CC1中的策略定义A1可以可能可以读写账本L1。稍后我们将在通道及其通道配置CC2中看到针对角色的相同模式。同样，我们可以看到，尽管peer节点和应用程序是网络中的关键角色，它们在通道中的行为受通道配置策略的支配，而不是其他任何因素。</p>
+<p>Finally, it is helpful to understand how network and channel configurations are physically realized. We can see that network and channel configurations are logically singular – there is one for the network, and one for each channel. This is important; every component that accesses the network or the channel must have a shared understanding of the permissions granted to different organizations.</p>
+<p>最后，了解物理上如何实现网络和通道配置将很有帮助。我们可以看到网络和通道配置在逻辑上是唯一的，网络有一个配置，每个通道也都有一个配置。这个很重要，访问网络或通道的每个组件都必须对授予不同组织的权限有共同的了解。</p>
+<p>Even though there is logically a single configuration, it is actually replicated and kept consistent by every node that forms the network or channel. For example, in our network peer nodes P1 and P2 both have a copy of channel configuration CC1, and by the time the network is fully complete, peer nodes P2 and P3 will both have a copy of channel configuration CC2. Similarly ordering service node O4 has a copy of the network configuration, but in a <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/network/network.html#the-ordering-service">multi-node configuration</a>, every ordering service node will have its own copy of the network configuration.</p>
+<p>即使从逻辑上讲只有一个配置，但实际上它被构成网络或通道的每个节点复制并保持一致。例如，在我们的网络peer节点P1和P2中都有一个通道配置CC1的副本，到网络完全完成时，peer节点P2和P3都将拥有通道配置CC2的副本。类似的排序服务节点O4有一个网络配置的副本，但是在多节点配置中，每个订购服务节点都将拥有自己的网络配置副本。</p>
+<p>Both network and channel configurations are kept consistent using the same blockchain technology that is used for user transactions – but for <strong>configuration</strong> transactions. To change a network or channel configuration, an administrator must submit a configuration transaction to change the network or channel configuration. It must be signed by the organizations identified in the appropriate policy as being responsible for configuration change. This policy is called the <strong>mod_policy</strong> and we’ll <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/network/network.html#changing-policy">discuss it later</a>.</p>
+<p>网络和通道配置使用与用户交易相同的区块链技术保持不可篡改，但是这里是用的是<strong>配置</strong>交易。要修改一个网络或者通道的配置，管理员必须提交一个配置交易来更改网络或者通道的配置。必须由适当策略中确定负责配置更改的组织签名。这项政策称为<strong>mod_policy</strong>，我们将在后面讨论。</p>
+<p>Indeed, the ordering service nodes operate a mini-blockchain, connected via the <strong>system channel</strong> we mentioned earlier. Using the system channel ordering service nodes distribute network configuration transactions. These transactions are used to co-operatively maintain a consistent copy of the network configuration at each ordering service node. In a similar way, peer nodes in an <strong>application channel</strong> can distribute channel configuration transactions. Likewise, these transactions are used to maintain a consistent copy of the channel configuration at each peer node.</p>
+<p>的确，排序服务节点运行着一个微型区块链，通过我们前面提到的系统通道连接。排序服务节点使用系统通道来分发网络配置交易。这些交易用于保持每个排序服务节点合作维护网络配置有一致的副本。以类似的方式，应用程序通道中的peer节点可以分发通道配置交易。同样，这些交易用于保持在每个peer节点上维护的通道配置的副本一致。</p>
+<p>This balance between objects that are logically singular, by being physically distributed is a common pattern in Hyperledger Fabric. Objects like network configurations, that are logically single, turn out to be physically replicated among a set of ordering services nodes for example. We also see it with channel configurations, ledgers, and to some extent smart contracts which are installed in multiple places but whose interfaces exist logically at the channel level. It’s a pattern you see repeated time and again in Hyperledger Fabric, and enables Hyperledger Fabric to be both de-centralized and yet manageable at the same time.</p>
+<p>物理是分布式的，逻辑上是单一的这种对象之间的平衡是Hyperledger Fabric中的常见模式。例如，逻辑上单一的对象（如网络配置）实际上是在一组排序服务节点之间进行物理复制的。我们会在通道配置、账本和在某种程度上安装在多个位置但逻辑上存在于通道级别的智能合约上看到相同的情况。您在Hyperledger Fabric中一次又一次地看到这种模式，并使Hyperledger Fabric既可以分散管理，又可以同时进行管理。</p>
+<h2 id="Adding-another-peer（添加另一个peer节点）">Adding another peer（添加另一个peer节点）</h2>
+<p>Now that organization R3 is able to fully participate in channel C2, let’s add its infrastructure components to the channel. Rather than do this one component at a time, we’re going to add a peer, its local copy of a ledger, a smart contract and a client application all at once!</p>
+<p>现在组织R3可以完全参与渠道C2了，让我们将其基础结构组件添加到渠道中。我们不会一次添加一个组件，而是一次添加一个peer以及其账本的本地副本、智能合约和客户端应用程序！</p>
+<p>Let’s see the network with organization R3’s components added:</p>
+<p>让我们看一下添加了组织R3组件的网络：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.11.png" alt="network.diagram.11"></p>
+<p><em>The diagram shows the facts relating to channels C1 and C2 in the network N as follows: Client applications A1 and A2 can use channel C1 for communication with peers P1 and P2, and ordering service O4; client applications A3 can use channel C2 for communication with peer P3 and ordering service O4. Ordering service O4 can make use of the communication services of channels C1 and C2. Channel configuration CC1 applies to channel C1, CC2 applies to channel C2.</em></p>
+<p><em>该图显示了与网络N中的通道C1和C2有关的事实，如下所示：客户端应用程序A1和A2可以使用通道C1来与peer节点P1和P2以及排序服务O4进行通信；客户端应用程序A3可以使用通道来与peer节点P3和排序服务O4进行通信。排序服务O4可以利用通道C1和C2的通信服务。通道配置CC1适用于通道C1，CC2适用于通道C2。</em></p>
+<p>First of all, notice that because peer node P3 is connected to channel C2, it has a <strong>different</strong> ledger – L2 – to those peer nodes using channel C1. The ledger L2 is effectively scoped to channel C2. The ledger L1 is completely separate; it is scoped to channel C1. This makes sense – the purpose of the channel C2 is to provide private communications between the members of the consortium X2, and the ledger L2 is the private store for their transactions.</p>
+<p>首先，请注意，由于peer节点P3连接到通道C2，他拥有一个与通道C1上的节点不一样的账本L2。账本L2的有效范围为通道C2。分类帐L1是完全独立的；它的作用域是通道C1。这是有道理的-通道C2的目的是在财团X2的成员之间提供私人通信，而分类帐L2是其交易的私人商店。</p>
+<p>In a similar way, the smart contract S6, installed on peer node P3, and defined on channel C2, is used to provide controlled access to ledger L2. Application A3 can now use channel C2 to invoke the services provided by smart contract S6 to generate transactions that can be accepted onto every copy of the ledger L2 in the network.</p>
+<p>以类似的方式，安装在peer节点P3上并定义在通道C2上的智能合约S6用于提供对账本L2的受控访问。应用程序A3现在可以使用通道C2来调用智能合约S6提供的服务来生成交易，以生成可以被接受到网络中账本L2的每个副本上的交易。</p>
+<p>At this point in time, we have a single network that has two completely separate channels defined within it. These channels provide independently managed facilities for organizations to transact with each other. Again, this is de-centralization at work; we have a balance between control and autonomy. This is achieved through policies which are applied to channels which are controlled by, and affect, different organizations.</p>
+<p>此时，我们有了一个网络，其中定义了两个完全独立的通道。这些通道为组织提供了相互独立管理的设施，以便彼此进行交易。同样，这是工作中的分权；我们在控制和自治之间取得平衡。这是通过将策略应用到受不同组织控制并影响不同组织的渠道来实现的。</p>
+<h2 id="Joining-a-peer-to-multiple-channels（把一个peer节点加入到不同通道）">Joining a peer to multiple channels（把一个peer节点加入到不同通道）</h2>
+<p>In this final stage of network development, let’s return our focus to organization R2. We can exploit the fact that R2 is a member of both consortia X1 and X2 by joining it to multiple channels:</p>
+<p>在网络开发的最后阶段，让我们把重点放回到组织R2。我们可以利用R2是X1和X2联盟的成员这一事实来将R2加入多个渠道：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.12.png" alt="network.diagram.12"></p>
+<p><em>The diagram shows the facts relating to channels C1 and C2 in the network N as follows: Client applications A1 can use channel C1 for communication with peers P1 and P2, and ordering service O4; client application A2 can use channel C1 for communication with peers P1 and P2 and channel C2 for communication with peers P2 and P3 and ordering service O4; client application A3 can use channel C2 for communication with peer P3 and P2 and ordering service O4. Ordering service O4 can make use of the communication services of channels C1 and C2. Channel configuration CC1 applies to channel C1, CC2 applies to channel C2.</em></p>
+<p><em>该图显示了与网络N中的通道C1和C2有关的下面的事实：客户端应用程序A1可以使用通道C1来与peer节点P1和P2以及排序服务O4进行通信；客户端应用程序A2可以使用通道C1来和peer节点P1和P2通信，并且使用C2来与peer节点P2和P3以及排序服务O4进行通信；客户端应用程序A3可以使用通道C2来与peer节点P3和P2以及排序服务O4进行通信。排序服务O4可以使用通道C1和C2上的通信服务。通道配置CC1服务于通道C1、CC2服务与通道C2。</em></p>
+<p>We can see that R2 is a special organization in the network, because it is the only organization that is a member of two application channels! It is able to transact with organization R1 on channel C1, while at the same time it can also transact with organization R3 on a different channel, C2.</p>
+<p>我们可以看到R2是网络上的一个特殊的组织，因为它是两个应用程序通道的成员的唯一组织！他可以在通道C1上与组织R1进行交易，同时它也可以在另一个不同的通道C2上与组织R3进行交易。</p>
+<p>Notice how peer node P2 has smart contract S5 installed for channel C1 and smart contract S6 installed for channel C2. Peer node P2 is a full member of both channels at the same time via different smart contracts for different ledgers.</p>
+<p>请注意，peer节点P2如何为通道C1安装了智能合约S5，并为通道C2安装了智能合约S6。peer节点P2通过不同账本的不同智能合约同时是两个渠道的正式成员。</p>
+<p>This is a very powerful concept – channels provide both a mechanism for the separation of organizations, and a mechanism for collaboration between organizations. All the while, this infrastructure is provided by, and shared between, a set of independent organizations.</p>
+<p>这是一个非常强大的概念-渠道既提供了组织分离的机制，也提供了组织之间协作的机制。一直以来，此基础结构（即通道）由一组独立的组织提供并在它们之间共享。</p>
+<p>It is also important to note that peer node P2’s behaviour is controlled very differently depending upon the channel in which it is transacting. Specifically, the policies contained in channel configuration CC1 dictate the operations available to P2 when it is transacting in channel C1, whereas it is the policies in channel configuration CC2 that control P2’s behaviour in channel C2.</p>
+<p>同样重要的是要注意，peer节点P2的行为受其进行交易的通道的控制非常不同。具体而言，通道配置CC1中包含的策略规定了P2在通道C1中进行交易时可使用的操作，而通道配置CC2中的策略控制渠道P2在渠道C2中的行为。</p>
+<p>Again, this is desirable – R2 and R1 agreed the rules for channel C1, whereas R2 and R3 agreed the rules for channel C2. These rules were captured in the respective channel policies – they can and must be used by every component in a channel to enforce correct behaviour, as agreed.</p>
+<p>同样，R2和R1同意通道C1的规则，而R2和R3同意了通道C2的规则是可取的。这些规则是在各自的通道的政策中获取的-渠道中的每个组件都可以并且必须使用它们来强制执行正确的行为，这已经达成共识。</p>
+<p>Similarly, we can see that client application A2 is now able to transact on channels C1 and C2. And likewise, it too will be governed by the policies in the appropriate channel configurations. As an aside, note that client application A2 and peer node P2 are using a mixed visual vocabulary – both lines and connections. You can see that they are equivalent; they are visual synonyms.</p>
+<p>同样，我们可以看到客户端应用程序A2现在能够在通道C1和C2上进行交易。同样，它也将由适当的通道配置中的策略控制。顺便提一句，请注意客户端应用程序A2和peer节点P2正在使用混合的可视词汇表（包括行和连接）。您可以看到它们是等效的。它们是视觉同义词。</p>
+<h3 id="The-ordering-service（排序服务）">The ordering service（排序服务）</h3>
+<p>The observant reader may notice that the ordering service node appears to be a centralized component; it was used to create the network initially, and connects to every channel in the network. Even though we added R1 and R4 to the network configuration policy NC4 which controls the orderer, the node was running on R4’s infrastructure. In a world of de-centralization, this looks wrong!</p>
+<p>细心的读者可能会注意到排序服务节点似乎是一个集中式组件，他被用于创建初始化网络，并且链接网络中的所有的通道。即使我们在控制排序者的网络配置策略NC4中添加了R1和R4，该节点仍在R4的基础架构上运行。在去中心化的世界中，这看起来是错误的！</p>
+<p>Don’t worry! Our example network showed the simplest ordering service configuration to help you understand the idea of a network administration point. In fact, the ordering service can itself too be completely de-centralized! We mentioned earlier that an ordering service could be comprised of many individual nodes owned by different organizations, so let’s see how that would be done in our sample network.</p>
+<p>不要担心！我们的示例网络显示了最简单的排序服务配置，以帮助您了解网络管理点的概念。事实上，排序服务自己也是完全去中心化的。前面我们提到过，排序服务可以由不同组织拥有的许多单个节点组成，因此让我们看看如何在示例网络中完成该工作。</p>
+<p>Let’s have a look at a more realistic ordering service node configuration:</p>
+<p>让我们看一个更接近现实的排序服务节点配置：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.15.png" alt="network.diagram.15"></p>
+<p><em>A multi-organization ordering service. The ordering service comprises ordering service nodes O1 and O4. O1 is provided by organization R1 and node O4 is provided by organization R4. The network configuration NC4 defines network resource permissions for actors from both organizations R1 and R4.</em></p>
+<p><em>多组织的排序服务。排序服务包含排序节点O1和O4。O1是由组织R1提供而节点O4是由组织R4提供。网络配置NC4为组织R1和R4的参与者定义了网络资源权限。</em></p>
+<p>We can see that this ordering service completely de-centralized – it runs in organization R1 and it runs in organization R4. The network configuration policy, NC4, permits R1 and R4 equal rights over network resources. Client applications and peer nodes from organizations R1 and R4 can manage network resources by connecting to either node O1 or node O4, because both nodes behave the same way, as defined by the policies in network configuration NC4. In practice, actors from a particular organization <em>tend</em> to use infrastructure provided by their home organization, but that’s certainly not always the case.</p>
+<p>我们看到排序服务已经是完全的去中心化了，他运行在组织R1和R4上。网络配置策略NC4，允许R1和R4在网络资源上享有同等的权利。组织R1和R4的客户端程序和peer节点可以通过O1和O4的任意一个来管理网络上的资源，因为两个节点的行为方式均与网络配置NC4中的策略所定义的方式相同。实际上，来自特定组织的参与者往往会使用其上级组织提供的基础架构，但这并非总是如此。</p>
+<h3 id="De-centralized-transaction-distribution（去中心化的交易分发）">De-centralized transaction distribution（去中心化的交易分发）</h3>
+<p>As well as being the management point for the network, the ordering service also provides another key facility – it is the distribution point for transactions. The ordering service is the component which gathers endorsed transactions from applications and orders them into transaction blocks, which are subsequently distributed to every peer node in the channel. At each of these committing peers, transactions are recorded, whether valid or invalid, and their local copy of the ledger updated appropriately.</p>
+<p>排序服务不仅是网络的管理点，还提供了另一个关键功能–它是交易的分发点。排序服务是一个组件，这个组件从应用程序中收集认可交易并将其排序到交易块中，随后分发给通道中的每个peer节点。在每个提交节点中，交易会被记录（不论是成功还是失败），并在本地更新账本。</p>
+<p>Notice how the ordering service node O4 performs a very different role for the channel C1 than it does for the network N. When acting at the channel level, O4’s role is to gather transactions and distribute blocks inside channel C1. It does this according to the policies defined in channel configuration CC1. In contrast, when acting at the network level, O4’s role is to provide a management point for network resources according to the policies defined in network configuration NC4. Notice again how these roles are defined by different policies within the channel and network configurations respectively. This should reinforce to you the importance of declarative policy based configuration in Hyperledger Fabric. Policies both define, and are used to control, the agreed behaviours by each and every member of a consortium.</p>
+<p>请注意，排序服务节点O4如何对通道C1起到与对网络N完全不同的作用。在作用于通道级别时，O4的作用是在通道C1里面收集和分发区块的。它根据通道配置CC1中定义的策略执行此操作。作为对比，在网络级别执行操作时，O4的作用是根据网络配置NC4中定义的策略为网络资源提供管理点。再次注意，这些角色是如何分别由通道和网络配置中的不同策略定义的。这应该向您强调Hyperledger Fabric中基于声明策略的配置的重要性。策略既定义了联盟的每个成员，又用于控制联盟的每个成员的行为。</p>
+<p>We can see that the ordering service, like the other components in Hyperledger Fabric, is a fully de-centralized component. Whether acting as a network management point, or as a distributor of blocks in a channel, its nodes can be distributed as required throughout the multiple organizations in a network.</p>
+<p>我们看到像Hyperledger Fabric中的其他组件一样，排序服务是一个完全的去中心化的组件。无论是充当网络管理点，还是充当通道中的区块分配器，它的节点可以根据需要分布在网络中的多个组织中。</p>
+<h3 id="Changing-policy（修改策略）">Changing policy（修改策略）</h3>
+<p>Throughout our exploration of the sample network, we’ve seen the importance of the policies to control the behaviour of the actors in the system. We’ve only discussed a few of the available policies, but there are many that can be declaratively defined to control every aspect of behaviour. These individual policies are discussed elsewhere in the documentation.</p>
+<p>在整个示例网络的探索过程中，我们已经了解了控制系统中参与者行为的策略的重要性。我们仅讨论了一些可用的策略，但是可以声明性地定义许多策略来控制行为的各个方面。这些单独的策略在文档的其他地方进行了讨论。</p>
+<p>Most importantly of all, Hyperledger Fabric provides a uniquely powerful policy that allows network and channel administrators to manage policy change itself! The underlying philosophy is that policy change is a constant, whether it occurs within or between organizations, or whether it is imposed by external regulators. For example, new organizations may join a channel, or existing organizations may have their permissions increased or decreased. Let’s investigate a little more how change policy is implemented in Hyperledger Fabric.</p>
+<p>最重要的是，Hyperledger Fabric 提供了独特而强大的策略，允许网络和通道管理员自行管理策略更改！基本理念是政策变化是一个持续不断的过程，不论它是在组织内部还是组织之间发生，还是由外部监管机构强加。例如，新组织可以加入通道，或者现有组织的权限可以增加或减少。让我们研究一下Hyperledger Fabric中更改策略的实现方式。</p>
+<p>The key point of understanding is that policy change is managed by a policy within the policy itself. The <strong>modification policy</strong>, or <strong>mod_policy</strong> for short, is a first class policy within a network or channel configuration that manages change. Let’s give two brief examples of how we’ve <strong>already</strong> used mod_policy to manage change in our network!</p>
+<p>理解的关键点是，策略更改由策略本身内的策略来管理。<strong>modification policy（修改策略）<strong>或者简称为</strong>mod_policy</strong>，是一个在网络或渠道配置中管理变更的头等仓的策略。让我们举两个简单的例子，说明我们是如何使用mod_policy来管理网络中的更改的！</p>
+<p>The first example was when the network was initially set up. At this time, only organization R4 was allowed to manage the network. In practice, this was achieved by making R4 the only organization defined in the network configuration NC4 with permissions to network resources. Moreover, the mod_policy for NC4 only mentioned organization R4 – only R4 was allowed to change this configuration.</p>
+<p>第一个示例是最初建立网络时。此时，只有组织R4允许管理网络。在实践中，这是通过使R4成为网络配置NC4中定义的唯一拥有网络资源权限的组织来实现的。此外，NC4的mod_policy仅提及组织R4 –仅允许R4更改此配置。</p>
+<p>We then evolved the network N to also allow organization R1 to administer the network. R4 did this by adding R1 to the policies for channel creation and consortium creation. Because of this change, R1 was able to define the consortia X1 and X2, and create the channels C1 and C2. R1 had equal administrative rights over the channel and consortium policies in the network configuration.</p>
+<p>然后，我们对网络N进行了演进，以也允许组织R1管理网络。R4通过将R1添加到用于通道创建和联盟创建的策略中来做到这一点。因为这个变更，R1可以定义联盟X1和X2，并且创建了通道C1和C2。网络配置中策略指明R1对通道和联盟具有同等的管理权限。</p>
+<p>R4 however, could grant even more power over the network configuration to R1! R4 could add R1 to the mod_policy such that R1 would be able to manage change of the network policy too.</p>
+<p>但是，R4可以通过网络配置向R1授予更多权利。R4可以将R1添加到mod_policy中，以便R1也能够管理网络策略的更改。</p>
+<p>This second power is much more powerful than the first, because R1 now has <strong>full control</strong> over the network configuration NC4! This means that R1 can, in principle remove R4’s management rights from the network. In practice, R4 would configure the mod_policy such that R4 would need to also approve the change, or that all organizations in the mod_policy would have to approve the change. There’s lots of flexibility to make the mod_policy as sophisticated as it needs to be to support whatever change process is required.</p>
+<p>第二个权利相比于第一个来说强大的多，因为R1现在可以完全控制网络配置NC4！这意味着R1原则上可以从网络中删除R4的管理权限。在实践中，R4将把mod_policy配置成为R4需要批准配置更改，或者mod_policy中的所有组织都必须批准更改。有足够的灵活性可以使mod_policy复杂到可以支持所需的任何更改过程。</p>
+<p>This is mod_policy at work – it has allowed the graceful evolution of a basic configuration into a sophisticated one. All the time this has occurred with the agreement of all organization involved. The mod_policy behaves like every other policy inside a network or channel configuration; it defines a set of organizations that are allowed to change the mod_policy itself.</p>
+<p>这就是mod_policy的作用，它使基本配置可以优雅地演变为复杂的配置。在所有相关组织达成一致之后，这种情况一直存在。mod_policy的行为与网络或通道配置中的所有其他策略相同；它定义了一组允许更改mod_policy本身的组织。</p>
+<p>We’ve only scratched the surface of the power of policies and mod_policy in particular in this subsection. It is discussed at much more length in the policy topic, but for now let’s return to our finished network!</p>
+<p>在本小节中，我们仅介绍了策略和mod_policy的功能。在策略主题中将对它进行更详细的讨论，但现在让我们回到完成的网络中！</p>
+<h2 id="Network-fully-formed（网络全面形成）">Network fully formed（网络全面形成）</h2>
+<p>Let’s recap what our network looks like using a consistent visual vocabulary. We’ve re-organized it slightly using our more compact visual syntax, because it better accommodates larger topologies:</p>
+<p>让我们使用一致的视觉词汇来回顾一下我们的网络。我们使用更紧凑的视觉语法对其进行了稍微的重组，因为它可以更好地适应更大的拓扑：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/network.diagram.14.png" alt="network.diagram.14"></p>
+<p><em>In this diagram we see that the Fabric blockchain network consists of two application channels and one ordering channel. The organizations R1 and R4 are responsible for the ordering channel, R1 and R2 are responsible for the blue application channel while R2 and R3 are responsible for the red application channel. Client applications A1 is an element of organization R1, and CA1 is it’s certificate authority. Note that peer P2 of organization R2 can use the communication facilities of the blue and the red application channel. Each application channel has its own channel configuration, in this case CC1 and CC2. The channel configuration of the system channel is part of the network configuration, NC4.</em></p>
+<p><em>在我们看到的这个图片中，Fabirc区块链网络包含两个应用程序通道和一个排序通道。组织R1和R4负责排序通道，R1和R2负责蓝色应用程序通道，而R2和R3负责红色应用程序通道。客户端应用程序A1是组织R1的元素，而CA1是组织的证书颁发机构。注意属于组织R2的Peer节点P2可以同时使用红色和蓝色的应用程序通道的通信设施。每个应用程序通道都有自己的通道配置，例如CC1和CC2。系统通道的通道配置是网络配置（NC4）的一部分。</em></p>
+<p>We’re at the end of our conceptual journey to build a sample Hyperledger Fabric blockchain network. We’ve created a four organization network with two channels and three peer nodes, with two smart contracts and an ordering service. It is supported by four certificate authorities. It provides ledger and smart contract services to three client applications, who can interact with it via the two channels. Take a moment to look through the details of the network in the diagram, and feel free to read back through the topic to reinforce your knowledge, or go to a more detailed topic.</p>
+<p>我们构建简单的Hyperledger Fabric区块链网络的概念之旅已结束。我们创建了一个具有两个通道和三个peer节点，两个智能合约和一个排序服务的四个组织的网络。这个网络由四个证书颁发机构支持。这个网络对三个客户端应用程序提供账本和智能合约服务，他们可以通过两个通道与之交互。花一点时间浏览图中的网络详细信息，并随时阅读本主题以增强您的知识，或者转到更详细的主题。</p>
+<h3 id="Summary-of-network-components（网络组件的摘要）">Summary of network components（网络组件的摘要）</h3>
+<p>Here’s a quick summary of the network components we’ve discussed（以下是我们讨论过的网络组件的简要摘要）：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#ledger">Ledger</a>. One per channel. Comprised of the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#block">Blockchain</a> and the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#world-state">World state</a>（每个通道一个。由区块链和世界状态组成）</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#smart-contract">Smart contract</a> (aka chaincode)（Also Known As智能合约）</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#peer">Peer nodes</a>（peer节点）</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#ordering-service">Ordering service</a>（排序服务）</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#channel">Channel</a>（通道）</li>
+<li><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/glossary.html#hyperledger-fabric-ca">Certificate Authority</a>（证书颁发机构）</li>
+</ul>
+<h2 id="Network-summary（网络总结）">Network summary（网络总结）</h2>
+<p>In this topic, we’ve seen how different organizations share their infrastructure to provide an integrated Hyperledger Fabric blockchain network. We’ve seen how the collective infrastructure can be organized into channels that provide private communications mechanisms that are independently managed. We’ve seen how actors such as client applications, administrators, peers and orderers are identified as being from different organizations by their use of certificates from their respective certificate authorities. And in turn, we’ve seen the importance of policy to define the agreed permissions that these organizational actors have over network and channel resources.</p>
+<p>在本主题中，我们已经看到了不同的组织如何共享其基础架构以提供集成Hyperledger Fabric区块链网络。我们已经看到了如何将集体基础结构组织为提供独立管理的私有通信机制的通道。我们已经了解了如何通过使用来自各自证书颁发机构的证书将诸如客户端应用程序，管理员，peer节点和排序者之类的参与者识别为来自不同组织。反过来，我们已经看到了定义这些组织参与者对网络和通道资源拥有的同意权限的政策的重要性。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Blockchain-network-Fabric%E7%9A%84%E7%BD%91%E7%BB%9C"><span class="toc-number">1.</span> <span class="toc-text">Blockchain network(Fabric的网络)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Creating-the-Network"><span class="toc-number">1.1.</span> <span class="toc-text">Creating the Network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Certificate-Authorities%EF%BC%88%E8%AF%81%E4%B9%A6%E9%A2%81%E5%8F%91%E6%9C%BA%E6%9E%84%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">Certificate Authorities（证书颁发机构）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adding-Network-Administrators%EF%BC%88%E6%B7%BB%E5%8A%A0%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%91%98%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">Adding Network Administrators（添加网络管理员）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Defining-a-Consortium-%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E8%81%94%E7%9B%9F"><span class="toc-number">1.4.</span> <span class="toc-text">Defining a Consortium(定义一个联盟)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Creating-a-channel-for-a-consortium-%E4%B8%BA%E8%81%94%E7%9B%9F%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%80%9A%E9%81%93"><span class="toc-number">1.5.</span> <span class="toc-text">Creating a channel for a consortium(为联盟创建一个通道)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Peers-and-Ledgers%EF%BC%88%E8%8A%82%E7%82%B9%E4%B8%8E%E8%B4%A6%E5%8D%95%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">Peers and Ledgers（节点与账单）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Applications-and-Smart-Contract-chaincode%EF%BC%88%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E8%81%94%E9%93%BE%E7%A0%81%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">Applications and Smart Contract chaincode（应用程序和智能合约联链码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Installing-a-chaincode-package%EF%BC%88%E5%AE%89%E8%A3%85%E9%93%BE%E7%A0%81%E5%8C%85%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">Installing a chaincode package（安装链码包）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Defining-a-chaincode%EF%BC%88%E5%AE%9A%E4%B9%89%E9%93%BE%E7%A0%81%EF%BC%89"><span class="toc-number">1.9.</span> <span class="toc-text">Defining a chaincode（定义链码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Endorsement-policy%EF%BC%88%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5%EF%BC%89"><span class="toc-number">1.10.</span> <span class="toc-text">Endorsement policy（背书策略）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Invoking-a-smart-contract%EF%BC%88%E8%B0%83%E7%94%A8%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%EF%BC%89"><span class="toc-number">1.11.</span> <span class="toc-text">Invoking a smart contract（调用智能合约）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Network-completed%EF%BC%88%E7%BD%91%E7%BB%9C%E5%AE%8C%E6%88%90%EF%BC%89"><span class="toc-number">1.12.</span> <span class="toc-text">Network completed（网络完成）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generating-and-accepting-transactions%EF%BC%88%E7%94%9F%E6%88%90%E5%92%8C%E6%8E%A5%E5%8F%97%E4%BA%A4%E6%98%93%EF%BC%89"><span class="toc-number">1.13.</span> <span class="toc-text">Generating and accepting transactions（生成和接受交易）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Types-of-peers%EF%BC%88peer%E8%8A%82%E7%82%B9%E7%9A%84%E7%B1%BB%E5%9E%8B%EF%BC%89"><span class="toc-number">1.14.</span> <span class="toc-text">Types of peers（peer节点的类型）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adding-organizations-and-peers-to-the-channel%EF%BC%88%E5%B0%86%E7%BB%84%E7%BB%87%E5%92%8C%E8%8A%82%E7%82%B9%E6%B7%BB%E5%8A%A0%E5%88%B0%E6%B8%A0%E9%81%93%EF%BC%89"><span class="toc-number">1.15.</span> <span class="toc-text">Adding organizations and peers to the channel（将组织和节点添加到渠道）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Simplifying-the-visual-vocabulary%EF%BC%88%E7%AE%80%E5%8C%96%E8%A7%86%E8%A7%89%E8%AF%8D%E6%B1%87%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">Simplifying the visual vocabulary（简化视觉词汇）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adding-another-consortium-definition%EF%BC%88%E6%B7%BB%E5%8A%A0%E5%8F%A6%E4%B8%80%E4%B8%AA%E8%81%94%E7%9B%9F%E5%AE%9A%E4%B9%89%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">Adding another consortium definition（添加另一个联盟定义）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adding-a-new-channel%EF%BC%88%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">Adding a new channel（添加一个新的通道）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Network-and-channel-configurations%EF%BC%88%E7%BD%91%E7%BB%9C%E4%B8%8E%E9%80%9A%E9%81%93%E9%85%8D%E7%BD%AE%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">Network and channel configurations（网络与通道配置）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adding-another-peer%EF%BC%88%E6%B7%BB%E5%8A%A0%E5%8F%A6%E4%B8%80%E4%B8%AApeer%E8%8A%82%E7%82%B9%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">Adding another peer（添加另一个peer节点）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Joining-a-peer-to-multiple-channels%EF%BC%88%E6%8A%8A%E4%B8%80%E4%B8%AApeer%E8%8A%82%E7%82%B9%E5%8A%A0%E5%85%A5%E5%88%B0%E4%B8%8D%E5%90%8C%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">Joining a peer to multiple channels（把一个peer节点加入到不同通道）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-ordering-service%EF%BC%88%E6%8E%92%E5%BA%8F%E6%9C%8D%E5%8A%A1%EF%BC%89"><span class="toc-number">6.1.</span> <span class="toc-text">The ordering service（排序服务）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#De-centralized-transaction-distribution%EF%BC%88%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%E7%9A%84%E4%BA%A4%E6%98%93%E5%88%86%E5%8F%91%EF%BC%89"><span class="toc-number">6.2.</span> <span class="toc-text">De-centralized transaction distribution（去中心化的交易分发）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Changing-policy%EF%BC%88%E4%BF%AE%E6%94%B9%E7%AD%96%E7%95%A5%EF%BC%89"><span class="toc-number">6.3.</span> <span class="toc-text">Changing policy（修改策略）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-fully-formed%EF%BC%88%E7%BD%91%E7%BB%9C%E5%85%A8%E9%9D%A2%E5%BD%A2%E6%88%90%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">Network fully formed（网络全面形成）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary-of-network-components%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BB%84%E4%BB%B6%E7%9A%84%E6%91%98%E8%A6%81%EF%BC%89"><span class="toc-number">7.1.</span> <span class="toc-text">Summary of network components（网络组件的摘要）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-summary%EF%BC%88%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">Network summary（网络总结）</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&text=Fabric的网络"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&title=Fabric的网络"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&is_video=false&description=Fabric的网络"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Fabric的网络&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&title=Fabric的网络"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&title=Fabric的网络"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&title=Fabric的网络"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&title=Fabric的网络"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&name=Fabric的网络&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5/Fabric%E7%9A%84%E7%BD%91%E7%BB%9C/&t=Fabric的网络"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

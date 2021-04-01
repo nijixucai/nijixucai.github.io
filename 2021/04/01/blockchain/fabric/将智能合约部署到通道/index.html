@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Deploying a smart contract to a channel（将智能合约部署到通道） 参考文档 最终用户通过调用智能合约与区块链账本进行交互。在Hyperledger Fabric中，智能合约通过称为chaincode的软件包进行部署。一个组织想要验证交易或者查询账本的内容，就需要在其peer节点上部署chaincode。当一个已经安装了chaincode的节点加入channel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将智能合约部署到通道">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="Deploying a smart contract to a channel（将智能合约部署到通道） 参考文档 最终用户通过调用智能合约与区块链账本进行交互。在Hyperledger Fabric中，智能合约通过称为chaincode的软件包进行部署。一个组织想要验证交易或者查询账本的内容，就需要在其peer节点上部署chaincode。当一个已经安装了chaincode的节点加入channel">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-01T10:18:21.487Z">
+<meta property="article:modified_time" content="2021-04-01T10:18:21.488Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="Hyperledger-Fabric">
+<meta property="article:tag" content="channel">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>将智能合约部署到通道</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/fabric/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6API%E5%AD%A6%E4%B9%A0/ClientIdentity%E6%8E%A5%E5%8F%A3%E7%BB%83%E4%B9%A0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/01/blockchain/fabric/%E5%9C%A8Fabric%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%A7%81%E6%9C%89%E6%95%B0%E6%8D%AE/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&text=将智能合约部署到通道"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&title=将智能合约部署到通道"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&is_video=false&description=将智能合约部署到通道"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=将智能合约部署到通道&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&title=将智能合约部署到通道"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&title=将智能合约部署到通道"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&title=将智能合约部署到通道"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&title=将智能合约部署到通道"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&name=将智能合约部署到通道&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&t=将智能合约部署到通道"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Deploying-a-smart-contract-to-a-channel%EF%BC%88%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Deploying a smart contract to a channel（将智能合约部署到通道）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Start-the-network%EF%BC%88%E5%90%AF%E5%8A%A8%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">Start the network（启动测试网络）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setup-Logspout-optional-%EF%BC%88%E5%90%AF%E5%8A%A8%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA%EF%BC%8C%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">Setup Logspout (optional)（启动日志输出，可选）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Package-the-smart-contract%EF%BC%88%E6%89%93%E5%8C%85%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">Package the smart contract（打包智能合约）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Go"><span class="toc-number">1.3.1.</span> <span class="toc-text">Go</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-the-chaincode-package%EF%BC%88%E5%AE%89%E8%A3%85%E9%93%BE%E7%A0%81%E5%8C%85%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">Install the chaincode package（安装链码包）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Approve-a-chaincode-definition%EF%BC%88%E6%89%B9%E5%87%86%E9%93%BE%E7%A0%81%E5%AE%9A%E4%B9%89%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">Approve a chaincode definition（批准链码定义）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Committing-the-chaincode-definition-to-the-channel%EF%BC%88%E5%B0%86%E9%93%BE%E7%A0%81%E5%AE%9A%E4%B9%89%E6%8F%90%E4%BA%A4%E5%88%B0%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">Committing the chaincode definition to the channel（将链码定义提交到通道）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Invoking-the-chaincode%EF%BC%88%E8%B0%83%E7%94%A8%E9%93%BE%E7%A0%81%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">Invoking the chaincode（调用链码）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Upgrading-a-smart-contract%EF%BC%88%E6%9B%B4%E6%96%B0%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">Upgrading a smart contract（更新智能合约）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%8C%85"><span class="toc-number">1.8.1.</span> <span class="toc-text">打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.8.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%B9%E5%87%86%E9%93%BE%E7%A0%81%E5%AE%9A%E4%B9%89"><span class="toc-number">1.8.3.</span> <span class="toc-text">批准链码定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%BB%84%E7%BB%87%E5%AE%89%E8%A3%85%E9%93%BE%E7%A0%81"><span class="toc-number">1.8.4.</span> <span class="toc-text">其他组织安装链码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%B9%E5%87%86%E9%93%BE%E7%A0%81%E5%AE%9A%E4%B9%89-v2"><span class="toc-number">1.8.5.</span> <span class="toc-text">批准链码定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clean-up%EF%BC%88%E6%B8%85%E7%90%86%EF%BC%89"><span class="toc-number">1.9.</span> <span class="toc-text">Clean up（清理）</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        将智能合约部署到通道
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-01T10:18:21.487Z" itemprop="datePublished">2021-04-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/">Hyperledger-Fabric</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/Hyperledger-Fabric/channel/">channel</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Hyperledger-Fabric/" rel="tag">Hyperledger-Fabric</a>, <a class="tag-link-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link-link" href="/tags/channel/" rel="tag">channel</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Deploying-a-smart-contract-to-a-channel（将智能合约部署到通道）">Deploying a smart contract to a channel（将智能合约部署到通道）</h1>
+<p><a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html">参考文档</a></p>
+<p>最终用户通过调用智能合约与区块链账本进行交互。在Hyperledger Fabric中，智能合约通过称为chaincode的软件包进行部署。一个组织想要验证交易或者查询账本的内容，就需要在其peer节点上部署chaincode。当一个已经安装了chaincode的节点加入channel之后，channel的成员就可以把chaincode部署到channel上，然后使用chaincode上的智能合约来创建和更新chanel账本上的资产。</p>
+<p>我们使用一个叫做Fabric链码生命周期的程序来将chaincode部署到channel上；在链码可以被使用于交易之前，Fabric链码生命周期需要多个组织同意链码将如何操作。（<em>个人理解：需要组织同意智能合约的内容，智能合约才能部署到channel上</em>）举个例子，当一个背书策略制定哪些组织需要执行chaincode来验证一个交易时，channel上的成员需要使用Fabric链码生命周期来同意链码的背书策略。有关如何在通道上部署和管理链码的更深入的概述，请参阅<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/chaincode_lifecycle.html">Fabric chaincode lifecycle</a>。</p>
+<p>你可以使用 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html">peer lifecycle chaincode commands</a>这个教程来学习在Fabric测试网络中如何使用peer lifecycle chaincode commands来部署链码到channel。了解命令后，您可以使用本教程中的步骤将自己的链码部署到测试或生产网络。在这个教程中，你会部署教程<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/write_first_app.html">Writing your first application tutorial</a>使用的链码程序。</p>
+<p>**注意：**当前教程使用v2.0版本中引入的Fabric链码生命周期。</p>
+<h2 id="Start-the-network（启动测试网络）">Start the network（启动测试网络）</h2>
+<p>启动测试网络并创建channel，具体步骤参考<a href="Fabric%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BD%BF%E7%94%A8.md">Fabric测试网络使用</a>。</p>
+<p>你可以根据以下步骤使用节点的CLI来部署 asset-transfer (basic) 链码到channel中：</p>
+<ul>
+<li>[第一步：打包智能合约]</li>
+<li>[第二步：安装链码包]</li>
+<li>[第三步：批准链码定义]</li>
+<li>[第四部：提交链码定义到channel中]</li>
+</ul>
+<h2 id="Setup-Logspout-optional-（启动日志输出，可选）">Setup Logspout (optional)（启动日志输出，可选）</h2>
+<p>此步骤不是必需的，但是对于故障排除链码非常有用。要监视智能合约的日志，管理员可以使用<a target="_blank" rel="noopener" href="https://logdna.com/blog/what-is-logspout/">logspout</a>查看一组Docker容器的聚合输出。这个工具收集不同的Docker容器的输出流到一个位置，这样就可以在一个窗口看这些容器都发生了什么。这可以帮助管理员在安装智能合约或者是开发人员调用智能合约时调试问题。因为某些容器的创建纯粹是为了启动智能合约，并且仅存在很短的时间，所以从网络中收集所有日志将很有帮助。</p>
+<p><a target="_blank" rel="noopener" href="http://xn--FabricLogspoutmonitordocker-8c86b0p99fdhu31ag34avvicndd5i2t1e0etn22cmk5an23jl6lva1361ad0b263jzdgipw4t2gbf9d.sh">Fabric的商业票据示例中已经包含了用于安装和配置Logspout的脚本monitordocker.sh</a>。在本教程中，我们还将使用相同的脚本。Logspout工具将持续向您的终端流式传输日志，因此您将需要使用新的终端窗口。打开一个新终端，然后导航到test-network目录。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd fabric-samples/test-network</span><br></pre></td></tr></table></figure>
+<p>你可以在任何目录下运行 <code>monitordocker.sh</code>脚本，为了方便使用我们把 <code>monitordocker.sh</code> 从<code>commercial-paper</code>拷贝到你的工作目录(test-network)。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp ../commercial-paper/organization/digibank/configuration/cli/monitordocker.sh .</span><br></pre></td></tr></table></figure>
+<p>你可以使用下面的命令来启动Logspout：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./monitordocker.sh net_test</span><br></pre></td></tr></table></figure>
+<p>你会看到类似下面的输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Starting monitoring on all containers on the network net_basic</span><br><span class="line">Unable to find image &#x27;gliderlabs/logspout:latest&#x27; locally</span><br><span class="line">latest: Pulling from gliderlabs/logspout</span><br><span class="line">4fe2ade4980c: Pull complete</span><br><span class="line">decca452f519: Pull complete</span><br><span class="line">ad60f6b6c009: Pull complete</span><br><span class="line">Digest: sha256:374e06b17b004bddc5445525796b5f7adb8234d64c5c5d663095fccafb6e4c26</span><br><span class="line">Status: Downloaded newer image for gliderlabs/logspout:latest</span><br><span class="line">1f99d130f15cf01706eda3e1f040496ec885036d485cb6bcc0da4a567ad84361</span><br></pre></td></tr></table></figure>
+<p>在我们部署链码之前你不会看到太多的日志。</p>
+<h2 id="Package-the-smart-contract（打包智能合约）">Package the smart contract（打包智能合约）</h2>
+<p>We need to package the chaincode before it can be installed on our peers. The steps are different if you want to install a smart contract written in <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#go">Go</a>, <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#javascript">JavaScript</a>, or <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#typescript">Typescript</a>.</p>
+<p>在把智能合约安装到我们的节点之前需要先将其打包。根据编写智能合约的语言的不同，其步骤也是不一样的。（<em>本次只使用Go，其他语言如<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#go">Go</a>, <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#javascript">JavaScript</a>, or <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#typescript">Typescript</a>请参考官方文档</em>）</p>
+<h3 id="Go">Go</h3>
+<p>在我们打包链码之前，我们需要先安装链码的依赖。切换到Go版本的 asset-transfer (basic) 项目目录下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd fabric-samples/asset-transfer-basic/chaincode-go</span><br></pre></td></tr></table></figure>
+<p>该示例使用Go模块来安装chaincode依赖项。依赖关系列在asset-transfer-basic / chaincode-go目录的go.mod文件中。您应该花一点时间来检查此文件。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">module github.com/hyperledger/fabric-samples/asset-transfer-basic/chaincode-<span class="keyword">go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">go</span> <span class="number">1.14</span></span><br><span class="line"></span><br><span class="line">require (</span><br><span class="line">        github.com/golang/protobuf v1<span class="number">.3</span><span class="number">.2</span></span><br><span class="line">        github.com/hyperledger/fabric-chaincode-<span class="keyword">go</span> v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20200424173110</span>-d7076418f212</span><br><span class="line">        github.com/hyperledger/fabric-contract-api-<span class="keyword">go</span> v1<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">        github.com/hyperledger/fabric-protos-<span class="keyword">go</span> v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20200424173316</span>-dd554ba3746e</span><br><span class="line">        github.com/stretchr/testify v1<span class="number">.5</span><span class="number">.1</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>go.mod文件将Fabric合约API导入到智能合约包中。你可以打开<code>asset-transfer-basic/chaincode-go/chaincode/smartcontract.go</code>来查看在智能合约的最开始是如使用contract API来定义<code>SmartContract</code>类的。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SmartContract provides functions for managing an Asset</span></span><br><span class="line"><span class="keyword">type</span> SmartContract <span class="keyword">struct</span> &#123;</span><br><span class="line">    contractapi.Contract</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，将SmartContract类型用于为智能合约中定义的方法创建交易上下文，该方法可将数据读取和写入区块链账本。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// CreateAsset issues a new asset to the world state with given details.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmartContract)</span> <span class="title">CreateAsset</span><span class="params">(ctx contractapi.TransactionContextInterface, id <span class="keyword">string</span>, color <span class="keyword">string</span>, size <span class="keyword">int</span>, owner <span class="keyword">string</span>, appraisedValue <span class="keyword">int</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	exists, err := s.AssetExists(ctx, id)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> exists &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;the asset %s already exists&quot;</span>, id)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	asset := Asset&#123;</span><br><span class="line">		ID:             id,</span><br><span class="line">		Color:          color,</span><br><span class="line">		Size:           size,</span><br><span class="line">		Owner:          owner,</span><br><span class="line">		AppraisedValue: appraisedValue,</span><br><span class="line">	&#125;</span><br><span class="line">	assetJSON, err := json.Marshal(asset)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ctx.GetStub().PutState(id, assetJSON)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你可以通过访问 <a target="_blank" rel="noopener" href="https://github.com/hyperledger/fabric-contract-api-go">API documentation</a> 和 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/developapps/smartcontract.html">smart contract processing topic</a>来学习更多的关于合约API的内容。</p>
+<p>为了安装智能合约的依赖，在<code>asset-transfer-basic/chaincode-go</code> 目录下运行下面的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GO111MODULE=on go mod vendor</span><br></pre></td></tr></table></figure>
+<p>如果命令成功，则go软件包将安装vendor文件夹中。</p>
+<p>现在我们已经有了依赖的包，我们可以创建chaincode的包了。把当前目录切换到<code>test-network</code> 以便我们可以将链码于其他网络组件打包在一起。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ..&#x2F;..&#x2F;test-network</span><br></pre></td></tr></table></figure>
+<p>You can use the <code>peer</code> CLI to create a chaincode package in the required format. The <code>peer</code> binaries are located in the <code>bin</code> folder of the <code>fabric-samples</code> repository. Use the following command to add those binaries to your CLI Path:</p>
+<p>您可以使用<code>peer</code>CLI创建所需格式的链码包。<code>peer</code>二进制文件位于fabric-samples存储库的bin文件夹中。可以使用下面的命令添加到你的环境变量中。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$&#123;PWD&#125;/../bin:$PATH</span><br></pre></td></tr></table></figure>
+<p>您还需要将FABRIC_CFG_PATH设置为指向fabric-samples存储库中的core.yaml文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export FABRIC_CFG_PATH=$PWD/../config/</span><br></pre></td></tr></table></figure>
+<p>使用下面的命令来查看peer的版本，如果输出正常说明你已经可以使用<code>peer</code>CLI了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer version</span><br></pre></td></tr></table></figure>
+<p>You can now create the chaincode package using the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-package">peer lifecycle chaincode package</a> command:</p>
+<p>现在你可以通过 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-package">peer lifecycle chaincode package</a> 命令来创建链码包了:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode package basic.tar.gz --path ../asset-transfer-basic/chaincode-go/ --lang golang --label basic_1.0</span><br></pre></td></tr></table></figure>
+<p>This command will create a package named <code>basic.tar.gz</code> in your current directory. The <code>--lang</code> flag is used to specify the chaincode language and the <code>--path</code> flag provides the location of your smart contract code. The path must be a fully qualified path or a path relative to your present working directory. The <code>--label</code> flag is used to specify a chaincode label that will identity your chaincode after it is installed. It is recommended that your label include the chaincode name and version.</p>
+<p>这个命令会在你的当前目录下创建一个名为<code>basic.tar.gz</code>的压缩包。<code>--lang</code>标志是制定chaincode的语言，而<code>--path</code> 标志用于提供智能合约代码的位置。该路径必须是标准路径或相对于您当前工作目录的路径。<code>--label</code>标志用于指定一个链码标签，该标签将在安装链码后对其进行标识。建议您的标签包含链码名称和版本。</p>
+<p>Now that we created the chaincode package, we can <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#install-the-chaincode-package">install the chaincode</a> on the peers of the test network.</p>
+<p>现在我们已经创建了链码包，我们可以把链码安装到网络上的节点上了。</p>
+<h2 id="Install-the-chaincode-package（安装链码包）">Install the chaincode package（安装链码包）</h2>
+<p>After we package the asset-transfer (basic) smart contract, we can install the chaincode on our peers. The chaincode needs to be installed on every peer that will endorse a transaction. Because we are going to set the endorsement policy to require endorsements from both Org1 and Org2, we need to install the chaincode on the peers operated by both organizations:</p>
+<p>在我们打包了 asset-transfer (basic) 的智能合约之后，我们就可以将此链码安装到我们的peer节点上了。需要在所有的交易背书节点上安装链码。因为我们将设置背书策略要求来自Org1和Org2的背书，所以我们需要在两个组织运营的对等方上安装链码：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://peer0.org1.example.com">peer0.org1.example.com</a></li>
+<li><a target="_blank" rel="noopener" href="http://peer0.org2.example.com">peer0.org2.example.com</a></li>
+</ul>
+<p>Let’s install the chaincode on the Org1 peer first. Set the following environment variables to operate the <code>peer</code> CLI as the Org1 admin user. The <code>CORE_PEER_ADDRESS</code> will be set to point to the Org1 peer, <code>peer0.org1.example.com</code>.</p>
+<p>让我们先把链码安装到Org1的节点上。设置以下环境变量来使用Org1的admin用户的身份运行<code>peer</code>CLI。将CORE_PEER_ADDRESS设置为指向Org1的节点的<code>peer0.org1.example.com</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export CORE_PEER_TLS_ENABLED=true</span><br><span class="line">export CORE_PEER_LOCALMSPID=&quot;Org1MSP&quot;</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:7051</span><br></pre></td></tr></table></figure>
+<p>Issue the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-install">peer lifecycle chaincode install</a> command to install the chaincode on the peer:</p>
+<p>发出在peer节点上安装链码的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode install basic.tar.gz</span><br></pre></td></tr></table></figure>
+<p>If the command is successful, the peer will generate and return the package identifier. This package ID will be used to approve the chaincode in the next step. You should see output similar to the following:</p>
+<p>如果命令执行成功，则peer将生成并返回安装包的标识符。这个包的ID会在下一步批准这个链码时使用。你会看到类似下面的输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-12-21 14:46:18.360 CST [cli.lifecycle.chaincode] submitInstallProposal -&gt; INFO 001 Installed remotely: response:&lt;status:200 payload:&quot;\nJbasic_1.0:2c47b5b060a64aafa3c878b4bcb0ca680bdb2417ca8855b5440fa595562517d2\022\tbasic_1.0&quot; &gt;</span><br><span class="line">2020-12-21 14:46:18.361 CST [cli.lifecycle.chaincode] submitInstallProposal -&gt; INFO 002 Chaincode code package identifier: basic_1.0:2c47b5b060a64aafa3c878b4bcb0ca680bdb2417ca8855b5440fa595562517d2</span><br></pre></td></tr></table></figure>
+<p>在运行<code>monitordocker.sh</code>的终端可以看到下面的日志：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">peer0.org1.example.com|2020-12-21 06:46:18.363 UTC [lifecycle] InstallChaincode -&gt; INFO 046 Successfully installed chaincode with package ID &#x27;basic_1.0:2c47b5b060a64aafa3c878b4bcb0ca680bdb2417ca8855b5440fa595562517d2&#x27;</span><br><span class="line">peer0.org1.example.com|2020-12-21 06:46:18.363 UTC [endorser] callChaincode -&gt; INFO 047 finished chaincode: _lifecycle duration: 35751ms channel= txID=26a66cb7</span><br><span class="line">peer0.org1.example.com|2020-12-21 06:46:18.363 UTC [comm.grpc.server] 1 -&gt; INFO 048 unary call completed grpc.service=protos.Endorser grpc.method=ProcessProposal grpc.peer_address=172.19.0.1:62970 grpc.code=OK grpc.call_duration=35.752599039s</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>We can now install the chaincode on the Org2 peer. Set the following environment variables to operate as the Org2 admin and target target the Org2 peer, <a target="_blank" rel="noopener" href="http://peer0.org2.example.com">peer0.org2.example.com</a>.</p>
+<p>现在我们把链码安装到Org2组织的peer节点上。先设置环境变量让我们可以以Org2的管理员身份来操作Org2的节点：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export CORE_PEER_LOCALMSPID=&quot;Org2MSP&quot;</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:9051</span><br></pre></td></tr></table></figure>
+<p>Issue the following command to install the chaincode（发出以下命令来安装链码）:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode install basic.tar.gz</span><br></pre></td></tr></table></figure>
+<p>The chaincode is built by the peer when the chaincode is installed. The install command will return any build errors from the chaincode if there is a problem with the smart contract code.</p>
+<p>在安装链码时，由peer节点来构建链码。如果智能合约有问题，安装命令会把所有构建的错误返回。</p>
+<h2 id="Approve-a-chaincode-definition（批准链码定义）">Approve a chaincode definition（批准链码定义）</h2>
+<p>After you install the chaincode package, you need to approve a chaincode definition for your organization. The definition includes the important parameters of chaincode governance such as the name, version, and the chaincode endorsement policy.</p>
+<p>在安装链码包之后，需要你所在的组织批准链码的定义。这个定义包括链码管理的重要参数，例如名称、版本以及链码的背书策略。</p>
+<p>The set of channel members who need to approve a chaincode before it can be deployed is governed by the <code>Application/Channel/lifeycleEndorsement</code> <a target="_blank" rel="noopener" href="http://policy.By">policy.By</a> default, this policy requires that a majority of channel members need to approve a chaincode before it can used on a channel.Because we have only two organizations on the channel, and a majority of 2 is 2, we need approve a chaincode definition of asset-transfer (basic) as Org1 and Org2.</p>
+<p>在channel上的哪些成员需要在其可以部署链码之前批准，是定义在<code>Application/Channel/lifeycleEndorsement</code>策略中。默认情况下，此策略要求大多数channel的成员需要批准链码后才能在频道上使用。因为在我们的channel上只有两个组织，并且大多数就是2，我们需要以Org1和Org2的身份来批准asset-transfer (basic)的链码定义。</p>
+<p>If an organization has installed the chaincode on their peer, they need to include the packageID in the chaincode definition approved by their organization. The package ID is used to associate the chaincode installed on a peer with an approved chaincode definition, and allows an organization to use the chaincode to endorse transactions. You can find the package ID of a chaincode by using the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-queryinstalled">peer lifecycle chaincode queryinstalled</a> command to query your peer.</p>
+<p>如果一个组织已经在其peer节点上安装了链码，这个组织需要在其批准的链码定义中包含packageID。packageID是用来把安装在节点上的chaincode和已经批准通过的链码定义关联起来的，并且允许一个组织在背书节点使用这个链码。你可以使用<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-queryinstalled">peer lifecycle chaincode queryinstalled</a> 命令在你的peer节点上查询一个链码的packageID。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode queryinstalled</span><br></pre></td></tr></table></figure>
+<p>The package ID is the combination of the chaincode label and a hash of the chaincode binaries. Every peer will generate the same package ID. You should see output similar to the following:</p>
+<p>packageID是链码标签和链码二进制文件的哈希值的组合。每个peer将生成相同的程序包ID。您应该看到类似于以下内容的输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Installed chaincodes on peer:</span><br><span class="line">Package ID: basic_1.0:2c47b5b060a64aafa3c878b4bcb0ca680bdb2417ca8855b5440fa595562517d2, Label: basic_1.0</span><br></pre></td></tr></table></figure>
+<p>We are going to use the package ID when we approve the chaincode, so let’s go ahead and save it as an environment variable. Paste the package ID returned by <code>peer lifecycle chaincode queryinstalled</code> into the command below. <strong>Note:</strong> The package ID will not be the same for all users, so you need to complete this step using the package ID returned from your command window in the previous step.</p>
+<p>在我们批准链码时我们需要使用这个 package ID，所以让我们先把它保存为一个环境变量：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export CC_PACKAGE_ID=basic_1.0:2c47b5b060a64aafa3c878b4bcb0ca680bdb2417ca8855b5440fa595562517d2</span><br></pre></td></tr></table></figure>
+<p>Because the environment variables have been set to operate the <code>peer</code> CLI as the Org2 admin, we can approve the chaincode definition of asset-transfer (basic) as Org2. Chaincode is approved at the organization level, so the command only needs to target one peer. The approval is distributed to the other peers within the organization using gossip. Approve the chaincode definition using the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-approveformyorg">peer lifecycle chaincode approveformyorg</a> command:</p>
+<p>因为当前的环境变量已经设置为以Org2组织的管理员来操作<code>peer</code>CLI，我们可以以组织Org2的身份批准这个asset-transfer (basic)的链码定义。链码是在组织的级别进行批准的，所以这个命令只需要针对一个peer节点即可。这个批准的动作会使用gossip来在组织内部传播。使用 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-approveformyorg">peer lifecycle chaincode approveformyorg</a>命令来批准链码定义：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name basic --version 1.0 --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>The command above uses the <code>--package-id</code> flag to include the package identifier in the chaincode definition. The <code>--sequence</code> parameter is an integer that keeps track of the number of times a chaincode has been defined or updated. Because the chaincode is being deployed to the channel for the first time, the sequence number is 1. When the asset-transfer (basic) chaincode is upgraded, the sequence number will be incremented to 2. If you are using the low level APIs provided by the Fabric Chaincode Shim API, you could pass the <code>--init-required</code> flag to the command above to request the execution of the Init function to initialize the chaincode. The first invoke of the chaincode would need to target the Init function and include the <code>--isInit</code> flag before you could use the other functions in the chaincode to interact with the ledger.</p>
+<p>上面的命令使用<code>--package-id</code>标志将软件包标识符包含在链码定义中。<code>--sequence</code>参数是一个整数，用于跟踪定义或更新链码的次数；由于链码是第一次部署到channel，因此序列号为1。当asset-transfer (basic) 的链码在更新时，这个序列号会增加到2。链代码的首次调用需要使用<code>--isInit</code>来指明调用链码的Init函数，然后才能使用链代码中的其他函数与账本进行交互。</p>
+<p>We could have provided a <code>--signature-policy</code> or <code>--channel-config-policy</code> argument to the <code>approveformyorg</code> command to specify a chaincode endorsement policy. The endorsement policy specifies how many peers belonging to different channel members need to validate a transaction against a given chaincode. Because we did not set a policy, the definition of asset-transfer (basic) will use the default endorsement policy, which requires that a transaction be endorsed by a majority of channel members present when the transaction is submitted. This implies that if new organizations are added or removed from the channel, the endorsement policy is updated automatically to require more or fewer endorsements. In this tutorial, the default policy will require a majority of 2 out of 2 and transactions will need to be endorsed by a peer from Org1 and Org2. If you want to specify a custom endorsement policy, you can use the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/endorsement-policies.html">Endorsement Policies</a> operations guide to learn about the policy syntax.</p>
+<p>我们可以在<code>approveformyorg</code>命令中提供<code>--signature-policy</code>或<code>--channel-config-policy</code>参数，以指定链码背书策略。背书策略指定需要多少个属于不同渠道成员的peer根据给定的链码验证来交易。因为我们没有指定合格策略，asset-transfer (basic) 的定义会使用默认的背书策略，该政策要求在提交交易时，该交易必须得到channel中大多数成员的认可。这意味着，如果在channel中添加或删除组织，则背书政策会自动更新，以要求更多或更少的认可。在本教程中，默认策略需要2个中的大多数也就是2，并且交易需要由来自Org1和Org2的peer认可。如果要指定自定义认可策略，则可以使用 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/endorsement-policies.html">Endorsement Policies</a> 操作指南来了解策略语法。</p>
+<p>You need to approve a chaincode definition with an identity that has an admin role. As a result, the <code>CORE_PEER_MSPCONFIGPATH</code> variable needs to point to the MSP folder that contains an admin identity. You cannot approve a chaincode definition with a client user. The approval needs to be submitted to the ordering service, which will validate the admin signature and then distribute the approval to your peers.</p>
+<p>你需要使用具有管理员角色的身份来批准的链码定义。即<code>CORE_PEER_MSPCONFIGPATH</code>变量需要指向包含管理员身份的MSP文件夹。你不能使用客户端用户的身份来批准链码。这个审批结果需要提交给排序服务，排序服务会验证管理员的签名，然后分发这个验证结果到你的peer节点。</p>
+<p>We still need to approve the chaincode definition as Org1. Set the following environment variables to operate as the Org1 admin:</p>
+<p>你还需要在组织Org1上批准这个链码定义，把环境变量修改为以组织Org1的管理员身份来操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export CORE_PEER_LOCALMSPID=&quot;Org1MSP&quot;</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:7051</span><br></pre></td></tr></table></figure>
+<p>You can now approve the chaincode definition as Org1.</p>
+<p>现在你可以以组织Org1的身份批准链码定义了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name basic --version 1.0 --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $&#123;PWD&#125;&#x2F;organizations&#x2F;ordererOrganizations&#x2F;example.com&#x2F;orderers&#x2F;orderer.example.com&#x2F;msp&#x2F;tlscacerts&#x2F;tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>We now have the majority we need to deploy the asset-transfer (basic) the chaincode to the channel. While only a majority of organizations need to approve a chaincode definition (with the default policies), all organizations need to approve a chaincode definition to start the chaincode on their peers. If you commit the definition before a channel member has approved the chaincode, the organization will not be able to endorse transactions. As a result, it is recommended that all channel members approve a chaincode before committing the chaincode definition.</p>
+<p>现在我们已经有了将asset-transfer (basic) 的链码部署到渠道的大多数的批准。在将链码定义部署到channel上时，我们需要大多数组织的批准（使用默认的策略）；但是所有的组织都需批准链码定义才能在其peer启动这个链码。如果你在一个channel成员批准定义之前将链码定义提交到channel，那么这个组织将无法批准交易。结果，建议所有通道成员在提交链码定义之前批准链码。</p>
+<h2 id="Committing-the-chaincode-definition-to-the-channel（将链码定义提交到通道）">Committing the chaincode definition to the channel（将链码定义提交到通道）</h2>
+<p>After a sufficient number of organizations have approved a chaincode definition, one organization can commit the chaincode definition to the channel. If a majority of channel members have approved the definition, the commit transaction will be successful and the parameters agreed to in the chaincode definition will be implemented on the channel.</p>
+<p>在有足够数量的组织批准链码定义之后，其中一个组织就可以把链码定义提交到通道中了。如果大多数通道成员已批准该定义，则提交定义的交易将会成功，并且链码定义中同意的参数将在该通道上实现。</p>
+<p>You can use the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-checkcommitreadiness">peer lifecycle chaincode checkcommitreadiness</a> command to check whether channel members have approved the same chaincode definition. The flags used for the <code>checkcommitreadiness</code> command are identical to the flags used to approve a chaincode for your organization. However, you do not need to include the <code>--package-id</code> flag.</p>
+<p>你可以使用 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-checkcommitreadiness">peer lifecycle chaincode checkcommitreadiness</a>命令来检查channel上的成员是否已经批准了相同的链码定义。用于<code>checkcommitreadiness</code>命令的标志与您的组织批准链码的标志相同；但是不需要包括<code>--package-id</code>标志。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode checkcommitreadiness --channelID mychannel --name basic --version 1.0 --sequence 1 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem --output json</span><br></pre></td></tr></table></figure>
+<p>The command will produce a JSON map that displays if a channel member has approved the parameters that were specified in the <code>checkcommitreadiness</code> command:</p>
+<p>这个命令会生成一个JSON来显示通道成员是否已经批准了定义。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">          <span class="attr">&quot;Approvals&quot;</span>: &#123;</span><br><span class="line">                  <span class="attr">&quot;Org1MSP&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">                  <span class="attr">&quot;Org2MSP&quot;</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>Since both organizations that are members of the channel have approved the same parameters, the chaincode definition is ready to be committed to the channel. You can use the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-commit">peer lifecycle chaincode commit</a> command to commit the chaincode definition to the channel. The commit command also needs to be submitted by an organization admin.</p>
+<p>因为channel上的两个成员都已经批准了相同的参数，因此链码定义已准备好提交给channel。你可以使用<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-commit">peer lifecycle chaincode commit</a> 命令将链码定义提交到channel。commit命令依然需要由组织管理员来发起。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name basic --version 1.0 --sequence 1 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem --peerAddresses localhost:7051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br></pre></td></tr></table></figure>
+<p>The transaction above uses the <code>--peerAddresses</code> flag to target <code>peer0.org1.example.com</code> from Org1 and <code>peer0.org2.example.com</code> from Org2. The <code>commit</code> transaction is submitted to the peers joined to the channel to query the chaincode definition that was approved by the organization that operates the peer. The command needs to target the peers from a sufficient number of organizations to satisfy the policy for deploying a chaincode. Because the approval is distributed within each organization, you can target any peer that belongs to a channel member.</p>
+<p>上面的交易使用<code>--peerAddresses</code>标志来指定Org1中的<code>peer0.org1.example.com</code>和Org2中的<code>peer0.org2.example.com</code>。 <code>commit</code> 交易会提交给已经加入通道的peer节点，用于peer节点查询同组织内其他节点批准的链码定义。该命令需要指明来自足够数量的组织中的peer节点，以满足部署链码的策略。因为批准操作已经在每个组织内部进行广播，所以你可以指定属于一个通道成员的任意的peer节点。</p>
+<p>The chaincode definition endorsements by channel members are submitted to the ordering service to be added to a block and distributed to the channel. The peers on the channel then validate whether a sufficient number of organizations have approved the chaincode definition. The <code>peer lifecycle chaincode commit</code> command will wait for the validations from the peer before returning a response.</p>
+<p>通道成员对链码定义的认可会提交给排序服务，以添加到区块并分发给渠道。然后通道上的peer节点验证是否有足够数量的组织批准了链码定义。<code>peer lifecycle chaincode commit</code>命令在返回相应之前会等待peer节点的验证。</p>
+<p>You can use the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-querycommitted">peer lifecycle chaincode querycommitted</a> command to confirm that the chaincode definition has been committed to the channel.</p>
+<p>你可以使用 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-querycommitted">peer lifecycle chaincode querycommitted</a> 命令来确认链码定义已经提交到通道。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode querycommitted --channelID mychannel --name basic --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>If the chaincode was successful committed to the channel, the <code>querycommitted</code> command will return the sequence and version of the chaincode definition:</p>
+<p>如果链码已经成功提交到通道，<code>querycommitted</code> 命令会返回该链码定义的序列号和版本号：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Committed chaincode definition for chaincode &#x27;basic&#x27; on channel &#x27;mychannel&#x27;:</span><br><span class="line">Version: 1.0, Sequence: 1, Endorsement Plugin: escc, Validation Plugin: vscc, Approvals: [Org1MSP: true, Org2MSP: true]</span><br></pre></td></tr></table></figure>
+<h2 id="Invoking-the-chaincode（调用链码）">Invoking the chaincode（调用链码）</h2>
+<p>After the chaincode definition has been committed to a channel, the chaincode will start on the peers joined to the channel where the chaincode was installed. The asset-transfer (basic) chaincode is now ready to be invoked by client applications. Use the following command create an initial set of assets on the ledger. Note that the invoke command needs target a sufficient number of peers to meet chaincode endorsement policy.</p>
+<p>在链码定义提交到通道之后，链码可以由加入了通道并且安装了此链码的peer节点来启动。 asset-transfer (basic) 的链码已经可以由客户端程序进行调用。使用以下命令在账本上创建和初始化资产。请注意，invoke命令需要以足够数量的peer为目标，以满足链码的背书策略。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c &#x27;&#123;&quot;function&quot;:&quot;InitLedger&quot;,&quot;Args&quot;:[]&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>If the command is successful, you should be able to a response similar to the following:</p>
+<p>如果命令执行成功，你会看到类似下面的响应：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020-12-21 16:51:11.086 CST [chaincodeCmd] chaincodeInvokeOrQuery -&gt; INFO 001 Chaincode invoke successful. result: status:200</span><br></pre></td></tr></table></figure>
+<p>We can use a query function to read the set of cars that were created by the chaincode:</p>
+<p>我们使用查询方法来查看我们通过链码创建的车：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -C mychannel -n basic -c &#x27;&#123;&quot;Args&quot;:[&quot;GetAllAssets&quot;]&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>The response to the query should be the following list of assets:</p>
+<p>下面的资产列表就是查询的响应结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#123;&quot;ID&quot;:&quot;asset1&quot;,&quot;color&quot;:&quot;blue&quot;,&quot;size&quot;:5,&quot;owner&quot;:&quot;Tomoko&quot;,&quot;appraisedValue&quot;:300&#125;,&#123;&quot;ID&quot;:&quot;asset2&quot;,&quot;color&quot;:&quot;red&quot;,&quot;size&quot;:5,&quot;owner&quot;:&quot;Brad&quot;,&quot;appraisedValue&quot;:400&#125;,&#123;&quot;ID&quot;:&quot;asset3&quot;,&quot;color&quot;:&quot;green&quot;,&quot;size&quot;:10,&quot;owner&quot;:&quot;Jin Soo&quot;,&quot;appraisedValue&quot;:500&#125;,&#123;&quot;ID&quot;:&quot;asset4&quot;,&quot;color&quot;:&quot;yellow&quot;,&quot;size&quot;:10,&quot;owner&quot;:&quot;Max&quot;,&quot;appraisedValue&quot;:600&#125;,&#123;&quot;ID&quot;:&quot;asset5&quot;,&quot;color&quot;:&quot;black&quot;,&quot;size&quot;:15,&quot;owner&quot;:&quot;Adriana&quot;,&quot;appraisedValue&quot;:700&#125;,&#123;&quot;ID&quot;:&quot;asset6&quot;,&quot;color&quot;:&quot;white&quot;,&quot;size&quot;:15,&quot;owner&quot;:&quot;Michel&quot;,&quot;appraisedValue&quot;:800&#125;]</span><br></pre></td></tr></table></figure>
+<h2 id="Upgrading-a-smart-contract（更新智能合约）">Upgrading a smart contract（更新智能合约）</h2>
+<p>You can use the same Fabric chaincode lifecycle process to upgrade a chaincode that has already been deployed to a channel. Channel members can upgrade a chaincode by installing a new chaincode package and then approving a chaincode definition with the new package ID, a new chaincode version, and with the sequence number incremented by one. The new chaincode can be used after the chaincode definition is committed to the channel. This process allows channel members to coordinate on when a chaincode is upgraded, and ensure that a sufficient number of channel members are ready to use the new chaincode before it is deployed to the channel.</p>
+<p>您可以使用相同的Fabric链码生命周期流程来升级已经部署到通道的链码。通道成员可以通过以下方式升级链码：安装新的链码包，然后批准这个具有新packageID、新链码版本以及序列号加1的链码定义。在链码定义被提交给通道后新的链码就可以被使用。此过程允许通道成员在升级链码时进行协调，并确保在将新链码部署到通道之前，有足够数量的通道成员准备使用新链码。</p>
+<p>Channel members can also use the upgrade process to change the chaincode endorsement policy. By approving a chaincode definition with a new endorsement policy and committing the chaincode definition to the channel, channel members can change the endorsement policy governing a chaincode without installing a new chaincode package.</p>
+<p>通道成员也可以使用这个更新流程来修改链码的背书策略。通过批准具有新背书策略的链码定义并将其提交给渠道，渠道成员可以更改背书策略而无需安装新的链码包。</p>
+<p>To provide a scenario for upgrading the asset-transfer (basic) chaincode that we just deployed,let’s assume that Org1 and Org2 would like to install a version of the chaincode that is written in another language. They will use the Fabric chaincode lifecycle to update the chaincode version and ensure that both organizations have installed the new chaincode before it becomes active on the channel.</p>
+<p>为了提供一个我们刚才部署的asset-transfer (basic) 链码升级的情景，让我们假设Org1和Org2想要安装一个通过其他语言编写的链码版本。他们会使用Fabric链码生命周期来更新链码的版本并且在新链码可用于通道之前确保所有的组织已经安装了新的链码。</p>
+<p>We are going to assume that Org1 and Org2 initially installed the GO version of the asset-transfer (basic) chaincode, but would be more comfortable working with a chaincode written in JavaScript. The first step is to package the JavaScript version of the asset-transfer (basic) chaincode. If you used the JavaScript instructions to package your chaincode when you went through the tutorial, you can install new chaincode binaries by following the steps for packaging a chaincode written in <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#go">Go</a> or <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#typescript">TypeScript</a>.</p>
+<p>我们假设Org1和Org2最初安装了asset-transfer (basic) GO版本的链码，但使用JavaScript编写的链码会更舒适。第一步就是打包JavaScript版本的asset-transfer (basic) 链码。</p>
+<p>Issue the following commands from the <code>test-network</code> directory to install the chaincode dependences.</p>
+<p>在<code>test-network</code> 目录下运行下面的命令来安装链码的依赖。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ../asset-transfer-basic/chaincode-javascript</span><br><span class="line">npm install</span><br><span class="line">cd ../../test-network</span><br></pre></td></tr></table></figure>
+<h3 id="打包">打包</h3>
+<p>You can then issue the following commands to package the JavaScript chaincode from the <code>test-network</code> directory. We will set the environment variables needed to use the <code>peer</code> CLI again in case you closed your terminal.</p>
+<p>然后你可以在<code>test-network</code> 目录下运行下面的命令来打包JavaScript版本的链码。在运行命令之前先参考前面的内容来设置可以操作Org1的环境变量。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode package basic_2.tar.gz --path ../asset-transfer-basic/chaincode-javascript/ --lang node --label basic_2.0</span><br></pre></td></tr></table></figure>
+<h3 id="安装">安装</h3>
+<p>We can now use the following command to install the new chaincode package on the Org1 peer.</p>
+<p>你可以在Org1组织的peer节点通过下面的命令来安装一个新的链码包。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode install basic_2.tar.gz</span><br></pre></td></tr></table></figure>
+<p>The new chaincode package will create a new package ID. We can find the new package ID by querying our peer.</p>
+<p>新的链码包会创建一个新的package ID，我们通过查询peer来获取新的package ID。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode queryinstalled</span><br></pre></td></tr></table></figure>
+<p>The <code>queryinstalled</code> command will return a list of the chaincode that have been installed on your peer similar to this output.</p>
+<p><code>queryinstalled</code> 命令会返回你的peer已经安装的链码，输出类似如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Installed chaincodes on peer:</span><br><span class="line">Package ID: basic_1.0:2c47b5b060a64aafa3c878b4bcb0ca680bdb2417ca8855b5440fa595562517d2, Label: basic_1.0</span><br><span class="line">Package ID: basic_2.0:59cb45985332d79a903ef39d710eeb23a1c63bddaf8cd999481071457d22acbd, Label: basic_2.0</span><br></pre></td></tr></table></figure>
+<p>You can use the package label to find the package ID of the new chaincode and save it as a new environment variable. This output is for example only – your package ID will be different, so DO NOT COPY AND PASTE!</p>
+<p>你可以把新的 package ID保存为一个新的环境变量。下面的命令只是一个例子，不要直接copy。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export NEW_CC_PACKAGE_ID&#x3D;basic_2.0:59cb45985332d79a903ef39d710eeb23a1c63bddaf8cd999481071457d22acbd</span><br></pre></td></tr></table></figure>
+<h3 id="批准链码定义">批准链码定义</h3>
+<p>Org1 can now approve a new chaincode definition（Org1现在可以批准这个新的链码定义）:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name basic --version 2.0 --package-id $NEW_CC_PACKAGE_ID --sequence 2 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>The new chaincode definition uses the package ID of the JavaScript chaincode package and updates the chaincode version. Because the sequence parameter is used by the Fabric chaincode lifecycle to keep track of chaincode upgrades, Org1 also needs to increment the sequence number from 1 to 2. You can use the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-querycommitted">peer lifecycle chaincode querycommitted</a> command to find the sequence of the chaincode that was last committed to the channel.</p>
+<p>新的链码定义使用JavaScript版本的链码包的packageID以及新的链码版本。由于Fabric链码生命周期使用序列号来跟踪链码升级，因此Org1还需要将序列号从1递增到2。你可以使用 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-querycommitted">peer lifecycle chaincode querycommitted</a>命令来查询链码上次提交到通道的序列号。</p>
+<p>We now need to install the chaincode package and approve the chaincode definition as Org2 in order to upgrade the chaincode. Run the following commands to operate the <code>peer</code> CLI as the Org2 admin:</p>
+<p>我们现在需要以Org2组织的身份来安装链码并且批准链码定义来更新链码，运行下面的命令来使用Org2组织的管理员进行操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export CORE_PEER_LOCALMSPID=&quot;Org2MSP&quot;</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_TLS_ROOTCERT_FILE=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br><span class="line">export CORE_PEER_MSPCONFIGPATH=$&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp</span><br><span class="line">export CORE_PEER_ADDRESS=localhost:9051</span><br></pre></td></tr></table></figure>
+<h3 id="其他组织安装链码">其他组织安装链码</h3>
+<p>We can now use the following command to install the new chaincode package on the Org2 peer.</p>
+<p>我们现在就可以使用下面的命令来安装新的链码包到Org2组织的peer上。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode install basic_2.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="批准链码定义-v2">批准链码定义</h3>
+<p>You can now approve the new chaincode definition for Org2.</p>
+<p>我们现在可以为Org2组织批准这个新的链码定义。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name basic --version 2.0 --package-id $NEW_CC_PACKAGE_ID --sequence 2 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem</span><br></pre></td></tr></table></figure>
+<p>Use the <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-checkcommitreadiness">peer lifecycle chaincode checkcommitreadiness</a> command to check if the chaincode definition with sequence 2 is ready to be committed to the channel:</p>
+<p>使用<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/en/release-2.2/commands/peerlifecycle.html#peer-lifecycle-chaincode-checkcommitreadiness">peer lifecycle chaincode checkcommitreadiness</a> 敏玲来检查序列号为2的链码定义是否已经准备好被提交到channel上：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode checkcommitreadiness --channelID mychannel --name basic --version 2.0 --sequence 2 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem --output json</span><br></pre></td></tr></table></figure>
+<p>The chaincode is ready to be upgraded if the command returns the following JSON:</p>
+<p>如果这个命令返回以下内容，说明已经准备好更新了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;approvals&quot;: &#123;</span><br><span class="line">		&quot;Org1MSP&quot;: true,</span><br><span class="line">		&quot;Org2MSP&quot;: true</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The chaincode will be upgraded on the channel after the new chaincode definition is committed. Until then, the previous chaincode will continue to run on the peers of both organizations. Org2 can use the following command to upgrade the chaincode:</p>
+<p>在新的链码定义提交后，通道上的链码将会升级。在此之前，先前的链码将继续在两个组织的peer上运行。Org2组织可以使用下面的命令来更新链码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name basic --version 2.0 --sequence 2 --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem --peerAddresses localhost:7051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt</span><br></pre></td></tr></table></figure>
+<p>A successful commit transaction will start the new chaincode right away. If the chaincode definition changed the endorsement policy, the new policy would be put in effect.</p>
+<p>成功的提交的交易将立即启动新的链码。如果链码定义更改了背书策略，则新政策将生效。</p>
+<p>You can use the <code>docker ps</code> command to verify that the new chaincode has started on your peers:</p>
+<p>你现在可以使用 <code>docker ps</code> 命令来验证新的链码已经在你的peer节点启动。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE                                                                                                                                                                    COMMAND                  CREATED         STATUS         PORTS                              NAMES</span><br><span class="line">2e253d5141c3   dev-peer0.org2.example.com-basic_2.0-59cb45985332d79a903ef39d710eeb23a1c63bddaf8cd999481071457d22acbd-c00efc2e7c009601f23247ba3330c47fc5b737d476f8233da9b404c28681847b   &quot;docker-entrypoint.s…&quot;   2 minutes ago   Up 2 minutes                                      dev-peer0.org2.example.com-basic_2.0-59cb45985332d79a903ef39d710eeb23a1c63bddaf8cd999481071457d22acbd</span><br><span class="line">cb7260fc3aa6   dev-peer0.org1.example.com-basic_2.0-59cb45985332d79a903ef39d710eeb23a1c63bddaf8cd999481071457d22acbd-ececda85b7ddf5cad9e5cbca808ffe76bc0b4b0d3067c345afa365a764b062ff   &quot;docker-entrypoint.s…&quot;   2 minutes ago   Up 2 minutes                                      dev-peer0.org1.example.com-basic_2.0-59cb45985332d79a903ef39d710eeb23a1c63bddaf8cd999481071457d22acbd</span><br><span class="line">ee12e6769e93   gliderlabs/logspout                                                                                                                                                      &quot;/bin/logspout&quot;          6 hours ago     Up 6 hours     127.0.0.1:8000-&gt;80/tcp             logspout</span><br><span class="line">628b12f2b3f0   hyperledger/fabric-peer:latest                                                                                                                                           &quot;peer node start&quot;        6 hours ago     Up 6 hours     7051/tcp, 0.0.0.0:9051-&gt;9051/tcp   peer0.org2.example.com</span><br><span class="line">e47cbd1b0b15   hyperledger/fabric-peer:latest                                                                                                                                           &quot;peer node start&quot;        6 hours ago     Up 6 hours     0.0.0.0:7051-&gt;7051/tcp             peer0.org1.example.com</span><br><span class="line">e67946f412a7   hyperledger/fabric-orderer:latest                                                                                                                                        &quot;orderer&quot;                6 hours ago     Up 6 hours     0.0.0.0:7050-&gt;7050/tcp             orderer.example.com</span><br></pre></td></tr></table></figure>
+<p>If you used the <code>--init-required</code> flag, you need to invoke the Init function before you can use the upgraded chaincode. Because we did not request the execution of Init, we can test our new JavaScript chaincode by creating a new car:</p>
+<p>我们现在可以通过创建一个新的汽车来测试我们新的JavaScript版本的链码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile $&#123;PWD&#125;/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles $&#123;PWD&#125;/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c &#x27;&#123;&quot;function&quot;:&quot;CreateAsset&quot;,&quot;Args&quot;:[&quot;asset8&quot;,&quot;blue&quot;,&quot;16&quot;,&quot;Kelley&quot;,&quot;750&quot;]&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>You can query all the cars on the ledger again to see the new car:</p>
+<p>你可以查询账本上所有的车来看新创建的car：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -C mychannel -n basic -c &#x27;&#123;&quot;Args&quot;:[&quot;GetAllAssets&quot;]&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>You should see the following result from the JavaScript chaincode:</p>
+<p>通过JavaScript版本的链码，你会看到下面的结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#123;&quot;Key&quot;:&quot;asset1&quot;,&quot;Record&quot;:&#123;&quot;ID&quot;:&quot;asset1&quot;,&quot;color&quot;:&quot;blue&quot;,&quot;size&quot;:5,&quot;owner&quot;:&quot;Tomoko&quot;,&quot;appraisedValue&quot;:300&#125;&#125;,&#123;&quot;Key&quot;:&quot;asset2&quot;,&quot;Record&quot;:&#123;&quot;ID&quot;:&quot;asset2&quot;,&quot;color&quot;:&quot;red&quot;,&quot;size&quot;:5,&quot;owner&quot;:&quot;Brad&quot;,&quot;appraisedValue&quot;:400&#125;&#125;,&#123;&quot;Key&quot;:&quot;asset3&quot;,&quot;Record&quot;:&#123;&quot;ID&quot;:&quot;asset3&quot;,&quot;color&quot;:&quot;green&quot;,&quot;size&quot;:10,&quot;owner&quot;:&quot;Jin Soo&quot;,&quot;appraisedValue&quot;:500&#125;&#125;,&#123;&quot;Key&quot;:&quot;asset4&quot;,&quot;Record&quot;:&#123;&quot;ID&quot;:&quot;asset4&quot;,&quot;color&quot;:&quot;yellow&quot;,&quot;size&quot;:10,&quot;owner&quot;:&quot;Max&quot;,&quot;appraisedValue&quot;:600&#125;&#125;,&#123;&quot;Key&quot;:&quot;asset5&quot;,&quot;Record&quot;:&#123;&quot;ID&quot;:&quot;asset5&quot;,&quot;color&quot;:&quot;black&quot;,&quot;size&quot;:15,&quot;owner&quot;:&quot;Adriana&quot;,&quot;appraisedValue&quot;:700&#125;&#125;,&#123;&quot;Key&quot;:&quot;asset6&quot;,&quot;Record&quot;:&#123;&quot;ID&quot;:&quot;asset6&quot;,&quot;color&quot;:&quot;white&quot;,&quot;size&quot;:15,&quot;owner&quot;:&quot;Michel&quot;,&quot;appraisedValue&quot;:800&#125;&#125;,&#123;&quot;Key&quot;:&quot;asset8&quot;,&quot;Record&quot;:&#123;&quot;ID&quot;:&quot;asset8&quot;,&quot;Color&quot;:&quot;blue&quot;,&quot;Size&quot;:&quot;16&quot;,&quot;Owner&quot;:&quot;Kelley&quot;,&quot;AppraisedValue&quot;:&quot;750&quot;&#125;&#125;]</span><br></pre></td></tr></table></figure>
+<h2 id="Clean-up（清理）">Clean up（清理）</h2>
+<p>When you are finished using the chaincode, you can also use the following commands to remove the Logspout tool.</p>
+<p>当你使用链码结束之后，你可以通过下面的命令来移除Logspout tool。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker stop logspout</span><br><span class="line">docker rm logspout</span><br></pre></td></tr></table></figure>
+<p>You can then bring down the test network by issuing the following command from the <code>test-network</code> directory:</p>
+<p>你现在可以在<code>test-network</code> 目录下使用下面的命令来关闭测试网络：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./network.sh down</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Deploying-a-smart-contract-to-a-channel%EF%BC%88%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Deploying a smart contract to a channel（将智能合约部署到通道）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Start-the-network%EF%BC%88%E5%90%AF%E5%8A%A8%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">Start the network（启动测试网络）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setup-Logspout-optional-%EF%BC%88%E5%90%AF%E5%8A%A8%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA%EF%BC%8C%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">Setup Logspout (optional)（启动日志输出，可选）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Package-the-smart-contract%EF%BC%88%E6%89%93%E5%8C%85%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">Package the smart contract（打包智能合约）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Go"><span class="toc-number">1.3.1.</span> <span class="toc-text">Go</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-the-chaincode-package%EF%BC%88%E5%AE%89%E8%A3%85%E9%93%BE%E7%A0%81%E5%8C%85%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">Install the chaincode package（安装链码包）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Approve-a-chaincode-definition%EF%BC%88%E6%89%B9%E5%87%86%E9%93%BE%E7%A0%81%E5%AE%9A%E4%B9%89%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">Approve a chaincode definition（批准链码定义）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Committing-the-chaincode-definition-to-the-channel%EF%BC%88%E5%B0%86%E9%93%BE%E7%A0%81%E5%AE%9A%E4%B9%89%E6%8F%90%E4%BA%A4%E5%88%B0%E9%80%9A%E9%81%93%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">Committing the chaincode definition to the channel（将链码定义提交到通道）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Invoking-the-chaincode%EF%BC%88%E8%B0%83%E7%94%A8%E9%93%BE%E7%A0%81%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">Invoking the chaincode（调用链码）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Upgrading-a-smart-contract%EF%BC%88%E6%9B%B4%E6%96%B0%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">Upgrading a smart contract（更新智能合约）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%8C%85"><span class="toc-number">1.8.1.</span> <span class="toc-text">打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.8.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%B9%E5%87%86%E9%93%BE%E7%A0%81%E5%AE%9A%E4%B9%89"><span class="toc-number">1.8.3.</span> <span class="toc-text">批准链码定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%BB%84%E7%BB%87%E5%AE%89%E8%A3%85%E9%93%BE%E7%A0%81"><span class="toc-number">1.8.4.</span> <span class="toc-text">其他组织安装链码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%B9%E5%87%86%E9%93%BE%E7%A0%81%E5%AE%9A%E4%B9%89-v2"><span class="toc-number">1.8.5.</span> <span class="toc-text">批准链码定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clean-up%EF%BC%88%E6%B8%85%E7%90%86%EF%BC%89"><span class="toc-number">1.9.</span> <span class="toc-text">Clean up（清理）</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&text=将智能合约部署到通道"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&title=将智能合约部署到通道"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&is_video=false&description=将智能合约部署到通道"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=将智能合约部署到通道&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&title=将智能合约部署到通道"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&title=将智能合约部署到通道"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&title=将智能合约部署到通道"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&title=将智能合约部署到通道"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&name=将智能合约部署到通道&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/fabric/%E5%B0%86%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E9%80%9A%E9%81%93/&t=将智能合约部署到通道"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
