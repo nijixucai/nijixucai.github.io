@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="一些开发合约相关资料  合约开发语言：soliditylang；中文版 开发工具：remix-project 开发网络：ganache，hardhat，scaffold-eth:以太坊开发all in one solc版本列表  环境搭建（MAC） 安装solidity 1brew install solidity 安装truffle truffle是集成安装、部署、测试合约为一体的开发框架；如果">
 <meta property="og:type" content="article">
-<meta property="og:title" content="以太坊如何使用solidity开发智能合约">
+<meta property="og:title" content="使用solidity开发以太坊智能合约">
 <meta property="og:url" content="https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/index.html">
 <meta property="og:site_name" content="滴水成涓">
 <meta property="og:description" content="一些开发合约相关资料  合约开发语言：soliditylang；中文版 开发工具：remix-project 开发网络：ganache，hardhat，scaffold-eth:以太坊开发all in one solc版本列表  环境搭建（MAC） 安装solidity 1brew install solidity 安装truffle truffle是集成安装、部署、测试合约为一体的开发框架；如果">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/image-20210309173249673.png">
 <meta property="article:published_time" content="2021-04-01T10:18:21.462Z">
-<meta property="article:modified_time" content="2021-04-01T10:18:21.462Z">
+<meta property="article:modified_time" content="2021-04-07T08:13:20.648Z">
 <meta property="article:author" content="guozhe">
 <meta property="article:tag" content="blockchain">
 <meta property="article:tag" content="ethereum">
@@ -42,7 +42,7 @@
       
     
     <!-- title -->
-    <title>以太坊如何使用solidity开发智能合约</title>
+    <title>使用solidity开发以太坊智能合约</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -87,7 +87,7 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%AE%9E%E8%B7%B5/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2021/04/01/blockchain/fabric/Endorsement%20policies%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/2021/04/01/blockchain/eth/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9C%80%E4%BD%B3%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%8E%E5%8F%8D%E6%A8%A1%E5%BC%8F/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -104,16 +104,16 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&text=以太坊如何使用solidity开发智能合约"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=以太坊如何使用solidity开发智能合约"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&is_video=false&description=以太坊如何使用solidity开发智能合约"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=以太坊如何使用solidity开发智能合约&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=以太坊如何使用solidity开发智能合约"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=以太坊如何使用solidity开发智能合约"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=以太坊如何使用solidity开发智能合约"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=以太坊如何使用solidity开发智能合约"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&name=以太坊如何使用solidity开发智能合约&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&t=以太坊如何使用solidity开发智能合约"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&text=使用solidity开发以太坊智能合约"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=使用solidity开发以太坊智能合约"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&is_video=false&description=使用solidity开发以太坊智能合约"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用solidity开发以太坊智能合约&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=使用solidity开发以太坊智能合约"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=使用solidity开发以太坊智能合约"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=使用solidity开发以太坊智能合约"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=使用solidity开发以太坊智能合约"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&name=使用solidity开发以太坊智能合约&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&t=使用solidity开发以太坊智能合约"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -130,7 +130,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        以太坊如何使用solidity开发智能合约
+        使用solidity开发以太坊智能合约
     </h1>
 
 
@@ -287,16 +287,16 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&text=以太坊如何使用solidity开发智能合约"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=以太坊如何使用solidity开发智能合约"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&is_video=false&description=以太坊如何使用solidity开发智能合约"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=以太坊如何使用solidity开发智能合约&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=以太坊如何使用solidity开发智能合约"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=以太坊如何使用solidity开发智能合约"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=以太坊如何使用solidity开发智能合约"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=以太坊如何使用solidity开发智能合约"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&name=以太坊如何使用solidity开发智能合约&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&t=以太坊如何使用solidity开发智能合约"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&text=使用solidity开发以太坊智能合约"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=使用solidity开发以太坊智能合约"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&is_video=false&description=使用solidity开发以太坊智能合约"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用solidity开发以太坊智能合约&body=Check out this article: https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=使用solidity开发以太坊智能合约"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=使用solidity开发以太坊智能合约"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=使用solidity开发以太坊智能合约"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&title=使用solidity开发以太坊智能合约"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&name=使用solidity开发以太坊智能合约&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/01/blockchain/eth/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/&t=使用solidity开发以太坊智能合约"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="起因 最近在运行一些源软件时，因为golang的版本问题而报错： 12345compile: version &quot;go1.15.7&quot; does not match go tool version &quot;go1.16&quot;# golang.org&#x2F;x&#x2F;net&#x2F;html&#x2F;atomcompile: version &quot;go1.15.7&quot; does not">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac安装多版本golang">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="起因 最近在运行一些源软件时，因为golang的版本问题而报错： 12345compile: version &quot;go1.15.7&quot; does not match go tool version &quot;go1.16&quot;# golang.org&#x2F;x&#x2F;net&#x2F;html&#x2F;atomcompile: version &quot;go1.15.7&quot; does not">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-02T08:04:10.195Z">
+<meta property="article:modified_time" content="2021-04-06T10:07:31.293Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="Mac">
+<meta property="article:tag" content="golang">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Mac安装多版本golang</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&text=Mac安装多版本golang"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&title=Mac安装多版本golang"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&is_video=false&description=Mac安装多版本golang"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Mac安装多版本golang&body=Check out this article: https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&title=Mac安装多版本golang"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&title=Mac安装多版本golang"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&title=Mac安装多版本golang"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&title=Mac安装多版本golang"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&name=Mac安装多版本golang&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&t=Mac安装多版本golang"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E7%9A%84golang"><span class="toc-number">2.</span> <span class="toc-text">安装不同版本的golang</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E5%AE%89%E8%A3%85gvm"><span class="toc-number">2.1.</span> <span class="toc-text">首先安装gvm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E5%B7%B2%E7%BB%8F%E5%AE%89%E8%A3%85%E4%BA%86%E5%93%AA%E4%BA%9B%E7%89%88%E6%9C%AC%E7%9A%84go"><span class="toc-number">2.2.</span> <span class="toc-text">查看当前已经安装了哪些版本的go</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Mac安装多版本golang
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-02T08:04:10.195Z" itemprop="datePublished">2021-04-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Mac/">Mac</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Mac/" rel="tag">Mac</a>, <a class="tag-link-link" href="/tags/golang/" rel="tag">golang</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="起因">起因</h2>
+<p>最近在运行一些源软件时，因为golang的版本问题而报错：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">compile: version &quot;go1.15.7&quot; does not match go tool version &quot;go1.16&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash"> golang.org/x/net/html/atom</span></span><br><span class="line">compile: version &quot;go1.15.7&quot; does not match go tool version &quot;go1.16&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash"> golang.org/x/text/internal/utf8internal</span></span><br><span class="line">compile: version &quot;go1.15.7&quot; does not match go tool version &quot;go1.16&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="安装不同版本的golang">安装不同版本的golang</h2>
+<h3 id="首先安装gvm">首先安装gvm</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash &lt; &lt;(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)</span><br></pre></td></tr></table></figure>
+<p>安装完成之后重启终端。</p>
+<h3 id="查看当前已经安装了哪些版本的go">查看当前已经安装了哪些版本的go</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install go@1.15</span><br></pre></td></tr></table></figure>
+<p><em>注意：指定版本时可以先运行<code>brew search go</code>来查看有哪些版本，如果直接指定go1.15.7小版本可能报错。</em></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E7%9A%84golang"><span class="toc-number">2.</span> <span class="toc-text">安装不同版本的golang</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E5%AE%89%E8%A3%85gvm"><span class="toc-number">2.1.</span> <span class="toc-text">首先安装gvm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E5%B7%B2%E7%BB%8F%E5%AE%89%E8%A3%85%E4%BA%86%E5%93%AA%E4%BA%9B%E7%89%88%E6%9C%AC%E7%9A%84go"><span class="toc-number">2.2.</span> <span class="toc-text">查看当前已经安装了哪些版本的go</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&text=Mac安装多版本golang"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&title=Mac安装多版本golang"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&is_video=false&description=Mac安装多版本golang"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Mac安装多版本golang&body=Check out this article: https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&title=Mac安装多版本golang"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&title=Mac安装多版本golang"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&title=Mac安装多版本golang"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&title=Mac安装多版本golang"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&name=Mac安装多版本golang&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/&t=Mac安装多版本golang"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

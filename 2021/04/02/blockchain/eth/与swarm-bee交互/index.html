@@ -9,12 +9,12 @@
     <meta name="description" content="状态检查 主页 1curl localhost:1633 检查运行是否正常 1curl -s http:&#x2F;&#x2F;localhost:1635&#x2F;health 查看当前bee节点的地址 1bee-get-addr 1curl -s localhost:1635&#x2F;addresses | jq .ethereum 查看链接了多少个peer 1curl -s http:&#x2F;&#x2F;localhost:1635&#x2F;peer">
 <meta property="og:type" content="article">
 <meta property="og:title" content="与swarm-bee交互">
-<meta property="og:url" content="https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/index.html">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/index.html">
 <meta property="og:site_name" content="滴水成涓">
 <meta property="og:description" content="状态检查 主页 1curl localhost:1633 检查运行是否正常 1curl -s http:&#x2F;&#x2F;localhost:1635&#x2F;health 查看当前bee节点的地址 1bee-get-addr 1curl -s localhost:1635&#x2F;addresses | jq .ethereum 查看链接了多少个peer 1curl -s http:&#x2F;&#x2F;localhost:1635&#x2F;peer">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-04-02T03:21:21.162Z">
-<meta property="article:modified_time" content="2021-04-02T03:38:08.340Z">
+<meta property="article:modified_time" content="2021-04-07T08:13:23.750Z">
 <meta property="article:author" content="guozhe">
 <meta property="article:tag" content="blockchain">
 <meta property="article:tag" content="ethereum">
@@ -84,6 +84,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" href="/2021/04/02/blockchain/eth/Mac%E5%AE%89%E8%A3%85swarm-bee/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -98,17 +100,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&text=与swarm-bee交互"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&is_video=false&description=与swarm-bee交互"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=与swarm-bee交互&body=Check out this article: https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&name=与swarm-bee交互&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&t=与swarm-bee交互"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&text=与swarm-bee交互"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&is_video=false&description=与swarm-bee交互"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=与swarm-bee交互&body=Check out this article: https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&name=与swarm-bee交互&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&t=与swarm-bee交互"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -246,17 +248,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&text=与swarm-bee交互"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&is_video=false&description=与swarm-bee交互"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=与swarm-bee交互&body=Check out this article: https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&name=与swarm-bee交互&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/02/others/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&t=与swarm-bee交互"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&text=与swarm-bee交互"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&is_video=false&description=与swarm-bee交互"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=与swarm-bee交互&body=Check out this article: https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&title=与swarm-bee交互"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&name=与swarm-bee交互&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/02/blockchain/eth/%E4%B8%8Eswarm-bee%E4%BA%A4%E4%BA%92/&t=与swarm-bee交互"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

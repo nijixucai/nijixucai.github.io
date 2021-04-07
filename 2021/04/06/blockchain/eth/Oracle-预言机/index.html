@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="为什么需要预言机？  EVM和智能合约没有内在的随机性来源 外部数据只能作为交易的数据载荷引入（而不能通过智能合约去查询）  为什么EVM和智能合约没有内在的随机性来源？ 因为Pow共识，如果一个在EVM和智能合约内部真的有随机性的数据，并且智能合约使用了这些数据。那么极有可能无法达成共识，因为挖矿的矿工获得的随机数和其他验证者获得的随机数会不一样。 为什么外部数据只能作为交易的数据载荷引入？ 如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle-预言机">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="为什么需要预言机？  EVM和智能合约没有内在的随机性来源 外部数据只能作为交易的数据载荷引入（而不能通过智能合约去查询）  为什么EVM和智能合约没有内在的随机性来源？ 因为Pow共识，如果一个在EVM和智能合约内部真的有随机性的数据，并且智能合约使用了这些数据。那么极有可能无法达成共识，因为挖矿的矿工获得的随机数和其他验证者获得的随机数会不一样。 为什么外部数据只能作为交易的数据载荷引入？ 如">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/walkthrough_diagram_simplified.svg">
+<meta property="article:published_time" content="2021-04-06T10:08:13.891Z">
+<meta property="article:modified_time" content="2021-04-07T08:13:16.202Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="ethereum">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="智能合约">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/guozhe001/images/raw/master/walkthrough_diagram_simplified.svg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Oracle-预言机</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2021/04/02/others/Mac%E5%AE%89%E8%A3%85%E5%A4%9A%E7%89%88%E6%9C%ACgolang/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&text=Oracle-预言机"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&title=Oracle-预言机"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&is_video=false&description=Oracle-预言机"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Oracle-预言机&body=Check out this article: https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&title=Oracle-预言机"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&title=Oracle-预言机"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&title=Oracle-预言机"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&title=Oracle-预言机"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&name=Oracle-预言机&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&t=Oracle-预言机"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E9%A2%84%E8%A8%80%E6%9C%BA%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">为什么需要预言机？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88EVM%E5%92%8C%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E6%B2%A1%E6%9C%89%E5%86%85%E5%9C%A8%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%80%A7%E6%9D%A5%E6%BA%90%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">为什么EVM和智能合约没有内在的随机性来源？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A4%96%E9%83%A8%E6%95%B0%E6%8D%AE%E5%8F%AA%E8%83%BD%E4%BD%9C%E4%B8%BA%E4%BA%A4%E6%98%93%E7%9A%84%E6%95%B0%E6%8D%AE%E8%BD%BD%E8%8D%B7%E5%BC%95%E5%85%A5%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">为什么外部数据只能作为交易的数据载荷引入？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E8%A8%80%E6%9C%BA%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%92%8C%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">预言机的应用场景和示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.1.</span> <span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E8%A8%80%E6%9C%BA%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">预言机的设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E8%A8%80%E6%9C%BA%E7%9A%84%E5%85%B3%E9%94%AE%E5%8A%9F%E8%83%BD"><span class="toc-number">3.1.</span> <span class="toc-text">预言机的关键功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E9%A2%84%E8%A8%80%E6%9C%BA%E7%9A%84%E4%B8%89%E7%A7%8D%E4%B8%BB%E8%A6%81%E6%96%B9%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">实现预言机的三种主要方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E8%AF%BB%E5%8F%96"><span class="toc-number">3.2.1.</span> <span class="toc-text">立即读取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85"><span class="toc-number">3.2.2.</span> <span class="toc-text">发布与订阅</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%B8%8E%E5%93%8D%E5%BA%94"><span class="toc-number">3.2.3.</span> <span class="toc-text">请求与响应</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%AE%A4%E8%AF%81"><span class="toc-number">4.</span> <span class="toc-text">数据认证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E6%80%A7%E8%AF%81%E6%98%8E"><span class="toc-number">4.1.</span> <span class="toc-text">真实性证明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E4%BF%A1%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">4.2.</span> <span class="toc-text">可信执行环境</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%80%A7%E7%9A%84%E9%A2%84%E8%A8%80%E6%9C%BA"><span class="toc-number">5.</span> <span class="toc-text">计算性的预言机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%E9%A2%84%E8%A8%80%E6%9C%BA"><span class="toc-number">6.</span> <span class="toc-text">去中心化预言机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solidity%E4%B8%AD%E7%9A%84%E9%A2%84%E8%A8%80%E6%9C%BA%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%A5%E5%8F%A3"><span class="toc-number">7.</span> <span class="toc-text">Solidity中的预言机客户端接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AE%E8%AF%A2ETH-USD%E4%BB%B7%E6%A0%BC"><span class="toc-number">7.1.</span> <span class="toc-text">轮询ETH&#x2F;USD价格</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Oracle-预言机
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-06T10:08:13.891Z" itemprop="datePublished">2021-04-06</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/ethereum/">ethereum</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Oracle/" rel="tag">Oracle</a>, <a class="tag-link-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link-link" href="/tags/ethereum/" rel="tag">ethereum</a>, <a class="tag-link-link" href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" rel="tag">智能合约</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="为什么需要预言机？">为什么需要预言机？</h2>
+<ol>
+<li>EVM和智能合约没有内在的随机性来源</li>
+<li>外部数据只能作为交易的数据载荷引入（而不能通过智能合约去查询）</li>
+</ol>
+<h3 id="为什么EVM和智能合约没有内在的随机性来源？">为什么EVM和智能合约没有内在的随机性来源？</h3>
+<p>因为Pow共识，如果一个在EVM和智能合约内部真的有随机性的数据，并且智能合约使用了这些数据。那么极有可能无法达成共识，因为挖矿的矿工获得的随机数和其他验证者获得的随机数会不一样。</p>
+<h3 id="为什么外部数据只能作为交易的数据载荷引入？">为什么外部数据只能作为交易的数据载荷引入？</h3>
+<p>如果在合约内部使用随机数，比如区块的高度，hash函数等伪随机数，那么矿工只打包有利于自己的随机结果即可。而从外部传入随机数据矿工就无法控制了。</p>
+<h2 id="预言机的应用场景和示例">预言机的应用场景和示例</h2>
+<p>理想情况下，预言机提供了一种无信任（即无需信任提供的数据的人或组织）的方式来获取链外信息。</p>
+<h3 id="应用场景">应用场景</h3>
+<p>有些预言机是提供特定的私有数据源的数据，例如：</p>
+<ul>
+<li>
+<p>大学毕业证书</p>
+</li>
+<li>
+<p>政府ID</p>
+</li>
+<li>
+<p>护照</p>
+</li>
+<li>
+<p>征信报告</p>
+</li>
+</ul>
+<p>以上这些这些数据是掌握在大学、政府部门等，你只能信任他们。（不信任也没办法，你无法证明他们提供的数据不正确）</p>
+<p>其他可能由预言机提供的数据示例包括：</p>
+<ul>
+<li>物理随机数源或熵源：如在彩票智能合约中公平地选出获胜者</li>
+<li>与自然灾害相关的参数触发器：触发大型自然灾害债券智能合约</li>
+<li>汇率数据：例如让加密货币与法币精确挂钩</li>
+<li>资本市场数据：例如为一揽子代币化资产或证券定价（数字货币基金）</li>
+<li>指标引用数据：例如将利率纳入智能金融衍生品合约</li>
+<li>统计与准统计数据：安全标识、国家代码、货币代号等</li>
+<li>时间和间隔数据：基于精准的SI（国际单位制）时间度量的事件触发器</li>
+<li>天气数据：例如给予天气预报的保险费计算器</li>
+<li>政治事件：预测市场走势</li>
+<li>运动事件：预测市场走势以及体育博彩相关的合约</li>
+<li>地理定位数据：例如供应链跟踪</li>
+<li>损坏程度核验：保险合约</li>
+<li>其他区块链上发生的事件：可互操作函数</li>
+<li>以太币市场价格：例如gas价格预言机</li>
+<li>航班统计数据：例如用于团体和俱乐部的机票合同</li>
+</ul>
+<h2 id="预言机的设计模式">预言机的设计模式</h2>
+<h3 id="预言机的关键功能">预言机的关键功能</h3>
+<p>根据定义，所有预言机都提供了一些关键功能。这些能力包括：</p>
+<ul>
+<li>从链外的数据源收集数据</li>
+<li>使用签名消息在链上传输数据</li>
+<li>将数据放入智能合约的存储空间，使数据可用</li>
+</ul>
+<h3 id="实现预言机的三种主要方式">实现预言机的三种主要方式</h3>
+<p>设置预言机的三种主要方式可以分为请求/响应、发布于订阅和立即读取。</p>
+<h4 id="立即读取">立即读取</h4>
+<ul>
+<li>
+<p>这种预言机提供及时决策所需的数据</p>
+</li>
+<li>
+<p>这种预言机的例子包括那些持有组织数据或有组织发布数据（例如学术证书、拨号代码、机构会员资格、机场标识符、自主ID等）的预言机</p>
+</li>
+<li>
+<p>这种预言机存储中的数据也可以通过区块链启用应用程序（Geth）直接在本地查找，不需要消耗gas</p>
+</li>
+<li>
+<p>这种预言机存储的数据和实际组织提供的数据可能不一样。（为了保密只需要在合约存储hash即可）</p>
+</li>
+</ul>
+<h4 id="发布与订阅">发布与订阅</h4>
+<ul>
+<li>在这种预言机中，要对预期改变的数据提供有效的广播服务，预言机要么由链上的智能合约轮询，要么由链外的守护进程监视和更新</li>
+<li>这种预言机的示例包括价格推送、天气预报、经济或社会统计、交通数据等</li>
+<li>以太坊时间日志应用程序特别容易注意预言机更新</li>
+<li>但是如果使用智能合约去轮询可能会产生大量的gas支出</li>
+</ul>
+<h4 id="请求与响应">请求与响应</h4>
+<p>这是数据空间太大而无法存储在智能合约中的情况，并且用户每次只需要整个数据集的一小部分。它也是数据提供商业务的适用模型</p>
+<p>请求与响应预言机的步骤可以总结如下：</p>
+<ol>
+<li>接收来自DApp的查询</li>
+<li>解析查询</li>
+<li>检查是否提供了付款和数据访问权限</li>
+<li>从链外数据源检索相关数据（并在必要时加密）</li>
+<li>使用包含的数据对交易进行签名</li>
+<li>将交易广播到网络</li>
+<li>安排任何进一步必要的交易，例如通知等</li>
+</ol>
+<h2 id="数据认证">数据认证</h2>
+<p>两种常见的数据认证方法：</p>
+<ul>
+<li>真实性证明（authenticity proof）</li>
+<li>可信执行环境（Trusted Execution Environment，TEE）</li>
+</ul>
+<h3 id="真实性证明">真实性证明</h3>
+<p>真实性证明是用密码学证据证明数据没有被篡改过。</p>
+<p>TLSNotary：</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/walkthrough_diagram_simplified.svg" alt="img"></p>
+<h3 id="可信执行环境">可信执行环境</h3>
+<p>使用Intel SGX来保证对HTTPS查询的响应可以被验证为可信的。</p>
+<ul>
+<li>SGK提供了完整性保证：使得在安全区中运行的应用程序收到CPU保护。不被其他进程篡改</li>
+<li>SGK提供了机密性：保证应用程序在安全区中运行时，其状态对其他进程来说是不可知的</li>
+<li>SGK通过生成应用程序确定在安全区中运行的数字签名，让证明成为可能，只要验证这个签名就能够确认程序在SGK安全区内安全地运行</li>
+</ul>
+<h2 id="计算性的预言机">计算性的预言机</h2>
+<p>智能合约因为有gas费限制的原因，并不适合做非常复杂的计算。部分提供计算性预言机如下：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://provable.xyz/">Provable</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/2016/10/azure-bletchley-first-release/">Cryptlet</a></li>
+<li><a target="_blank" rel="noopener" href="https://truebit.io/">truebit</a></li>
+</ul>
+<h2 id="去中心化预言机">去中心化预言机</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zh.chain.link/">ChainLink</a></li>
+<li><a target="_blank" rel="noopener" href="https://nestprotocol.org/">NEST Protocol</a></li>
+</ul>
+<h2 id="Solidity中的预言机客户端接口">Solidity中的预言机客户端接口</h2>
+<h3 id="轮询ETH-USD价格">轮询ETH/USD价格</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.22;</span><br><span class="line">import &quot;github.com&#x2F;provable-things&#x2F;ethereum-api&#x2F;provableAPI_0.4.25.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract ExampleContract is usingProvable &#123;</span><br><span class="line"></span><br><span class="line">    string public ETHUSD;</span><br><span class="line">    event LogConstructorInitiated(string nextStep);</span><br><span class="line">    event LogPriceUpdated(string price);</span><br><span class="line">    event LogNewProvableQuery(string description);</span><br><span class="line"></span><br><span class="line">    function ExampleContract() payable &#123;</span><br><span class="line">        LogConstructorInitiated(&quot;Constructor was initiated. Call &#39;updatePrice()&#39; to send the Provable Query.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function __callback(bytes32 myid, string result) &#123;</span><br><span class="line">        if (msg.sender !&#x3D; provable_cbAddress()) revert();</span><br><span class="line">        ETHUSD &#x3D; result;</span><br><span class="line">        LogPriceUpdated(result);</span><br><span class="line">        updatePrice();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function updatePrice() payable &#123;</span><br><span class="line">        if (provable_getPrice(&quot;URL&quot;) &gt; this.balance) &#123;</span><br><span class="line">            LogNewProvableQuery(&quot;Provable query was NOT sent, please add some ETH to cover for the query fee&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            LogNewProvableQuery(&quot;Provable query was sent, standing by for the answer..&quot;);</span><br><span class="line">            provable_query(60, &quot;URL&quot;, &quot;json(https:&#x2F;&#x2F;api.pro.coinbase.com&#x2F;products&#x2F;ETH-USD&#x2F;ticker).price&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E9%A2%84%E8%A8%80%E6%9C%BA%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">为什么需要预言机？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88EVM%E5%92%8C%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E6%B2%A1%E6%9C%89%E5%86%85%E5%9C%A8%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%80%A7%E6%9D%A5%E6%BA%90%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">为什么EVM和智能合约没有内在的随机性来源？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A4%96%E9%83%A8%E6%95%B0%E6%8D%AE%E5%8F%AA%E8%83%BD%E4%BD%9C%E4%B8%BA%E4%BA%A4%E6%98%93%E7%9A%84%E6%95%B0%E6%8D%AE%E8%BD%BD%E8%8D%B7%E5%BC%95%E5%85%A5%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">为什么外部数据只能作为交易的数据载荷引入？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E8%A8%80%E6%9C%BA%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%92%8C%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">预言机的应用场景和示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.1.</span> <span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E8%A8%80%E6%9C%BA%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">预言机的设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E8%A8%80%E6%9C%BA%E7%9A%84%E5%85%B3%E9%94%AE%E5%8A%9F%E8%83%BD"><span class="toc-number">3.1.</span> <span class="toc-text">预言机的关键功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E9%A2%84%E8%A8%80%E6%9C%BA%E7%9A%84%E4%B8%89%E7%A7%8D%E4%B8%BB%E8%A6%81%E6%96%B9%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">实现预言机的三种主要方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E8%AF%BB%E5%8F%96"><span class="toc-number">3.2.1.</span> <span class="toc-text">立即读取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85"><span class="toc-number">3.2.2.</span> <span class="toc-text">发布与订阅</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%B8%8E%E5%93%8D%E5%BA%94"><span class="toc-number">3.2.3.</span> <span class="toc-text">请求与响应</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%AE%A4%E8%AF%81"><span class="toc-number">4.</span> <span class="toc-text">数据认证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E6%80%A7%E8%AF%81%E6%98%8E"><span class="toc-number">4.1.</span> <span class="toc-text">真实性证明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E4%BF%A1%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">4.2.</span> <span class="toc-text">可信执行环境</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%80%A7%E7%9A%84%E9%A2%84%E8%A8%80%E6%9C%BA"><span class="toc-number">5.</span> <span class="toc-text">计算性的预言机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%E9%A2%84%E8%A8%80%E6%9C%BA"><span class="toc-number">6.</span> <span class="toc-text">去中心化预言机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solidity%E4%B8%AD%E7%9A%84%E9%A2%84%E8%A8%80%E6%9C%BA%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%A5%E5%8F%A3"><span class="toc-number">7.</span> <span class="toc-text">Solidity中的预言机客户端接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AE%E8%AF%A2ETH-USD%E4%BB%B7%E6%A0%BC"><span class="toc-number">7.1.</span> <span class="toc-text">轮询ETH&#x2F;USD价格</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&text=Oracle-预言机"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&title=Oracle-预言机"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&is_video=false&description=Oracle-预言机"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Oracle-预言机&body=Check out this article: https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&title=Oracle-预言机"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&title=Oracle-预言机"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&title=Oracle-预言机"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&title=Oracle-预言机"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&name=Oracle-预言机&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/06/blockchain/eth/Oracle-%E9%A2%84%E8%A8%80%E6%9C%BA/&t=Oracle-预言机"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
