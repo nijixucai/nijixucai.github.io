@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="学习结论  审计报告不严谨，如“成都链安”的审计报告存在拼写错误（错误见中文版“审计类型及结果”），“灵踪安全”的审计报告是一个模板但是未替换模板的内容（错误见中文版&quot;引用文档&quot;）。 代码未开源，无法从官网、审计报告以及搜索引擎获得项目的源码，审计报告中只存在部分代码片段。（个人使用此网站进行审批时调用的合约也无法完全反编译） 成都链安的审计结论说的很中立：“项目中管理权限 o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoinWind审计报告学习">
+<meta property="og:url" content="https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="学习结论  审计报告不严谨，如“成都链安”的审计报告存在拼写错误（错误见中文版“审计类型及结果”），“灵踪安全”的审计报告是一个模板但是未替换模板的内容（错误见中文版&quot;引用文档&quot;）。 代码未开源，无法从官网、审计报告以及搜索引擎获得项目的源码，审计报告中只存在部分代码片段。（个人使用此网站进行审批时调用的合约也无法完全反编译） 成都链安的审计结论说的很中立：“项目中管理权限 o">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/image-20210524171340292.png">
+<meta property="article:published_time" content="2021-05-24T02:50:49.686Z">
+<meta property="article:modified_time" content="2021-05-25T07:20:40.029Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="ethereum">
+<meta property="article:tag" content="智能合约">
+<meta property="article:tag" content="solidity">
+<meta property="article:tag" content="审计报告">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/guozhe001/images/raw/master/image-20210524171340292.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CoinWind审计报告学习</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/05/21/blockchain/eth/audit/certik%E9%92%88%E5%AF%B9pancakeswap%E7%9A%84%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&text=CoinWind审计报告学习"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&title=CoinWind审计报告学习"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&is_video=false&description=CoinWind审计报告学习"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CoinWind审计报告学习&body=Check out this article: https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&title=CoinWind审计报告学习"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&title=CoinWind审计报告学习"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&title=CoinWind审计报告学习"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&title=CoinWind审计报告学习"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&name=CoinWind审计报告学习&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&t=CoinWind审计报告学习"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%BB%93%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">学习结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">2.</span> <span class="toc-text">基本信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%90%E9%83%BD%E9%93%BE%E5%AE%89"><span class="toc-number">3.</span> <span class="toc-text">成都链安</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%81%B5%E8%B8%AA%E5%AE%89%E5%85%A8"><span class="toc-number">4.</span> <span class="toc-text">灵踪安全</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CoinWind审计报告学习
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-05-24T02:50:49.686Z" itemprop="datePublished">2021-05-24</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/ethereum/">ethereum</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link-link" href="/tags/ethereum/" rel="tag">ethereum</a>, <a class="tag-link-link" href="/tags/solidity/" rel="tag">solidity</a>, <a class="tag-link-link" href="/tags/%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A/" rel="tag">审计报告</a>, <a class="tag-link-link" href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" rel="tag">智能合约</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="学习结论">学习结论</h2>
+<ol>
+<li>审计报告不严谨，如“成都链安”的审计报告存在拼写错误（错误见中文版“审计类型及结果”），“灵踪安全”的审计报告是一个模板但是未替换模板的内容（错误见中文版&quot;引用文档&quot;）。</li>
+<li>代码未开源，无法从官网、审计报告以及搜索引擎获得项目的源码，审计报告中只存在部分代码片段。（个人使用此网站进行审批时调用的合约也<a target="_blank" rel="noopener" href="https://bscscan.com/bytecode-decompiler?a=0x6ba7d75ec6576f88a10be832c56f0f27dc040ddd">无法完全反编译</a>）</li>
+<li>成都链安的审计结论说的很中立：“项目中管理权限 owner 和 governance 对整 个项目有较高的控制权，建议做好权限管控。”
+<ol>
+<li>报告中显示有个只允许owner调用的提现的方法，因为代码不全无法根据上下文判断这个是不是后门。如下图</li>
+<li><img src="https://gitee.com/guozhe001/images/raw/master/image-20210524171340292.png" alt></li>
+</ol>
+</li>
+</ol>
+<p><strong>因为代码未开源且owner和管理员有较高的权限，注意风险</strong></p>
+<h2 id="基本信息">基本信息</h2>
+<p>官网：<a target="_blank" rel="noopener" href="https://coinwind.pro/">https://coinwind.pro/</a></p>
+<p>审计平台：<a target="_blank" rel="noopener" href="https://www.fairyproof.com/">灵踪安全</a>、<a target="_blank" rel="noopener" href="https://www.lianantech.com/#/index?index=0">成都链安</a></p>
+<h2 id="成都链安"><a target="_blank" rel="noopener" href="https://www.lianantech.com/#/index?index=0">成都链安</a></h2>
+<p>审计报告：<a target="_blank" rel="noopener" href="https://www.coinwind.com/BEOSIN_en.pdf">英文</a>、<a target="_blank" rel="noopener" href="https://www.coinwind.com/BEOSIN_zh.pdf">中文</a></p>
+<ol>
+<li>审计报告中列出了一些审计的代码片段，最终结果为pass</li>
+<li>“owner 和 governance ”权限较高</li>
+</ol>
+<h2 id="灵踪安全"><a target="_blank" rel="noopener" href="https://www.fairyproof.com/">灵踪安全</a></h2>
+<p>审计报告：<a target="_blank" rel="noopener" href="https://www.coinwind.com/flyhub_en.pdf">英文</a>、<a target="_blank" rel="noopener" href="https://www.coinwind.com/flyhub_zh.pdf">中文</a></p>
+<ol>
+<li>审计报告中提到的问题没有对应的代码片段，读了之后并没有办法理解是什么问题</li>
+<li>从灵踪安全的角度来说发现了5个问题并且项目方已经解决</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%BB%93%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">学习结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">2.</span> <span class="toc-text">基本信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%90%E9%83%BD%E9%93%BE%E5%AE%89"><span class="toc-number">3.</span> <span class="toc-text">成都链安</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%81%B5%E8%B8%AA%E5%AE%89%E5%85%A8"><span class="toc-number">4.</span> <span class="toc-text">灵踪安全</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&text=CoinWind审计报告学习"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&title=CoinWind审计报告学习"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&is_video=false&description=CoinWind审计报告学习"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CoinWind审计报告学习&body=Check out this article: https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&title=CoinWind审计报告学习"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&title=CoinWind审计报告学习"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&title=CoinWind审计报告学习"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&title=CoinWind审计报告学习"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&name=CoinWind审计报告学习&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/&t=CoinWind审计报告学习"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

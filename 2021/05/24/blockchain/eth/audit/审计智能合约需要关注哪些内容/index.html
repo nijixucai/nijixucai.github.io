@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="最近学习了CERTIK、灵踪安全、成都链安、Trail of Bits 等公司的合约审计报告；在此做一个总结，通过学习审计报告中的关注点来尽量避免在以后的合约开发过程中踩这些坑。 虽然列出的内容很多，但是背后的逻辑与思想并没有完全了解与吃透，后续还需要继续学习与消化。 合约审计的维度 合约审计主要包括下面这些大类  代码规范审计 代码漏洞审计 测试与验证审计 业务逻辑审计  合约审计的方式  形式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="审计智能合约需要关注哪些内容">
+<meta property="og:url" content="https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="最近学习了CERTIK、灵踪安全、成都链安、Trail of Bits 等公司的合约审计报告；在此做一个总结，通过学习审计报告中的关注点来尽量避免在以后的合约开发过程中踩这些坑。 虽然列出的内容很多，但是背后的逻辑与思想并没有完全了解与吃透，后续还需要继续学习与消化。 合约审计的维度 合约审计主要包括下面这些大类  代码规范审计 代码漏洞审计 测试与验证审计 业务逻辑审计  合约审计的方式  形式">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-24T03:00:11.075Z">
+<meta property="article:modified_time" content="2021-05-26T07:23:41.427Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="ethereum">
+<meta property="article:tag" content="智能合约">
+<meta property="article:tag" content="solidity">
+<meta property="article:tag" content="审计报告">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>审计智能合约需要关注哪些内容</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/05/25/blockchain/eth/audit/CERTIK%E9%92%88%E5%AF%B9SOLO.TOP%E7%9A%84%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/05/24/blockchain/eth/audit/CoinWind%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A%E5%AD%A6%E4%B9%A0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&text=审计智能合约需要关注哪些内容"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&title=审计智能合约需要关注哪些内容"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&is_video=false&description=审计智能合约需要关注哪些内容"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=审计智能合约需要关注哪些内容&body=Check out this article: https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&title=审计智能合约需要关注哪些内容"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&title=审计智能合约需要关注哪些内容"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&title=审计智能合约需要关注哪些内容"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&title=审计智能合约需要关注哪些内容"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&name=审计智能合约需要关注哪些内容&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&t=审计智能合约需要关注哪些内容"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1%E7%9A%84%E7%BB%B4%E5%BA%A6"><span class="toc-number">1.</span> <span class="toc-text">合约审计的维度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">合约审计的方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text">代码规范审计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E7%89%88%E6%9C%AC%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.1.</span> <span class="toc-text">编译器版本安全审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%83%E7%94%A8%E9%A1%B9%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.2.</span> <span class="toc-text">弃用项审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%97%E4%BD%99%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.3.</span> <span class="toc-text">冗余代码审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SafeMath-%E5%8A%9F%E8%83%BD%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.4.</span> <span class="toc-text">SafeMath 功能审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#require-assert-%E4%BD%BF%E7%94%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.5.</span> <span class="toc-text">require&#x2F;assert 使用审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gas-%E6%B6%88%E8%80%97%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.6.</span> <span class="toc-text">gas 消耗审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%E8%A7%84%E8%8C%83%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.7.</span> <span class="toc-text">可见性规范审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fallback-%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.8.</span> <span class="toc-text">fallback 函数使用审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%A0%B7%E5%BC%8F"><span class="toc-number">3.0.9.</span> <span class="toc-text">代码样式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AD%94%E6%B3%95%E6%95%B0%E5%AD%97"><span class="toc-number">3.0.10.</span> <span class="toc-text">魔法数字</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E9%94%99%E8%AF%AF"><span class="toc-number">3.0.11.</span> <span class="toc-text">编译错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%B0%81%E8%A3%85"><span class="toc-number">3.0.12.</span> <span class="toc-text">代码封装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E4%B8%AD%E5%8C%96"><span class="toc-number">3.0.13.</span> <span class="toc-text">集中化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E5%8D%87%E7%BA%A7%E6%80%A7"><span class="toc-number">3.0.14.</span> <span class="toc-text">可升级性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7"><span class="toc-number">3.0.15.</span> <span class="toc-text">监控</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%BC%8F%E6%B4%9E%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.</span> <span class="toc-text">代码漏洞审计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E5%9E%8B%E6%BA%A2%E5%87%BA%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.1.</span> <span class="toc-text">整型溢出审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.2.</span> <span class="toc-text">重入攻击审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.3.</span> <span class="toc-text">伪随机数生成审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E6%98%93%E9%A1%BA%E5%BA%8F%E4%BE%9D%E8%B5%96%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.4.</span> <span class="toc-text">交易顺序依赖审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.5.</span> <span class="toc-text">拒绝服务攻击审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%9D%83%E9%99%90%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.6.</span> <span class="toc-text">函数调用权限审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#call-delegatecall-%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.7.</span> <span class="toc-text">call&#x2F;delegatecall 安全审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.8.</span> <span class="toc-text">返回值安全审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tx-origin-%E4%BD%BF%E7%94%A8%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.9.</span> <span class="toc-text">tx.origin 使用安全审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.10.</span> <span class="toc-text">重放攻击审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.11.</span> <span class="toc-text">变量覆盖审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E6%94%BB%E5%87%BB%E4%B8%8E%E5%AE%89%E5%85%A8%E6%A3%80%E6%9F%A5%E7%9A%84%E7%82%B9"><span class="toc-number">4.0.12.</span> <span class="toc-text">其他的攻击与安全检查的点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%92%8C%E9%AA%8C%E8%AF%81"><span class="toc-number">5.</span> <span class="toc-text">测试和验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B7%A5%E5%85%B7%EF%BC%9A"><span class="toc-number">5.0.1.</span> <span class="toc-text">自动化测试与验证工具：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%92%8C%E9%AA%8C%E8%AF%81%E5%85%B3%E6%B3%A8%E7%82%B9"><span class="toc-number">5.0.2.</span> <span class="toc-text">测试和验证关注点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E5%AE%A1%E8%AE%A1"><span class="toc-number">6.</span> <span class="toc-text">业务逻辑审计</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        审计智能合约需要关注哪些内容
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-05-24T03:00:11.075Z" itemprop="datePublished">2021-05-24</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/ethereum/">ethereum</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link-link" href="/tags/ethereum/" rel="tag">ethereum</a>, <a class="tag-link-link" href="/tags/solidity/" rel="tag">solidity</a>, <a class="tag-link-link" href="/tags/%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A/" rel="tag">审计报告</a>, <a class="tag-link-link" href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" rel="tag">智能合约</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近学习了<a target="_blank" rel="noopener" href="https://www.certik.org/">CERTIK</a>、<a target="_blank" rel="noopener" href="https://www.fairyproof.com/">灵踪安全</a>、<a target="_blank" rel="noopener" href="https://www.lianantech.com/#/index?index=0">成都链安</a>、<a target="_blank" rel="noopener" href="https://www.trailofbits.com/">Trail of Bits</a> 等公司的合约审计报告；在此做一个总结，通过学习审计报告中的关注点来尽量避免在以后的合约开发过程中踩这些坑。</p>
+<p>虽然列出的内容很多，但是背后的逻辑与思想并没有完全了解与吃透，后续还需要继续学习与消化。</p>
+<h2 id="合约审计的维度">合约审计的维度</h2>
+<p>合约审计主要包括下面这些大类</p>
+<ul>
+<li>代码规范审计</li>
+<li>代码漏洞审计</li>
+<li>测试与验证审计</li>
+<li>业务逻辑审计</li>
+</ul>
+<h2 id="合约审计的方式">合约审计的方式</h2>
+<ul>
+<li>形式化验证</li>
+<li>静态分析</li>
+<li>动态分析</li>
+<li>典型案例测试</li>
+<li>人工审核</li>
+</ul>
+<h2 id="代码规范审计">代码规范审计</h2>
+<h4 id="编译器版本安全审计">编译器版本安全审计</h4>
+<p>老版本的编译器可能会导致各种已知的安全问题，建议开发者在代码中指定合约代码采用最新的编译器版本，并消除编译器告警。</p>
+<h4 id="弃用项审计">弃用项审计</h4>
+<p>Solidity智能合约开发语言处于快速迭代中，部分关键字已被新版本的编译器弃用，如throw、years等，为了消除其可能导致的隐患，合约开发者不应该使用当前编译器版本已弃用的关键字。</p>
+<h4 id="冗余代码审计">冗余代码审计</h4>
+<p>智能合约中的冗余代码会降低代码可读性，并可能需要消耗更多的gas用于合约部署，建议消除冗余代码。</p>
+<h4 id="SafeMath-功能审计">SafeMath 功能审计</h4>
+<p>检查合约中是否正确使用SafeMath库内的函数进行数学运算，或者进行其他防溢出的检查。</p>
+<h4 id="require-assert-使用审计">require/assert 使用审计</h4>
+<p>Solidity使用状态恢复异常来处理错误。这种机制将会撤消对当前调用(及其所有子调用)中的状态所做的所有更改，并向调用者标记错误。函数assert和require可用于检查条件并在条件不满足时抛出异常。</p>
+<ul>
+<li>
+<p>assert函数只能用于测试内部错误，并检查非变量。</p>
+</li>
+<li>
+<p>require函数用于确认条件有效性，例如输入变量，或合约状态变量是否满足条件，或验证外部合约调用的返回值。</p>
+</li>
+</ul>
+<h4 id="gas-消耗审计">gas 消耗审计</h4>
+<h4 id="可见性规范审计">可见性规范审计</h4>
+<h4 id="fallback-函数使用审计">fallback 函数使用审计</h4>
+<h4 id="代码样式">代码样式</h4>
+<h4 id="魔法数字">魔法数字</h4>
+<h4 id="编译错误">编译错误</h4>
+<h4 id="代码封装">代码封装</h4>
+<h4 id="集中化">集中化</h4>
+<h4 id="可升级性">可升级性</h4>
+<h4 id="监控">监控</h4>
+<h2 id="代码漏洞审计">代码漏洞审计</h2>
+<h4 id="整型溢出审计">整型溢出审计</h4>
+<p>整型溢出是很多语言都存在的安全问题，它们在智能合约中尤其危险。Solidity最多能处理256位的数字(2**256-1)，最大数字增加1会溢出得到0。同样，当数字为uint类型时，0减去1会下溢得到最大数字值。溢出情况会导致不正确的结果，特别是如果其可能的结果未被预期，可能会影响程序的可靠性和安全性。</p>
+<h4 id="重入攻击审计">重入攻击审计</h4>
+<p>重入漏洞是最典型的智能合约漏洞，曾导致了The DAO被攻击。该漏洞原因是Solidity中的call.value()函数在被用来发送ETH的时候会消耗它接收到的所有gas，当调用call.value()函数发送ETH的逻辑顺序存在错误时，就会存在重入攻击的风险。</p>
+<h4 id="伪随机数生成审计">伪随机数生成审计</h4>
+<p>智能合约中可能会使用到随机数，在solidity下常见的是用block区块信息作为随机因子生成，但是这样使用是不安全的，区块信息是可以被矿工控制或被攻击者在交易时获取到，这类随机数在一定程度上是可预测或可碰撞的，比较典型的例子就是fomo3d的airdrop随机数可以被碰撞。</p>
+<h4 id="交易顺序依赖审计">交易顺序依赖审计</h4>
+<p>在交易打包执行过程中，面对相同难度的交易时，矿工往往会选择gas费用高的优先打包，因此用户可以指定更高的gas费用，使自己的交易优先被打包执行。</p>
+<h4 id="拒绝服务攻击审计">拒绝服务攻击审计</h4>
+<p>拒绝服务攻击，即Denial of Service，可以使目标无法提供正常的服务。在智能合约中也会存在此类问题，由于智能合约的不可更改性，该类攻击可能使得合约永远无法恢复正常工作状态。导致智能合约拒绝服务的原因有很多种，包括在作为交易接收方时的恶意revert、代码设计缺陷导致gas耗尽等等。</p>
+<h4 id="函数调用权限审计">函数调用权限审计</h4>
+<p>智能合约如果存在高权限功能，如：铸币、自毁、change owner等，需要对函数调用做权限限制，避免权限泄露导致的安全问题。</p>
+<h4 id="call-delegatecall-安全审计">call/delegatecall 安全审计</h4>
+<p>Solidity中提供了call/delegatecall函数来进行函数调用，如果使用不当，会造成call注入漏洞，例如call的参数如果可控，则可以控制本合约进行越权操作或调用其他合约的危险函数</p>
+<h4 id="返回值安全审计">返回值安全审计</h4>
+<p>在Solidity中存在transfer()、send()、call.value()等方法中，transfer转账失败交易会回滚，而send和call.value转账失败会return false，如果未对返回做正确判断，则可能会执行到未预期的逻辑;另外在HRC20 Token的transfer/transferFrom功能实现中，也要避免转账失败returnfalse的情况，以免造成假充值漏洞。</p>
+<h4 id="tx-origin-使用安全审计">tx.origin 使用安全审计</h4>
+<p>在智能合约的复杂调用中，tx.origin表示交易的初始创建者地址，如果使用tx.origin进行权限判断，可能会出现错误;另外，如果合约需要判断调用方是否为合约地址时则需要使用tx.origin，不能使用extcodesize。</p>
+<h4 id="重放攻击审计">重放攻击审计</h4>
+<p>重放攻击是指如果两份合约使用了相同的代码实现，并且身份鉴权在传参中，当用户在向一份合<br>
+约中执行一笔交易，交易信息可以被复制并且向另一份合约重放执行该笔交易。</p>
+<h4 id="变量覆盖审计">变量覆盖审计</h4>
+<p>智能合约中存在着复杂的变量类型，例如结构体、动态数组等，如果使用不当，对其赋值后，可能导致覆盖已有状态变量的值，造成合约执行逻辑异常。</p>
+<h4 id="其他的攻击与安全检查的点">其他的攻击与安全检查的点</h4>
+<p>下面这些审计的点后续再做持续的学习与解释补充</p>
+<ul>
+<li>重排攻击</li>
+<li>注入攻击</li>
+<li>条件竞争攻击</li>
+<li>时间戳依赖攻击</li>
+<li>冗余的回调函数</li>
+<li>函数状态变量的显式可见性</li>
+<li>逻辑缺陷</li>
+<li>未声明的存储指针</li>
+<li>算术精度误差</li>
+<li>假充值漏洞</li>
+<li>变量覆盖</li>
+<li>设计缺陷</li>
+<li>潜在后门</li>
+<li>代币发行</li>
+<li>代理升级</li>
+<li>委托调用插槽共享</li>
+<li>用户资金安全</li>
+<li>迁移管理</li>
+</ul>
+<h2 id="测试和验证">测试和验证</h2>
+<h4 id="自动化测试与验证工具：">自动化测试与验证工具：</h4>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/crytic/slither">Slither</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/crytic/echidna">Echidna</a></li>
+</ul>
+<h4 id="测试和验证关注点">测试和验证关注点</h4>
+<ul>
+<li>代码自动化测试覆盖率</li>
+<li>代码测试用例通过率</li>
+</ul>
+<h2 id="业务逻辑审计">业务逻辑审计</h2>
+<p>根据白皮书和被审计公司的业务逻辑进行的审计，包括：</p>
+<ul>
+<li>业务逻辑审计</li>
+<li>业务实现审计</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1%E7%9A%84%E7%BB%B4%E5%BA%A6"><span class="toc-number">1.</span> <span class="toc-text">合约审计的维度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">合约审计的方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text">代码规范审计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E7%89%88%E6%9C%AC%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.1.</span> <span class="toc-text">编译器版本安全审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%83%E7%94%A8%E9%A1%B9%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.2.</span> <span class="toc-text">弃用项审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%97%E4%BD%99%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.3.</span> <span class="toc-text">冗余代码审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SafeMath-%E5%8A%9F%E8%83%BD%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.4.</span> <span class="toc-text">SafeMath 功能审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#require-assert-%E4%BD%BF%E7%94%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.5.</span> <span class="toc-text">require&#x2F;assert 使用审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gas-%E6%B6%88%E8%80%97%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.6.</span> <span class="toc-text">gas 消耗审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%E8%A7%84%E8%8C%83%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.7.</span> <span class="toc-text">可见性规范审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fallback-%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.0.8.</span> <span class="toc-text">fallback 函数使用审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%A0%B7%E5%BC%8F"><span class="toc-number">3.0.9.</span> <span class="toc-text">代码样式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AD%94%E6%B3%95%E6%95%B0%E5%AD%97"><span class="toc-number">3.0.10.</span> <span class="toc-text">魔法数字</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E9%94%99%E8%AF%AF"><span class="toc-number">3.0.11.</span> <span class="toc-text">编译错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%B0%81%E8%A3%85"><span class="toc-number">3.0.12.</span> <span class="toc-text">代码封装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E4%B8%AD%E5%8C%96"><span class="toc-number">3.0.13.</span> <span class="toc-text">集中化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E5%8D%87%E7%BA%A7%E6%80%A7"><span class="toc-number">3.0.14.</span> <span class="toc-text">可升级性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7"><span class="toc-number">3.0.15.</span> <span class="toc-text">监控</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%BC%8F%E6%B4%9E%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.</span> <span class="toc-text">代码漏洞审计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E5%9E%8B%E6%BA%A2%E5%87%BA%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.1.</span> <span class="toc-text">整型溢出审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.2.</span> <span class="toc-text">重入攻击审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.3.</span> <span class="toc-text">伪随机数生成审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E6%98%93%E9%A1%BA%E5%BA%8F%E4%BE%9D%E8%B5%96%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.4.</span> <span class="toc-text">交易顺序依赖审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.5.</span> <span class="toc-text">拒绝服务攻击审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%9D%83%E9%99%90%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.6.</span> <span class="toc-text">函数调用权限审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#call-delegatecall-%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.7.</span> <span class="toc-text">call&#x2F;delegatecall 安全审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.8.</span> <span class="toc-text">返回值安全审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tx-origin-%E4%BD%BF%E7%94%A8%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.9.</span> <span class="toc-text">tx.origin 使用安全审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.10.</span> <span class="toc-text">重放攻击审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E5%AE%A1%E8%AE%A1"><span class="toc-number">4.0.11.</span> <span class="toc-text">变量覆盖审计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E6%94%BB%E5%87%BB%E4%B8%8E%E5%AE%89%E5%85%A8%E6%A3%80%E6%9F%A5%E7%9A%84%E7%82%B9"><span class="toc-number">4.0.12.</span> <span class="toc-text">其他的攻击与安全检查的点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%92%8C%E9%AA%8C%E8%AF%81"><span class="toc-number">5.</span> <span class="toc-text">测试和验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B7%A5%E5%85%B7%EF%BC%9A"><span class="toc-number">5.0.1.</span> <span class="toc-text">自动化测试与验证工具：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%92%8C%E9%AA%8C%E8%AF%81%E5%85%B3%E6%B3%A8%E7%82%B9"><span class="toc-number">5.0.2.</span> <span class="toc-text">测试和验证关注点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E5%AE%A1%E8%AE%A1"><span class="toc-number">6.</span> <span class="toc-text">业务逻辑审计</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&text=审计智能合约需要关注哪些内容"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&title=审计智能合约需要关注哪些内容"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&is_video=false&description=审计智能合约需要关注哪些内容"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=审计智能合约需要关注哪些内容&body=Check out this article: https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&title=审计智能合约需要关注哪些内容"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&title=审计智能合约需要关注哪些内容"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&title=审计智能合约需要关注哪些内容"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&title=审计智能合约需要关注哪些内容"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&name=审计智能合约需要关注哪些内容&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/05/24/blockchain/eth/audit/%E5%AE%A1%E8%AE%A1%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9/&t=审计智能合约需要关注哪些内容"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

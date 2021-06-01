@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1INCH的主要优缺点 优点  支持主流的DEX，计算的兑换路径比较 支持用户自定义允许的最大划点、交易速度（gas费价格）  缺点  在计算好兑换路径之后，可能会因为兑换链路过长而导致价格已经变化；此时会回滚交易，浪费了gas费又没有成交 在交易时如果gas费没有用完，会归1INCH合约所有而不是返还给调用者。  1INCH的主要逻辑 总结成一句话是在以太坊网络上查询其他的去中心化交易所的兑换汇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="结合交易页面与源码看1INCH的兑换逻辑">
+<meta property="og:url" content="https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/index.html">
+<meta property="og:site_name" content="滴水成涓">
+<meta property="og:description" content="1INCH的主要优缺点 优点  支持主流的DEX，计算的兑换路径比较 支持用户自定义允许的最大划点、交易速度（gas费价格）  缺点  在计算好兑换路径之后，可能会因为兑换链路过长而导致价格已经变化；此时会回滚交易，浪费了gas费又没有成交 在交易时如果gas费没有用完，会归1INCH合约所有而不是返还给调用者。  1INCH的主要逻辑 总结成一句话是在以太坊网络上查询其他的去中心化交易所的兑换汇">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/image-20210415160725165.png">
+<meta property="og:image" content="https://gitee.com/guozhe001/images/raw/master/SNX:USDT%E6%8B%86%E5%88%86.png">
+<meta property="article:published_time" content="2021-04-15T08:09:33.939Z">
+<meta property="article:modified_time" content="2021-05-31T07:55:48.062Z">
+<meta property="article:author" content="guozhe">
+<meta property="article:tag" content="blockchain">
+<meta property="article:tag" content="ethereum">
+<meta property="article:tag" content="1INCH">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/guozhe001/images/raw/master/image-20210415160725165.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>结合交易页面与源码看1INCH的兑换逻辑</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="滴水成涓" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/20/language/Python%E6%80%BB%E7%BB%93/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/13/blockchain/eth/etherscan%E6%8F%90%E4%BE%9B%E7%9A%84API%E8%B0%83%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&text=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&title=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&is_video=false&description=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=结合交易页面与源码看1INCH的兑换逻辑&body=Check out this article: https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&title=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&title=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&title=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&title=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&name=结合交易页面与源码看1INCH的兑换逻辑&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&t=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1INCH%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">1INCH的主要优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1INCH%E7%9A%84%E4%B8%BB%E8%A6%81%E9%80%BB%E8%BE%91"><span class="toc-number">2.</span> <span class="toc-text">1INCH的主要逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E5%85%91%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">两种兑换方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%87%E6%B8%A1%E4%BB%A4%E7%89%8C"><span class="toc-number">2.1.1.</span> <span class="toc-text">过渡令牌</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%86%E5%88%86"><span class="toc-number">2.1.2.</span> <span class="toc-text">拆分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%89%8D%E6%94%AF%E6%8C%81%E7%9A%84DEX"><span class="toc-number">2.2.</span> <span class="toc-text">目前支持的DEX</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E5%90%8E%E7%9A%84%E9%80%BB%E8%BE%91"><span class="toc-number">3.</span> <span class="toc-text">背后的逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E5%B8%81%E6%BA%90%E7%A0%81%EF%BC%9A1INCH"><span class="toc-number">3.1.</span> <span class="toc-text">代币源码：1INCH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%BA%90%E7%A0%81%EF%BC%9A1inchProtocol"><span class="toc-number">3.2.</span> <span class="toc-text">协议源码：1inchProtocol</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%95%E7%AE%97%E5%85%91%E6%8D%A2%E9%87%91%E9%A2%9D%E5%92%8C%E8%B7%AF%E5%BE%84%E7%9A%84getExpectedReturn"><span class="toc-number">3.2.1.</span> <span class="toc-text">试算兑换金额和路径的getExpectedReturn</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%96%B9%E6%B3%95swap"><span class="toc-number">3.2.2.</span> <span class="toc-text">交换方法swap</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        结合交易页面与源码看1INCH的兑换逻辑
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">guozhe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-15T08:09:33.939Z" itemprop="datePublished">2021-04-15</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">blockchain</a> › <a class="category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/ethereum/">ethereum</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/1INCH/" rel="tag">1INCH</a>, <a class="tag-link-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">blockchain</a>, <a class="tag-link-link" href="/tags/ethereum/" rel="tag">ethereum</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="1INCH的主要优缺点">1INCH的主要优缺点</h2>
+<h3 id="优点">优点</h3>
+<ol>
+<li>支持主流的DEX，计算的兑换路径比较</li>
+<li>支持用户自定义允许的最大划点、交易速度（gas费价格）</li>
+</ol>
+<h3 id="缺点">缺点</h3>
+<ol>
+<li>在计算好兑换路径之后，可能会因为兑换链路过长而导致价格已经变化；此时会回滚交易，浪费了gas费又没有成交</li>
+<li>在交易时如果gas费没有用完，会归1INCH合约所有而不是返还给调用者。</li>
+</ol>
+<h2 id="1INCH的主要逻辑">1INCH的主要逻辑</h2>
+<p>总结成一句话是在以太坊网络上查询其他的去中心化交易所的兑换汇率，然后通过<strong>拆分</strong>或者<strong>过渡令牌</strong>交换的方式选择最佳的兑换方式。</p>
+<h3 id="两种兑换方式">两种兑换方式</h3>
+<h4 id="过渡令牌">过渡令牌</h4>
+<p>如下图ETH/USDT的交易对，1inch算出的最佳方案是先兑换成sUSD，再用sUSD兑换WETH，再用WETH兑换ETH。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/image-20210415160725165.png" alt="image-20210415160725165"></p>
+<h4 id="拆分">拆分</h4>
+<p>下面的SNX/USDT交易对的图显示先用过渡令牌，最后一步时拆分到两个交易所兑换SNX。</p>
+<p><img src="https://gitee.com/guozhe001/images/raw/master/SNX:USDT%E6%8B%86%E5%88%86.png" alt="SNX:USDT拆分"></p>
+<h3 id="目前支持的DEX">目前支持的DEX</h3>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://v1.uniswap.exchange/">Uniswap</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://uniswap.exchange/">Uniswap V2</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://kyber.network/">Kyber</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://bancor.network/">Bancor</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://oasis.app/">Oasis</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://curve.fi/">Curve</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://github.com/1inch/1inchProtocol/blob/master">Mooniswap</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://trade.dforce.network/">Dforce XSwap</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://www.shellprotocol.io/">Shell</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://app.mstable.org/">mStable</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://chai.money/">CHAI</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://btu-protocol.com/">BDAI</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://aave.com/">Aave</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://fulcrum.trade/">Fulcrum</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://compound.finance/">Compound</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://iearn.finance/">Iearn</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://idle.finance/">Idle</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://weth.io/ru/">WETH</a></p>
+</li>
+</ul>
+<h2 id="背后的逻辑">背后的逻辑</h2>
+<h3 id="代币源码：1INCH">代币源码：<a target="_blank" rel="noopener" href="https://cn.etherscan.com/token/0x111111111117dC0aa78b770fA6A738034120C302">1INCH</a></h3>
+<ul>
+<li>是一个ERC20代币</li>
+<li>总共发行15亿枚</li>
+<li>可以被销毁（必须由持有者允许）</li>
+</ul>
+<p>合约代码如下，没有其他的特殊性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">contract OneInch is ERC20Permit, ERC20Burnable, Ownable &#123;</span><br><span class="line">    constructor(address _owner) public ERC20(&quot;1INCH Token&quot;, &quot;1INCH&quot;) EIP712(&quot;1INCH Token&quot;, &quot;1&quot;) &#123;</span><br><span class="line">        _mint(_owner, 1.5e9 ether);</span><br><span class="line">        transferOwnership(_owner);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function mint(address to, uint256 amount) external onlyOwner &#123;</span><br><span class="line">        _mint(to, amount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="协议源码：1inchProtocol">协议源码：<a target="_blank" rel="noopener" href="https://github.com/1inch/1inchProtocol">1inchProtocol</a></h3>
+<p>此协议描述了1INCH的工作原理（<em>此协议的代码比较多，只看了一下主要的流程忽略了具体的交易所实现</em>），在兑换时的步骤具体如下：</p>
+<ol>
+<li>使用<code>getExpectedReturn</code>方法试算本次的最佳兑换方式</li>
+<li>使用<code>getExpectedReturnWithGas</code>方法试算在考虑gas费的情况下的最佳兑换方式</li>
+<li>使用前面的方法返回的值（兑换多少，和兑换渠道）作为参数调用<code>swap</code>方法进行兑换</li>
+</ol>
+<h4 id="试算兑换金额和路径的getExpectedReturn">试算兑换金额和路径的<code>getExpectedReturn</code></h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; @notice Calculate expected returning amount of &#96;destToken&#96;</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param fromToken (IERC20) Address of token or &#96;address(0)&#96; for Ether</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param destToken (IERC20) Address of token or &#96;address(0)&#96; for Ether</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param amount (uint256) Amount for &#96;fromToken&#96;</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param parts (uint256) Number of pieces source volume could be splitted,</span><br><span class="line">&#x2F;&#x2F;&#x2F; works like granularity, higly affects gas usage. Should be called offchain,</span><br><span class="line">&#x2F;&#x2F;&#x2F; but could be called onchain if user swaps not his own funds, but this is still considered as not safe.</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param flags (uint256) Flags for enabling and disabling some features, default 0</span><br><span class="line">function getExpectedReturn(</span><br><span class="line">    IERC20 fromToken, &#x2F;&#x2F; 从A币</span><br><span class="line">    IERC20 destToken, &#x2F;&#x2F; 兑换成B币</span><br><span class="line">    uint256 amount,   &#x2F;&#x2F; 出多少A币</span><br><span class="line">    uint256 parts,		&#x2F;&#x2F; 允许拆分成多少份</span><br><span class="line">    uint256 flags &#x2F;&#x2F; See contants in IOneSplit.sol &#x2F;&#x2F; gas费</span><br><span class="line">)</span><br><span class="line">    public</span><br><span class="line">    view</span><br><span class="line">    returns(</span><br><span class="line">        uint256 returnAmount, &#x2F;&#x2F; 可以兑换多少B币</span><br><span class="line">        uint256[] memory distribution &#x2F;&#x2F; 拆分权重数组，描述的是在哪个交易所兑换多少</span><br><span class="line">    )</span><br><span class="line">&#123;</span><br><span class="line">    (returnAmount, , distribution) &#x3D; getExpectedReturnWithGas(</span><br><span class="line">        fromToken,</span><br><span class="line">        destToken,</span><br><span class="line">        amount,</span><br><span class="line">        parts,</span><br><span class="line">        flags,</span><br><span class="line">        0</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="交换方法swap">交换方法<code>swap</code></h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; @notice Swap &#96;amount&#96; of first element of &#96;tokens&#96; to the latest element of &#96;destToken&#96;</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param tokens (IERC20[]) Addresses of token or &#96;address(0)&#96; for Ether</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param amount (uint256) Amount for &#96;fromToken&#96;</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param minReturn (uint256) Minimum expected return, else revert</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param distribution (uint256[]) Array of weights for volume distribution returned by &#96;getExpectedReturn&#96;</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param flags (uint256[]) Flags for enabling and disabling some features, default 0</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param referral (address) Address of referral</span><br><span class="line">&#x2F;&#x2F;&#x2F; @param feePercent (uint256) Fees percents normalized to 1e18, limited to 0.03e18 (3%)</span><br><span class="line">function swapWithReferralMulti(</span><br><span class="line">    IERC20[] memory tokens,</span><br><span class="line">    uint256 amount,</span><br><span class="line">    uint256 minReturn,</span><br><span class="line">    uint256[] memory distribution,</span><br><span class="line">    uint256[] memory flags,</span><br><span class="line">    address referral,</span><br><span class="line">    uint256 feePercent</span><br><span class="line">) public payable returns(uint256 returnAmount) &#123;</span><br><span class="line">    require(tokens.length &gt;&#x3D; 2 &amp;&amp; amount &gt; 0, &quot;OneSplit: swap makes no sense&quot;);</span><br><span class="line">    require(flags.length &#x3D;&#x3D; tokens.length - 1, &quot;OneSplit: flags array length is invalid&quot;);</span><br><span class="line">    require((msg.value !&#x3D; 0) &#x3D;&#x3D; tokens.first().isETH(), &quot;OneSplit: msg.value should be used only for ETH swap&quot;);</span><br><span class="line">    require(feePercent &lt;&#x3D; 0.03e18, &quot;OneSplit: feePercent out of range&quot;);</span><br><span class="line"></span><br><span class="line">    uint256 gasStart &#x3D; gasleft();</span><br><span class="line"></span><br><span class="line">    Balances memory beforeBalances &#x3D; _getFirstAndLastBalances(tokens, true);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Transfer From</span><br><span class="line">    if (amount &#x3D;&#x3D; uint256(-1)) &#123;</span><br><span class="line">        amount &#x3D; Math.min(</span><br><span class="line">            tokens.first().balanceOf(msg.sender),</span><br><span class="line">            tokens.first().allowance(msg.sender, address(this))</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    tokens.first().universalTransferFromSenderToThis(amount);</span><br><span class="line">    uint256 confirmed &#x3D; tokens.first().universalBalanceOf(address(this)).sub(beforeBalances.ofFromToken);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Swap</span><br><span class="line">    tokens.first().universalApprove(address(oneSplitImpl), confirmed);</span><br><span class="line">    oneSplitImpl.swapMulti.value(tokens.first().isETH() ? confirmed : 0)(</span><br><span class="line">        tokens,</span><br><span class="line">        confirmed,</span><br><span class="line">        minReturn,</span><br><span class="line">        distribution,</span><br><span class="line">        flags</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    Balances memory afterBalances &#x3D; _getFirstAndLastBalances(tokens, false);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Return</span><br><span class="line">    returnAmount &#x3D; afterBalances.ofDestToken.sub(beforeBalances.ofDestToken);</span><br><span class="line">    require(returnAmount &gt;&#x3D; minReturn, &quot;OneSplit: actual return amount is less than minReturn&quot;);</span><br><span class="line">    tokens.last().universalTransfer(referral, returnAmount.mul(feePercent).div(1e18));</span><br><span class="line">    tokens.last().universalTransfer(msg.sender, returnAmount.sub(returnAmount.mul(feePercent).div(1e18)));</span><br><span class="line"></span><br><span class="line">    emit Swapped(</span><br><span class="line">        tokens.first(),</span><br><span class="line">        tokens.last(),</span><br><span class="line">        amount,</span><br><span class="line">        returnAmount,</span><br><span class="line">        minReturn,</span><br><span class="line">        distribution,</span><br><span class="line">        flags,</span><br><span class="line">        referral,</span><br><span class="line">        feePercent</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Return remainder</span><br><span class="line">    if (afterBalances.ofFromToken &gt; beforeBalances.ofFromToken) &#123;</span><br><span class="line">        tokens.first().universalTransfer(msg.sender, afterBalances.ofFromToken.sub(beforeBalances.ofFromToken));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if ((flags[0] &amp; (FLAG_ENABLE_CHI_BURN | FLAG_ENABLE_CHI_BURN_BY_ORIGIN)) &gt; 0) &#123;</span><br><span class="line">        uint256 gasSpent &#x3D; 21000 + gasStart - gasleft() + 16 * msg.data.length;</span><br><span class="line">        _chiBurnOrSell(</span><br><span class="line">            ((flags[0] &amp; FLAG_ENABLE_CHI_BURN_BY_ORIGIN) &gt; 0) ? tx.origin : msg.sender,</span><br><span class="line">            (gasSpent + 14154) &#x2F; 41947</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    else if ((flags[0] &amp; FLAG_ENABLE_REFERRAL_GAS_SPONSORSHIP) &gt; 0) &#123;</span><br><span class="line">        uint256 gasSpent &#x3D; 21000 + gasStart - gasleft() + 16 * msg.data.length;</span><br><span class="line">        IReferralGasSponsor(referral).makeGasDiscount(gasSpent, returnAmount, msg.data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1INCH%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">1INCH的主要优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1INCH%E7%9A%84%E4%B8%BB%E8%A6%81%E9%80%BB%E8%BE%91"><span class="toc-number">2.</span> <span class="toc-text">1INCH的主要逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E5%85%91%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">两种兑换方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%87%E6%B8%A1%E4%BB%A4%E7%89%8C"><span class="toc-number">2.1.1.</span> <span class="toc-text">过渡令牌</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%86%E5%88%86"><span class="toc-number">2.1.2.</span> <span class="toc-text">拆分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%89%8D%E6%94%AF%E6%8C%81%E7%9A%84DEX"><span class="toc-number">2.2.</span> <span class="toc-text">目前支持的DEX</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E5%90%8E%E7%9A%84%E9%80%BB%E8%BE%91"><span class="toc-number">3.</span> <span class="toc-text">背后的逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E5%B8%81%E6%BA%90%E7%A0%81%EF%BC%9A1INCH"><span class="toc-number">3.1.</span> <span class="toc-text">代币源码：1INCH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%BA%90%E7%A0%81%EF%BC%9A1inchProtocol"><span class="toc-number">3.2.</span> <span class="toc-text">协议源码：1inchProtocol</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%95%E7%AE%97%E5%85%91%E6%8D%A2%E9%87%91%E9%A2%9D%E5%92%8C%E8%B7%AF%E5%BE%84%E7%9A%84getExpectedReturn"><span class="toc-number">3.2.1.</span> <span class="toc-text">试算兑换金额和路径的getExpectedReturn</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%96%B9%E6%B3%95swap"><span class="toc-number">3.2.2.</span> <span class="toc-text">交换方法swap</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&text=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&title=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&is_video=false&description=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=结合交易页面与源码看1INCH的兑换逻辑&body=Check out this article: https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&title=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&title=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&title=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&title=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&name=结合交易页面与源码看1INCH的兑换逻辑&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://guozhe001.github.io/2021/04/15/blockchain/eth/%E7%BB%93%E5%90%88%E6%BA%90%E7%A0%81%E7%9C%8B1inch%E7%9A%84%E5%85%91%E6%8D%A2%E9%80%BB%E8%BE%91/&t=结合交易页面与源码看1INCH的兑换逻辑"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    guozhe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/guozhe001">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
